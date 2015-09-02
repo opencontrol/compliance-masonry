@@ -1,0 +1,114 @@
+AC-2:
+  name: Account Management
+  parts:
+    - section: d
+      endnote: All accounts will be documented within their respective information systems, detailing their group and role membership, and access authorizations. This documentation will be exported by the System Engineers and/or DevOps and archived for up to a year from the date of account creation by the managing 18F project lead and Cloud Foundry Information System Technical Point of Contact (Operating Environment) in accordance with best business and security practices.
+    - section: h
+      endnote: For all environments, Account Managers, the 18F Project Manager, and/or Cloud Foundry Information System Owner will be notified when accounts are no longer required, accounts are terminated or transferred, and when individual system usage or need to know changes. Notification will be achieved via electronic notification or other official means.
+AC-3:
+  name: Access Enforcement
+  parts:
+    endnote: "18F follows its documented Access Control Policy which states the following within Section 3- Access Enforcement, which states the following: 1. 18F must enforce approved authorizations for logical access to its information systems in accordance with all applicable Federal, and 18F policies. 2. 18F must provide access enforcement through the use of access control lists, access control matrices, cryptography) to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, domains) in the information system. 3. 18F must employ access enforcement mechanisms at the application level, when necessary, to provide increased information security for the organization."
+AC-6:
+  name: Least Privilege
+  parts:
+    endnote: 'The 18F Access control Policy provides guidance on least privileges for the 18F program and states the following within Section 3 “Policy” Heading  “Least Privilege”: 1. Approvals shall be granted by an appropriate approval process and be restricted to those authorized to access by state or federal laws. 2. 18F requires that users of information system accounts, or roles, with administrator or root access to information systems, use non-privileged accounts, or roles, when accessing other system functions, and if feasible, audits any use of privileged accounts, or roles, for such functions. 3. 18F shall control and restrict physical and logical access to diagnostic and configuration ports. 4. 18F shall control and restrict access to operating systems. 5. 18F shall control and restrict access the use of utility programs that might be capable of overriding system and application controls. 6. 18F shall control and restrict access and connection times to the minimum necessary to accomplish a task. 7. 18F shall control and restrict access to program source code if necessary.'
+AU-2:
+  name: Audit Events
+  parts:
+    - section: b
+      endnote: This will make audit log review more effective and ensure that user activities are captured with the data that is available.
+    - section: c
+      header: The GSA CIO IT Security 01-08 Procedural Guide, Auditing & Monitoring  provides guidance and specifies rationale why the available auditable events are deemed adequate to support after-the-fact investigations. The 18F Audit Log Management Policy provides guidance on Audit Monitoring and retention for the 18F program and states the Following within section 3.
+      parts:
+        - name: Audit Monitoring, Analysis and Reporting
+          elements:
+            - 18F establishes processes for regularly reviewing audit log information, and reporting security issues if discovered. Reviews will occur at a minimum of weekly. These processes should be integrated with processes for incident response, in order to ensure standardization and cross-functional collaboration
+            - 18F employs automated mechanisms to integrate audit monitoring, analysis and reporting into an overall process for investigation and response to suspicious activities.
+            - 18F employs automated mechanisms to immediately alert security personnel of inappropriate or unusual activities that have security implications.
+        - name: Audit Retention
+          elements:
+            - 18F retains audit logs according to FedRAMP retention policy to provide support for after-the-fact investigations of security incidents and to meet regulatory and organizational information retention requirements.
+            - The log management framework will provide the capability to retain logs for 90 days online and one-year offline, with sufficient capacity as to mitigate the risk of exceeding storage space.
+            - Specific Policies, Procedures, Points of Contact, and Guidance will be established between 18F and GSA to support after-the-fact investigations, by the 18F Project Lead and or the Cloud Foundry System Owner.
+AU-6:
+  name: Audit Review, Analysis, and Reporting
+  parts:
+    - section: a
+      name: Operating System Auditable Events
+      elements:
+        - GSA Order CIO P 2100.1 states audit records must be reviewed frequently for signs of unauthorized activity or other security events.
+        - AlienVault USM for AWS provides for an automated log normalization, correlation, analysis, and archiving solution for all instances—Windows, Linux,
+        - AlienVault  USM provide continuous real-time log analysis to help identify issues and anomalies and also provide reporting on those events.
+        - Discovery of anomalous audit log content which appears to indicate a breach are handled according to the GSA Security Incident Handling Guide: CIO IT Security 01-02 Revision 7 (August 18, 2009) requirements.
+    - section: b
+      name: All Auditable Events
+      elements:
+        - Upon implementation, 18F will monitor information security news and alerts for indications of a need to heighten information system security monitoring. Sources such as product vendors, United States Computer Emergency Readiness Team (US-CERT) and other security community resources will be leveraged to provide information on emerging threats and changes to the landscape.  At GSA’s request or the determination of 18F the review of audit logs shall be increased and any appropriate changes to audit content collection shall be implemented.
+        - Findings & Incident Reports will be sent weekly for findings, and monthly for incidents. All incidents involving data breaches which could result in identity theft are coordinated through the GSA OCIO Office of the Senior Agency Information Security Officer (OSAISO) and the GSA Management Incident Response Team (MIRT) using the GSA breach notification plan per OMB Memorandum M-07-16, “Safeguarding Against and Responding to the Breach of Personally Identifiable Information;”
+        - Upon request from the appropriate personnel, Reports, Logs,  Auditable Events, and other Data will be provided via secure means such as encrypted email, encrypted file transfer, or other such supported media, depending on the size of data requested.
+CA-8:
+  name: Penetration Testing
+CM-2:
+  name: Baseline Configurations
+  parts:
+    - name: Operating System Baseline Configurations
+      elements:
+        - Linux instances are based on the standard AWS AMI images with configuration to GSA requirements based on secure configurations documented in CM-6.
+        - AlienVault USM for AWS is provided by the vendor as a secure hardened AMI image that is deployed using a cloudformation template.
+        - NIST guidance, best practices, CIS benchmarks along with standard and hardened Operating System AMIs have been utilized.
+        - DevOps maintain copies of the latest Production Software Baseline, which includes the following elements: Manufacturer, Type, Version number, Software, Databases, and Stats.
+CM-3:
+  name: Configuration Change Control
+  parts:
+    - section: a
+      name: All Configuration Change control
+      elements:
+        - 18F provisions its infrastructure with AWS CloudFormation, the AWS CloudFormation template describes exactly what resources are provisioned and their settings. Because these templates are text files, 18F can simply track differences in these templates to track changes to its infrastructure, similar to the way developers control revisions to source code.
+        - 18F uses several version control systems(i.e AWS Config, AWS Service Catalog) with its templates to know exactly what changes were made, who made them, and when. If at any point 18F needs to reverse changes to infrastructure, you can use a previous version of a template.
+        - 18F uses GitHub for additional tracking and documenting of authorized changes within the infrastructure and applications including Cloud Foundry platform as a service. Within  Github, a diff function is used to compare and contrast any changes made to configuration of Cloud Foundry.
+    - section: b
+      elements:
+        - 18F reviews proposed configuration-controlled changes to all of its information systems and infrastructure and approves or disapproves such changes with explicit consideration for security impact analysis within the Virtual Private Cloud environment. All reviews and approvals are conducted within 18Fs Github ticketing and tracking system.
+    - section: c
+      elements:
+      - 18F uses the following methods to document configuration change decisions associated with its information systems. 1. For changes related to the AWS infrastructure, 18F uses AWS Service Catalog, AWS Config, VisualOps and AlienVault USM for AWS for real-time configuration changes which are documented, approved and tracked within Github. 2. All Cloud Foundry configuration changes are documented, approved and tracked within 18 F’s Github site.
+    - section: d
+      elements:
+      - When configuration changes have been approved through 18 F's GitHub ticketing and tracking system, the system administrators and DevOps team implements approved configuration-controlled changes to the information system and then provides a status of the changes completed and closes out the ticket.
+    - section: e
+      elements:
+      - Records of configuration-controlled changes are retained for at least 1 year in accordance with the 18F Configuration Management policy and utilizing the 18F Github site and AWS S3 to store all changes requested, approved, disapproved, implemented and pending.
+    - section: f
+      elements:
+      - Audits for 18F AWS infrastructure and Cloud Foundry platform as a service and applications are conducted by 18F DevOps, 18F ISSOs and Cloud Foundry project manager of all configuration-controlled changes to the information system.  These audits take place no less than once a month and are documented in 18 F's GitHub ticketing and tracking system, per the 18F Configuration management policy Section 3 which states. 18F will conduct a monthly audit of information system which identifies and eliminates unnecessary functions, ports, protocols, and/or services.
+    - section: g
+      elements:
+      - 18F coordinates and provides oversight for configuration change control activities through Github and, Slack that convenes  whenever there are significant and pending changes to the 18F security, cloud Infrastructure and applications.
+CM-6:
+  name: Configuration Settings
+  parts:
+    - section: a
+      header: 18F uses established and documents configuration settings for its information technology products employed within the Cloud Foundry platform that reflect the most restrictive mode consistent with operational requirements
+      endnote: Security & Baseline Configuration, Utilizing SCAP Checklists when available, all configurations are validated via authenticated vulnerability and compliance scans, AWS Trusted Advisor, AWS Config, VisualOps cloud management, and AlienVault USM for AWS.
+    - section: b
+      header: 18F Implements the configuration settings based on its documented process and practices
+      parts:
+        - name: all configuration Settings implementations
+          elements:
+            - DevOps maintain the baseline configurations for VPC, EBS.  Best practices are utilized as there are no benchmarks available.
+            - DevOps implements the configuration benchmarks identified in Part a, maintains the baseline configuration for all cloud infrastructure and Cloud Foundry complements and is responsible for ensuring all systems are configured in accordance with applicable hardening guides.
+            - AlienVault USM for AWS was implemented using a AWS pre-configured baseline cloudformation template launched within its own  Virtual Private Cloud
+    - section: c
+      header: 18F Identifies, documents, and approves any deviations from established configuration settings for its AWS Virtual Private Cloud Infrastructure and Cloud Foundry platform as a service based on industry best practices and standards such as NIST, CIS, PCI, FIPS and OMB.
+      parts:
+        - name: All Configuration Settings
+          elements:
+            - DevOps and 18F system owers documents any exceptions to established baseline configurations for all of 18 F's Virtual Private Cloud Infrastructure and information systems. 18F maintains exception documents which detail specific items from the established configuration settings which cannot be applied to instances due to operational requirements.
+    - section: d
+      header: 18F Monitors and controls changes to the configuration settings in accordance with its documented configuration management policy and procedures.
+      parts:
+        - name: all Configuration Change Control
+          elements:
+            - DevOps and 18F system owners maintain the baseline configurations within 18F Virtual Private Cloud. Configuration will be reviewed in real-time using automated methods ( and at least quarterly to ensure no unauthorized changes were made to the baseline configuration.
+            - Nessus and AlienVault USM Joval scans are performed at least on a quarterly basis in the event that no enhancements or upgrades are performed. Both tools meet NIST’s SCAP 1.2 requirements, satisfying OMB Mandate M-08-22 and associated procurement requirements. SCAP scans are performed weekly and monthly to ensure no unauthorized changes, enhancements or upgrades are performed.

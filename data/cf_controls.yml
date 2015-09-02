@@ -1,0 +1,127 @@
+AC-2:
+  name: Account Management
+  parts:
+    - section: a
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Cloud Foundry user and role accounts are managed and maintained through the  UAA Command Line Interface (UAAC). Cloud Foundry uses role-based access control with each role granting permissions in either a organization or an application space.
+        - Cloud Foundry uses Application security groups (ASGs) to act as virtual firewalls to control outbound traffic from the applications in the deployment. A security group consists of a list of network egress access rules.
+        - An administrator can assign one or more security groups to a Cloud Foundry deployment or to a specific space in an org within a deployment
+        - Cloud Foundry user, organization, and application roles and security groups are documented in section 9.3 Types of Users.
+    - section: b
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Conditions for group membership for Cloud Foundry user accounts are based on requesting access within Github 18F tracking and ticketing system.  Once approved, the designated Cloud Foundry Administrators create the Cloud Foundry contact, add it to the appropriate organization.  After these steps are completed, the user can be assigned to projects and programs related to Cloud Foundry.
+        - Account managers will be assigned for account groups in all environments, determined by the Cloud Foundry Project Manager and/or the Information System Owner.
+    - section: c
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Cloud Foundry user accounts are issued only to those who have a business need and meet the conditions for group membership to Cloud Foundry user accounts. Accounts are created and removed based on requests sent within 18 F's Github tracking and ticketing system.  Once approved, the designated Cloud Foundry Administrators create/remove the Cloud Foundry contact, for the appropriate organization.  After these steps are completed, the Cloud Foundry user can be assigned to or removed  from projects and programs related to Cloud Foundry.
+        - 18F and GSA identify authorized users of the information system and specify access rights/privileges. 18F grants access to the information system based on: (i) a valid need-to-know/need-to-share that is determined by assigned official duties and satisfying all personnel security criteria; (ii) Intended system usage. 18F and GSA requires proper identification for requests to establish information system accounts and approves all such requests; and (iii) Organizational or mission/business function attributes.
+    - section: d
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Cloud Foundry user account creation requires approval by the Approving Authority. Prior to account creation users must have a signed NDA and have at least begun the GSA background investigative process.
+    - section: e
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Cloud Foundry user account establishment, activation, modification, disablement or removal  requires approval by their respective account group managers, Cloud Foundry Project Manager, the Information System Owner or Cloud Foundry Information System Technical Point of Contact.
+    - section: f
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Cloud Foundry User Accounts will be Created, Enabled, Modified, Disabled, and Removed from Cloud Foundry in accordance with policies, guidelines, requirements in NIST SP 800-37, and established by the 18F Project Lead, and or Cloud Foundry Information System Owner.
+        - All accounts for all environments will be Created, Enabled, Modified, Disabled, and Removed by their respective account group managers, 18F Project Manager, and/or the Information System Owner.
+    - section: g
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - 18F uses Steno for Cloud Foundry account logging. Steno is a shared logging service between the DEA, Cloud Controller The Cloud Foundry components share a common interface for configuring logs.
+        - Loggregator/doppler, the Cloud Foundry component responsible for logging, provides a stream of log output from 18F applications and from Cloud Foundry system components that interact with  applications during updates and execution.
+    - section: h
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Cloud Foundry user accounts will be deactivated immediately on receipt of notification of an email or through Github from the managing 18 project lead/system owner or at a future date as directed.
+    - section: i
+      name: Cloud Foundry PaaS Account Management
+      elements:
+        - Cloud Foundry user accounts are issued only to those who submitted a request through Github and gained approval by 18F DevOps . Once approved, the Administrator creates the Cloud Foundry account access and adds it to the appropriate organization, role  and issue a license.  After these steps are completed, the Cloud Foundry user can be assigned to projects and programs.
+        - 18F and GSA identify authorized users of the information system and specify access rights/privileges.  18F grants access to the information system based on: a valid need-to-know/need-to-share that is determined by assigned official duties and satisfying all personnel security criteria; Intended system usage. 18F and GSA requires proper identification for requests to establish information system accounts and approves all such requests; and Organizational or mission/business function attributes.
+    - section: j
+      name: Cloud Foundry Account Management
+      elements:
+        - User accounts will be monitored monthly and accounts will be disabled after 90 days of inactivity; this will be a manual review process every 30 days, but the disablement will be automatic.
+    - section: k
+      name: Cloud Foundry Account Management
+      elements:
+        - Cloud Foundry application administrator account passwords will be reset when a member of the group is removed or annually, whichever comes first.
+AC-3:
+  name: Access Enforcement
+  parts:
+    - name: Cloud Foundry Access Enforcement
+      elements:
+        - Within the CF PaaS, Cloud Foundry uses security groups to act as firewalls to control outbound applications in the deployment. 18F uses Cloud Foundry ASGs to specify egress access rules for its applications. This functionality enables 18F to securely restrict application outbound traffic to predefined routes.
+        - Cloud Foundry evaluates security groups and other network traffic rules in a strict priority order. Cloud Foundry returns an allow, deny, or reject result for the first rule that matches the outbound traffic request parameters, and does not evaluate any lower-priority rules.
+        - Cloud Foundry implements network traffic rules using Linux iptables on the component VMs. Operators can configure rules to prevent system access from external networks and between internal components, and to restrict applications from establishing connections over the DEA network interface.
+        - 18F has created a specific set of VPCs ( Live production,  staging  and Lab) for its Cloud Foundry implementation.  All VPCs have subnets used to separate and control IP address  space within each individual VPC.  Subnets must be created in order to launch Availability Zone (AZ) specific services within a VPC. 18F has setup VPC Peering between the Staging VPC and the CF Live production VPC.
+AC-6:
+  name: Least Privilege
+  parts:
+    - name: Cloud Foundry Least Privileges
+      elements:
+        - Cloud Foundry uses Feature Flags which allows an administrator to turn on or off sub-sections, or features, of an application without deploying new code.
+        - "Currently, there are six feature flags that can be set. They are all enabled by default except user_org_creation. 1. user_org_creation: When enabled, any user can create and organization via the API. 2. private_domain_creation: When enabled, and organization manager can create private domains for that organization. 3. app_bits_upload: When enabled, space developers can upload app bits. 4. app_scaling: When enabled, space developers can perform scaling operations (i.e. change memory, disk or instances). 5. route_creation: When enabled, a space developer can create routes in a space. 6. service_instance_creation: When enabled, a space developer can create service instances in a space."
+AU-2:
+  name: Audit Events
+  parts:
+    - section: a
+      name: Cloud Foundry Auditable Events
+      elements:
+        - Security Event Logging and Auditing
+        - For operators, Cloud Foundry provides an audit trail through the bosh tasks command. This command shows all actions that and operator has taken with the platform. Additionally, operators can redirect Cloud Foundry component logs to a standard syslog server using the syslog_daemon_config property in the metron_agent job of cf-release.
+        - For users, Cloud Foundry records an audit trail of all relevant API invocations of and app. The CLI command cf events returns this information.
+        - Loggregator/doppler, the Cloud Foundry component responsible for logging, provides a stream of log output from hosted applications and from Cloud Foundry system components that interact with applications during updates and execution.
+    - section: b
+      name: Cloud Foundry Auditable Events
+      elements:
+        - Event audit logs will be made available as needed to other organizational entities for mutual support and selection of events to be audited.
+        - This will make audit log review more effective and ensure that user activities are captured with the data that is available.
+    - section: c
+    - section: d
+      name:  Cloud Foundry Auditable Events
+      elements:
+        - For operators, Cloud Foundry provides an audit trail through the bosh tasks command. This command shows all actions that and operator has taken with the platform. Additionally, operators can redirect Cloud Foundry component logs to a standard syslog server using the syslog_daemon_config property in the metron_agent job of cf-release.
+        - For users, Cloud Foundry records and audit trail of all relevant API invocations of and app. The CLI command cf events returns this information.
+        - Loggregator, the Cloud Foundry component responsible for logging, provides a stream of log output from 18F applications and from Cloud Foundry system components that interact with your app during updates and execution.
+        - By default, Loggregator streams logs to a terminal. 18F will drain logs to a third-party log management service such as AlienVault USM and AWS Cloudtrail.
+        - Cloud Foundry gathers and stores logs in a best-effort manner. If a client is unable to consume log lines quickly enough, the Loggregator buffer may need to overwrite some lines before the client has consumed them. a syslog drain or a CLI tail can usually keep up with the flow of application logs.
+AU-6:
+  name: Audit Review, Analysis, and Reporting
+  parts:
+    - section: a
+    - section: b
+      name: Cloud Foundry Auditable Events
+      elements:
+        - GSA Order CIO P 2100.1 states audit records must be reviewed frequently for signs of unauthorized activity or other security events.
+        - Cloud Foundry logs are captured in multiple tables and log files.  These will be reviewed weekly and if discovery of anomalous audit log content which appears to indicate a breach are handled according to the GSA Security Incident Handling Guide: CIO IT Security 01-02 Revision 7 (August 18, 2009) requirements.
+CA-8:
+  name: Penetration Testing
+CM-2:
+  name: Baseline Configurations
+  parts:
+    - name: Cloud Foundry PaaS Baseline Configuration
+      elements:
+        - 18F utilizes the Cloud Foundry Secure Deployment best practices which include the following: 1. Configure UAA clients and users using a standard BOSH manifest for cloud Foundry Deployment. Limit and manage these clients and users as you would any other kind of privileged account. 2. Deploy within a VPC that limits network traffic to individual VMs. This reduce the possibility of unauthorized access to the VMs within your BOSH-managed cloud. 3. Enable HTTPS for applications and SSL database connections to protect sensitive data transmitted to and from applications. 4. Ensure that the jumpbox is secure, along with the load balancer and NAT VM. 5. Encrypt stored files and data within databases to meet data security requirements. Deploy using industry standard encryption and the best practices for your language or framework. 6. Prohibit promiscuous network interfaces on the trusted network. 7.Review and monitor data sharing and security practices with third-party services that you use to provide additional functionality to your application. 8. Store SSH keys securely to prevent disclosure, and promptly replace lost or compromised keys. 9. Use Cloud Foundry’s RBAC model to restrict users access to only what is necessary to complete their tasks. 10. Use a strong passphrase for both Cloud Foundry user account and SSH keys.
+CM-6:
+  name: Configuration Settings
+  parts:
+    - section: a
+      name: Cloud Foundry documented configuration settings
+      elements:
+        - 18F follows Cloud Foundry best practices for configuring and implementing the platform as a service
+        - Cloud Foundry configuration settings are documented within the deployment manifest on the 18F Github and Cloud Foundry sites.
+        - "The following are approved baseline configuration settings related to the Cloud Foundry platform as a service. * The 18F CloudCoundry manifest can be found at https://github.com/18F/cloud-foundry-manifests/blob/master/cf/cf-jobs.yml#L134-L557 * 18F BOSH Stemcells are used for the standard baseline OS images and software vulnerabilty management updates found at https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/OS_IMAGES.md * Updates to new BOSH stemcells are located and stored within Amazon S3 http://boshartifacts.cloudfoundry.org/file_collections?type=stemcells *The specifications of the current release of BOSH stemcells are located on Github https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/spec/stemcells/ubuntu_trusty_spec.rb *Other documentation related to Cloud Foundry can be found within the 18F Github Repository located at https://docs.18f.gov/ops/repos/."
+    - section: b
+      name: Cloud Foundry Configuration Settings implementations
+      elements:
+        - 18F DevOps use AWS pre-configured baseline cloudformation templates hardened to meet and Cloud Foundry best practices to deploy the platform as a service
+        - DevOps implements Cloud Foundry standard BOSH stemcells for baseline OS configuration located at  https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/OS_IMAGES.md
+        - DevOps implements manifest templates written in yml to automate deployment of multiple applications at once and the platform within AWS with consistency and reproducibility. All 18F cloud foundry manifest templates are located on the 18F Github site  https://github.com/18F/cloud-foundry-manifests
