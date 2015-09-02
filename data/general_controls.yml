@@ -112,3 +112,62 @@ CM-6:
           elements:
             - DevOps and 18F system owners maintain the baseline configurations within 18F Virtual Private Cloud. Configuration will be reviewed in real-time using automated methods ( and at least quarterly to ensure no unauthorized changes were made to the baseline configuration.
             - Nessus and AlienVault USM Joval scans are performed at least on a quarterly basis in the event that no enhancements or upgrades are performed. Both tools meet NIST’s SCAP 1.2 requirements, satisfying OMB Mandate M-08-22 and associated procurement requirements. SCAP scans are performed weekly and monthly to ensure no unauthorized changes, enhancements or upgrades are performed.
+CM-8:
+  name: Information System Component Inventory
+  parts:
+    - section: a
+      endnote: 18F relies on several sources to capture complete inventories of the AWS infrastructure and its  information systems and provides the level of granularity deemed necessary for tracking and reporting. AWS Management Console, VisualOps, AlienVault USM for AWS, AWS Config, Tenable Nessus and scripts via AWS CLI are all being leveraged to provide additional enumeration capabilities. The information provided by these resources help 18F support auditing and compliance, change management, and troubleshooting deemed necessary to ensure property accountability that must be approved and accepted by the GSA AO.
+IA-2-2:
+  name: Control Enhancement
+  parts:
+    - name: Other Multifactor Authentication
+      elements:
+        - 18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to its Github Repository for all 18F users. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
+PL-8:
+  name: Information Security Architecture
+  parts:
+    - section: a
+      header: 18F has developed the system security plan (SSP) for Cloud Foundry PaaS containing the information security architecture for the information system that:
+      elements:
+        - Describes the overall philosophy, requirements, and approach to be taken with regard to protecting the confidentiality, integrity, and availability of organizational information
+        - Describes how the information security architecture is integrated into and supports the enterprise architecture
+        - Describes any information security assumptions about, and dependencies on, external services
+    - section: b
+      elements:
+        - 18F Reviews and updates the information security architecture within the System Security plans on an annual basis or when a significant change takes place to reflect updates in the enterprise architecture.
+        - Due to the dynamic and elastic nature of cloud computing,  18F  monitors real-time updates of its information security architecture using the AWS Management Console, VisualOps Cloud management tool and the AlienVault USM for AWS tool.
+    - section: c
+      header: 18F ensures that planned information security architecture changes are reflected in the security plan  and organizational procurements/acquisitions.
+      endnote: 18F conducts annual risk assessments for its information systems and infrastructure. Any changes are then updated in systems security plans, plan of actions and milestones POA&Ms.
+RA-5:
+  name: Vulnerability Scanning
+  parts:
+    - section: a
+      header: Monthly Operating System (OS) and Web Application scanning; quarterly Database scanning; and, OS and Web application scanning with every code release.
+      name: Operating System and Application Vulnerability Scanning
+      elements:
+        - 18F runs Nessus (Authenticated) scans of the Cloud Foundry environment weekly based on IP ranges in use. These scans include network discovery and vulnerability checks of operating systems, server software, and any supporting components or applications. Scans are automatically compared to previous scans to identify new vulnerabilities or changes which resolve previously identified vulnerabilities. Nessus reports are reviewed at least weekly and appropriate actions taken on discovery of vulnerabilities.
+        - Nessus is used to run (Authenticated) scans when a new host/AMI/Stemcell is built.  This scan determines baseline posture used to contribute to decision of Production acceptance.  Additionally, this tool is used to execute CIS benchmark compliance scans when actively working to address configuration and hardening requirements.
+        - OWASP Zap is used to conduct web Application scanning primarily for the OWASP Top 10. 18F uses it as an integrated security testing tool for finding vulnerabilities in web applications. 18F will provide more automated functionally of security tests using OWASP ZAP and Jenkins for its  software development lifecycle and continuous integration functions
+        - AlienVault USM for AWS runs AWS friendly Authenticated vulnerability scans within the 18F AWS infrastructure and does not require permission from AWS to run scan within its Virtual Private Cloud (VPC)
+    - section: b
+      header: 18F Employs vulnerability scanning tools and techniques that facilitate interoperability among tools and automate parts of the vulnerability management process by using standards for
+      elements:
+        - Enumerating platforms, software flaws, and improper configurations;
+        - Formatting checklists and test procedures; and
+        - Measuring vulnerability impact
+    - section: c
+      name: For all Vulnerability Analysis
+      header: 18F Analyzes vulnerability scan reports and results from security control assessments
+      elements:
+        - AlienVault USM, OWASP Zap and Tenable Nessus reports are reviewed and analyzed at least weekly and appropriate actions taken on discovery of vulnerabilities within the 18F Cloud Infrastructure and applications and from security control assessments conducted on its information systems
+    - section: d
+      name: For all Vulnerability Analysis
+      header: 18F Remediates legitimate vulnerabilities in accordance with an organizational assessment of risk
+      elements:
+        - AlienVault USM, OWASP Zap and Tenable Nessus reports are reviewed and analyzed at least weekly and appropriate actions taken on discovery of vulnerabilities within the 18F Cloud Infrastructure and applications and from security control assessments conducted on its information systems
+    - section: e
+      header: 18F shares information obtained from the vulnerability scanning process and security control assessments with designated System Owners, DevOPs, GSA SecOPs, ISSM and the Authorizing Official (AO) to help eliminate similar vulnerabilities in other information systems (i.e., systemic weaknesses or deficiencies). The 18F ISSO, ISSM, System Program Manager,  System Owners submits  and reports all unmitigated  vulnerabilities quarterly as part of the POA&M to the GSA OCISO (unless scanned by GSA enterprise vulnerability scanning solution).
+      name: AWS Vulnerability Reporting
+      elements:
+        - Depending on the vulnerability identified the appropriate group will be tasked with resolution. If the vulnerability indicates a more systemic problem, then additional groups or points of contact are included to determine the best course of action for resolution of the systemic problem.

@@ -134,3 +134,61 @@ CM-6:
         - 18F incorporates the AWS Service Catalog to create, manage, and distribute catalogs of approved products to end users, who can then access the products they need in a personalized portal. System administrators can control which users have access to each application or AWS resource to enforce compliance with organizational business policies for documenting, implementing, monitoring and controlling changes to configuration on their information systems built on the AWS infrastructure.
         - GSA and 18F follow industry best practices and guidance provided in NIST Special Publication 800-70, Security Configuration Checklist Program for IT Products.
         - The organization uses FISMA compliant and hardened AMIs within its AWS infrastructure.
+CM-8:
+  name: Information System Component Inventory
+  parts:
+    - section: a
+      name: AWS Information System Component Inventory
+      elements:
+        - AWS Config provides a detailed inventory of all 18F AWS resources and their current configuration, and continuously records configuration changes (e.g., the value of tags on Amazon EC2 instances, ingress/egress rules of security groups, and Network ACL rules for VPCs).
+        - Using AWS Config, 18F can export a complete inventory of AWS resources with all configuration details, determine how a resource was configured at any point in time, and get notified via Amazon SNS when the configuration of a resource changes.
+        - AWS Config can provide configuration snapshots, which is a point-in-time capture of all 18F resources and their configurations. Configuration snapshots are generated on demand via the AWS CLI, or API, and delivered to an Amazon S3 bucket that is specified.
+    - section: b
+      name: AWS Information System Component Inventory
+      elements:
+        - 18F reviews and updates the information system component inventory on a monthly basis.
+        - 18F will update inventory of information system whenever installations, removals, and other changes are made
+        - 18F will verify that all components within the authorized boundary of the information system are either inventoried as part of the system or recognized by another system as a component within that system
+        - 18F automated a process which provides a nightly report on the current inventory which includes the following (master inventory get updated):
+IA-2:
+  name: User Identification and Authentication
+  parts:
+    - name: AWS User Identification and Authentication
+      elements:
+        - All users have individually unique identifiers to access and authenticates to the environment.
+        - 18F AWS IAM users are placed into groups based on their assigned roles and permissions.
+        - Additional temporary permission are delegated with the IAM roles usually for applications that run on EC2 Instances in order to access AWS resources (i.e. Amazon S3 buckets, DynamoDB data)
+        - All user accounts for 18F staff are maintained within the 18F AWS Environment.
+        - Shared or group authenticators are not utilized, Service accounts are implemented as Managed Services Accounts within AWS.
+IA-2-1:
+  name: Control Enhancement
+  parts:
+    - name: AWS Multifactor Authentication
+      elements:
+        - AWS multifactor authentication (MFA) for privileged users of the AWS console is implemented. This service has been configured for 18F administrative accounts in AWS IAM.
+        - 18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
+IA-2-2:
+  name: Control Enhancement
+  parts:
+    - name: AWS Multifactor Authentication
+      elements:
+        - AWS multifactor authentication (MFA) for non-privileged users of the AWS console is implemented. This service has been configured for 18F administrative accounts in AWS IAM.
+        - 18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
+IA-2-12:
+  name: Control Enhancement
+  parts:
+    - name: AWS Multifactor PIV Authentication
+      elements:
+        - PIV usage does not apply to AWS.
+RA-5:
+  name: Vulnerability Scanning
+  parts:
+    - section: a
+      name: AWS (VPC) Vulnerability Scanning
+      elements:
+        - AlienVault USM for AWS runs monthly AWS friendly authenticated vulnerability scans within the 18F Virtual Private Cloud (VPC) infrastructure and does not require permission from AWS to conduct the vulnerability scan.
+        - Nessus will be used conduct internal scanning of its VPC and private subnets within the 18F Virtual Private Cloud
+    - section: b
+      name:  AWS Vulnerability Scanning & interoperability
+      elements:
+        - AlienVault USM for AWS runs AWS friendly authenticated vulnerability scans within the 18F Virtual Private Cloud (VPC) infrastructure and does not require permission from AWS to conduct the vulnerability scan. AlienVault USM identifies insecure configurations in 18Fs , identifies the current system inventory, provides

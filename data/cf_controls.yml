@@ -125,3 +125,42 @@ CM-6:
         - 18F DevOps use AWS pre-configured baseline cloudformation templates hardened to meet and Cloud Foundry best practices to deploy the platform as a service
         - DevOps implements Cloud Foundry standard BOSH stemcells for baseline OS configuration located at  https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/OS_IMAGES.md
         - DevOps implements manifest templates written in yml to automate deployment of multiple applications at once and the platform within AWS with consistency and reproducibility. All 18F cloud foundry manifest templates are located on the 18F Github site  https://github.com/18F/cloud-foundry-manifests
+CM-8:
+  name: Information System Component Inventory
+  parts:
+    - section: a
+      name: Cloud Foundry Information System Component Inventory
+      elements:
+        - AlienVault USM is currently deployed and used by 18F to facilitate asset management, along with other operations activities, on a real-time ongoing basis. Components deployed in the 18F AWS virtual Private Cloud and Cloud Foundry PaaS system are accurately inventoried within USM for AWS. AlienVault USM has the capability to filter only those components that are related to the Cloud Foundry PaaS inventory.  AlienVault also utilizes the capabilities of  the AWS Config service. Reports can be generated from AWS Config for designated organizational officials.
+        - The VisualOps Cloud management tool is used to provide a visual, real-time and automated  representation of the AWS infrastructure and applications within the 18F environment. It also provides a  global view of the 18F AWS account where all  regions and services can be seen in one place.
+IA-2:
+  name: User Identification and Authentication
+  parts:
+    - name: Cloud Foundry User Identification and Authentication
+      elements:
+        - The UAA is the identity management service for Cloud Foundry. Its primary role is as an OAuth2 provider, issuing tokens for client applications to use when they act on behalf of Cloud Foundry users. In collaboration with the login server, it authenticate users with their Cloud Foundry credentials, and can act as an SSO service using those credentials (or others). It has endpoints for managing user accounts and for registering OAuth2 clients, as well as various other management functions.
+        - All users have individually unique identifiers to access and authenticates to the environment
+        - Shared or group authenticators are not utilized, with the exception of root administrative and emergency administrative accounts.
+IA-2-1:
+  name: Control Enhancement
+  parts:
+    - name: Cloud Foundry Multifactor Authentication
+      elements:
+        - Although the Cloud Foundry does not currently have a MFA mechanism implemented yet, to gain access a privileged user would need to first log into the AWS Management console and provide the authentication code from their AWS MFA device.
+        - In addition, the Cloud Foundry PaaS is only accessible internally within the 18F environment and  not publically accessible to anyone outside this environment
+        - Cloud Foundry currently utilizes username and password for identification and authentication. The Implementation of Duo Security MFA support using SAML 2.O federation is planned for an additional layered security approach.
+        - 18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to its Github Repository. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
+IA-2-2:
+  name: Control Enhancement
+  parts:
+    - name: Cloud Foundry User Identification and Authentication
+      elements:
+        - Although Cloud Foundry does not currently have a MFA mechanism implemented yet, to gain access, a non-privileged user would need to first log into the AWS Management console and provide the authentication code from their AWS MFA device.
+        - In addition, the Cloud Foundry PaaS is only accessible internally within the 18F environment and is not publically accessible to anyone outside this environment. Only 18F developers have access to the Cloud Foundry Platform as a Service.
+        - Cloud Foundry currently utilizes username and password for identification and authentication. The Implementation of Duo Security MFA support using SAML 2.O federation is planned for an additional layered security approach.
+IA-2-12:
+  name: Control Enhancement
+  parts:
+    - name: Cloud Foundry Multi-Factor PIV Authentication
+      elements:
+        - PIV usage does not apply to Cloud Foundry

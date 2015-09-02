@@ -72,3 +72,34 @@ AU-2:
       - Every log entry contains information about who generated the request. The user identity information in the log helps you determine whether the request was made with root or IAM user credentials, with temporary security credentials for a role or federated user, or by another AWS service.
       - CloudTrail publish Amazon SNS notifications when new log files are delivered for 18F staff to review upon log file delivery.
       - 18F implements AlienVault USM for AWS to correlate all AWS audit logs for analysis and review.
+IA-2-1:
+  name: Control Enhancement
+  parts:
+    - name: Operating System (EC2) Multifactor Authentication
+      elements:
+        - Although the EC2 instances do not natively have a MFA mechanism, to gain access a privileged user would need to first log into the AWS Management console and provide the authentication code from their AWS MFA device.
+IA-2-2:
+  name: Control Enhancement
+  parts:
+    - name: Operating System (EC2) Multifactor Authentication
+      elements:
+        - Non-privileged AWS accounts are not utilized for operating system components of AWS.
+IA-2-12:
+  name: Control Enhancement
+  parts:
+    - name: Cloud Foundry Multi-Factor PIV Authentication
+      elements:
+        - PIV usage does not apply to Cloud Foundry
+RA-5:
+  name: Vulnerability Scanning
+  parts:
+    - section: b
+      name: Operating System & Web Application (EC2) Vulnerability Scanning & interoperability
+      elements:
+        - Nessus, and AlienVault USM for AWS utilize tools and techniques that promote interoperability such as Common Vulnerability Scoring System v2 (CVSS2), Common Platform Enumeration (CPE), and Common Vulnerability Enumeration (CVE). Tenable SecurityCenter is able to output reports in CyberScope format to meet NIST, DHS, and GSA reporting requirements.
+        - OWASP Zap is used for web application scanning of hosted web sites and web based applications. It scans for the OWASP TOP 10 vulnerabilities and utilize tools and techniques that promote interoperability such as Common Vulnerability Scoring System v2 (CVSS2), Common Platform Enumeration (CPE), and Common Vulnerability Enumeration (CVE).
+    - section: e
+      name: Operating System and Web Application (EC2) Vulnerability Reporting
+      elements:
+        - Depending on the vulnerability identified the appropriate group will be tasked with resolution. If the vulnerability indicates a more systemic problem, then additional groups or points of contact are included to determine the best course of action for resolution of the systemic problem.
+        - If indications of a breach are discovered the incident will be handled according to the GSA Security Incident Handling Guide: CIO IT Security 01-02 Revision 7 (August 18, 2009) requirements.
