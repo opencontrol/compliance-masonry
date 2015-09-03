@@ -14,7 +14,7 @@ function add_control(control) {
         Object.keys(base_ctrl[ctrl_key]).forEach(function(section_key) {
             // Only add control section to base control if it exists
             if (section_key !== 'name' && control[ctrl_key] && control[ctrl_key][section_key]) {
-                // create a new array object in base control if it doesn't have one                
+                // create a new array object in base control if it doesn't have one
                 if (!base_ctrl[ctrl_key][section_key]) {
                     base_ctrl[ctrl_key][section_key] = [];
                 };
@@ -27,7 +27,7 @@ function add_control(control) {
     });
 };
 
-// 
+
 function create_control() {
     // Find the control files
     glob(__dirname + '/controls/systems/*.yaml', null, function(er, files) {
