@@ -1,174 +1,174 @@
 AC-2:
   a:
-    - heading: AWS Account Management
-      bullets:
-        - "AWS accounts are managed through AWS Identity and Access Management (IAM). Only users with a need to operate the AWS management console are provided individual AWS user accounts. There are no guest/anonymous, group, or temporary user accounts in AWS. Please see the Amazon Web Services US East/West and GovCloud System Security Plan for additional information."
-        - 18F users must sign in to the account's signin URL by using their IAM user name and password. This signin URL is located in the Dashboard of the IAM console and must be communicated by the  18F AWS account's system administrator to the IAM user.
-        - AWS Cloud Foundry security groups are documented in section 9.3 Types of Users.
+    - title: AWS Account Management
+      justifications:
+        - text: 'AWS accounts are managed through AWS Identity and Access Management (IAM). Only users with a need to operate the AWS management console are provided individual AWS user accounts. There are no guest/anonymous, group, or temporary user accounts in AWS. Please see the Amazon Web Services US East/West and GovCloud System Security Plan for additional information.'
+        - text: "18F users must sign in to the account's signin URL by using their IAM user name and password. This signin URL is located in the Dashboard of the IAM console and must be communicated by the  18F AWS account's system administrator to the IAM user."
+        - text: AWS Cloud Foundry security groups are documented in section 9.3 Types of Users.
   b:
-    - heading: AWS Account Management
-      bullets:
-        - Conditions for group membership in AWS groups are based on an established need to manage the AWS environment. 18F doenst have No non-administrator accounts currently exist in AWS.
+    - title: AWS Account Management
+      justifications:
+        - text: Conditions for group membership in AWS groups are based on an established need to manage the AWS environment. 18F doenst have No non-administrator accounts currently exist in AWS.
   c:
-    - heading: AWS Account Management
-      bullets:
-        - AWS user accounts are issued only to those with an established need to manage the AWS environment. No non-administrator accounts currently exist in AWS.
-        - 18F and GSA identify authorized users of the information system and specify access rights/privileges. 18F grants access to the information system based on - (i) a valid need-to-know/need-to-share that is determined by assigned official duties and satisfying all personnel security criteria; (ii) Intended system usage. 18F and GSA require proper identification for requests to establish information system accounts and approves all such requests; and (iii) Organizational or mission/business function attributes.
+    - title: AWS Account Management
+      justifications:
+        - text: AWS user accounts are issued only to those with an established need to manage the AWS environment. No non-administrator accounts currently exist in AWS.
+        - text: 18F and GSA identify authorized users of the information system and specify access rights/privileges. 18F grants access to the information system based on - (i) a valid need-to-know/need-to-share that is determined by assigned official duties and satisfying all personnel security criteria; (ii) Intended system usage. 18F and GSA require proper identification for requests to establish information system accounts and approves all such requests; and (iii) Organizational or mission/business function attributes.
   d:
-    - heading: AWS Account Management
-      bullets:
-        - AWS user account creation requires approval by the managing 18F project lead and Cloud Foundry Information System Technical Point of Contact (Operating Environment). Prior to account creation users must have a signed NDA and have at least begun the GSA background investigative process.
+    - title: AWS Account Management
+      justifications:
+        - text: AWS user account creation requires approval by the managing 18F project lead and Cloud Foundry Information System Technical Point of Contact (Operating Environment). Prior to account creation users must have a signed NDA and have at least begun the GSA background investigative process.
   e:
-    - heading: AWS Account Management
-      bullets:
-        - "AWS user account establishment, activation, modification, disablement or removal requires approval by the managing 18F project lead and Cloud Foundry Information System Technical Point of Contact (Operating Environment)."
+    - title: AWS Account Management
+      justifications:
+        - text: 'AWS user account establishment, activation, modification, disablement or removal requires approval by the managing 18F project lead and Cloud Foundry Information System Technical Point of Contact (Operating Environment).'
   f:
-    - heading: AWS Account Management
-      bullets:
-        - "AWS Accounts will be Created, Enabled, Modified, Disabled, and Removed from AWS in accordance with policies, guidelines, requirements in NIST SP 800-37, and established by the 18F  Project Lead, and or  Cloud Foundry Information System Owner."
+    - title: AWS Account Management
+      justifications:
+        - text: 'AWS Accounts will be Created, Enabled, Modified, Disabled, and Removed from AWS in accordance with policies, guidelines, requirements in NIST SP 800-37, and established by the 18F  Project Lead, and or  Cloud Foundry Information System Owner.'
   g:
-    - heading: AWS Account Monitoring
-      bullets:
-        - "18F has implemented AWS CloudWatch for its account monitoring. It allows 18F to monitor AWS resources in near real-time, including Amazon EC2 instances, Amazon EBS volumes, Elastic Load Balancers, and Amazon RDS DB instances. Metrics such as CPU utilization, latency, and request counts are provided automatically for these AWS resources. It allows 18F to supply logs or custom application and system metrics, such as memory usage, transaction volumes, or error rates."
-        - "Amazon CloudWatch functionality is accessible via API, command-line tools, the AWS SDK, and the AWS Management Console."
+    - title: AWS Account Monitoring
+      justifications:
+        - text: '18F has implemented AWS CloudWatch for its account monitoring. It allows 18F to monitor AWS resources in near real-time, including Amazon EC2 instances, Amazon EBS volumes, Elastic Load Balancers, and Amazon RDS DB instances. Metrics such as CPU utilization, latency, and request counts are provided automatically for these AWS resources. It allows 18F to supply logs or custom application and system metrics, such as memory usage, transaction volumes, or error rates.'
+        - text: 'Amazon CloudWatch functionality is accessible via API, command-line tools, the AWS SDK, and the AWS Management Console.'
   h:
-    - heading: AWS Account Management
-      bullets:
-        - "AWS user accounts will be deactivated immediately on receipt of notification of an email from the managing 18F project lead or at a future date as directed."
-        - "User accounts will be monitored automatically on a continuous basis: manually on a monthly basis  and accounts will be disabled after 90 days of inactivity."
-        - "18F will use AWS CloudTrail, OS Query and AlienVault USM to automatically monitor and notify when users account on AWS have been inactive for 90 days."
+    - title: AWS Account Management
+      justifications:
+        - text: AWS user accounts will be deactivated immediately on receipt of notification of an email from the managing 18F project lead or at a future date as directed.
+        - text: 'User accounts will be monitored automatically on a continuous basis: manually on a monthly basis  and accounts will be disabled after 90 days of inactivity.'
+        - text: '18F will use AWS CloudTrail, OS Query and AlienVault USM to automatically monitor and notify when users account on AWS have been inactive for 90 days.'
   i:
-    - heading: AWS Account Management
-      bullets:
-        - System access to the AWS system components is provided only to those with an established need to manage the AWS environment. No non-administrator accounts currently exist in AWS.
-        - 18F and GSA identify authorized users of the information system and specify access rights/privileges. 18F grants access to the information system based on - (i) a valid need-to-know/need-to-share that is determined by assigned official duties and satisfying all personnel security criteria; (ii) Intended system usage. 18F and GSA requires proper identification for requests to establish information system accounts and approves all such requests; and (iii) Organizational or mission/business function attributes.
+    - title: AWS Account Management
+      justifications:
+        - text: System access to the AWS system components is provided only to those with an established need to manage the AWS environment. No non-administrator accounts currently exist in AWS.
+        - text: 18F and GSA identify authorized users of the information system and specify access rights/privileges. 18F grants access to the information system based on - (i) a valid need-to-know/need-to-share that is determined by assigned official duties and satisfying all personnel security criteria; (ii) Intended system usage. 18F and GSA requires proper identification for requests to establish information system accounts and approves all such requests; and (iii) Organizational or mission/business function attributes.
   j:
-    - heading: AWS Account Management
-      bullets:
-        - User accounts will be monitored monthly and accounts will be disabled after 90 days of inactivity; this will be a manual review process every 30 days. 18F is in the process of automating this thought the use of implementing AWS OSQuery with AlienVault USM for AWS
-        - A review of all user accounts will be conducted on an annual basis
+    - title: AWS Account Management
+      justifications:
+        - text: User accounts will be monitored monthly and accounts will be disabled after 90 days of inactivity; this will be a manual review process every 30 days. 18F is in the process of automating this thought the use of implementing AWS OSQuery with AlienVault USM for AWS
+        - text: A review of all user accounts will be conducted on an annual basis
   k:
-    - heading: AWS Account Management
-      bullets:
-        - "The root administrator AWS account password will be reset when a member of the group is removed or annually, whichever comes first."
-        - 18F does not allow shared/group account credentials within its environment
+    - title: AWS Account Management
+      justifications:
+        - text: 'The root administrator AWS account password will be reset when a member of the group is removed or annually, whichever comes first.'
+        - text: 18F does not allow shared/group account credentials within its environment
 AC-3:
   a:
-    - heading: AWS Access Enforcement
-      bullets:
-        - "Security features within Amazon VPC include security groups, network ACLs, routing tables, and external gateways. Each of these items is complementary to providing a secure, isolated network that can be extended through selective enabling of direct Internet access or private connectivity to another network."
-        - "18F follows AWS IAM  best practices by implementing the majority of the following-  1. Create individual accounts for anyone that requires access to the AWS infrastructure or APIs or use IAM federation from enterprise identity management system 2. Use groups or roles to assign permissions to IAM users 3. Enable multi factor authentication for all IAM users 4. Use roles for applications that run on EC2 instances 5. Delegate by using roles instead of sharing credentials 6. Rotate credentials regularly."
-        - Network Access control lists (ACLs) are created to allow or deny traffic entering or exiting these subnets
-        - "Each subnet has routing tables attached to them to direct the flow of network traffic to Internet gateways, virtual private gateways, Network Address Translation (NAT) for private subnets or VPC peering."
-        - 18F has created  specific Cloud Foundry security groups associated with VPCs to provide full control over inbound and outbound traffic.
+    - title: AWS Access Enforcement
+      justifications:
+        - text: 'Security features within Amazon VPC include security groups, network ACLs, routing tables, and external gateways. Each of these items is complementary to providing a secure, isolated network that can be extended through selective enabling of direct Internet access or private connectivity to another network.'
+        - text: 18F follows AWS IAM  best practices by implementing the majority of the following-  1. Create individual accounts for anyone that requires access to the AWS infrastructure or APIs or use IAM federation from enterprise identity management system 2. Use groups or roles to assign permissions to IAM users 3. Enable multi factor authentication for all IAM users 4. Use roles for applications that run on EC2 instances 5. Delegate by using roles instead of sharing credentials 6. Rotate credentials regularly.
+        - text: Network Access control lists (ACLs) are created to allow or deny traffic entering or exiting these subnets
+        - text: 'Each subnet has routing tables attached to them to direct the flow of network traffic to Internet gateways, virtual private gateways, Network Address Translation (NAT) for private subnets or VPC peering.'
+        - text: 18F has created  specific Cloud Foundry security groups associated with VPCs to provide full control over inbound and outbound traffic.
 AC-6:
   a:
-    - heading: AWS Least Privileges
-      bullets:
-        - "AWS Identity and Access Management (IAM) Policies enables organizations with many employees to create and manage multiple users under a single AWS Account. IAM policies are attached to the users, enabling centralized control of permissions for users under your AWS Account to access buckets or objects. With IAM policies, you can only grant users within your own AWS account permission to access your Amazon resources."
-        - "18F AWS IAM policies are defined to grant only the required access for 18F staff necessary to perform their functions. 18F defines least privilege access to each user , group or role. and is in the planning stages to customize access  to specific resources using an authorization policy."
-        - Security functions within the AWS infrastructure can explicitly be defined within IAM to include read-only permissions for any user functions.
-        - 18F will incorporate running the IAM Policy Simulator to test all of its policies for least privilege access for users and groups
+    - title: AWS Least Privileges
+      justifications:
+        - text: 'AWS Identity and Access Management (IAM) Policies enables organizations with many employees to create and manage multiple users under a single AWS Account. IAM policies are attached to the users, enabling centralized control of permissions for users under your AWS Account to access buckets or objects. With IAM policies, you can only grant users within your own AWS account permission to access your Amazon resources.'
+        - text: '18F AWS IAM policies are defined to grant only the required access for 18F staff necessary to perform their functions. 18F defines least privilege access to each user , group or role. and is in the planning stages to customize access  to specific resources using an authorization policy.'
+        - text: Security functions within the AWS infrastructure can explicitly be defined within IAM to include read-only permissions for any user functions.
+        - text: 18F will incorporate running the IAM Policy Simulator to test all of its policies for least privilege access for users and groups
 AU-2:
   a:
-    - heading: AWS Auditable Events
-      bullets:
-        - "18F has implemented AWS CloudTrail for its account monitoring. It provides visibility into user activity by recording API calls made on an AWS account. CloudTrail records important information about each API call, including the name of the API, the identity of the caller, the time of the API call, the request parameters, and the response elements returned by the AWS service. This information helps 18F track changes made to its AWS resources and to troubleshoot operational issues."
-        - "CloudTrail delivers API call information by depositing log files in an Amazon S3 bucket.  Each log file can contain multiple events, and each event represents an API call."
+    - title: AWS Auditable Events
+      justifications:
+        - text: '18F has implemented AWS CloudTrail for its account monitoring. It provides visibility into user activity by recording API calls made on an AWS account. CloudTrail records important information about each API call, including the name of the API, the identity of the caller, the time of the API call, the request parameters, and the response elements returned by the AWS service. This information helps 18F track changes made to its AWS resources and to troubleshoot operational issues.'
+        - text: 'CloudTrail delivers API call information by depositing log files in an Amazon S3 bucket.  Each log file can contain multiple events, and each event represents an API call.'
   b:
-    - heading: AWS Auditable Events
-      bullets:
-        - All 18F Event audit logs will be made available as needed to other organizational entities for mutual support and selection of events to be audited.
-  c:
+    - title: AWS Auditable Events
+      justifications:
+        - text: All 18F Event audit logs will be made available as needed to other organizational entities for mutual support and selection of events to be audited.
   d:
-    - heading: AWS Auditable Events
-      bullets:
-        - "18F has implemented AWS CloudTrail for monitoring Amazon EC2, Amazon EBS, and Amazon VPC  that captures API calls and delivers the log files to an Amazon S3 bucket. By default, all CloudTrail  log files are encrypted by using Amazon S3 server-side encryption (SSE)"
-        - "When CloudTrail logging is enabled, API calls made to Amazon EC2, Amazon EBS, and Amazon VPC actions are tracked in log files, along with any other AWS service records. CloudTrail determines when to create and write to a new file based on a specified time period and file size."
-        - "Every log entry contains information about who generated the request. The user identity information in the log helps  determine whether the request was made with root or IAM user credentials, with temporary security credentials for a role or federated user, or by another AWS service."
-        - CloudTrail publish Amazon SNS notifications when new log files are delivered for 18F staff to review upon log file delivery.
+    - title: AWS Auditable Events
+      justifications:
+        - text: '18F has implemented AWS CloudTrail for monitoring Amazon EC2, Amazon EBS, and Amazon VPC  that captures API calls and delivers the log files to an Amazon S3 bucket. By default, all CloudTrail  log files are encrypted by using Amazon S3 server-side encryption (SSE)'
+        - text: 'When CloudTrail logging is enabled, API calls made to Amazon EC2, Amazon EBS, and Amazon VPC actions are tracked in log files, along with any other AWS service records. CloudTrail determines when to create and write to a new file based on a specified time period and file size.'
+        - text: 'Every log entry contains information about who generated the request. The user identity information in the log helps  determine whether the request was made with root or IAM user credentials, with temporary security credentials for a role or federated user, or by another AWS service.'
+        - text: CloudTrail publish Amazon SNS notifications when new log files are delivered for 18F staff to review upon log file delivery.
 AU-6:
   a:
-    - heading: AWS Auditable Events
-      bullets:
-        - DevOps and SecOps teams will conduct weekly manual and automated continuous audits of authorized accounts and configurations. These audits will include but are not limited to: 1. Administrative Accounts 2. Virtual Private Cloud (VPC) 3. Elastic Compute Cloud (EC2) 4. Simple Storage Service (S3) 5. Identity and Access Management (IAM) 6. Elastic Block Store (EBS)
-
+    - title: AWS Auditable Events
+      justifications:
+        - text:
+            DevOps and SecOps teams will conduct weekly manual and automated continuous audits of authorized accounts and configurations. These audits will include but are not limited to: 1. Administrative Accounts 2. Virtual Private Cloud (VPC) 3. Elastic Compute Cloud (EC2) 4. Simple Storage Service (S3) 5. Identity and Access Management (IAM) 6. Elastic Block Store (EBS)
 CA-8:
   a:
-    - heading: AWS/Cloud Foundry External Penetration Testing
-      bullets:
-        - "For external public facing penetration testing, 18F must request permission from AWS using the AWS Vulnerability / Penetration Testing Request Form to conduct penetration test activities against its own Virtual Private Cloud infrastructure and follow the AWS Acceptable Use Policy."
-        - Amazon requires customers to obtain authorization for penetration testing (or vulnerability assessments) both from or to their AWS resources. 1. AWS Acceptable Use Policy, http://aws.amazon.com/aup/ 2. AWS Penetration testng,  http://aws.amazon.com/security/penetration-testing/
-        - "The form requires 18F to submit information about the instances to test, identify the expected start and end dates/times of the test, and requires 18F team members to read and agree to Terms and Conditions specific to penetration testing and to the use of appropriate tools for testing. The end date may not be more than 3 months from the start date of the pentest as stated by AWS."
-        - AWS Security will then add 18 F’s source and destination addresses to a whitelist for the duration of the penetration test and will revoke white list privileges if they receive any complaints or reports about DoS attacks.
-        - GSA ISO will perform external vulnerability scanning and penetration testing services for the 18F information systems per the Memorandum of Understanding (MOU). It is also bound by the AWS penetration testing policy and procedures.
-    - heading: AWS/Cloud Foundry Internal Penetration Testing
-      bullets:
-        - "For internal penetration testing inside 18 F's Virtual Private Cloud, 18F team members will conduct authenticated vulnerability scans, whitebox/greybox testing of the 18F environment using AWS friendly and approved assessment tools."
-        - "For compliance with NIST Publication 800-53 CA-8, Parameter 1 Penetration Testing of all 18F Infrastructure and Application Components will occur annually. Parameter 2 Penetration Testing of Publicly Accessible Infrastructure will be performed on the direction of the GSA ISSO."
-        - 18F will use GSA CIO-IT Security 11-51  rev 2” Conducting Penetration Test exercises” procedural guide as a reference
+    - title: AWS/Cloud Foundry External Penetration Testing
+      justifications:
+        - text: 'For external public facing penetration testing, 18F must request permission from AWS using the AWS Vulnerability / Penetration Testing Request Form to conduct penetration test activities against its own Virtual Private Cloud infrastructure and follow the AWS Acceptable Use Policy.'
+        - text: 'Amazon requires customers to obtain authorization for penetration testing (or vulnerability assessments) both from or to their AWS resources. 1. AWS Acceptable Use Policy, http://aws.amazon.com/aup/ 2. AWS Penetration testng,  http://aws.amazon.com/security/penetration-testing/'
+        - text: 'The form requires 18F to submit information about the instances to test, identify the expected start and end dates/times of the test, and requires 18F team members to read and agree to Terms and Conditions specific to penetration testing and to the use of appropriate tools for testing. The end date may not be more than 3 months from the start date of the pentest as stated by AWS.'
+        - text: AWS Security will then add 18 F’s source and destination addresses to a whitelist for the duration of the penetration test and will revoke white list privileges if they receive any complaints or reports about DoS attacks.
+        - text: GSA ISO will perform external vulnerability scanning and penetration testing services for the 18F information systems per the Memorandum of Understanding (MOU). It is also bound by the AWS penetration testing policy and procedures.
+    - title: AWS/Cloud Foundry Internal Penetration Testing
+      justifications:
+        - text: "For internal penetration testing inside 18 F's Virtual Private Cloud, 18F team members will conduct authenticated vulnerability scans, whitebox/greybox testing of the 18F environment using AWS friendly and approved assessment tools."
+        - text: 'For compliance with NIST Publication 800-53 CA-8, Parameter 1 Penetration Testing of all 18F Infrastructure and Application Components will occur annually. Parameter 2 Penetration Testing of Publicly Accessible Infrastructure will be performed on the direction of the GSA ISSO.'
+        - text: 18F will use GSA CIO-IT Security 11-51  rev 2” Conducting Penetration Test exercises” procedural guide as a reference
 CM-2:
   a:
-  name: AWS Baseline Configurations
-  elements:
-    - "DevOps maintain baseline configurations for VPC, EBS, EC2 instances and AMIs. AWS CloudFormation templates help 18F maintain a strict configuration management scheme of the cloud infrastructure. If an error or misconfiguration of the infrastructure or associated security mechanism (security groups, NACLs) is detected, the administrators can analyze the current infrastructure templates; compare with previous versions, and redeploy the configurations to a known and approved state."
-    - AWS CloudFormation templates are the approved baseline for all changes to the infrastructure and simplifies provisioning and management on AWS. They provide an automated method to assess the status of an operational infrastructure against an approved baseline.
-    - "AWS Service Catalog  allows 18F to centrally manage commonly deployed IT services, and helps achieve consistent governance and meet compliance requirements, while enabling users to quickly deploy only the approved IT services they need."
+    - title: AWS Baseline Configurations
+      justifications:
+        - text: 'DevOps maintain baseline configurations for VPC, EBS, EC2 instances and AMIs. AWS CloudFormation templates help 18F maintain a strict configuration management scheme of the cloud infrastructure. If an error or misconfiguration of the infrastructure or associated security mechanism (security groups, NACLs) is detected, the administrators can analyze the current infrastructure templates; compare with previous versions, and redeploy the configurations to a known and approved state.'
+        - text: AWS CloudFormation templates are the approved baseline for all changes to the infrastructure and simplifies provisioning and management on AWS. They provide an automated method to assess the status of an operational infrastructure against an approved baseline.
+        - text: 'AWS Service Catalog  allows 18F to centrally manage commonly deployed IT services, and helps achieve consistent governance and meet compliance requirements, while enabling users to quickly deploy only the approved IT services they need.'
 CM-6:
   a:
-    - heading: AWS documented configuration settings
-      bullets:
-        - "System Administrators / Security Engineers maintain the baseline configuration for VPC, EBS.  Best practices are utilized as there are no benchmarks available."
-        - "18F incorporates the AWS Service Catalog to create, manage, and distribute catalogs of approved products to end users, who can then access the products they need in a personalized portal. System administrators can control which users have access to each application or AWS resource to enforce compliance with organizational business policies for documenting, implementing, monitoring and controlling changes to configuration on their information systems built on the AWS infrastructure."
-        - "GSA and 18F follow industry best practices and guidance provided in NIST Special Publication 800-70, Security Configuration Checklist Program for IT Products."
-        - The organization uses FISMA compliant and hardened AMIs within its AWS infrastructure.
+    - title: AWS documented configuration settings
+      justifications:
+        - text: 'System Administrators / Security Engineers maintain the baseline configuration for VPC, EBS.  Best practices are utilized as there are no benchmarks available.'
+        - text: '18F incorporates the AWS Service Catalog to create, manage, and distribute catalogs of approved products to end users, who can then access the products they need in a personalized portal. System administrators can control which users have access to each application or AWS resource to enforce compliance with organizational business policies for documenting, implementing, monitoring and controlling changes to configuration on their information systems built on the AWS infrastructure.'
+        - text: 'GSA and 18F follow industry best practices and guidance provided in NIST Special Publication 800-70, Security Configuration Checklist Program for IT Products.'
+        - text: The organization uses FISMA compliant and hardened AMIs within its AWS infrastructure.
 CM-8:
   a:
-    - heading: AWS Information System Component Inventory
-      bullets:
-        - "AWS Config provides a detailed inventory of all 18F AWS resources and their current configuration, and continuously records configuration changes (e.g., the value of tags on Amazon EC2 instances, ingress/egress rules of security groups, and Network ACL rules for VPCs)."
-        - "Using AWS Config, 18F can export a complete inventory of AWS resources with all configuration details, determine how a resource was configured at any point in time, and get notified via Amazon SNS when the configuration of a resource changes."
-        - "AWS Config can provide configuration snapshots, which is a point-in-time capture of all 18F resources and their configurations. Configuration snapshots are generated on demand via the AWS CLI, or API, and delivered to an Amazon S3 bucket that is specified."
+    - title: AWS Information System Component Inventory
+      justifications:
+        - text: 'AWS Config provides a detailed inventory of all 18F AWS resources and their current configuration, and continuously records configuration changes (e.g., the value of tags on Amazon EC2 instances, ingress/egress rules of security groups, and Network ACL rules for VPCs).'
+        - text: 'Using AWS Config, 18F can export a complete inventory of AWS resources with all configuration details, determine how a resource was configured at any point in time, and get notified via Amazon SNS when the configuration of a resource changes.'
+        - text: 'AWS Config can provide configuration snapshots, which is a point-in-time capture of all 18F resources and their configurations. Configuration snapshots are generated on demand via the AWS CLI, or API, and delivered to an Amazon S3 bucket that is specified.'
   b:
-    - heading: AWS Information System Component Inventory
-      bullets:
-        - 18F reviews and updates the information system component inventory on a monthly basis.
-        - "18F will update inventory of information system whenever installations, removals, and other changes are made"
-        - 18F will verify that all components within the authorized boundary of the information system are either inventoried as part of the system or recognized by another system as a component within that system
-        - 18F automated a process which provides a nightly report on the current inventory which includes the following (master inventory get updated):
+    - title: AWS Information System Component Inventory
+      justifications:
+        - text: 18F reviews and updates the information system component inventory on a monthly basis.
+        - text: '18F will update inventory of information system whenever installations, removals, and other changes are made'
+        - text: 18F will verify that all components within the authorized boundary of the information system are either inventoried as part of the system or recognized by another system as a component within that system
+        - text:
+            18F automated a process which provides a nightly report on the current inventory which includes the following (master inventory get updated): null
 IA-2:
   a:
-    - heading: AWS User Identification and Authentication
-      bullets:
-        - All users have individually unique identifiers to access and authenticates to the environment.
-        - 18F AWS IAM users are placed into groups based on their assigned roles and permissions.
-        - "Additional temporary permission are delegated with the IAM roles usually for applications that run on EC2 Instances in order to access AWS resources (i.e. Amazon S3 buckets, DynamoDB data)"
-        - All user accounts for 18F staff are maintained within the 18F AWS Environment.
-        - "Shared or group authenticators are not utilized, Service accounts are implemented as Managed Services Accounts within AWS."
+    - title: AWS User Identification and Authentication
+      justifications:
+        - text: All users have individually unique identifiers to access and authenticates to the environment.
+        - text: 18F AWS IAM users are placed into groups based on their assigned roles and permissions.
+        - text: 'Additional temporary permission are delegated with the IAM roles usually for applications that run on EC2 Instances in order to access AWS resources (i.e. Amazon S3 buckets, DynamoDB data)'
+        - text: All user accounts for 18F staff are maintained within the 18F AWS Environment.
+        - text: 'Shared or group authenticators are not utilized, Service accounts are implemented as Managed Services Accounts within AWS.'
 IA-2-1:
   a:
-    - heading: AWS Multifactor Authentication
-      bullets:
-        - AWS multifactor authentication (MFA) for privileged users of the AWS console is implemented. This service has been configured for 18F administrative accounts in AWS IAM.
-        - "18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device."
+    - title: AWS Multifactor Authentication
+      justifications:
+        - text: AWS multifactor authentication (MFA) for privileged users of the AWS console is implemented. This service has been configured for 18F administrative accounts in AWS IAM.
+        - text: '18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.'
 IA-2-2:
   a:
-    - heading: AWS Multifactor Authentication
-      bullets:
-        - AWS multifactor authentication (MFA) for non-privileged users of the AWS console is implemented. This service has been configured for 18F administrative accounts in AWS IAM.
-        - "18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device."
+    - title: AWS Multifactor Authentication
+      justifications:
+        - text: AWS multifactor authentication (MFA) for non-privileged users of the AWS console is implemented. This service has been configured for 18F administrative accounts in AWS IAM.
+        - text: '18F implements the use of multifactor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.'
 IA-2-12:
   a:
-    - heading: AWS Multifactor PIV Authentication
-      bullets:
-        - PIV usage does not apply to AWS.
+    - title: AWS Multifactor PIV Authentication
+      justifications:
+        - text: PIV usage does not apply to AWS.
 RA-5:
   a:
-    - heading: AWS (VPC) Vulnerability Scanning
-      bullets:
-        - AlienVault USM for AWS runs monthly AWS friendly authenticated vulnerability scans within the 18F Virtual Private Cloud (VPC) infrastructure and does not require permission from AWS to conduct the vulnerability scan.
-        - Nessus will be used conduct internal scanning of its VPC and private subnets within the 18F Virtual Private Cloud
+    - title: AWS (VPC) Vulnerability Scanning
+      justifications:
+        - text: AlienVault USM for AWS runs monthly AWS friendly authenticated vulnerability scans within the 18F Virtual Private Cloud (VPC) infrastructure and does not require permission from AWS to conduct the vulnerability scan.
+        - text: Nessus will be used conduct internal scanning of its VPC and private subnets within the 18F Virtual Private Cloud
   b:
-    - heading:  "AWS Vulnerability Scanning & interoperability"
-      bullets:
-        - "AlienVault USM for AWS runs AWS friendly authenticated vulnerability scans within the 18F Virtual Private Cloud (VPC) infrastructure and does not require permission from AWS to conduct the vulnerability scan. AlienVault USM identifies insecure configurations in 18Fs , identifies the current system inventory, provides"
+    - title: 'AWS Vulnerability Scanning & interoperability'
+      justifications:
+        - text: 'AlienVault USM for AWS runs AWS friendly authenticated vulnerability scans within the 18F Virtual Private Cloud (VPC) infrastructure and does not require permission from AWS to conduct the vulnerability scan. AlienVault USM identifies insecure configurations in 18Fs , identifies the current system inventory, provides'
