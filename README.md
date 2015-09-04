@@ -1,7 +1,39 @@
-## Control requirement justification structure
-This file explains the structure of the individual control justification files
+# Control Masonry
 
-Yaml Format
+## About
+Control Masonry allows users to construct [NIST Control 800-53](https://web.nvd.nist.gov/view/800-53/home
+) documentation, which is required for approval of government IT systems and applications.
+
+## Benefits
+Modern applications are build on existing systems such as AWS, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfil NIST controls is a prerequisite for receiving authorization to operate (ATO).
+
+Control Masonry simplifies the process of creating control documentations by providing:
+1. a control justification store for each of multiple systems in individual yaml files
+2. a system for government project to edit existing files and also add new control files for their applications and organizations.
+3. a script for combining the files into a single base file
+4. a pipeline for generating clean and standardized documentation
+
+## Installation & Usage
+Control Masonry runs on Node.js
+
+##### To install requirements
+```bash
+npm install
+```
+##### Edit control files
+Individual control files are located in `/controls/systems/`. They can be expanded or edited to meet the needs of individual projects.
+
+##### To build centralized control justification file
+```
+node build_controls.js
+```
+
+
+
+## Control requirement justification structure
+This file explains the structure of the individual control justification files. The data is stored in Yaml format for easy management.
+
+YAML Format
 ```
 ---
 control:
@@ -17,7 +49,7 @@ control:
         url: url
 ```
 
-JSON format
+JSON format mapping
 ```json
 {
   "control": {
@@ -37,7 +69,7 @@ JSON format
 }
 ```
 
-Markdown Format
+Markdown Format mapping
 ### Control
 #### a
 - ##### Title of control requirement justifications
