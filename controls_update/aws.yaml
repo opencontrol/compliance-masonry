@@ -1,0 +1,62 @@
+system: AWS
+AC-2:
+  - description: AWS accounts are managed through AWS Identity and Access Management (IAM).
+    links:
+      - https://aws.amazon.com/iam/
+AC-3:
+  - description: Access to AWS is enforced through AWS IAM
+    links:
+      - https://aws.amazon.com/iam/details/mfa/
+      - https://aws.amazon.com/iam/details/managing-user-credentials/
+AC-6:
+  - description: Administrators are responsible for setting user roles that employ the concept of least privilege. AWS has granular permissions for users.
+    links:
+      - https://aws.amazon.com/iam/details/manage-permissions/
+      - https://aws.amazon.com/iam/details/manage-roles/
+      - https://aws.amazon.com/iam/details/manage-users/
+AU-2:
+  - description: AWS is capable of storing audit logs using AWS CloudTrail. It is the administrators responsibility to configure AWS CloudTrail and  ensure that the logs are reviewed.
+    links:
+      - https://aws.amazon.com/cloudtrail/
+AU-6:
+  - description: AWS can capture logs via AWS CloudTrail. It is up to the administrator to set automatic notifications of anomalies, establish a periodic review procedure and ensure that if a breach is suspected is is handled according to the organizational policies.
+    links:
+      - https://aws.amazon.com/cloudtrail/
+CA-8:
+  name: Penetration Testing
+CM-2:
+
+CM-3:
+  name: Configuration Change Control
+CM-6:
+  name: Configuration Settings
+CM-7:
+  name: Information System Component Inventory
+IA-2:
+  name: User Identification and Authentication
+IA-2-1:
+  name: Control Enhancement
+IA-2-2:
+  name: Control Enhancement
+IA-2-12:
+  name: Control Enhancement
+PL-8:
+  name: Information Security Architecture
+RA-5:
+  name: Vulnerability Scanning
+SA-11-1:
+  name: Control Enhancement
+SA-22:
+  name: Control Enhancement
+SC-7:
+  name: Boundary Protection
+SC-13:
+  name: Cryptographic protection
+SC-28-1:
+  name: Control Enhancement
+SI-2:
+  name: Flaw Remediation
+SI-4:
+  name: Information system monitoring
+SI-10:
+  name: Information Input validation
