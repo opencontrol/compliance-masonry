@@ -85,6 +85,6 @@ Markdown Format mapping
 #### a
 - ##### Title of control requirement justifications
   - Text justification
-  - Image Text
+  - Image Text  
 ![Image text](http://dummyimage.com/300x100/ffffff/131961.jpg&text=Image+Justification)
   - [URL text](https://18f.gsa.gov/)

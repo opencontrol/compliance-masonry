@@ -1,5 +1,5 @@
 markdown: redcarpet
-name: 18F Guides Template
+name: Control Masonry
 exclude:
   - CONTRIBUTING.md
   - Gemfile
@@ -12,36 +12,13 @@ highlighter: rouge
 sass:
   style: ':compressed'
 author:
-  name: 18F
-  url: 'https://18f.gsa.gov'
+  name: Cloud.gov | 18F
+  url: 'https://cloud.18f.gov/'
 logourl: /assets/img/18f-logo.png
 logoalt: 18F logo
 navigation:
   - text: Introduction
     url: index.html
-    internal: true
-  - text: Add a new page
-    url: add-a-new-page/
-    internal: true
-    children:
-      - text: Make a child page
-        url: make-a-child-page/
-        internal: true
-  - text: Add images
-    url: add-images/
-    internal: true
-  - text: Update the config file
-    url: update-the-config-file/
-    internal: true
-    children:
-      - text: 'Understanding the `baseurl:` property'
-        url: understanding-baseurl/
-        internal: true
-  - text: GitHub setup
-    url: github-setup/
-    internal: true
-  - text: Post your guide
-    url: post-your-guide/
     internal: true
   - text: AC-2
     url: AC-2/
@@ -116,13 +93,10 @@ navigation:
     url: SI-10/
     internal: true
 repos:
-  - name: Guides Template
+  - name: Control Masonry
     description: Main repository
-    url: 'https://github.com/18F/guides-template'
-back_link:
-  url: 'https://pages.18f.gov/guides/'
-  text: Read more 18F Guides
-google_analytics_ua: UA-48605964-19
+    url: 'https://github.com/18F/control-masonry'
+google_analytics_ua:
 defaults:
   - scope:
       path: ''

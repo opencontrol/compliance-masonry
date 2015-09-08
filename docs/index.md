@@ -2,50 +2,94 @@
 permalink: /
 title: Introduction
 ---
-Use this template to create [18F Guides](http://pages.18f.gov/guides/)
-and other 18F-branded documentation available on [18F
-Pages](https://pages.18f.gov/). It's structured like an 18F Guides guide,
-and it walks you through the process of creating and publishing an 18F Pages document based on
-the same theme.
 
-The template is derived from [CFPB/DOCter](https://github.com/CFPB/DOCter).
-It uses [Jekyll](http://jekyllrb.com/) as the rendering engine.
+# Control Masonry
 
-## Create a new guide/document
+## About
+Control Masonry allows users to construct [NIST Control 800-53](https://web.nvd.nist.gov/view/800-53/home
+) documentation, which is required for approval of government IT systems and applications.
 
-To get started on a new guide (or other document based on this theme), 
-follow [the "Getting started" instructions in the 18F/guides-template GitHub
-repository](https://github.com/18F/guides-template/#getting-started) to create
-a local clone of this template.
+## Benefits
+Modern applications are build on existing systems such as AWS, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfil NIST controls is a prerequisite for receiving authorization to operate (ATO).
 
-Once you've created a clone, click the _Add a New Page_ entry in the table of
-contents to begin the rest of the steps.
+Control Masonry simplifies the process of creating control documentations by providing:
+1. a control justification store for each of multiple systems in individual yaml files
+2. a system for government project to edit existing files and also add new control files for their applications and organizations.
+3. a script for combining the files into a single base file
+4. a pipeline for generating clean and standardized documentation
 
-## Update an existing guide/document
+## Installation & Usage
+Control Masonry runs on Node.js
 
-__Note: You only need to do this if your existing guide or document is not already
-using the `guides_style_18f` gem or if it does not have an `18f-pages`
-branch.__
-
-Add the [`guides_style_18f` gem](https://github.com/18F/guides-style) to your
-guide's `Gemfile`, if it's not already present. You may also wish to copy the
-`./go` script from the template if your document doesn't already have one.
-
-To receive layout updates, as well as any new styles or scripts associated
-with them, you will need to run `./go update_theme`. Or — if you aren't using
-a `./go` script — you can run `bundle update --source guides_style_18f`
-manually.)
-
-If your repository already has a `gh-pages` branch, you can create an
-`18f-pages` branch from it by running these commands:
-
+##### To install requirements
+```bash
+npm install
 ```
-$ git checkout -b 18f-pages gh-pages
-$ git push origin 18f-pages
+##### Edit control files
+Individual control files are located in `/controls/systems/`. They can be expanded or edited to meet the needs of individual projects.
+
+##### To build centralized control justification file
+```
+node build_controls.js
 ```
 
-Follow the instructions in _Update the Config File_ to update your
-`_config.yml` accordingly. You may also need to consult the _GitHub Setup_ and
-_Post Your Guide_ chapters to ensure your guide is correctly published to
-`pages.18f.gov` and linked from the main [18F
-Guides](http://pages.18f.gov/guides/) site.
+##### To update control documentation
+```
+node render_controls.js
+```
+
+##### To serve documentation locally
+```
+cd docs
+./go serve
+```
+
+For more documentation on the front-end visit [18F Guides Templates](https://github.com/18F/guides-template)
+
+## Control requirement justification structure
+This file explains the structure of the individual control justification files. The data is stored in Yaml format for easy management.
+
+YAML Format
+```
+---
+control:
+  a:
+  - title: Title of control requirement justifications
+    justifications:
+    - text: Text justification
+      image:
+        text: Image text
+        url: url
+      link:
+        text: URL text
+        url: url
+```
+
+JSON format mapping
+```json
+{
+  "control": {
+    "a": [
+      {
+        "title": "Title of control requirement justifications",
+        "justifications": [
+          {
+            "text": "Text justification",
+            "image": {"text": "Image text", "url": "url"},
+            "link": {"text": "URL text", "url": "url"}
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Markdown Format mapping
+### Control
+#### a
+- ##### Title of control requirement justifications
+  - Text justification
+  - Image Text  
+![Image text](http://dummyimage.com/300x100/ffffff/131961.jpg&text=Image+Justification)
+  - [URL text](https://18f.gsa.gov/)
