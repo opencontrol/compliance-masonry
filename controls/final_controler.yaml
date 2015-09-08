@@ -244,8 +244,7 @@ AU-6:
   a:
     - title: AWS Auditable Events
       justifications:
-        - text:
-            DevOps and SecOps teams will conduct weekly manual and automated continuous audits of authorized accounts and configurations. These audits will include but are not limited to: 1. Administrative Accounts 2. Virtual Private Cloud (VPC) 3. Elastic Compute Cloud (EC2) 4. Simple Storage Service (S3) 5. Identity and Access Management (IAM) 6. Elastic Block Store (EBS)
+        - text: "DevOps and SecOps teams will conduct weekly manual and automated continuous audits of authorized accounts and configurations. These audits will include but are not limited to:  1. Administrative Accounts  \n 2. Virtual Private Cloud (VPC)   \n 3. Elastic Compute Cloud (EC2)  \n 4. Simple Storage Service (S3)   \n 5. Identity and Access Management (IAM)  \n 6. Elastic Block Store (EBS)  \n"
   b:
     - title: Cloud Foundry Auditable Events
       justifications:
