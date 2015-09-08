@@ -28,7 +28,18 @@ Individual control files are located in `/controls/systems/`. They can be expand
 node build_controls.js
 ```
 
+##### To update control documentation
+```
+node render_controls.js
+```
 
+##### To serve documentation locally
+```
+cd docs
+./go serve
+```
+
+For more documentation on the front-end visit [18F Guides Templates](https://github.com/18F/guides-template)
 
 ## Control requirement justification structure
 This file explains the structure of the individual control justification files. The data is stored in Yaml format for easy management.
