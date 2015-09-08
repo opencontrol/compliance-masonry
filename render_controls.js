@@ -51,12 +51,12 @@ function write_control(control, ctrl_key) {
 
 function update_config(ctrl_key) {
     var page_json = {
-        text: ctrl_key,
+        text: ctrl_key + ": " + main_ctrl[ctrl_key].name,
         url: ctrl_key + '/',
         internal: true
     };
     var page_ref = config_file.navigation.filter(function(page, index) {
-        if (page.text === ctrl_key) {
+        if (page_json.url === ctrl_key) {
             config_file.navigation[index] = page_json;
             return index;
         };
