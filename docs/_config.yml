@@ -1,0 +1,130 @@
+markdown: redcarpet
+name: 18F Guides Template
+exclude:
+  - CONTRIBUTING.md
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE.md
+  - README.md
+  - go
+permalink: pretty
+highlighter: rouge
+sass:
+  style: ':compressed'
+author:
+  name: 18F
+  url: 'https://18f.gsa.gov'
+logourl: /assets/img/18f-logo.png
+logoalt: 18F logo
+navigation:
+  - text: Introduction
+    url: index.html
+    internal: true
+  - text: Add a new page
+    url: add-a-new-page/
+    internal: true
+    children:
+      - text: Make a child page
+        url: make-a-child-page/
+        internal: true
+  - text: Add images
+    url: add-images/
+    internal: true
+  - text: Update the config file
+    url: update-the-config-file/
+    internal: true
+    children:
+      - text: 'Understanding the `baseurl:` property'
+        url: understanding-baseurl/
+        internal: true
+  - text: GitHub setup
+    url: github-setup/
+    internal: true
+  - text: Post your guide
+    url: post-your-guide/
+    internal: true
+  - text: AC-2
+    url: AC-2/
+    internal: true
+  - text: AC-3
+    url: AC-3/
+    internal: true
+  - text: AC-6
+    url: AC-6/
+    internal: true
+  - text: AU-2
+    url: AU-2/
+    internal: true
+  - text: AU-6
+    url: AU-6/
+    internal: true
+  - text: CA-8
+    url: CA-8/
+    internal: true
+  - text: CM-2
+    url: CM-2/
+    internal: true
+  - text: CM-3
+    url: CM-3/
+    internal: true
+  - text: CM-6
+    url: CM-6/
+    internal: true
+  - text: CM-7
+    url: CM-7/
+    internal: true
+  - text: IA-2
+    url: IA-2/
+    internal: true
+  - text: IA-2-1
+    url: IA-2-1/
+    internal: true
+  - text: IA-2-2
+    url: IA-2-2/
+    internal: true
+  - text: IA-2-12
+    url: IA-2-12/
+    internal: true
+  - text: PL-8
+    url: PL-8/
+    internal: true
+  - text: RA-5
+    url: RA-5/
+    internal: true
+  - text: SA-11-1
+    url: SA-11-1/
+    internal: true
+  - text: SA-22
+    url: SA-22/
+    internal: true
+  - text: SC-7
+    url: SC-7/
+    internal: true
+  - text: SC-13
+    url: SC-13/
+    internal: true
+  - text: SC-28-1
+    url: SC-28-1/
+    internal: true
+  - text: SI-2
+    url: SI-2/
+    internal: true
+  - text: SI-4
+    url: SI-4/
+    internal: true
+  - text: SI-10
+    url: SI-10/
+    internal: true
+repos:
+  - name: Guides Template
+    description: Main repository
+    url: 'https://github.com/18F/guides-template'
+back_link:
+  url: 'https://pages.18f.gov/guides/'
+  text: Read more 18F Guides
+google_analytics_ua: UA-48605964-19
+defaults:
+  - scope:
+      path: ''
+    values:
+      layout: guides_style_18f_default

@@ -1,0 +1,12 @@
+---
+permalink: /CM-2/
+title: CM-2 - Baseline Configurations
+---
+### AWS Baseline Configurations  
+* DevOps maintain baseline configurations for VPC, EBS, EC2 instances and AMIs. AWS CloudFormation templates help 18F maintain a strict configuration management scheme of the cloud infrastructure. If an error or misconfiguration of the infrastructure or associated security mechanism (security groups, NACLs) is detected, the administrators can analyze the current infrastructure templates; compare with previous versions, and redeploy the configurations to a known and approved state.  
+* AWS CloudFormation templates are the approved baseline for all changes to the infrastructure and simplifies provisioning and management on AWS. They provide an automated method to assess the status of an operational infrastructure against an approved baseline.  
+* AWS Service Catalog  allows 18F to centrally manage commonly deployed IT services, and helps achieve consistent governance and meet compliance requirements, while enabling users to quickly deploy only the approved IT services they need.  
+  
+### Cloud Foundry PaaS Baseline Configuration  
+* 18F utilizes the Cloud Foundry Secure Deployment best practices which include the following: 1. Configure UAA clients and users using a standard BOSH manifest for cloud Foundry Deployment. Limit and manage these clients and users as you would any other kind of privileged account. 2. Deploy within a VPC that limits network traffic to individual VMs. This reduce the possibility of unauthorized access to the VMs within your BOSH-managed cloud. 3. Enable HTTPS for applications and SSL database connections to protect sensitive data transmitted to and from applications. 4. Ensure that the jumpbox is secure, along with the load balancer and NAT VM. 5. Encrypt stored files and data within databases to meet data security requirements. Deploy using industry standard encryption and the best practices for your language or framework. 6. Prohibit promiscuous network interfaces on the trusted network. 7.Review and monitor data sharing and security practices with third-party services that you use to provide additional functionality to your application. 8. Store SSH keys securely to prevent disclosure, and promptly replace lost or compromised keys. 9. Use Cloud Foundry’s RBAC model to restrict users access to only what is necessary to complete their tasks. 10. Use a strong passphrase for both Cloud Foundry user account and SSH keys.  
+  
