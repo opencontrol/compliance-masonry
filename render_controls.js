@@ -20,11 +20,15 @@ function prepare_justification(justification) {
 };
 
 function build_documentation(control, markdown) {
-    Object.keys(control).forEach(function (section_key) {
+    var section_keys = Object.keys(control);
+    section_keys.forEach(function(section_key) {
+        if (section_keys.length > 2 && section_key !== 'name') {
+            markdown += '## ' + section_key + '  \n* * *   \n';
+        };
         if (section_key !== 'name' && control[section_key]) {
-            control[section_key].forEach(function (element) {
+            control[section_key].forEach(function(element) {
                 markdown += '### ' + element.title + "  \n";
-                element.justifications.forEach(function (justification) {
+                element.justifications.forEach(function(justification) {
                     markdown += prepare_justification(justification);
                 });
                 markdown += '  \n';
