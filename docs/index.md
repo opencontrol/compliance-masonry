@@ -1,3 +1,8 @@
+---
+permalink: /
+title: Introduction
+---
+
 # Control Masonry
 
 ## About

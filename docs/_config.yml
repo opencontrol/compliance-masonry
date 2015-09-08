@@ -1,0 +1,680 @@
+markdown: redcarpet
+name: Control Masonry
+exclude:
+  - CONTRIBUTING.md
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE.md
+  - README.md
+  - go
+permalink: pretty
+highlighter: rouge
+sass:
+  style: ':compressed'
+author:
+  name: 'Cloud.gov | 18F'
+  url: 'https://cloud.18f.gov/'
+logourl: /assets/img/18f-logo.png
+logoalt: 18F logo
+navigation:
+  - text: Introduction
+    url: index.html
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+  - text: 'AC-2: Account Management'
+    url: AC-2/
+    internal: true
+  - text: 'AC-3: Access Enforcement'
+    url: AC-3/
+    internal: true
+  - text: 'AC-6: Least Privilege'
+    url: AC-6/
+    internal: true
+  - text: 'AU-2: Audit Events'
+    url: AU-2/
+    internal: true
+  - text: 'AU-6: Audit Review, Analysis, and Reporting'
+    url: AU-6/
+    internal: true
+  - text: 'CA-8: Penetration Testing'
+    url: CA-8/
+    internal: true
+  - text: 'CM-2: Baseline Configurations'
+    url: CM-2/
+    internal: true
+  - text: 'CM-3: Configuration Change Control'
+    url: CM-3/
+    internal: true
+  - text: 'CM-6: Configuration Settings'
+    url: CM-6/
+    internal: true
+  - text: 'CM-7: Information System Component Inventory'
+    url: CM-7/
+    internal: true
+  - text: 'IA-2: User Identification and Authentication'
+    url: IA-2/
+    internal: true
+  - text: 'IA-2-1: Control Enhancement'
+    url: IA-2-1/
+    internal: true
+  - text: 'IA-2-2: Control Enhancement'
+    url: IA-2-2/
+    internal: true
+  - text: 'IA-2-12: Control Enhancement'
+    url: IA-2-12/
+    internal: true
+  - text: 'PL-8: Information Security Architecture'
+    url: PL-8/
+    internal: true
+  - text: 'RA-5: Vulnerability Scanning'
+    url: RA-5/
+    internal: true
+  - text: 'SA-11-1: Control Enhancement'
+    url: SA-11-1/
+    internal: true
+  - text: 'SA-22: Control Enhancement'
+    url: SA-22/
+    internal: true
+  - text: 'SC-7: Boundary Protection'
+    url: SC-7/
+    internal: true
+  - text: 'SC-13: Cryptographic protection'
+    url: SC-13/
+    internal: true
+  - text: 'SC-28-1: Control Enhancement'
+    url: SC-28-1/
+    internal: true
+  - text: 'SI-2: Flaw Remediation'
+    url: SI-2/
+    internal: true
+  - text: 'SI-4: Information system monitoring'
+    url: SI-4/
+    internal: true
+  - text: 'SI-10: Information Input validation'
+    url: SI-10/
+    internal: true
+repos:
+  - name: Control Masonry
+    description: Main repository
+    url: 'https://github.com/18F/control-masonry'
+google_analytics_ua: null
+defaults:
+  - scope:
+      path: ''
+    values:
+      layout: guides_style_18f_default
