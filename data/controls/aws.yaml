@@ -1,0 +1,19 @@
+controls:
+  - name: AWS User Authentication and Authorization (UAA)
+    narrative: This is a separate component that blahblahblah. It segments access by blahblahblah.
+    references:
+      - name: UAA design doc
+        url: https://asdfasdf
+      - name: Some other doc
+        url: https://boobarbazbat
+    governors:
+      - name: UAA configuration
+        url: https://pathtogitrepohead
+      - name: Live test results
+        url: https://dashboardwithupdatedtestresults
+    satisfies:
+      NIST-800-53:
+        - AC-2
+        - AC-3
+      PCI:
+        - Regulation-6
