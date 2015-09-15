@@ -30,7 +30,7 @@ function GetData(callback) {
 
 GetData(function(data) {
     // Find the standard elements that each control satisfies
-    // and append them to standards 
+    // and append them to standards
     data.controls.forEach(function(control) {
         var satisfies = control['satisfies'];
         Object.keys(satisfies).forEach(function(standard) {
@@ -42,19 +42,21 @@ GetData(function(data) {
             });
         });
     });
-    // Create the certification yamls files by merging
-    // standards data 
+    // Create the certification yamls files by merging standards data
+    // Loop through certifications
     Object.keys(data.certifications).forEach(function(certification) {
+        // Loop through certification standards
         Object.keys(data.certifications[certification].standards).forEach(function(standard) {
+            // Loop through each element of the certification standards
             Object.keys(data.certifications[certification].standards[standard]).forEach(function(element) {
                 // If the standard element exists in the file append to certifications
                 if (data.standards[standard][element]) {
-                    data.certifications[certification].standards[standard][element] = data.standards[standard][element];
+                    data.certifications[certification].standards[standard][element] = (JSON.parse(JSON.stringify(data.standards[standard][element])));;
                 }
             });
         });
         // Write certification to main yaml file
-        fs.writeFile(__dirname + '/' + certification + '.yaml', yaml.safeDump(data.certifications[certification]), function(err) {
+        fs.writeFile(__dirname + '/completed_certifications/' + certification + '.yaml', yaml.safeDump(data.certifications[certification]), function(err) {
             if (err) {
                 return console.log(err);
             };

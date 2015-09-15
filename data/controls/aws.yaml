@@ -1,5 +1,5 @@
 controls:
-  - name: Cloud Foundry User Authentication and Authorization (UAA)
+  - name: AWS User Authentication and Authorization (UAA)
     narrative: This is a separate component that blahblahblah. It segments access by blahblahblah.
     references:
       - name: UAA design doc
@@ -14,5 +14,6 @@ controls:
     satisfies:
       NIST-800-53:
         - AC-2
+        - AC-3
       PCI:
         - Regulation-6
