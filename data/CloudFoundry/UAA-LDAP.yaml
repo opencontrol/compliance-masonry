@@ -1,0 +1,7 @@
+name: User Account and Authentication LDAP Integration
+references:
+- reference_name: UAA-LDAP Documentation
+  reference_url: https://github.com/cloudfoundry/uaa/blob/master/docs/UAA-LDAP.md
+satisfies:
+  AC-1: Cloud Foundry integrates with an organization's Identity Provider (IDP) which
+    dictates further account management policies.

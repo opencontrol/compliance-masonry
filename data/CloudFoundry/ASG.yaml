@@ -1,0 +1,8 @@
+name: Application Security Groups
+references:
+- reference_name: Application Security Groups
+  reference_url: http://docs.cloudfoundry.org/adminguide/app-sec-groups.html
+satisfies:
+  SC-7: Cloud Foundry recommends that you use Cloud Foundry ASGs to specify egress
+    access rules for your applications. This functionality enables you to more securely
+    restrict application outbound traffic to predefined routes.

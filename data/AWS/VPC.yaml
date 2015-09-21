@@ -1,0 +1,11 @@
+name: 'Amazon Virtual Private Cloud '
+references:
+- reference_name: Amazon VPC
+  reference_url: https://aws.amazon.com/vpc/
+satisfies:
+  'CM-2 ': Helps maintain a strict configuration management scheme of the cloud infrastructure
+  SC-7b: 18F utilizes the AWS Virtual Private Cloud (VPC), which provides a private
+    subnet within the AWS cloud. Each VPC is configured to utilize Routing Rules,
+    Subnet Rules, and Security Group Rules. Each of these controls must have appropriate
+    rules and routes in-place before any external service is able to reach a host
+    within AWS.

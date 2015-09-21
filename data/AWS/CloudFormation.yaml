@@ -1,0 +1,10 @@
+name: Cloud Formation
+references:
+- reference_name: What is AWS CloudFormation?
+  reference_url: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
+satisfies:
+  'CM-2 ': AWS Cloud Formation templates are the approved baseline for all changes
+    to the infrastructure and simplify provisioning and management on AWS. They provide
+    an automated method to assess the status of an operational infrastructure against
+    an approved baseline.
+  CM-3: Provides version control

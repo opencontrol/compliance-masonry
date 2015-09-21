@@ -1,0 +1,9 @@
+name: HM9000
+references:
+- reference_name: Health Manager 9000
+  reference_url: https://github.com/cloudfoundry/hm9000
+satisfies:
+  'SI-4 ': HM9000 is essential to ensuring that apps running on Cloud Foundry remain
+    available. HM9000 restarts applications whenever the DEA running an app shuts
+    down for any reason, when Warden kills the app because it violated a quota, or
+    when the application process exits with a non-zero exit code
