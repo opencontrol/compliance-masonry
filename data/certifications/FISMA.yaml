@@ -2,6 +2,7 @@ name: FISMA
 standards:
   NIST-800-53:
     AC-2:
-    AC-3:
+    AC-6:
+    CM-2:
   PCI:
     Regulation-6:
