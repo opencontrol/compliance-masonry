@@ -3,4 +3,4 @@ references:
 - reference_name: Amazon Machine Images
   reference_url: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
 satisfies:
-  'CM-2 ': Helps maintain a strict configuration management scheme of the cloud infrastructure
+  CM-2: Helps maintain a strict configuration management scheme of the cloud infrastructure

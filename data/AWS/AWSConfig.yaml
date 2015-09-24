@@ -1,5 +1,5 @@
 name: AWS Config
 satisfies:
   CM-3: Provides version control
-  CM-8: 'AWS Config can provide configuration snapshots, which is a point-in-time
-    capture of all resources and their configurations. '
+  CM-8: AWS Config can provide configuration snapshots, which is a point-in-time capture
+    of all resources and their configurations.

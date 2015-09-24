@@ -3,5 +3,5 @@ references:
 - reference_name: Deploying with Application Manifests
   reference_url: https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html
 satisfies:
-  CM-6: 'Cloud Foundry configuration settings are documented within the deployment
-    manifest on the 18F GitHub and Cloud Foundry sites. '
+  CM-6: Cloud Foundry configuration settings are documented within the deployment
+    manifest on the 18F GitHub and Cloud Foundry sites.

@@ -30,8 +30,8 @@ def extract_components(workbook):
     """ Get the individual components from the xlsx workbook """
     components = dict()
     for row in workbook['Components'].rows[1:]:
-        component_id = row[1].value
-        component_name = row[2].value
+        component_id = row[1].value.strip()
+        component_name = row[2].value.strip()
         if not components.get(component_id):
             components[component_id] = {}
         components[component_id]['name'] = component_name
@@ -42,9 +42,9 @@ def layer_with_references(components, workbook):
     """ Extract the components worksheet information from the `References`
     worksheet and place the data into a dict """
     for row in workbook['References'].rows[1:]:
-        component_id = row[0].value
-        reference_name = row[1].value
-        reference_url = row[2].value
+        component_id = row[0].value.strip()
+        reference_name = row[1].value.strip()
+        reference_url = row[2].value.strip()
         validate_component(
             components=components,
             component_id=component_id,
@@ -62,9 +62,9 @@ def layer_with_references(components, workbook):
 def layer_with_governors(components, workbook):
     """ Layer the components data with data from the governors spreadsheet """
     for row in workbook['Governors'].rows[1:]:
-        component_id = row[0].value
-        governor_name = row[1].value
-        governor_url = row[2].value
+        component_id = row[0].value.strip()
+        governor_name = row[1].value.strip()
+        governor_url = row[2].value.strip()
         validate_component(
             components=components,
             component_id=component_id,
@@ -83,9 +83,9 @@ def layer_with_justifications(components, workbook):
     """ Layer the components data with data from the `Justifications`
     spreadsheet to show which controls each componenet satisfies """
     for row in workbook['Justifications'].rows[1:]:
-        control_id = row[0].value
-        component_id = row[2].value
-        narrative = row[3].value
+        control_id = row[0].value.strip()
+        component_id = row[2].value.strip()
+        narrative = row[3].value.strip()
         validate_component(
             components=components,
             component_id=component_id,
@@ -101,8 +101,8 @@ def split_into_systems(components, workbook):
     """ Splits the individual components into systems """
     systems = dict()
     for row in workbook['Components'].rows[1:]:
-        system_id = row[0].value
-        component_id = row[1].value
+        system_id = row[0].value.strip()
+        component_id = row[1].value.strip()
         if not systems.get(system_id):
             systems[system_id] = dict()
         systems[system_id][component_id] = components[component_id]

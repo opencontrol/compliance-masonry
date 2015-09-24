@@ -12,12 +12,26 @@ Control Masonry simplifies the process of certification documentations by provid
 3. a script for combining the files into a single base file
 4. a pipeline for generating clean and standardized certification documentation
 
-## Installation & Usage
-Control Masonry runs on Node.js
+## My Cloud.gov/18F Controls/ Your Controls Documentation
+Without being combined with the standards and certifications yamls the control yamls can be use to generate readable documentation w/ gitbook, etc...
 
-##### To install requirements
-```bash
-npm install
+```yaml
+## Cloudgov.yaml
+CF_UAA:
+  name: Cloud Foundry User Authentication and Authorization (UAA)
+  references:
+    - name: UAA design doc
+      url: https://asdfasdf
+    - name: Some other doc
+      url: https://boobarbazbat
+  governors:
+    - name: UAA configuration
+      url: https://pathtogitrepohead
+    - name: Live test results
+      url: https://dashboardwithupdatedtestresults
+  satisfies:
+    - standard:
+        AC-2: Description of now CF_UUA meets point control X sub mod. a
 ```
 
 ##### Edit control files
@@ -26,4 +40,54 @@ Individual control files are located in `/data/controls/`. They can be expanded 
 ##### To build centralized certification files
 ```
 node build_certification.js
+=======
+
+## Standards Documentation
+```yaml
+# nist-800-53.yaml
+standards:
+  C-2:
+    name: User Access
+    description: There is an affordance for managing access by...
+
+# PCI.yaml
+standards:
+  Regulation-6:
+    name: User Access PCI
+    description: There is an affordance for managing access by...
+```
+
+## Certifications
+Empty yaml for creating certification documentation. Serve as a template for combining controls and standards yamls.
+```yaml
+# Fisma.yaml
+standards:
+  nist-800-53:
+    C-2:
+    C-3:
+  PCI:
+    6:
+```
+
+## Yaml output
+Centralized yaml for a specific certification, can be used to render matrix.csv, gitbook.md, ssp.docx... This is were we will be able to see if any pieces are missing.
+```yaml
+# NIST-800-53.yaml
+AC-2:
+  a:
+  - title: Title of control requirement justifications
+    justifications:
+    - id: CF_UAA
+      name: Cloud Foundry User Authentication and Authorization (UAA)
+      narrative: Description of now CF_UUA meets point control X sub mod. a
+      references:
+        - name: UAA design doc
+          url: https://asdfasdf
+        - name: Some other doc
+          url: https://boobarbazbat
+      governors:
+        - name: UAA configuration
+          url: https://pathtogitrepohead
+        - name: Live test results
+          url: https://dashboardwithupdatedtestresults
 ```
