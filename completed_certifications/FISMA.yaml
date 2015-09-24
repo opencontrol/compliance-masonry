@@ -2,7 +2,8 @@ name: FISMA
 standards:
   NIST-800-53:
     AC-2:
-    - - name: Identity and Access Management
+      justifications:
+      - name: Identity and Access Management
         narative: AWS accounts are managed through AWS Identity and Access Management
           (IAM).
         references:
@@ -23,9 +24,16 @@ standards:
           reference_url: http://docs.pivotal.io/pivotalcf/concepts/architecture/uaa.html
         - reference_name: Creating and Managing Users with the UAA CLI (UAAC)
           reference_url: http://docs.pivotal.io/pivotalcf/adminguide/uaa-user-management.html
-    AC-6: []
+      meta:
+        description: There is an affordance for managing access by...
+        name: Account Management
+    AC-6:
+      meta:
+        description: There is an affordance for managing access by...
+        name: Least Privilege
     CM-2:
-    - - name: AlienVault
+      justifications:
+      - name: AlienVault
         narative: AlienVault USM for AWS is provided by the vendor as a secure hardened
           AMI image that is deployed using a cloudformation template.
         references:
@@ -72,4 +80,7 @@ standards:
         - reference_name: Amazon VPC
           reference_url: https://aws.amazon.com/vpc/
   PCI:
-    Regulation-6: []
+    Regulation-6:
+      meta:
+        description: Test Regulation description
+        name: Test Regulation

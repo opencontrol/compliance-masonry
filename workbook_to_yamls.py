@@ -1,4 +1,4 @@
-""" This script coverts the Control-masonry excel file to
+""" This script converts the Control-masonry excel file to
 a series of yamls """
 
 import os
