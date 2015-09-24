@@ -137,16 +137,14 @@ def write_yaml_data(component_data, filename):
         yaml_file.write(dump(component_data, default_flow_style=False))
 
 
-def export_yamls(data, base_dir='data'):
+def export_yamls(data, base_dir='data/components/'):
     """ Create a series of yaml files for each component organized
     by system """
     create_folder(base_dir)
-    systems = data.keys()
-    for system in systems:
+    for system in data:
         directory = os.path.join(base_dir, system.replace(' ', ''))
         create_folder(directory)
-        components = data[system].keys()
-        for component in components:
+        for component in data[system]:
             filename = os.path.join(
                 directory, component.replace(' ', '') + '.yaml')
             write_yaml_data(
