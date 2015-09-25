@@ -57,6 +57,7 @@ standards:
   Regulation-6:
     name: User Access PCI
     description: There is an affordance for managing access by...
+```
 
 ## Certifications
 Empty yaml for creating certification documentation. Serve as a template for combining controls and standards yamls.
