@@ -1,0 +1,10 @@
+name: Loggregator
+references:
+- reference_name: Logging in the Clouds
+  reference_url: https://github.com/cloudfoundry/loggregator
+- reference_name: Cloud Foundry Logging
+  reference_url: https://docs.cloudfoundry.org/running/managing-cf/logging.html
+satisfies:
+  AU-2: Loggregator/doppler, the Cloud Foundry component responsible for logging,
+    provides a stream of log output from hosted applications and from Cloud Foundry
+    system components that interact with applications during updates and execution.

@@ -1,0 +1,7 @@
+name: Nessus
+references:
+- reference_name: Nessus Website
+  reference_url: http://www.tenable.com/products/nessus-vulnerability-scanner
+satisfies:
+  RA-5: Nessus will be used conduct internal scanning of its VPC and private subnets
+    within the 18F Virtual Private Cloud

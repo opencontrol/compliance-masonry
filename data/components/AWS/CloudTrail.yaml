@@ -1,0 +1,6 @@
+name: CloudTrail
+references:
+- reference_name: AWS Cloud Trail Documentation
+  reference_url: https://aws.amazon.com/cloudtrail/
+satisfies:
+  AU-2: 18F has implemented AWS CloudTrail for its account monitoring

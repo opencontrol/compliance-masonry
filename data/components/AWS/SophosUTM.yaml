@@ -1,0 +1,6 @@
+name: Sophos UTM
+references:
+- reference_name: Sophos UTM
+  reference_url: https://www.sophos.com/en-us/support/documentation/sophos-utm.aspx
+satisfies:
+  SC-7: Sophos UTM 9 for AWS is deployed and configured on all instances

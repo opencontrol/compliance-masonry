@@ -1,0 +1,16 @@
+name: AlienVault
+references:
+- reference_name: AlienVault Website
+  reference_url: https://www.alienvault.com
+satisfies:
+  CM-2: AlienVault USM for AWS is provided by the vendor as a secure hardened AMI
+    image that is deployed using a cloudformation template.
+  CM-8: AlienVault USM is currently deployed and used by 18F to facilitate asset management,
+    along with other operations activities, on a real-time ongoing basis.
+  RA-5: AlienVault USM for AWS runs AWS friendly Authenticated vulnerability scans
+    within the AWS infrastructure
+  SC-13: AlienVault USM for AWS uses TLS v1.2 with 4096 bit keys for data in transit
+    and connections.
+  SI-4: Alienvault USM for AWS monitors for attacks and indicators of potential attacks,  unauthorized
+    local, network, and remote connections using  built-in, essential security controls
+    and threat intelligence.
