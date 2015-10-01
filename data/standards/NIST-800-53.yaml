@@ -1,11 +1,130 @@
-name: NIST-800-53
 AC-2:
-  name: Account Management
-  description: There is an affordance for managing access by...
+  name: ACCOUNT MANAGEMENT
+  description: The organization&colon; a. Identifies and selects the following types of information system accounts to support organizational missions/business functions&colon; [Assignment&colon; organization-defined information system account types]; b. Assigns account managers for information system accounts; c. Establishes conditions for group and role membership; d. Specifies authorized users of the information system, group and role membership, and access authorizations (i.e., privileges) and other attributes (as required) for each account; e. Requires approvals by [Assignment&colon; organization-defined personnel or roles] for requests to create information system accounts; f. Creates, enables, modifies, disables, and removes information system accounts in accordance with [Assignment&colon; organization-defined procedures or conditions]; g. Monitors the use of information system accounts; h. Notifies account managers&colon; 	AC-2h.1. When accounts are no longer required; 	AC-2h.2. When users are terminated or transferred; and 	AC-2h.3. When individual information system usage or need-to-know changes; i. Authorizes access to the information system based on&colon; 	AC-2i.1. A valid access authorization; 	AC-2i.2. Intended system usage; and 	AC-2i.3. Other attributes as required by the organization or associated missions/business functions; j. Reviews accounts for compliance with account management requirements [Assignment&colon; organization-defined frequency]; and k. Establishes a process for reissuing shared/group account credentials (if deployed) when individuals are removed from the group.
+  description_intro: The organization&colon;
+  a: Identifies and selects the following types of information system accounts to support organizational missions/business functions&colon; [Assignment&colon; organization-defined information system account types];
+  b: Assigns account managers for information system accounts;
+  c: Establishes conditions for group and role membership;
+  d: Specifies authorized users of the information system, group and role membership, and access authorizations (i.e., privileges) and other attributes (as required) for each account;
+  e: Requires approvals by [Assignment&colon; organization-defined personnel or roles] for requests to create information system accounts;
+  f: Creates, enables, modifies, disables, and removes information system accounts in accordance with [Assignment&colon; organization-defined procedures or conditions];
+  g: Monitors the use of information system accounts;
+  h: Notifies account managers&colon; (1) When accounts are no longer required; (2) When users are terminated or transferred; and (3) When individual information system usage or need-to-know changes;
+  i: Authorizes access to the information system based on&colon; (1) A valid access authorization; (2) Intended system usage; and (3) Other attributes as required by the organization or associated missions/business functions;
+  j: Reviews accounts for compliance with account management requirements [Assignment&colon; organization-defined frequency]; and
+  k: Establishes a process for reissuing shared/group account credentials (if deployed) when individuals are removed from the group.
 AC-3:
-  name: Access Enforcement
-  description: There is an affordance for managing access by...
+  name: ACCESS ENFORCEMENT
+  description: The information system enforces approved authorizations for logical access to information           and system resources in accordance with applicable access control policies.
+  description_intro: The information system enforces approved authorizations for logical access to information           and system resources in accordance with applicable access control policies.
 AC-6:
-  name: Least Privilege
-  description: There is an affordance for managing access by...
-
+  name: LEAST PRIVILEGE
+  description: The organization employs the principle of least privilege, allowing only authorized accesses for users (or processes acting on behalf of users) which are necessary to accomplish assigned tasks in accordance with organizational missions and business functions.
+  description_intro: The organization employs the principle of least privilege, allowing only authorized accesses for users (or processes acting on behalf of users) which are necessary to accomplish assigned tasks in accordance with organizational missions and business functions.
+AU-2:
+  name: AUDIT EVENTS
+  description: The organization&colon; a. Determines that the information system is capable of auditing the following events&colon; [Assignment&colon; organization-defined auditable events]; b. Coordinates the security audit function with other organizational entities requiring audit-related information to enhance mutual support and to help guide the selection of auditable events; c. Provides a rationale for why the auditable events are deemed to be adequate to support after-the-fact investigations of security incidents; and d. Determines that the following events are to be audited within the information system&colon; [Assignment&colon; organization-defined audited events (the subset of the auditable events defined in AU-2 a.) along with the frequency of (or situation requiring) auditing for each identified event].
+  description_intro: The organization&colon;
+  a: Determines that the information system is capable of auditing the following events&colon; [Assignment&colon; organization-defined auditable events];
+  b: Coordinates the security audit function with other organizational entities requiring audit-related information to enhance mutual support and to help guide the selection of auditable events;
+  c: Provides a rationale for why the auditable events are deemed to be adequate to support after-the-fact investigations of security incidents; and
+  d: Determines that the following events are to be audited within the information system&colon; [Assignment&colon; organization-defined audited events (the subset of the auditable events defined in AU-2 a.) along with the frequency of (or situation requiring) auditing for each identified event].
+AU-6:
+  name: AUDIT REVIEW, ANALYSIS, AND REPORTING
+  description: The organization&colon; a. Reviews and analyzes information system audit records [Assignment&colon; organization-defined frequency] for indications of [Assignment&colon; organization-defined inappropriate or unusual activity]; and b. Reports findings to [Assignment&colon; organization-defined personnel or roles].
+  description_intro: The organization&colon;
+  a: Reviews and analyzes information system audit records [Assignment&colon; organization-defined frequency] for indications of [Assignment&colon; organization-defined inappropriate or unusual activity]; and
+  b: Reports findings to [Assignment&colon; organization-defined personnel or roles].
+CA-8:
+  name: PENETRATION TESTING
+  description: The organization conducts penetration testing [Assignment&colon; organization-defined frequency] on [Assignment&colon; organization-defined information systems or system components].
+  description_intro: The organization conducts penetration testing [Assignment&colon; organization-defined frequency] on [Assignment&colon; organization-defined information systems or system components].
+CM-2:
+  name: BASELINE CONFIGURATION
+  description: The organization develops, documents, and maintains under configuration control, a current baseline configuration of the information system.
+  description_intro: The organization develops, documents, and maintains under configuration control, a current baseline configuration of the information system.
+CM-3:
+  name: CONFIGURATION CHANGE CONTROL
+  description: The organization&colon; a. Determines the types of changes to the information system that are configuration-controlled; b. Reviews proposed configuration-controlled changes to the information system and approves or disapproves such changes with explicit consideration for security impact analyses; c. Documents configuration change decisions associated with the information system; d. Implements approved configuration-controlled changes to the information system; e. Retains records of configuration-controlled changes to the information system for [Assignment&colon; organization-defined time period]; f. Audits and reviews activities associated with configuration-controlled changes to the information system; and g. Coordinates and provides oversight for configuration change control activities through [Assignment&colon; organization-defined configuration change control element (e.g., committee, board)] that convenes [Selection (one or more)&colon; [Assignment&colon; organization-defined frequency]; [Assignment&colon; organization-defined configuration change conditions]].
+  description_intro: The organization&colon;
+  a: Determines the types of changes to the information system that are configuration-controlled;
+  b: Reviews proposed configuration-controlled changes to the information system and approves or disapproves such changes with explicit consideration for security impact analyses;
+  c: Documents configuration change decisions associated with the information system;
+  d: Implements approved configuration-controlled changes to the information system;
+  e: Retains records of configuration-controlled changes to the information system for [Assignment&colon; organization-defined time period];
+  f: Audits and reviews activities associated with configuration-controlled changes to the information system; and
+  g: Coordinates and provides oversight for configuration change control activities through [Assignment&colon; organization-defined configuration change control element (e.g., committee, board)] that convenes [Selection (one or more)&colon; [Assignment&colon; organization-defined frequency]; [Assignment&colon; organization-defined configuration change conditions]].
+CM-6:
+  name: CONFIGURATION SETTINGS
+  description: The organization&colon; a. Establishes and documents configuration settings for information technology products employed within the information system using [Assignment&colon; organization-defined security configuration checklists] that reflect the most restrictive mode consistent with operational requirements; b. Implements the configuration settings; c. Identifies, documents, and approves any deviations from established configuration settings for [Assignment&colon; organization-defined information system components] based on [Assignment&colon; organization-defined operational requirements]; and d. Monitors and controls changes to the configuration settings in accordance with organizational policies and procedures.
+  description_intro: The organization&colon;
+  a: Establishes and documents configuration settings for information technology products employed within the information system using [Assignment&colon; organization-defined security configuration checklists] that reflect the most restrictive mode consistent with operational requirements;
+  b: Implements the configuration settings;
+  c: Identifies, documents, and approves any deviations from established configuration settings for [Assignment&colon; organization-defined information system components] based on [Assignment&colon; organization-defined operational requirements]; and
+  d: Monitors and controls changes to the configuration settings in accordance with organizational policies and procedures.
+CM-7:
+  name: LEAST FUNCTIONALITY
+  description: The organization&colon; a. Configures the information system to provide only essential capabilities; and b. Prohibits or restricts the use of the following functions, ports, protocols, and/or services&colon; [Assignment&colon; organization-defined prohibited or restricted functions, ports, protocols, and/or services].
+  description_intro: The organization&colon;
+  a: Configures the information system to provide only essential capabilities; and
+  b: Prohibits or restricts the use of the following functions, ports, protocols, and/or services&colon; [Assignment&colon; organization-defined prohibited or restricted functions, ports, protocols, and/or services].
+IA-2:
+  name: IDENTIFICATION AND AUTHENTICATION (ORGANIZATIONAL USERS)
+  description: The information system uniquely identifies and authenticates organizational users (or processes acting on behalf of organizational users).
+  description_intro: The information system uniquely identifies and authenticates organizational users (or processes acting on behalf of organizational users).
+PL-8:
+  name: INFORMATION SECURITY ARCHITECTURE
+  description: The organization&colon; a. Develops an information security architecture for the information system that&colon; 	PL-8a.1. Describes the overall philosophy, requirements, and approach to be taken with regard to protecting the confidentiality, integrity, and availability of organizational information; 	PL-8a.2. Describes how the information security architecture is integrated into and supports the enterprise architecture; and 	PL-8a.3. Describes any information security assumptions about, and dependencies on, external services; b. Reviews and updates the information security architecture [Assignment&colon; organization-defined frequency] to reflect updates in the enterprise architecture; and c. Ensures that planned information security architecture changes are reflected in the security plan, the security Concept of Operations (CONOPS), and organizational procurements/acquisitions.
+  description_intro: The organization&colon;
+  a: Develops an information security architecture for the information system that&colon; (1) Describes the overall philosophy, requirements, and approach to be taken with regard to protecting the confidentiality, integrity, and availability of organizational information; (2) Describes how the information security architecture is integrated into and supports the enterprise architecture; and (3) Describes any information security assumptions about, and dependencies on, external services;
+  b: Reviews and updates the information security architecture [Assignment&colon; organization-defined frequency] to reflect updates in the enterprise architecture; and
+  c: Ensures that planned information security architecture changes are reflected in the security plan, the security Concept of Operations (CONOPS), and organizational procurements/acquisitions.
+RA-5:
+  name: VULNERABILITY SCANNING
+  description: The organization&colon; a. Scans for vulnerabilities in the information system and hosted applications [Assignment&colon; organization-defined frequency and/or randomly in accordance with organization-defined process] and when new vulnerabilities potentially affecting the system/applications are identified and reported; b. Employs vulnerability scanning tools and techniques that facilitate interoperability among tools and automate parts of the vulnerability management process by using standards for&colon; 	RA-5b.1. Enumerating platforms, software flaws, and improper configurations; 	RA-5b.2. Formatting checklists and test procedures; and 	RA-5b.3. Measuring vulnerability impact; c. Analyzes vulnerability scan reports and results from security control assessments; d. Remediates legitimate vulnerabilities [Assignment&colon; organization-defined response times] in accordance with an organizational assessment of risk; and e. Shares information obtained from the vulnerability scanning process and security control assessments with [Assignment&colon; organization-defined personnel or roles] to help eliminate similar vulnerabilities in other information systems (i.e., systemic weaknesses or deficiencies).
+  description_intro: The organization&colon;
+  a: Scans for vulnerabilities in the information system and hosted applications [Assignment&colon; organization-defined frequency and/or randomly in accordance with organization-defined process] and when new vulnerabilities potentially affecting the system/applications are identified and reported;
+  b: Employs vulnerability scanning tools and techniques that facilitate interoperability among tools and automate parts of the vulnerability management process by using standards for&colon; (1) Enumerating platforms, software flaws, and improper configurations; (2) Formatting checklists and test procedures; and (3) Measuring vulnerability impact;
+  c: Analyzes vulnerability scan reports and results from security control assessments;
+  d: Remediates legitimate vulnerabilities [Assignment&colon; organization-defined response times] in accordance with an organizational assessment of risk; and
+  e: Shares information obtained from the vulnerability scanning process and security control assessments with [Assignment&colon; organization-defined personnel or roles] to help eliminate similar vulnerabilities in other information systems (i.e., systemic weaknesses or deficiencies).
+SA-22:
+  name: UNSUPPORTED SYSTEM COMPONENTS
+  description: The organization&colon; a. Replaces information system components when support for the components is no longer available from the developer, vendor, or manufacturer; and b. Provides justification and documents approval for the continued use of unsupported system components required to satisfy mission/business needs.
+  description_intro: The organization&colon;
+  a: Replaces information system components when support for the components is no longer available from the developer, vendor, or manufacturer; and
+  b: Provides justification and documents approval for the continued use of unsupported system components required to satisfy mission/business needs.
+SC-7:
+  name: BOUNDARY PROTECTION
+  description: The information system&colon; a. Monitors and controls communications at the external boundary of the system and at key internal boundaries within the system; b. Implements subnetworks for publicly accessible system components that are [Selection&colon; physically; logically] separated from internal organizational networks; and c. Connects to external networks or information systems only through managed interfaces consisting of boundary protection devices arranged in accordance with an organizational security architecture.
+  description_intro: The information system&colon;
+  a: Monitors and controls communications at the external boundary of the system and at key internal boundaries within the system;
+  b: Implements subnetworks for publicly accessible system components that are [Selection&colon; physically; logically] separated from internal organizational networks; and
+  c: Connects to external networks or information systems only through managed interfaces consisting of boundary protection devices arranged in accordance with an organizational security architecture.
+SC-13:
+  name: CRYPTOGRAPHIC PROTECTION
+  description: The information system implements [Assignment&colon; organization-defined cryptographic uses and type of cryptography required for each use] in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.
+  description_intro: The information system implements [Assignment&colon; organization-defined cryptographic uses and type of cryptography required for each use] in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.
+SI-2:
+  name: FLAW REMEDIATION
+  description: The organization&colon; a. Identifies, reports, and corrects information system flaws; b. Tests software and firmware updates related to flaw remediation for effectiveness and potential side effects before installation; c. Installs security-relevant software and firmware updates within [Assignment&colon; organization-defined time period] of the release of the updates; and d. Incorporates flaw remediation into the organizational configuration management process.
+  description_intro: The organization&colon;
+  a: Identifies, reports, and corrects information system flaws;
+  b: Tests software and firmware updates related to flaw remediation for effectiveness and potential side effects before installation;
+  c: Installs security-relevant software and firmware updates within [Assignment&colon; organization-defined time period] of the release of the updates; and
+  d: Incorporates flaw remediation into the organizational configuration management process.
+SI-4:
+  name: INFORMATION SYSTEM MONITORING
+  description: The organization&colon; a. Monitors the information system to detect&colon; 	SI-4a.1. Attacks and indicators of potential attacks in accordance with [Assignment&colon; organization-defined monitoring objectives]; and 	SI-4a.2. Unauthorized local, network, and remote connections; b. Identifies unauthorized use of the information system through [Assignment&colon; organization-defined techniques and methods]; c. Deploys monitoring devices&colon; 	SI-4c.1. Strategically within the information system to collect organization-determined essential information; and 	SI-4c.2. At ad hoc locations within the system to track specific types of transactions of interest to the organization; d. Protects information obtained from intrusion-monitoring tools from unauthorized access, modification, and deletion; e. Heightens the level of information system monitoring activity whenever there is an indication of increased risk to organizational operations and assets, individuals, other organizations, or the Nation based on law enforcement information, intelligence information, or other credible sources of information; f. Obtains legal opinion with regard to information system monitoring activities in accordance with applicable federal laws, Executive Orders, directives, policies, or regulations; and g. Provides [Assignment&colon; organization-defined information system monitoring information] to [Assignment&colon; organization-defined personnel or roles] [Selection (one or more)&colon; as needed; [Assignment&colon; organization-defined frequency]].
+  description_intro: The organization&colon;
+  a: Monitors the information system to detect&colon; (1) Attacks and indicators of potential attacks in accordance with [Assignment&colon; organization-defined monitoring objectives]; and (2) Unauthorized local, network, and remote connections;
+  b: Identifies unauthorized use of the information system through [Assignment&colon; organization-defined techniques and methods];
+  c: Deploys monitoring devices&colon; (1) Strategically within the information system to collect organization-determined essential information; and (2) At ad hoc locations within the system to track specific types of transactions of interest to the organization;
+  d: Protects information obtained from intrusion-monitoring tools from unauthorized access, modification, and deletion;
+  e: Heightens the level of information system monitoring activity whenever there is an indication of increased risk to organizational operations and assets, individuals, other organizations, or the Nation based on law enforcement information, intelligence information, or other credible sources of information;
+  f: Obtains legal opinion with regard to information system monitoring activities in accordance with applicable federal laws, Executive Orders, directives, policies, or regulations; and
+  g: Provides [Assignment&colon; organization-defined information system monitoring information] to [Assignment&colon; organization-defined personnel or roles] [Selection (one or more)&colon; as needed; [Assignment&colon; organization-defined frequency]].
+SI-10:
+  name: INFORMATION INPUT VALIDATION
+  description: The information system checks the validity of [Assignment&colon; organization-defined information inputs].
+  description_intro: The information system checks the validity of [Assignment&colon; organization-defined information inputs].
