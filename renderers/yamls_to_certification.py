@@ -129,5 +129,5 @@ if __name__ == "__main__":
         certifications_path='data/certifications/*.yaml',
         components_path='data/components/*/*.yaml',
         standards_path='data/standards/*.yaml',
-        output_path='completed_certifications'
+        output_path='exports/certifications'
     )
