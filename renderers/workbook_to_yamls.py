@@ -21,7 +21,7 @@ def validate_component(components, component_id, sheet_name):
         raise ComponentMissingError(msg)
 
 
-def open_workbook(filename='Control-masonry.xlsx'):
+def open_workbook(filename='data/xlsx/Control-masonry.xlsx'):
     """ Open the xlsx workbook containing control masonry information """
     return load_workbook(filename=filename)
 
