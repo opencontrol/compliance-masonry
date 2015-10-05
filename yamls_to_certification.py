@@ -34,7 +34,8 @@ def check_and_add_key(new_dict, old_dict, key):
     if key in old_dict:
         new_dict[key] = old_dict.get(key)
     else:
-        logging.warning("Component `%s` is missing `%s` data", old_dict.get('name'), key)
+        logging.warning(
+            "Component `%s` is missing `%s` data", old_dict.get('name'), key)
 
 
 def prepare_component(component_dict):
@@ -78,8 +79,8 @@ def merge_components(certification, components, standard, control):
             control_justification
     else:
         logging.warning(
-                "`%s` certification is missing `%s %s` justifications", 
-                certification.get('name'), standard, control
+            "`%s` certification is missing `%s %s` justifications",
+            certification.get('name'), standard, control
         )
 
 
@@ -91,8 +92,8 @@ def merge_standard(certification, standards, standard, control):
         certification['standards'][standard][control]['meta'] = control_info
     else:
         logging.warning(
-                "`%s` certification is missing `%s %s` info", 
-                certification.get('name'), standard, control
+            "`%s` certification is missing `%s %s` info",
+            certification.get('name'), standard, control
         )
 
 
@@ -129,4 +130,3 @@ if __name__ == "__main__":
         standards_path='data/standards/*.yaml',
         output_path='completed_certifications'
     )
-
