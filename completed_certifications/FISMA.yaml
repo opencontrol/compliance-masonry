@@ -26,47 +26,48 @@ standards:
           reference_url: http://docs.pivotal.io/pivotalcf/adminguide/uaa-user-management.html
       meta:
         a: Identifies and selects the following types of information system accounts
-          to support organizational missions/business functions [Assignment organization-defined
-          information system account types];
+          to support organizational missions/business functions&colon; [Assignment&colon;
+          organization-defined information system account types];
         b: Assigns account managers for information system accounts;
         c: Establishes conditions for group and role membership;
         d: Specifies authorized users of the information system, group and role membership,
           and access authorizations (i.e., privileges) and other attributes (as required)
           for each account;
-        description: The organization a. Identifies and selects the following types
-          of information system accounts to support organizational missions/business
-          functions [Assignment organization-defined information system account types];
-          b. Assigns account managers for information system accounts; c. Establishes
-          conditions for group and role membership; d. Specifies authorized users
-          of the information system, group and role membership, and access authorizations
+        description: The organization&colon; a. Identifies and selects the following
+          types of information system accounts to support organizational missions/business
+          functions&colon; [Assignment&colon; organization-defined information system
+          account types]; b. Assigns account managers for information system accounts;
+          c. Establishes conditions for group and role membership; d. Specifies authorized
+          users of the information system, group and role membership, and access authorizations
           (i.e., privileges) and other attributes (as required) for each account;
-          e. Requires approvals by [Assignment organization-defined personnel or roles]
-          for requests to create information system accounts; f. Creates, enables,
-          modifies, disables, and removes information system accounts in accordance
-          with [Assignment organization-defined procedures or conditions]; g. Monitors
-          the use of information system accounts; h. Notifies account managers AC-2h.1.
-          When accounts are no longer required; AC-2h.2. When users are terminated
-          or transferred; and AC-2h.3. When individual information system usage or
-          need-to-know changes; i. Authorizes access to the information system based
-          on AC-2i.1. A valid access authorization; AC-2i.2. Intended system usage;
-          and AC-2i.3. Other attributes as required by the organization or associated
-          missions/business functions; j. Reviews accounts for compliance with account
-          management requirements [Assignment organization-defined frequency]; and
-          k. Establishes a process for reissuing shared/group account credentials
-          (if deployed) when individuals are removed from the group.
-        description_intro: The organization
-        e: Requires approvals by [Assignment organization-defined personnel or roles]
-          for requests to create information system accounts;
+          e. Requires approvals by [Assignment&colon; organization-defined personnel
+          or roles] for requests to create information system accounts; f. Creates,
+          enables, modifies, disables, and removes information system accounts in
+          accordance with [Assignment&colon; organization-defined procedures or conditions];
+          g. Monitors the use of information system accounts; h. Notifies account
+          managers&colon;   AC-2h.1. When accounts are no longer required;  AC-2h.2.
+          When users are terminated or transferred; and  AC-2h.3. When individual
+          information system usage or need-to-know changes; i. Authorizes access to
+          the information system based on&colon;   AC-2i.1. A valid access authorization;  AC-2i.2.
+          Intended system usage; and   AC-2i.3. Other attributes as required by the
+          organization or associated missions/business functions; j. Reviews accounts
+          for compliance with account management requirements [Assignment&colon; organization-defined
+          frequency]; and k. Establishes a process for reissuing shared/group account
+          credentials (if deployed) when individuals are removed from the group.
+        description_intro: The organization&colon;
+        e: Requires approvals by [Assignment&colon; organization-defined personnel
+          or roles] for requests to create information system accounts;
         f: Creates, enables, modifies, disables, and removes information system accounts
-          in accordance with [Assignment organization-defined procedures or conditions];
+          in accordance with [Assignment&colon; organization-defined procedures or
+          conditions];
         g: Monitors the use of information system accounts;
-        h: Notifies account managers (1) When accounts are no longer required; (2)
-          When users are terminated or transferred; and (3) When individual information
+        h: Notifies account managers&colon; (1) When accounts are no longer required;
+          (2) When users are terminated or transferred; and (3) When individual information
           system usage or need-to-know changes;
-        i: Authorizes access to the information system based on (1) A valid access
-          authorization; (2) Intended system usage; and (3) Other attributes as required
-          by the organization or associated missions/business functions;
-        j: Reviews accounts for compliance with account management requirements [Assignment
+        i: Authorizes access to the information system based on&colon; (1) A valid
+          access authorization; (2) Intended system usage; and (3) Other attributes
+          as required by the organization or associated missions/business functions;
+        j: Reviews accounts for compliance with account management requirements [Assignment&colon;
           organization-defined frequency]; and
         k: Establishes a process for reissuing shared/group account credentials (if
           deployed) when individuals are removed from the group.
