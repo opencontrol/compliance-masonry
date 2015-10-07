@@ -1,0 +1,52 @@
+author:
+  name: Cloud.gov | 18F
+  url: https://cloud.18f.gov/
+defaults:
+- scope:
+    path: ''
+  values:
+    layout: guides_style_18f_default
+exclude:
+- CONTRIBUTING.md
+- Gemfile
+- Gemfile.lock
+- LICENSE.md
+- README.md
+- go
+google_analytics_ua: null
+highlighter: rouge
+logoalt: 18F logo
+logourl: /assets/img/18f-logo.png
+markdown: redcarpet
+name: Control Masonry
+navigation:
+- internal: true
+  text: Introduction
+  url: index.html
+- children:
+  - internal: true
+    text: Regulation-6 Test Regulation
+    url: Regulation-6/
+  internal: true
+  text: PCI Documentation
+  url: PCI/
+- children:
+  - internal: true
+    text: AC-2 ACCOUNT MANAGEMENT
+    url: AC-2/
+  - internal: true
+    text: AC-6 LEAST PRIVILEGE
+    url: AC-6/
+  - internal: true
+    text: CM-2 BASELINE CONFIGURATION
+    url: CM-2/
+  internal: true
+  text: NIST-800-53 Documentation
+  url: NIST-800-53/
+permalink: pretty
+repos:
+- description: Main repository
+  name: Control Masonry
+  url: https://github.com/18F/control-masonry
+sass:
+  style: :compressed
