@@ -119,6 +119,7 @@ def create_certifications(
         certifications_path, components, standards)
     for name, certification in certifications:
         filename = os.path.join(output_path, name + '.yaml')
+        print(filename)
         yaml_writer(component_data=certification, filename=filename)
 
 

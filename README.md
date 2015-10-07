@@ -11,7 +11,15 @@ Control Masonry simplifies the process of certification documentations by provid
 2. a way for government project to edit existing files and also add new control files for their applications and organizations.
 3. a pipeline for generating clean and standardized certification documentation
 
-## Components Documentation
+## Creating Documentation
+Generating certification documentation from components and standards.
+```
+python renderers/yamls_to_certification.py
+```
+
+# Documentation Format
+
+### Components Documentation
 Component documentation contains information about individual system components and the standards they satisfy.
 
 ```yaml
@@ -42,7 +50,8 @@ satisfies:
     is a blowfish encryption algorithm, which enables cloud foundry to store a secure
     hash of your users' passwords.
 ```
-## Standards Documentation
+
+### Standards Documentation
 Contain information about security standards.
 
 ```yaml
@@ -59,7 +68,7 @@ standards:
     description: There is an affordance for managing access by...
 ```
 
-## Certifications
+### Certifications
 Empty yaml for creating certification documentation. Serve as a template for combining controls and standards yamls.
 
 ```yaml
