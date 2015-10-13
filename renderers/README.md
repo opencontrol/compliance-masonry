@@ -11,3 +11,9 @@ Converts files in `data/controls`, `data/certifications`, `data/standards` into 
 ```
 python renderers/yamls_to_certification.py
 ```
+
+#### certifications_to_pages.py (WIP)
+Converts the certifications data into into a static site located at `exports/Pages/`
+```
+python renderers/certifications_to_pages.py
+```
