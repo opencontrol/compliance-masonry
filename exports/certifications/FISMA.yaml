@@ -83,6 +83,7 @@ standards:
           of users) which are necessary to accomplish assigned tasks in accordance
           with organizational missions and business functions.
         name: LEAST PRIVILEGE
+    AU-19: {}
     CM-2:
       justifications:
       - name: AlienVault
