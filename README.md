@@ -17,6 +17,12 @@ Generating certification documentation from components and standards.
 python renderers/yamls_to_certification.py
 ```
 
+## Creating Static site
+Converting certification documentation to a static site.
+```
+python renderers/certifications_to_pages.py
+```
+
 # Documentation Format
 
 ### Components Documentation
