@@ -3,6 +3,7 @@ site based on https://pages.18f.gov/guides-template/ """
 
 
 from yaml import dump, load
+import logging
 
 
 def load_yaml(filename):
@@ -40,8 +41,16 @@ def create_control_nav(control_key, control):
     """ Creates a dictionary for a child page following the config file format
     For more info about the _config.yml file visit :
     https://pages.18f.gov/guides-template/update-the-config-file/ """
+    if 'meta' in control:
+        control_name = control['meta']['name']
+    else:
+        control_name = ""
+        logging.warning(
+            "`%s` control is missing `%s` for control nav. Is control in 'data/standards/*.yaml'?",
+            control_key, 'name'
+        )
     return {
-        'text': control_key + " " + control['meta']['name'],
+        'text': control_key + " " + control_name,
         'url': control_key + '/',
         'internal': True,
     }
@@ -66,8 +75,16 @@ def create_front_matter(standard_key, control_key, control):
     """ Generate yaml front matter for pages text
     For more info about pages front matter visit -
     https://pages.18f.gov/guides-template/add-a-new-page/ """
+    if 'meta' in control:
+        control_name = control['meta']['name']
+    else:
+        control_name = ""
+        logging.warning(
+            "`%s` control is missing `%s` for front matter. Is control in 'data/standards/*.yaml'?",
+            control_key, 'name'
+        )
     text = '---\npermalink: /{0}/{1}/\n'.format(standard_key, control_key)
-    text += 'title: {0} - {1}\n'.format(control_key, control['meta']['name'])
+    text += 'title: {0} - {1}\n'.format(control_key, control_name)
     text += 'parent: {0} Documentation\n---\n'.format(standard_key)
     return text
 
@@ -139,6 +156,7 @@ def convert_certifications(certification_path, output_path):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     convert_certifications(
         certification_path="exports/certifications/FISMA.yaml",
         output_path="exports/Pages"
