@@ -42,9 +42,10 @@ def create_standards_nav(standard_key):
 
 
 def get_control_name(control, control_key):
-    """ Extracts the control name from a control dict. Control names are located
-    within the meta dict. ex control['meta']['name']. This function also issues
-    a warning if the meta file is missing or the name is missing. """
+    """ Extracts the control name from a control dict. Control names are
+    located within the meta dict. ex control['meta']['name']. This function
+    also issues a warning if the meta dict is missing or the name dict
+    is missing. """
     control_meta = control.get('meta', {})
     control_name = control_meta.get('name', '')
     if not control_meta:
