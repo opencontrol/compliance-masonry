@@ -101,8 +101,8 @@ def build_certifications(certifications_path, components, standards):
     """ Merges the components and standards data with the certification
     data """
     for certification in yaml_loader(certifications_path):
-        for standard in certification['standards']:
-            for control in certification['standards'][standard]:
+        for standard in sorted(certification['standards']):
+            for control in sorted(certification['standards'][standard]):
                 # Create a reference to the certification control
                 certification['standards'][standard][control] = dict()
                 merge_components(certification, components, standard, control)
@@ -119,7 +119,6 @@ def create_certifications(
         certifications_path, components, standards)
     for name, certification in certifications:
         filename = os.path.join(output_path, name + '.yaml')
-        print(filename)
         yaml_writer(component_data=certification, filename=filename)
 
 

@@ -149,9 +149,10 @@ def convert_certifications(certification_path, output_path):
     """ Convert certification to pages format """
     navigation_config = []
     certification = load_yaml(certification_path)
-    for standard_key in certification['standards']:
+    for standard_key in sorted(certification['standards']):
         standard_navigation = create_standards_nav(standard_key)
-        for control_key in certification['standards'][standard_key]:
+        for control_key in sorted(certification['standards'][standard_key]):
+            print(standard_key, control_key)
             control = certification['standards'][standard_key][control_key]
             standard_navigation['children'].append(
                 create_control_nav(control_key, control)

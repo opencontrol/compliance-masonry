@@ -28,14 +28,14 @@ navigation:
     text: AC-2 ACCOUNT MANAGEMENT
     url: AC-2/
   - internal: true
-    text: CM-2 BASELINE CONFIGURATION
-    url: CM-2/
-  - internal: true
     text: AC-6 LEAST PRIVILEGE
     url: AC-6/
   - internal: true
     text: 'AU-19 '
     url: AU-19/
+  - internal: true
+    text: CM-2 BASELINE CONFIGURATION
+    url: CM-2/
   internal: true
   text: NIST-800-53 Documentation
   url: NIST-800-53/
