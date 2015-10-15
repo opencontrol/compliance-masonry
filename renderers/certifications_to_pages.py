@@ -5,6 +5,10 @@ site based on https://pages.18f.gov/guides-template/ """
 from yaml import dump, load
 import logging
 
+# Error message for missing control keys
+MISSING_KEY_ERROR = "`%s` control is missing the `%s` dict."
+MISSING_KEY_ERROR += "Is control data in 'data/standards/*.yaml'?"
+
 
 def load_yaml(filename):
     """ Load a specific yaml file """
@@ -21,8 +25,8 @@ def yaml_writer(data, filename):
 def write_markdown(output_path, filename, text):
     """ Write text to a markdown file """
     file_name = output_path + '/pages/' + filename + '.md'
-    with open(file_name, 'w') as f:
-        f.write(text)
+    with open(file_name, 'w') as md_file:
+        md_file.write(text)
 
 
 def create_standards_nav(standard_key):
@@ -37,18 +41,25 @@ def create_standards_nav(standard_key):
     }
 
 
+def get_control_name(control, control_key):
+    """ Extracts the control name from a control dict. Control names are
+    located within the meta dict. ex control['meta']['name']. This function
+    also issues a warning if the meta dict is missing or the name dict
+    is missing. """
+    control_meta = control.get('meta', {})
+    control_name = control_meta.get('name', '')
+    if not control_meta:
+        logging.warning(MISSING_KEY_ERROR, control_key, 'meta')
+    elif not control_name:
+        logging.warning(MISSING_KEY_ERROR, control_key, 'name')
+    return control_name
+
+
 def create_control_nav(control_key, control):
     """ Creates a dictionary for a child page following the config file format
     For more info about the _config.yml file visit :
     https://pages.18f.gov/guides-template/update-the-config-file/ """
-    if 'meta' in control:
-        control_name = control['meta']['name']
-    else:
-        control_name = ""
-        logging.warning(
-            "`%s` control is missing `%s` for control nav. Is control in 'data/standards/*.yaml'?",
-            control_key, 'name'
-        )
+    control_name = get_control_name(control, control_key)
     return {
         'text': control_key + " " + control_name,
         'url': control_key + '/',
@@ -75,14 +86,7 @@ def create_front_matter(standard_key, control_key, control):
     """ Generate yaml front matter for pages text
     For more info about pages front matter visit -
     https://pages.18f.gov/guides-template/add-a-new-page/ """
-    if 'meta' in control:
-        control_name = control['meta']['name']
-    else:
-        control_name = ""
-        logging.warning(
-            "`%s` control is missing `%s` for front matter. Is control in 'data/standards/*.yaml'?",
-            control_key, 'name'
-        )
+    control_name = get_control_name(control, control_key)
     text = '---\npermalink: /{0}/{1}/\n'.format(standard_key, control_key)
     text += 'title: {0} - {1}\n'.format(control_key, control_name)
     text += 'parent: {0} Documentation\n---\n'.format(standard_key)
@@ -125,16 +129,19 @@ def create_content(control):
     return text
 
 
-def create_markdown(output_path, standard_key, control_key=None, control=None):
-    """ Generate the markdown file from each standards and control """
-    if control_key and control:
-        text = create_front_matter(standard_key, control_key, control)
-        text += create_content(control)
-        filename = control_key
-    else:
-        text = '---\npermalink: /{0}/\n'.format(standard_key)
-        text += 'title: {0} Documentation\n---\n'.format(standard_key)
-        filename = standard_key
+def create_control_markdown(output_path, standard_key, control_key, control):
+    """ Generate the markdown file for a control """
+    text = create_front_matter(standard_key, control_key, control)
+    text += create_content(control)
+    filename = control_key
+    write_markdown(output_path, filename, text)
+
+
+def create_standard_markdown(output_path, standard_key):
+    """ Generate the markdown file for a standard """
+    text = '---\npermalink: /{0}/\n'.format(standard_key)
+    text += 'title: {0} Documentation\n---\n'.format(standard_key)
+    filename = standard_key
     write_markdown(output_path, filename, text)
 
 
@@ -149,9 +156,11 @@ def convert_certifications(certification_path, output_path):
             standard_navigation['children'].append(
                 create_control_nav(control_key, control)
             )
-            create_markdown(output_path, standard_key, control_key, control)
+            create_control_markdown(
+                output_path, standard_key, control_key, control
+            )
         navigation_config.append(standard_navigation)
-        create_markdown(output_path, standard_key)
+        create_standard_markdown(output_path, standard_key)
     update_config(output_path, navigation_config)
 
 
