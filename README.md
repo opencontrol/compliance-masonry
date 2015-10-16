@@ -5,8 +5,12 @@ Control Masonry allows users to construct certification documentation, which is 
 
 Alpha Note: Control Masonry is an emerging project. We recognize that in its current state, Control Masonry's user experience still needs to mature. Nevertheless, we are "eating our own dog food" and working to make continuous improvements.
 
+#### Long Term Plan Diagram
+![control-masonry](https://cloud.githubusercontent.com/assets/47762/9829499/08d2b1dc-58bb-11e5-8185-5dc617188ae7.png)
+(Here's [the .gliffy source](https://gist.github.com/mogul/8d7cb123e03b0fe1b993).)
+
 ## Benefits
-Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Control Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.  
+Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Control Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.
 
 Control Masonry simplifies the process of certification documentations by providing:
 1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
@@ -20,15 +24,15 @@ Control Masonry simplifies the process of certification documentations by provid
 ### Adding Data
 Data can be added via two potential entry points. The [`data/xlsx/Control-Masonry.xlsx`](https://github.com/18F/control-masonry/blob/master/data/xlsx/Control-masonry.xlsx) document or the [`data/components`](https://github.com/18F/control-masonry/tree/master/data/components) directory.
 
-[**OPTION 1: Control-Masonry.xlsx**](https://github.com/18F/control-masonry/blob/master/data/xlsx/Control-masonry.xlsx)  
-Data in this excel file is organized loosely in SQL-like format. The `Justifications` worksheet contains mapping from NIST controls to systems and components ids. The `Components` worksheet contains mappings from the components ids to the component names. The `References` and `Governors` worksheets contain mappings from the component ids to the information about the components and artifacts, which prove compliance.  
+[**OPTION 1: Control-Masonry.xlsx**](https://github.com/18F/control-masonry/blob/master/data/xlsx/Control-masonry.xlsx)
+Data in this excel file is organized loosely in SQL-like format. The `Justifications` worksheet contains mapping from NIST controls to systems and components ids. The `Components` worksheet contains mappings from the components ids to the component names. The `References` and `Governors` worksheets contain mappings from the component ids to the information about the components and artifacts, which prove compliance.
 
 To generate [component yamls file](https://github.com/18F/control-masonry/tree/master/data/components) execute the following command from the main directory.
 ```bash
 python renderers/workbook_to_yamls.py
-```  
+```
 
-[**OPTION 2: writing component yamls**](https://github.com/18F/control-masonry/tree/master/data/components)  
+[**OPTION 2: writing component yamls**](https://github.com/18F/control-masonry/tree/master/data/components)
 Component yamls are organizations by system and then by component. (see [Components Documentation](#components-documentation) below)
 
 ### Creating Certifications
@@ -48,7 +52,7 @@ python renderers/certifications_to_pages.py
 # Documentation Format
 
 ### Components Documentation
-Component documentation contains information about individual system components and the standards they satisfy.  
+Component documentation contains information about individual system components and the standards they satisfy.
 [#components-documentation]
 
 ```yaml
