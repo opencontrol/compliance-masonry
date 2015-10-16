@@ -6,7 +6,7 @@ Control Masonry allows users to construct certification documentation, which is 
 Alpha Note: Control Masonry is an emerging project. We recognize that in its current state, Control Masonry's user experience still needs to mature. Nevertheless, we are "eating our own dog food" and working to make continuous improvements.
 
 ## Benefits
-Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf) Control Masonry documentation is organized by component making it easier for engineers and security teams to collaborate.  
+Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Control Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.  
 
 Control Masonry simplifies the process of certification documentations by providing:
 1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
@@ -15,7 +15,7 @@ Control Masonry simplifies the process of certification documentations by provid
 
 # Creating Documentation (How to use)
 ### Data Flow Diagram
-![control_masonry](https://cloud.githubusercontent.com/assets/4596845/10519191/b995f9c0-7332-11e5-94d0-dae5760e2200.png)
+![control_masonry](https://cloud.githubusercontent.com/assets/4596845/10542998/e6397422-73e9-11e5-8681-5539be8b8164.png)
 
 ### Adding Data
 Data can be added via two potential entry points. The [`data/xlsx/Control-Masonry.xlsx`](https://github.com/18F/control-masonry/blob/master/data/xlsx/Control-masonry.xlsx) document or the [`data/components`](https://github.com/18F/control-masonry/tree/master/data/components) directory.
@@ -38,7 +38,7 @@ python renderers/yamls_to_certification.py
 ```
 
 ### Creating Documentation
-Control Masonry currently only support one document format: a static site which uses [18F Guides Template](https://github.com/18F/guides-template). Submission for new formats are welcome.
+Control Masonry currently only supports one document format: a static site which uses [18F Guides Template](https://github.com/18F/guides-template). **Submission for new formats are welcome.**
 
 To generate a [18F Guides Template](https://github.com/18F/guides-template) in the [export/Pages](https://github.com/18F/control-masonry/tree/master/exports/Pages) folder.
 ```
