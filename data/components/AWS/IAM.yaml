@@ -3,5 +3,56 @@ references:
 - reference_name: AWS Identity and Access Management (IAM)
   reference_url: https://aws.amazon.com/iam/
 satisfies:
-  AC-2: AWS accounts are managed through AWS Identity and Access Management (IAM).
-  IA-2: AWS IAM users are placed into groups based on their assigned roles and permissions
+  AC-2: 
+    a: |
+      - AWS accounts are managed through AWS Identity and Access Management (IAM). Only users with a need to operate the AWS management console are provided individual AWS user accounts. The following types are used
+        - User – Individual IAM accounts
+        - System – system and application account not used for interactive access
+        - There are no guest/anonymous, groups, or temporary user accounts in 18F’s AWS account.
+      - 18F users must sign in to the account's sign in URL by using their IAM user name and password. This sign in URL is located in the Dashboard of the IAM console and must be communicated by the 18F AWS account's system administrator to the IAM user.
+      - To allow an IAM user to access resources and perform tasks, 18F creates IAM policies that grant IAM users permission to use the specific resources and API actions they'll need, then attach the policy to the IAM user or the group the IAM user belongs to. When you attach a policy to a user or group of users, it allows or denies the users permission to perform the specified tasks on the specified resources.
+      - AWS user accounts and roles are documented in section 9.1 Types of Users.
+      - AWS accounts are managed through AWS Identity and Access Management (IAM).
+    b: |
+      - AWS user accounts are issued only to those with an established need to manage the AWS environment based on job function.
+      - Linux and/or local system user accounts are issued only to those with an established need to manage servers in the 18F AWS environment. User group membership is restricted to the least privilege necessary for the user to accomplish his or her assigned duties.
+      - 18F and GSA identify authorized users of the information system and specify access rights/privileges. 18F grants access to the information system based on:
+        - (i) a valid need-to-know/need-to-share that is determined by assigned official duties and satisfying all personnel security criteria;
+        - (ii) Intended system usage. 18F and GSA require proper identification for requests to establish information system accounts and approves all such requests; and
+        - (iii) Organizational or mission/business function attributes.
+    c: |
+      - Conditions for groups and roles membership in AWS groups are based on an established need to manage the AWS environment.  The user must meet the following the conditions on order for the system owner to approve membership request
+      - The user’s assigned role is required to access a particular group
+      - The user has the requirements and understanding to assume permissions associated with the group
+      - The user has completed the security role-based training 
+      - The user complies with any other group-specific conditions created by the system owner
+    d: |
+      - AWS user account creation requires approval by the managing 18F project lead and Cloud Foundry Information System Technical Point of Contact (Operating Environment). Prior to account creation users must have at least begun the GSA background investigative process. 
+    e: |
+      - AWS user account creation requires approval by the managing 18F project lead and Cloud Foundry Information System Technical Point of Contact (Operating Environment). Prior to account creation users must have at least begun the GSA background investigative process and basic security training. 
+    k: |
+      - 18F does not allow shared/group account credentials within the AWS environment. All users have individual accounts to access the AWS environment. 18F has created specific policies that allow individual users to assume a role within the AWS environment listed in Table 9-1. AWS User Roles, Groups and Privileges. 
+
+  AC-3: |
+    - 18F follows and implements AWS IAM  best practices by implementing the majority of the following&colon;
+      - Create individual accounts for anyone that requires access to the AWS infrastructure or APIs or use IAM federation from enterprise identity management system
+      - Use groups or roles to assign permissions to IAM users
+      - Enable multi factor authentication for all IAM users
+      - Use roles for applications that run on EC2 instances
+      - Delegate by using roles instead of sharing credentials
+      - Rotate credentials regularly
+
+  AC-6: |
+    - AWS Identity and Access Management (IAM) Policies enables organizations with many employees to create and manage multiple users under a single AWS Account. IAM policies are attached to the users, enabling centralized control of permissions for users under 18F AWS Account to access services, buckets or objects. With IAM policies, 18F only grant users within its own AWS account permission to access its Amazon resources. 
+      - 18F AWS IAM policies are defined to grant only the required access for 18F staff necessary to perform their functions. 18F defines least privilege access to each user, group or role and is in the planning stages to customize access to specific resources using an authorization policy. 
+      - Security functions within the AWS infrastructure are explicitly defined within IAM to include read-only permissions for any user functions. Please see Table 9-1. AWS User Roles and Privileges for all 18F IAM accounts and roles. 
+      - 18F will incorporate running the IAM Policy Simulator to test all of its policies for least privilege access for users and groups.
+      - AWS Roles are used to allow IAM user account and AWS services to assume only the permissions granted in order to perform required tasks.
+
+  IA-2: |
+    - All users have individually unique identifiers to access and authenticate to the AWS environment through the AWS management console.
+    - 18F AWS IAM users are placed into IAM roles based on their assigned roles and permissions
+    - Additional temporary permission are delegated with the IAM roles usually for applications that run on EC2 Instanc.es in order to access AWS resources (i.e. Amazon S3 buckets, DynamoDB data)   
+    - All user accounts for 18F staff are maintained within the 18F AWS Environment.
+    - Shared or group authenticators are not utilized; Service accounts are implemented as Managed Services Accounts within AWS.
+
