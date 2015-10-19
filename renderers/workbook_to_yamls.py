@@ -109,10 +109,9 @@ def split_into_systems(components, workbook):
     return systems
 
 
-def process_data():
+def process_components(workbook):
     """ Collect data from the xlsx workbook and structure data
     in dict by system and then component """
-    workbook = open_workbook()
     components = extract_components(workbook=workbook)
     components = layer_with_references(
         components=components, workbook=workbook)
@@ -120,9 +119,50 @@ def process_data():
         components=components, workbook=workbook)
     components = layer_with_justifications(
         components=components, workbook=workbook)
-    systems = split_into_systems(
+    return split_into_systems(
         components=components, workbook=workbook)
-    return systems
+
+
+def process_certifications(workbook):
+    """ Collect standards data from xlsx workbook and extract
+    standards dict """
+    certifications = {}
+    certifications['LATO'] = {'name': 'LATO', 'standards': {}}
+    certifications['FISMA-low'] = {'name': 'FISMA-low', 'standards': {}}
+    certifications['FISMA-med'] = {'name': 'FISMA-med', 'standards': {}}
+
+    def add_control_to_certification(
+            certification, standard, control_id, status):
+        """ Determins if control is included in certification and adds to the
+        certification dict """
+        if status:
+            if not certifications[certification]['standards'].get(standard):
+                certifications[certification]['standards'][standard] = {}
+            certifications[certification]['standards'][standard][control_id] = {}
+
+    for row in workbook['Controls'].rows[1:]:
+        standard = row[0].value.strip().upper()
+        control_id = row[1].value.strip()
+        add_control_to_certification(
+            'LATO', standard, control_id, status=row[3].value)
+        add_control_to_certification(
+            'FISMA-low', standard, control_id, status=row[4].value)
+        add_control_to_certification(
+            'FISMA-med', standard, control_id, status=row[6].value)
+    return certifications
+
+
+def process_standards(workbook):
+    """ Collect certifications data from xlsx workbook and extract
+    standards dict, along with controls needed for limited, low, and
+    medium ATO certifications """
+    standards = {'NIST-800-53': {'name': 'NIST-800-53'}}
+    for row in workbook['Controls'].rows[1:]:
+        standard = row[0].value.strip().upper()
+        control_id = row[1].value.strip()
+        name = row[2].value.strip()
+        standards[standard][control_id] = {'name': name}
+    return standards
 
 
 def create_folder(directory):
@@ -131,13 +171,13 @@ def create_folder(directory):
         os.makedirs(directory)
 
 
-def write_yaml_data(component_data, filename):
+def write_yaml_data(data, filename):
     """ Write component data to a yaml file """
     with open(filename, 'w') as yaml_file:
-        yaml_file.write(dump(component_data, default_flow_style=False))
+        yaml_file.write(dump(data, default_flow_style=False))
 
 
-def export_yamls(data, base_dir='data/components/'):
+def export_component_yamls(data, base_dir='data/components/'):
     """ Create a series of yaml files for each component organized
     by system """
     create_folder(base_dir)
@@ -148,10 +188,28 @@ def export_yamls(data, base_dir='data/components/'):
             filename = os.path.join(
                 directory, component.replace(' ', '') + '.yaml')
             write_yaml_data(
-                component_data=data[system][component],
+                data=data[system][component],
                 filename=filename
             )
 
 
+def export_generic_yamls(data, base_dir):
+    """ Create a series of yaml files for each key """
+    create_folder(base_dir)
+    for key in data:
+        filename = os.path.join(
+            base_dir, key.replace(' ', '') + '.yaml')
+        write_yaml_data(data=data[key], filename=filename)
+
+
 if __name__ == "__main__":
-    export_yamls(data=process_data())
+    workbook = open_workbook()
+    export_component_yamls(data=process_components(workbook))
+    export_generic_yamls(
+        data=process_certifications(workbook),
+        base_dir='data/certifications/'
+    )
+    export_generic_yamls(
+        data=process_standards(workbook),
+        base_dir='data/standards/'
+    )
