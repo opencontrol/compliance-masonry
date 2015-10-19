@@ -1,14 +1,13 @@
-governors:
-- governor_name: Bosh updates
-  governor_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/OS_IMAGES.md
-- governor_name: New BOSH stemcells
-  governor_url: http://boshartifacts.cloudfoundry.org/file_collections?type=stemcells
-- governor_name: Bosh Ubuntu trusty specs
-  governor_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/spec/stemcells/ubuntu_trusty_spec.rb
 name: BOSH Stemcells
 references:
 - reference_name: Bosh StemCells
   reference_url: https://bosh.io/stemcells
+- reference_name: Bosh updates
+  reference_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/OS_IMAGES.md
+- reference_name: New BOSH stemcells
+  reference_url: http://boshartifacts.cloudfoundry.org/file_collections?type=stemcells
+- reference_name: Bosh Ubuntu trusty specs
+  reference_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/spec/stemcells/ubuntu_trusty_spec.rb
 satisfies:
   CM-6: BOSH Stemcells are used for the standard baseline OS images and software vulnerability
     management updates

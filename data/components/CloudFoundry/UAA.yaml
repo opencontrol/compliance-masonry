@@ -1,16 +1,20 @@
 governors:
-- governor_name: Cloud Foundry Roles
-  governor_url: https://cf-p1-docs-prod.cfapps.io/pivotalcf/concepts/roles.html
-- governor_name: Cloud Foundry Org Access
-  governor_url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/organization_access_spec.rb
-- governor_name: Cloud Foundry Space Access
-  governor_url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/space_access_spec.rb
+- governor_name: Access Control Policy Section 3
+  governor_url: Find artifact
+- governor_name: Acccount Managment Flow
+  governor_url: Find artifact
 name: User Account and Authentication (UAA) Server
 references:
 - reference_name: User Account and Authentication (UAA) Server
   reference_url: http://docs.pivotal.io/pivotalcf/concepts/architecture/uaa.html
 - reference_name: Creating and Managing Users with the UAA CLI (UAAC)
   reference_url: http://docs.pivotal.io/pivotalcf/adminguide/uaa-user-management.html
+- reference_name: UAA Roles
+  reference_url: https://cf-p1-docs-prod.cfapps.io/pivotalcf/concepts/roles.html
+- reference_name: Cloud Foundry Org Access
+  reference_url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/organization_access_spec.rb
+- reference_name: Cloud Foundry Space Access
+  reference_url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/space_access_spec.rb
 satisfies:
   AC-2: Cloud Foundry accounts are managed through the User Account and Authentication
     (UAA) Server.

@@ -1,7 +1,15 @@
+governors:
+- governor_name: Roles Used by 18F
+  governor_url: Find artifact
+- governor_name: Access Control Policy Section 3
+  governor_url: Find artifact
+- governor_name: Account Management Flow
+  governor_url: Find artifact
 name: Identity and Access Management
 references:
 - reference_name: AWS Identity and Access Management (IAM)
   reference_url: https://aws.amazon.com/iam/
 satisfies:
-  AC-2: AWS accounts are managed through AWS Identity and Access Management (IAM).
+  AC-2: AWS accounts and roles are managed through AWS Identity and Access Management
+    (IAM).
   IA-2: AWS IAM users are placed into groups based on their assigned roles and permissions
