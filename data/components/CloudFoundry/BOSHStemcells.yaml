@@ -9,11 +9,15 @@ name: BOSH Stemcells
 references:
 - reference_name: Bosh StemCells
   reference_url: https://bosh.io/stemcells
+  reference_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/OS_IMAGES.md
+  reference_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/spec/stemcells/ubuntu_trusty_spec.rb
 satisfies:
   CM-6: BOSH Stemcells are used for the standard baseline OS images and software vulnerability
-    management updates
+    management updates. Updates to new BOSH stemcells are located and stored within Amazon S3. 
+    The specifications of the current release of BOSH stemcells are located on GitHub. 
+    DevOps implements Cloud Foundry standard BOSH stemcells for baseline OS configuration.
   SI-2: Cloud Foundry manages software vulnerability using releases and BOSH stemcells.
     New Cloud Foundry releases located at https:/github.com/cloudfoundry/cf-release,
     are created with updates to address code issues, while new stemcells are created
     with patches for the latest security fixes to address any underlying operating
-    system issues.
+    system issues. 
