@@ -1,0 +1,420 @@
+name: FISMA-med
+standards:
+  NIST-800-53:
+    AC-2:
+      justifications:
+      - governors:
+        - governor_name: Roles Used by 18F
+          governor_url: Find artifact
+        - governor_name: Access Control Policy Section 3
+          governor_url: Find artifact
+        - governor_name: Account Management Flow
+          governor_url: Find artifact
+        name: Identity and Access Management
+        narative: AWS accounts and roles are managed through AWS Identity and Access
+          Management (IAM).
+        references:
+        - reference_name: AWS Identity and Access Management (IAM)
+          reference_url: https://aws.amazon.com/iam/
+      - governors: &id003
+        - governor_name: Access Control Policy Section 3
+          governor_url: Find artifact
+        - governor_name: Acccount Managment Flow
+          governor_url: Find artifact
+        name: User Account and Authentication (UAA) Server
+        narative: Cloud Foundry accounts are managed through the User Account and
+          Authentication (UAA) Server.
+        references: &id004
+        - reference_name: User Account and Authentication (UAA) Server
+          reference_url: http://docs.pivotal.io/pivotalcf/concepts/architecture/uaa.html
+        - reference_name: Creating and Managing Users with the UAA CLI (UAAC)
+          reference_url: http://docs.pivotal.io/pivotalcf/adminguide/uaa-user-management.html
+        - reference_name: UAA Roles
+          reference_url: https://cf-p1-docs-prod.cfapps.io/pivotalcf/concepts/roles.html
+        - reference_name: Cloud Foundry Org Access
+          reference_url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/organization_access_spec.rb
+        - reference_name: Cloud Foundry Space Access
+          reference_url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/space_access_spec.rb
+      meta:
+        name: Account Management
+    AC-2 (1):
+      meta:
+        name: Account Management | Automated System Account Management
+    AC-2 (10):
+      meta:
+        name: Account Management | Shared / Group Account Credential Termination
+    AC-2 (12):
+      meta:
+        name: Account Management | Account Monitoring / Atypical Usage
+    AC-2 (2):
+      meta:
+        name: Account Management | Removal of Temporary / Emergency Accounts
+    AC-2 (3):
+      meta:
+        name: Account Management | Disable Inactive Accounts
+    AC-2 (4):
+      meta:
+        name: Account Management | Automated Audit Actions
+    AC-2 (5):
+      meta:
+        name: Account Management | Inactivity Logout
+    AC-2 (7):
+      meta:
+        name: Account Management | Role-Based Schemes
+    AC-2 (9):
+      meta:
+        name: Account Management | Restrictions on Use of Shared Groups / Accounts
+    AC-3:
+      meta:
+        name: Access Enforcement
+    AC-6:
+      meta:
+        name: Least Privilege
+    AC-6 (1):
+      meta:
+        name: Least Privilege | Authorize Access to Security Functions
+    AC-6 (10):
+      meta:
+        name: Least Privilege | Prohibit Non-privileged Users from Executing Privileged
+          Functions
+    AC-6 (2):
+      meta:
+        name: Least Privilege | Non-Privileged Access For No security Functions
+    AC-6 (5):
+      meta:
+        name: Least Privilege | Privileged Accounts
+    AC-6 (9):
+      meta:
+        name: Least Privilege | Auditing Use of Privileged Functions
+    AU-2:
+      justifications:
+      - name: CloudTrail
+        narative: 18F has implemented AWS CloudTrail for its account monitoring
+        references:
+        - reference_name: AWS Cloud Trail Documentation
+          reference_url: https://aws.amazon.com/cloudtrail/
+      - name: Loggregator
+        narative: Loggregator/doppler, the Cloud Foundry component responsible for
+          logging, provides a stream of log output from hosted applications and from
+          Cloud Foundry system components that interact with applications during updates
+          and execution.
+        references:
+        - reference_name: Logging in the Clouds
+          reference_url: https://github.com/cloudfoundry/loggregator
+        - reference_name: Cloud Foundry Logging
+          reference_url: https://docs.cloudfoundry.org/running/managing-cf/logging.html
+      meta:
+        name: Audit Events
+    AU-2 (3):
+      meta:
+        name: Audit Events | Reviews and Updates
+    AU-6:
+      meta:
+        name: Audit Review, Analysis, and Reporting
+    AU-6 (1):
+      meta:
+        name: Audit Review, Analysis, and Reporting | Process Integration
+    AU-6 (3):
+      meta:
+        name: Audit Review, Analysis, and Reporting | Correlate Audit Repositories
+    CA-8:
+      meta:
+        name: Penetration Testing
+    CA-8 (1):
+      meta:
+        name: Penetration Testing | Independent Penetration Agent or Team
+    CM-2 (1):
+      meta:
+        name: Baseline Configuration | Reviews and Updates
+    CM-2 (3):
+      meta:
+        name: Baseline Configuration | Retention of Previous Configurations
+    CM-2 (7):
+      meta:
+        name: Baseline Configuration | Configure Systems, Components, or Devices for
+          High-Risk Areas
+    CM-2(2):
+      meta:
+        name: Baseline Configuration | Automation Support For Accuracy / Currency
+    CM-3:
+      justifications:
+      - name: AWS Config
+        narative: Provides version control
+      - name: Cloud Formation
+        narative: Provides version control
+        references:
+        - reference_name: What is AWS CloudFormation?
+          reference_url: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
+      meta:
+        name: Configuration Change Control
+    CM-6:
+      justifications:
+      - name: BOSH Stemcells
+        narative: BOSH Stemcells are used for the standard baseline OS images and
+          software vulnerability management updates
+        references: &id006
+        - reference_name: Bosh StemCells
+          reference_url: https://bosh.io/stemcells
+        - reference_name: Bosh updates
+          reference_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/OS_IMAGES.md
+        - reference_name: New BOSH stemcells
+          reference_url: http://boshartifacts.cloudfoundry.org/file_collections?type=stemcells
+        - reference_name: Bosh Ubuntu trusty specs
+          reference_url: https://github.com/cloudfoundry/bosh/blob/master/bosh-stemcell/spec/stemcells/ubuntu_trusty_spec.rb
+      - name: Manifests
+        narative: Cloud Foundry configuration settings are documented within the deployment
+          manifest on the 18F GitHub and Cloud Foundry sites.
+        references:
+        - reference_name: Deploying with Application Manifests
+          reference_url: https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html
+      meta:
+        name: Configuration Settings
+    CM-6 (1):
+      meta:
+        name: Configuration Settings | Automated essential Management / Application
+          / Verification
+    CM-8:
+      justifications:
+      - name: AlienVault
+        narative: AlienVault USM is currently deployed and used by 18F to facilitate
+          asset management, along with other operations activities, on a real-time
+          ongoing basis.
+        references: &id002
+        - reference_name: AlienVault Website
+          reference_url: https://www.alienvault.com
+      - name: AWS Config
+        narative: AWS Config can provide configuration snapshots, which is a point-in-time
+          capture of all resources and their configurations.
+      - name: VisualOps
+        narative: The VisualOps Cloud management tool is used to provide a visual,
+          real-time and automated representation of the AWS infrastructure and applications
+          within the environment.
+        references:
+        - reference_name: VisualOps
+          reference_url: https://www.visualops.io/
+      meta:
+        name: Information System Component Inventory
+    CM-8 (1):
+      meta:
+        name: Information System Component Inventory | Updates During Installations
+          / Removals
+    CM-8 (3):
+      meta:
+        name: Information System Component Inventory | Automated Unauthorized Component
+          Detection
+    CM-8 (5):
+      meta:
+        name: Information System Component Inventory | No Duplicate Accounting of
+          Components
+    IA-2 (1):
+      justifications:
+      - name: AWS Multi-Factor Authentication
+        narative: "AWS Multi-Factor Authentication (AWS MFA) provides an extra level\
+          \ of security that customer agencies apply to their AWS environment. Customer\
+          \ agencies can enable AWS MFA for their account and for individual users\
+          \ they have created under their account. With AWS MFA enabled a user that\
+          \ signs into the FedCloud Console will be prompted for their username and\
+          \ password, as well as for an authentication code from their MFA device.\
+          \ Taken together, these multiple factors provide increased security for\
+          \ customer agencies\u2019 AWS account settings and resources."
+        references: &id001
+        - reference_name: AWS Multi-Factor Authentication
+          reference_url: https://aws.amazon.com/iam/details/mfa/
+      meta:
+        name: Identification and Authentication (Organizational Users) | Network Access
+          to Privileged Accounts
+    IA-2 (12):
+      meta:
+        name: Identification and Authentication (Organizational Users) | Acceptance
+          of PIV Credentials
+    IA-2 (2):
+      justifications:
+      - name: AWS Multi-Factor Authentication
+        narative: AWS multi-factor authentication (MFA) for non-privileged users of
+          the AWS console is implemented. This service has been configured for 18F
+          administrative accounts in AWS IAM.
+        references: *id001
+      meta:
+        name: Identification and Authentication (Organizational Users) | Network Access
+          to Non-Privileged Accounts
+    PL-8:
+      meta:
+        name: Information Security Architecture
+    RA-5:
+      justifications:
+      - name: AlienVault
+        narative: AlienVault USM for AWS runs AWS friendly Authenticated vulnerability
+          scans within the AWS infrastructure
+        references: *id002
+      - name: Nessus
+        narative: Nessus will be used conduct internal scanning of its VPC and private
+          subnets within the 18F Virtual Private Cloud
+        references:
+        - reference_name: Nessus Website
+          reference_url: http://www.tenable.com/products/nessus-vulnerability-scanner
+      - name: OWASP Zap
+        narative: OWASP Zap is used to conduct web Application scanning primarily
+          for the OWASP Top 10.
+        references: &id005
+        - reference_name: OWASP Zap Site
+          reference_url: https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project
+      meta:
+        name: Vulnerability Scanning
+    RA-5 (1):
+      meta:
+        name: Vulnerability Scanning | Update Tool Capability
+    RA-5 (2):
+      meta:
+        name: Vulnerability Scanning | Update by Frequency / Prior to New Scan / When
+          Identified
+    RA-5 (3):
+      meta:
+        name: Vulnerability Scanning | Breadth / Depth of Coverage
+    RA-5 (5):
+      meta:
+        name: Vulnerability Scanning | Privileged Access
+    RA-5 (6):
+      meta:
+        name: Vulnerability Scanning | Automated Trend Analyses
+    RA-5 (8):
+      meta:
+        name: Vulnerability Scanning | Review Historic Audit Logs
+    SA-11 (1):
+      meta:
+        name: Developer Security Testing and Evaluation | Static Code Analysis
+    SC-13:
+      justifications:
+      - name: AlienVault
+        narative: AlienVault USM for AWS uses TLS v1.2 with 4096 bit keys for data
+          in transit and connections.
+        references: *id002
+      - name: Cloud Hardware Security Module
+        narative: AWS use of FIPS Validated Cryptographic Modules is outside the system
+          boundary for the Cloud Foundry system. Please see the Amazon Web Services
+          US East/West and GovCloud System Security Plan for additional information.
+        references:
+        - reference_name: AWS CloudHSM
+          reference_url: https://aws.amazon.com/cloudhsm/
+      - governors: *id003
+        name: User Account and Authentication (UAA) Server
+        narative: All traffic from the public internet to the Cloud Controller and
+          UAA happens over HTTPS and operators configure encryption of the identity
+          store in the UAA
+        references: *id004
+      meta:
+        name: Cryptographic Protection
+    SC-28 (1):
+      justifications:
+      - governors: *id003
+        name: User Account and Authentication (UAA) Server
+        narative: Operators configure encryption of the identity store in the UAA.
+          When users register an account with the Cloud Foundry platform, the UAA,
+          acts as the user store and stores user passwords in the UAA database using
+          bcrypt. Bcrypt is a blowfish encryption algorithm, which enables cloud foundry
+          to store a secure hash of your users' passwords.
+        references: *id004
+      meta:
+        name: Protection Of Information At Rest | Cryptographic Protection
+    SC-7:
+      justifications:
+      - name: Amazon Elastic Compute Cloud
+        narative: Amazon EC2 provides a complete firewall solution
+        references:
+        - reference_name: Amazon Elastic Compute Cloud
+          reference_url: https://aws.amazon.com/ec2/
+      - name: Sophos UTM
+        narative: Sophos UTM 9 for AWS is deployed and configured on all instances
+        references:
+        - reference_name: Sophos UTM
+          reference_url: https://www.sophos.com/en-us/support/documentation/sophos-utm.aspx
+      - name: Application Security Groups
+        narative: Cloud Foundry recommends that you use Cloud Foundry ASGs to specify
+          egress access rules for your applications. This functionality enables you
+          to more securely restrict application outbound traffic to predefined routes.
+        references:
+        - reference_name: Application Security Groups
+          reference_url: http://docs.cloudfoundry.org/adminguide/app-sec-groups.html
+      meta:
+        name: Boundary Protection
+    SC-7 (12):
+      meta:
+        name: Boundary Protection | Host-Based Protection
+    SC-7 (13):
+      meta:
+        name: Boundary Protection | Isolation of Security Tools / Mechanisms / Support
+          Components
+    SC-7 (3):
+      meta:
+        name: Boundary Protection | Access Points
+    SC-7 (5):
+      meta:
+        name: Boundary Protection | Deny by Default / Allow by Exception
+    SI-10:
+      meta:
+        name: Information Input Validation
+    SI-2:
+      justifications:
+      - name: OWASP Zap
+        narative: OWASP Zap (Web Application scanner and penetration test tool) for
+          monthly scanning of all web applications that reside within Cloud Foundry.
+          Upon implementation of the application, authenticated (Web Application)
+          scans will be run on Test instances of the code every major release and
+          minor releases when the release contains a change with a potential security
+          impact.  OWASP Zap reports are reviewed after each scan and appropriate
+          actions taken on discovery of vulnerabilities.
+        references: *id005
+      - name: BOSH Stemcells
+        narative: Cloud Foundry manages software vulnerability using releases and
+          BOSH stemcells. New Cloud Foundry releases located at https:/github.com/cloudfoundry/cf-release,
+          are created with updates to address code issues, while new stemcells are
+          created with patches for the latest security fixes to address any underlying
+          operating system issues.
+        references: *id006
+      meta:
+        name: Flaw Remediation
+    SI-2 (2):
+      meta:
+        name: Flaw Remediation | Automated Flaw Remediation Status
+    SI-2 (3):
+      meta:
+        name: Flaw Remediation | Time to Remediate Flaws / Benchmarks for Corrective
+          Actions
+    SI-4:
+      justifications:
+      - name: AlienVault
+        narative: Alienvault USM for AWS monitors for attacks and indicators of potential
+          attacks,  unauthorized local, network, and remote connections using  built-in,
+          essential security controls and threat intelligence.
+        references: *id002
+      - name: HM9000
+        narative: HM9000 is essential to ensuring that apps running on Cloud Foundry
+          remain available. HM9000 restarts applications whenever the DEA running
+          an app shuts down for any reason, when Warden kills the app because it violated
+          a quota, or when the application process exits with a non-zero exit code
+        references:
+        - reference_name: Health Manager 9000
+          reference_url: https://github.com/cloudfoundry/hm9000
+      meta:
+        name: Information System Monitoring
+    SI-4 (1):
+      meta:
+        name: Information System Monitoring | System-Wide Intrusion Detection System
+    SI-4 (16):
+      meta:
+        name: Information System Monitoring | Correlate Monitoring Information
+    SI-4 (2):
+      meta:
+        name: Information System Monitoring | Automated Tools For Real-Time Analysis
+    SI-4 (23):
+      meta:
+        name: Information System Monitoring | Host-Based Devices
+    SI-4 (4):
+      meta:
+        name: Information System Monitoring | Inbound and Outbound Communications
+          Traffic
+    SI-4 (5):
+      meta:
+        name: Information System Monitoring | System-Generated Alerts
+    SI-4(14):
+      meta:
+        name: Information System Monitoring | Wireless Intrusion Detection
