@@ -3,5 +3,6 @@ references:
 - reference_name: Access Control List Overview
   reference_url: http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html
 satisfies:
-  SC-7b: ACLs, or traffic flow policies, are established on each managed interface,
-    which manage and enforce the flow of traffic.
+  SC-7:
+    a :|
+      - ACLs, or traffic flow policies, are established on each managed interface, which manage and enforce the flow of traffic.
