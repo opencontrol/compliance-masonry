@@ -1,7 +1,7 @@
 name: AlienVault
 references:
 - reference_name: AlienVault Website
-  reference_url: https://www.alienvault.com
+  reference_url: http://www.alienvault.com
 satisfies:
   CM-2: AlienVault USM for AWS is provided by the vendor as a secure hardened AMI
     image that is deployed using a cloudformation template.
