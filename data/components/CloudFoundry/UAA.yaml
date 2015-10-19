@@ -12,11 +12,35 @@ references:
 - reference_name: Creating and Managing Users with the UAA CLI (UAAC)
   reference_url: http://docs.pivotal.io/pivotalcf/adminguide/uaa-user-management.html
 satisfies:
-  AC-2: Cloud Foundry accounts are managed through the User Account and Authentication
-    (UAA) Server.
-  IA-2: The UAA is the identity management service for Cloud Foundry. Its primary
-    role is as an OAuth2 provider, issuing tokens for client applications to use when
-    they act on behalf of Cloud Foundry users.
+  AC-2:
+    a: |
+      - Cloud Foundry user and role accounts are managed and maintained through the UAA Command Line Interface (UAAC). Cloud Foundry uses role-based access control with each role granting permissions in either an organization or an application space.
+      - 18F uses Cloud Foundry’s user accounts for individuals within the context of a Cloud Foundry. A user can have different roles in different spaces within an org, governing what level and type of access they have within that space. The combination of these roles defines the user’s overall permissions in the org and within specific spaces in that org.  A list of standard cloud foundry user account types can be found in Table 9-2. Cloud Foundry User Roles and Privileges.
+      - Cloud Foundry uses Application security groups (ASGs) to act as virtual firewalls to control outbound traffic from the applications in the deployment. A security group consists of a list of network egress access rules.
+      - An administrator can assign one or more security groups to a Cloud Foundry deployment or to a specific space in an org within a deployment.
+      - Cloud Foundry user, organization, and application roles and security groups are documented in section 9.3 Types of Users. 
+    k: |
+      - The Cloud Foundry platform utilizes role based access controls (RBAC) for group membership within the platform and does not issue shared/group account credentials. 
+      - 18F adds and removes individual users from defined user roles listed in Table 9-2. Cloud Foundry User Roles and Privileges.
+
+  AC-6: |
+    - Cloud Foundry uses Feature Flags which allows an administrator to turn on or off sub-sections, or features, of an application without deploying new code.
+    - Currently, there are six feature flags that can be set. They are all enabled by default except user_org_creation.
+      - `user_org_creation`&colon; When enabled, any user can create and organization via the API.
+      - `private_domain_creation`&colon; When enabled, and organization manager can create private domains for that organization.
+      - `app_bits_upload`&colon; When enabled, space developers can upload app bits.
+      - `app_scaling`&colon; When enabled, space developers can perform scaling operations (i.e. change memory, disk or instances).
+      - `route_creation`&colon; When enabled, a space developer can create routes in a space.
+      - `service_instance_creation`&colon; When enabled, a space developer can create service instances in a space.
+    - 18F uses Orgs, Spaces, and Roles to implement least privileged access to the platform as a service. Cloud Foundry uses role-based access control (RBAC), with each role granting permissions in either an org or a space. Please see Table 9-2. Cloud Foundry User Roles and Privileges. 
+
+
+
+  IA-2: |
+    - The UAA is the identity management service for Cloud Foundry. Its primary role is as an OAuth2 provider, issuing tokens for client applications to use when they act on behalf of Cloud Foundry users. In collaboration with the login server, it authenticates users with their Cloud Foundry credentials, and act as a Single Sign-On (SSO) service using those credentials (or others). It has endpoints for managing user accounts and for registering OAuth2 clients, as well as various other management functions.
+    - All users have individually unique identifiers to access and authenticates  to the environment
+    - Shared or group authenticators are not utilized, with the exception of a root administrative account. There are only two authorized users from the DevOps team who has access to the root administrative account.
+
   SC-13: All traffic from the public internet to the Cloud Controller and UAA happens
     over HTTPS and operators configure encryption of the identity store in the UAA
   SC-28 (1): Operators configure encryption of the identity store in the UAA. When
