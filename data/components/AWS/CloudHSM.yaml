@@ -1,8 +1,0 @@
-name: Cloud Hardware Security Module
-references:
-- reference_name: AWS CloudHSM
-  reference_url: https://aws.amazon.com/cloudhsm/
-satisfies:
-  SC-13: AWS use of FIPS Validated Cryptographic Modules is outside the system boundary
-    for the Cloud Foundry system. Please see the Amazon Web Services US East/West
-    and GovCloud System Security Plan for additional information.
