@@ -7,4 +7,8 @@ satisfies:
     the infrastructure and simplify provisioning and management on AWS. They provide
     an automated method to assess the status of an operational infrastructure against
     an approved baseline.
+    
+  CM-2:DevOps maintain baseline configurations for VPC, EBS, EC2 instances and AMIs. AWS Cloud Formation templates help 18F maintain a strict configuration management scheme of the cloud infrastructure. If an error or misconfiguration of the infrastructure or associated security mechanism (security groups, NACLs) is detected, the administrators can analyze the current infrastructure templates; compare with previous versions, and redeploy the configurations to a known and approved state. 
+  AWS Cloud Formation templates are the approved baseline for all changes to the infrastructure and simplify provisioning and management on AWS. They provide an automated method to assess the status of an operational infrastructure against an approved baseline.
+  
   CM-3: Provides version control
