@@ -3,9 +3,9 @@ references:
 - reference_name: AWS Multi-Factor Authentication
   reference_url: https://aws.amazon.com/iam/details/mfa/
 satisfies:
-  IA-2 (1): 
+  IA-2 (1): |
     - 18F uses AWS Multi-Factor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
     - This service has been configured for 18F administrative accounts in AWS IAM.
-  IA-2 (2):
+  IA-2 (2): |
     - 18F uses AWS Multi-Factor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
     - AWS multi-factor authentication (MFA) is implemented for non-privileged users of the AWS console.
