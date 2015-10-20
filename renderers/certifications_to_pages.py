@@ -3,7 +3,9 @@ site based on https://pages.18f.gov/guides-template/ """
 
 
 from yaml import dump, load
+
 import logging
+import sys
 
 # Error message for missing control keys
 MISSING_KEY_ERROR = "`%s` control is missing the `%s` dict."
@@ -167,7 +169,11 @@ def convert_certifications(certification_path, output_path):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
+    if len(sys.argv) < 2 or len(sys.argv) > 2:
+        logging.error("Correct usage `python renders/certifications_to_pages.py <CERTIFICATION NAME>`")
+        sys.exit()
+    _, certification = sys.argv
     convert_certifications(
-        certification_path="exports/certifications/FISMA.yaml",
+        certification_path="exports/certifications/" + certification + ".yaml",
         output_path="exports/Pages"
     )
