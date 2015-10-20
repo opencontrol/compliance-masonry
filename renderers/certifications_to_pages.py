@@ -6,6 +6,7 @@ from yaml import dump, load
 
 import logging
 import sys
+import re
 
 # Error message for missing control keys
 MISSING_KEY_ERROR = "`%s` control is missing the `%s` dict."
@@ -113,12 +114,24 @@ def covert_governors(governors):
     return text
 
 
+def generate_text_narative(narative):
+    """ Checks if the narrative is in dict format or in string format. 
+    If the narrative is in dict format the script converts it to to a string """
+    text = ''
+    if type(narative) == dict:
+        for key in sorted(narative):
+            text += '{0}. {1} \n '.format(key, narative[key])
+    else:
+        text = narative
+    return text
+
+
 def create_content(control):
     """ Generate the markdown text from each `justification` """
     text = ''
     for justification in control.get('justifications', []):
         text += '\n## {0}\n'.format(justification.get('name'))
-        text += justification.get('narative')
+        text += generate_text_narative(justification.get('narative'))
         references = justification.get('references')
         if references:
             text += '\n### References\n'
@@ -147,14 +160,22 @@ def create_standard_markdown(output_path, standard_key):
     write_markdown(output_path, filename, text)
 
 
+def natural_sort(l):
+    """ Natural sorting algorithms for stings with text and numbers reference:
+    stackoverflow.com/questions/4836710/
+    """
+    convert = lambda text: int(text) if text.isdigit() else text.lower() 
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
+    return sorted(l, key = alphanum_key)
+
+
 def convert_certifications(certification_path, output_path):
     """ Convert certification to pages format """
     navigation_config = []
     certification = load_yaml(certification_path)
-    for standard_key in sorted(certification['standards']):
+    for standard_key in natural_sort(certification['standards']):
         standard_navigation = create_standards_nav(standard_key)
-        for control_key in sorted(certification['standards'][standard_key]):
-            print(standard_key, control_key)
+        for control_key in natural_sort(certification['standards'][standard_key]):
             control = certification['standards'][standard_key][control_key]
             standard_navigation['children'].append(
                 create_control_nav(control_key, control)
