@@ -1,4 +1,4 @@
-name: FISMA-low
+name: FedRAMP-low
 standards:
   NIST-800-53:
     AC-1: {}
