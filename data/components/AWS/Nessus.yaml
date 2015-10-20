@@ -3,5 +3,18 @@ references:
 - reference_name: Nessus Website
   reference_url: http://www.tenable.com/products/nessus-vulnerability-scanner
 satisfies:
-  RA-5: Nessus will be used conduct internal scanning of its VPC and private subnets
-    within the 18F Virtual Private Cloud
+  CA-8: For internal penetration testing inside 18 F's Virtual Private Cloud, 18F team members will conduct authenticated vulnerability scans using Nessus, whitebox/greybox testing of the 18F environment using AWS friendly and approved assessment tools. 
+  CM-6:
+    d: Nessus and AlienVault USM Joval scans are performed at least on a quarterly basis in the event that no enhancements or upgrades are performed. Both tools meet NIST’s SCAP 1.2 requirements, satisfying OMB Mandate M-08-22 and associated procurement requirements. SCAP scans are performed weekly and monthly to ensure no unauthorized changes, enhancements or upgrades are performed.
+  RA-5:
+    a: |
+      - Nessus will be used conduct internal scanning of its VPC and private subnets within the 18F Virtual Private Cloud.
+      - 18F runs Nessus (Authenticated) scans of the Cloud Foundry environment weekly based on IP ranges in use. These scans include network discovery and vulnerability checks of operating systems, server software, and any supporting components or applications. Scans are automatically compared to previous scans to identify new vulnerabilities or changes which resolve previously identified vulnerabilities. Nessus reports are reviewed at least weekly and appropriate actions taken on discovery of vulnerabilities.
+      - Nessus is used to run (Authenticated) scans when a new host/AMI/Stemcell is built.  This scan determines baseline posture used to contribute to decision of Production acceptance.  Additionally, this tool is used to execute CIS benchmark compliance scans when actively working to address configuration and hardening requirements.
+    b: |
+      - Nessus, and AlienVault USM for AWS utilize tools and techniques that promote interoperability such as Common Vulnerability Scoring System v2 (CVSS2), Common Platform Enumeration (CPE), and Common Vulnerability Enumeration (CVE). Tenable SecurityCenter is able to output reports in CyberScope format to meet NIST, DHS, and GSA reporting requirements.
+    c: |
+      - AlienVault USM for AWS, OWASP Zap and Tenable Nessus reports are reviewed and analyzed at least weekly and appropriate actions taken on discovery of vulnerabilities within the 18F Cloud Infrastructure and applications and from security control assessments conducted on its information systems.
+  SI-2:
+    a: |
+      - Flaw identification is accomplished via Nessus, AlienVault USM, OWASP Zap, and Code Climate static code analysis.  Nessus is a vulnerability, configuration, and compliance scanner.
