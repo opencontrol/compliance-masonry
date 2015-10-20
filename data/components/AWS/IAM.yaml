@@ -59,3 +59,7 @@ satisfies:
     - Additional temporary permission are delegated with the IAM roles usually for applications that run on EC2 Instanc.es in order to access AWS resources (i.e. Amazon S3 buckets, DynamoDB data)
     - All user accounts for 18F staff are maintained within the 18F AWS Environment.
     - Shared or group authenticators are not utilized; Service accounts are implemented as Managed Services Accounts within AWS.
+  AC-2 (2): All Temporary accounts are handled by associating resources with Roles. There are no guest/anonymous, group, or temporary user accounts in AWS.
+  AC-2 (3): |
+    - User accounts will be monitored monthly and accounts will be disabled after 90 days of inactivity; this will be a manual review process every 30 days. 18F is in the process of automating this account management process through the use of implementing AWS OSQuery with AlienVault USM for AWS to trigger alerts when user accounts are inactive of a 90 day period
+    - A manual review of all user accounts will be conducted on an annual basis.

@@ -10,3 +10,6 @@ satisfies:
         - Sophos UTM 9 Endpoint Protection is deployed and configured on all instances.
         - Host Based Firewall rules are enforced to provide security in depth
         - Each Amazon VPC is a distinct, isolated network within the cloud; network traffic within each Amazon VPC is isolated from all other Amazon VPCs
+  AC-2 (1): |
+    - AWS Infrastructure as a services Account Management Life Cycle is automated to use AWS CLI scripts.
+    - 18F AWS Virtual Private Cloud can use the AWS Command Line Interface (CLI) to automate the account management Life Cycle within its environment
