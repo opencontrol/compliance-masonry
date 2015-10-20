@@ -2,6 +2,12 @@ name: Manifests
 references:
 - reference_name: Deploying with Application Manifests
   reference_url: https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html
+  reference-url: https://github.com/18F/cloud-foundry-manifests
 satisfies:
-  CM-6: Cloud Foundry configuration settings are documented within the deployment
-    manifest on the 18F GitHub and Cloud Foundry sites.
+  CM-6: Cloud Foundry configuration settings are documented within the deployment manifest on the 18F GitHub and Cloud Foundry sites. 
+    DevOps implements manifest templates written in yml to automate 
+    deployment of multiple applications at once and the platform within AWS with consistency and reproducibility.
+  CM-2: Configure UAA clients and users using a standard BOSH manifest for cloud Foundry Deployment,
+    Limit and manage these clients and users as you would any other kind of privileged account. 
+
+
