@@ -1,10 +1,55 @@
 name: Loggregator
 references:
-- reference_name: Logging in the Clouds
+- reference_name: Loggregator code
   reference_url: https://github.com/cloudfoundry/loggregator
 - reference_name: Cloud Foundry Logging
   reference_url: https://docs.cloudfoundry.org/running/managing-cf/logging.html
+
+governors:
+- governor_name: Loggregator Diagram
+  governor_url: https://raw.githubusercontent.com/cloudfoundry/loggregator/develop/docs/loggregator.png
+
 satisfies:
-  AU-2: Loggregator/doppler, the Cloud Foundry component responsible for logging,
-    provides a stream of log output from hosted applications and from Cloud Foundry
-    system components that interact with applications during updates and execution.
+  AC-2:
+    g: |
+      - 18F uses Steno for Cloud Foundry account logging. Steno is a shared logging service between the DEA, Cloud Controller and Cloud Foundry components that share a common interface for configuring logs. 
+      - Loggregator also referred to as Doppler in newer versions of cf, is the Cloud Foundry component responsible for logging, and provides a stream of log output from 18F applications and from Cloud Foundry system components that interact with applications during updates and execution. Loggregator allows users to:
+        - Tail their application logs.
+        - Dump a recent set of application logs (where recent is a configurable number of log packets).
+        - Continually drain their application logs to 3rd party log archive and analysis services (i.e Splunk, Syslog, Alien Vault USM).
+        - (Operators and administrators only) Access the firehose, which includes the combined stream of logs from all apps, plus metrics data from CF components
+      - Syslog and Syslog_aggregator are used for system logging and provide a mechanism to forward system logs via syslog to a syslog server.
+      - /healthz and /varz are HTTP endpoints provided by Cloud Foundry components used for system monitoring. The endpoints can be polled to obtain information on a job’s health and state. 
+        - /healthz is a basic check that returns an ‘ok’ message if the job’s running happily.
+        - /varz provides more detailed information about the running job. For example, polling /varz on the uaa server returns data about java memory usage (amongst other things).
+      - The Collector is used for monitoring and metrics by collecting data from the /health and /var endpoints. It dynamically learns about Cloud Foundry components and polls them for monitoring data and provides options to send monitoring data to AWS CloudWatch, Datadog, graphite and TSDB.
+      - New components have been added to the most recent version of Cloud Foundry 
+        - CF components emit metrics (e.g. the router emits HTTP metrics, such as the time taken to service a request).
+        - These metrics are sent to agents running on the VMs called ‘metron’.
+        - The metron agents forward these metrics, along with application logs, to ‘doppler’ servers.
+        - The doppler servers collect and buffer the data.
+        - The loggregator traffic controllers expose a new websocket endpoint ‘/firehose’.
+        - When you connect to /firehose, a connection is opened up to all doppler servers.
+        - All logs and metrics for all apps and components are then streamed down the connection.
+
+  AU-2:
+    a: |
+      Security Event Logging and Auditing
+        - For operators, Cloud Foundry provides an audit trail through the bosh tasks command. This command shows all actions that and operator has taken with the platform. Additionally, operators can redirect Cloud Foundry component logs to a standard syslog server using the syslog_daemon_config property in the metron_agent job of cf-release.
+        - For users, Cloud Foundry records an audit trail of all relevant API invocations of and app. The CLI command cf events returns this information.
+        - Loggregator/doppler, the Cloud Foundry component responsible for logging, provides a stream of log output from hosted applications and from Cloud Foundry system components that interact with applications during updates and execution. Loggregator allows users to:
+          - Tail their application logs.
+          - Dump a recent set of application logs (where recent is a configurable number of log packets).
+          - Continually drain their application logs to 3rd party log archive and analysis services.
+          - (Operators and administrators only) Access the firehose, which includes the combined stream of logs from all apps, plus metrics data from CF components.
+    d: |
+      - For operators, Cloud Foundry provides an audit trail through the bosh tasks command. This command shows all actions that and operator has taken with the platform. Additionally, operators can redirect Cloud Foundry component logs to a standard syslog server using the syslog_daemon_config property in the metron_agent job of cf-release.
+      - For users, Cloud Foundry records an audit trail of all relevant API invocations of and app. The CLI command cf events returns this information.
+      - Loggregator, the Cloud Foundry component responsible for logging, provides a stream of log output from 18F applications and from Cloud Foundry system components that interact with your app during updates and execution.
+      - By default, Loggregator streams logs to a terminal. 18F will drain logs to a third-party log management service such as AlienVault USM and AWS Cloudtrail.
+      - Cloud Foundry gathers and stores logs in a best-effort manner. If a client is unable to consume log lines quickly enough, the Loggregator buffer may need to overwrite some lines before the client has consumed them. a syslog drain or a CLI tail can usually keep up with the flow of application logs.
+  AU-6:
+    a: |
+      - GSA Order CIO P 2100.1 states audit records must be reviewed frequently for signs of unauthorized activity or other security events.
+      - By default, Loggregator streams logs to a terminal. 18F will drain logs to a third-party log management service such as AlienVault USM and AWS CloudTrail 
+      - Cloud Foundry logs are captured in multiple tables and log files.  These will be reviewed weekly and if discovery of anomalous audit log content which appears to indicate a breach are handled according to the GSA Security Incident Handling Guide: CIO IT Security 01-02 Revision 7 (August 18, 2009) requirements. 
