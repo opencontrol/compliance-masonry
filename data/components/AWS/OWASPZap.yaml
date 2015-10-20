@@ -21,9 +21,4 @@ satisfies:
       control assessments conducted on its information systems.
   SI-2:
     a: |
-    OWASP Zap (Web Application scanner and penetration test tool) for monthly
-    scanning of all web applications that reside within Cloud Foundry. Upon implementation
-    of the application, authenticated (Web Application) scans will be run on Test
-    instances of the code every major release and minor releases when the release
-    contains a change with a potential security impact.  OWASP Zap reports are reviewed
-    after each scan and appropriate actions taken on discovery of vulnerabilities.
+      OWASP Zap (Web Application scanner and penetration test tool) for monthly scanning of all web applications that reside within Cloud Foundry. Upon implementation of the application, authenticated (Web Application) scans will be run on Test instances of the code every major release and minor releases when the release contains a change with a potential security impact.  OWASP Zap reports are reviewed after each scan and appropriate actions taken on discovery of vulnerabilities.
