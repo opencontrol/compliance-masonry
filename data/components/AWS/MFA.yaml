@@ -3,14 +3,9 @@ references:
 - reference_name: AWS Multi-Factor Authentication
   reference_url: https://aws.amazon.com/iam/details/mfa/
 satisfies:
-  IA-2 (1): "AWS Multi-Factor Authentication (AWS MFA) provides an extra level of\
-    \ security that customer agencies apply to their AWS environment. Customer agencies\
-    \ can enable AWS MFA for their account and for individual users they have created\
-    \ under their account. With AWS MFA enabled a user that signs into the FedCloud\
-    \ Console will be prompted for their username and password, as well as for an\
-    \ authentication code from their MFA device. Taken together, these multiple factors\
-    \ provide increased security for customer agencies\u2019 AWS account settings\
-    \ and resources."
-  IA-2 (2): AWS multi-factor authentication (MFA) for non-privileged users of the
-    AWS console is implemented. This service has been configured for 18F administrative
-    accounts in AWS IAM.
+  IA-2 (1): |
+    - 18F uses AWS Multi-Factor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
+    - This service has been configured for 18F administrative accounts in AWS IAM.
+  IA-2 (2): |
+    - 18F uses AWS Multi-Factor Authentication (MFA) to add an extra layer of security for login access to the AWS management console. With MFA enabled, all 18F users are prompted for a username and password, as well as the authentication code from their AWS MFA device.
+    - AWS multi-factor authentication (MFA) is implemented for non-privileged users of the AWS console.
