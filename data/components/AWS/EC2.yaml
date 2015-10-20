@@ -54,3 +54,6 @@ satisfies:
       - All Cloud Foundry EC2 instances will be monitored for attacks and unauthorized connections through Alienvault USM
     b: |
       - All Cloud Foundry EC2 instances will be monitored for attacks and unauthorized connections through Alienvault USM
+  AC-2 (3): |
+    - User accounts will be monitored monthly and accounts will be disabled after 90 days of inactivity.
+    - Linux accounts will be monitored via scripts which query the last logon date/time of each user account and provide 
