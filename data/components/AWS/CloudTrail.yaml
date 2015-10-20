@@ -3,4 +3,31 @@ references:
 - reference_name: AWS Cloud Trail Documentation
   reference_url: https://aws.amazon.com/cloudtrail/
 satisfies:
-  AU-2: 18F has implemented AWS CloudTrail for its account monitoring
+  AU-2: 
+    - 18F has implemented AWS CloudTrail for its account monitoring
+    a: 
+      - AWS (CloudTrail) Auditable Events
+        - 18F has implemented AWS CloudTrail for its account monitoring. It provides visibility into user activity by recording API calls made on an AWS account. CloudTrail records important information about each API call, including the name of the API, the identity of the caller, the time of the API call, the request parameters, and the response elements returned by the AWS service. This information helps 18F track changes made to its AWS resources and to troubleshoot operational issues.
+        - CloudTrail delivers API call information by depositing log files in an Amazon S3 bucket. Each log file can contain multiple events, and each event represents an API call.
+
+    b: 
+      - All Auditable Events
+        - All 18F Event audit logs will be made available as needed to other organizational entities for mutual support and selection of events to be audited. This will make audit log review more effective and ensure that user activities are captured with the data that is available.
+    c:
+      - The 18F Audit Log Management Policy provides guidance on Audit Monitoring and retention for the 18F program and states the Following within section 3
+        -Audit Monitoring, Analysis and Reporting
+          - 18F establishes processes for regularly reviewing audit log information, and reporting security issues if discovered. Reviews will occur at a minimum of weekly. These processes should be integrated with processes for incident response, in order to ensure standardization and cross­functional collaboration
+          - 18F employs atomated mechanisms to integrate audit monitoring, analysis and reporting into an overall process for investigation and response to suspicious activities.
+          - 18F employs automated mechanisms to immediately alert security personnel of inappropriate or unusual activities that have security implications.
+
+        - Audit Retention
+          - 18F retains audit logs according to FedRAMP and FISMA retention policy to provide support for after­the­fact investigations of security incidents and to meet regulatory and organizational information retention requirements.
+          - The log management framework will provide the capability to retain logs for 90 days online and one­year offline, with sufficient capacity as to mitigate the risk of exceeding storage space.
+          - Specific Policies, Procedures, Points of Contact, and Guidance will be established between 18F and GSA to support after­the­fact investigations, by the 18F Project Lead and or the Cloud Foundry System Owner.
+
+    d: 
+      -AWS (CloudTrail) Auditable Events
+        - 18F has implemented AWS CloudTrail for monitoring Amazon EC2, Amazon EBS, and Amazon VPC that captures API calls and delivers the log files to an Amazon S3 bucket. By default, all CloudTrail log files are encrypted by using Amazon S3 server­side encryption (SSE).
+        - When CloudTrail logging is enabled, API calls made to Amazon EC2, Amazon EBS, and Amazon VPC actions are tracked in log files, along with any other AWS service records. CloudTrail determines when to create and write to a new file based on a specified time period and file size.
+        - Every log entry contains information about who generated the request. The user identity information in the log helps determine whether the request was made with root or IAM user credentials, with temporary security credentials for a role or federated user, or by another AWS service.
+        - CloudTrail publish Amazon SNS notifications when new log files are delivered for 18F staff to review upon log file delivery.
