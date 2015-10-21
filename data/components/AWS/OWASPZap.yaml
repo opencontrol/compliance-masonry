@@ -3,11 +3,22 @@ references:
 - reference_name: OWASP Zap Site
   reference_url: https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project
 satisfies:
-  RA-5: OWASP Zap is used to conduct web Application scanning primarily for the OWASP
-    Top 10.
-  SI-2: OWASP Zap (Web Application scanner and penetration test tool) for monthly
-    scanning of all web applications that reside within Cloud Foundry. Upon implementation
-    of the application, authenticated (Web Application) scans will be run on Test
-    instances of the code every major release and minor releases when the release
-    contains a change with a potential security impact.  OWASP Zap reports are reviewed
-    after each scan and appropriate actions taken on discovery of vulnerabilities.
+  RA-5: 
+    a: |
+      OWASP Zap is used to conduct web Application scanning primarily 
+      for the OWASP Top 10. 18F uses it as an integrated security testing tool for finding vulnerabilities in web applications. 18F will provide more automated functionally of security tests using OWASP ZAP and Jenkins for its 
+      software development lifecycle and continuous integration functions.
+    b: |
+      OWASP Zap is used for web application scanning of hosted websites 
+      and web based applications. It scans for the OWASP TOP 10 vulnerabilities 
+      and utilize tools and techniques that promote interoperability such 
+      as Common Vulnerability Scoring System v2 (CVSS2), Common Platform 
+      Enumeration (CPE), and Common Vulnerability Enumeration (CVE). 
+    c: |
+      OWASP Zap reports are reviewed and analyzed at least weekly and 
+      appropriate actions taken on discovery of vulnerabilities within 
+      the 18F Cloud Infrastructure and applications and from security 
+      control assessments conducted on its information systems.
+  SI-2:
+    a: |
+      OWASP Zap (Web Application scanner and penetration test tool) for monthly scanning of all web applications that reside within Cloud Foundry. Upon implementation of the application, authenticated (Web Application) scans will be run on Test instances of the code every major release and minor releases when the release contains a change with a potential security impact.  OWASP Zap reports are reviewed after each scan and appropriate actions taken on discovery of vulnerabilities.

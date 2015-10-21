@@ -1,7 +1,7 @@
 name: AlienVault
 references:
 - reference_name: AlienVault Website
-  reference_url: https://www.alienvault.com
+  reference_url: http://www.alienvault.com
 satisfies:
   CM-2: AlienVault USM for AWS is provided by the vendor as a secure hardened AMI
     image that is deployed using a cloudformation template.
@@ -13,4 +13,4 @@ satisfies:
     and connections.
   SI-4: Alienvault USM for AWS monitors for attacks and indicators of potential attacks,  unauthorized
     local, network, and remote connections using  built-in, essential security controls
-    and threat intelligence.
+    and threat intelligence  

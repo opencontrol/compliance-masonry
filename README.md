@@ -46,7 +46,7 @@ Control Masonry currently only supports one document format: a static site which
 
 To generate a [18F Guides Template](https://github.com/18F/guides-template) in the [export/Pages](https://github.com/18F/control-masonry/tree/master/exports/Pages) folder.
 ```
-python renderers/certifications_to_pages.py
+python renderers/certifications_to_pages.py <<Certification Name>>
 ```
 
 # Documentation Format

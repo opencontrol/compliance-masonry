@@ -1,6 +1,7 @@
 """ This script converts the components and standards yamls into
 certifications """
 
+import copy
 import glob
 import logging
 import os
@@ -32,7 +33,7 @@ def create_standards_dic(standards_path):
 def check_and_add_key(new_dict, old_dict, key):
     """ Check if the dict has a key, otherwise issues a warning """
     if key in old_dict:
-        new_dict[key] = old_dict.get(key)
+        new_dict[key] = copy.deepcopy(old_dict.get(key))
     else:
         logging.warning(
             "Component `%s` is missing `%s` data", old_dict.get('name'), key)
