@@ -25,9 +25,8 @@ def yaml_writer(data, filename):
         yaml_file.write(dump(data, default_flow_style=False))
 
 
-def write_markdown(output_path, filename, text):
+def write_markdown(file_name, text):
     """ Write text to a markdown file """
-    file_name = output_path + '/pages/' + filename + '.md'
     with open(file_name, 'w') as md_file:
         md_file.write(text)
 
@@ -85,6 +84,24 @@ def update_config(config_folder, navigation):
     yaml_writer(data=config_data, filename=config_filename)
 
 
+def build_standard_index(standard):
+    text = ''
+    for control in standard['children']:
+        text += '[{0}](/{1}{2})  \n'.format(
+            control['text'], standard['url'], control['url'])
+    return text
+
+
+def update_index(output_path, navigation, certification_name):
+    text = "---\npermalink: /\ntitle: {0} Documentation\n---\n".format(
+        certification_name)
+    for standard in navigation:
+        text += '\n# [{0}]({1})  \n'.format(standard['text'], standard['url'])
+        text += build_standard_index(standard)
+    file_name = output_path + '/index.md'
+    write_markdown(file_name, text)
+
+
 def create_front_matter(standard_key, control_key, control):
     """ Generate yaml front matter for pages text
     For more info about pages front matter visit -
@@ -115,8 +132,9 @@ def covert_governors(governors):
 
 
 def generate_text_narative(narative):
-    """ Checks if the narrative is in dict format or in string format. 
-    If the narrative is in dict format the script converts it to to a string """
+    """ Checks if the narrative is in dict format or in string format.
+    If the narrative is in dict format the script converts it to to a
+    string """
     text = ''
     if type(narative) == dict:
         for key in sorted(narative):
@@ -148,34 +166,41 @@ def create_control_markdown(output_path, standard_key, control_key, control):
     """ Generate the markdown file for a control """
     text = create_front_matter(standard_key, control_key, control)
     text += create_content(control)
-    filename = control_key
-    write_markdown(output_path, filename, text)
+    file_name = output_path + '/pages/' + control_key + '.md'
+    write_markdown(file_name, text)
 
 
-def create_standard_markdown(output_path, standard_key):
+def create_standard_markdown(output_path, standard_key, navigation_config):
     """ Generate the markdown file for a standard """
     text = '---\npermalink: /{0}/\n'.format(standard_key)
     text += 'title: {0} Documentation\n---\n'.format(standard_key)
-    filename = standard_key
-    write_markdown(output_path, filename, text)
+    standard = [
+        element for element in navigation_config
+        if element['url'] == standard_key + '/'
+    ][0]
+    text += build_standard_index(standard)
+    file_name = output_path + '/pages/' + standard_key + '.md'
+    write_markdown(file_name, text)
 
 
-def natural_sort(l):
+def natural_sort(elements):
     """ Natural sorting algorithms for stings with text and numbers reference:
     stackoverflow.com/questions/4836710/
     """
-    convert = lambda text: int(text) if text.isdigit() else text.lower() 
-    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
-    return sorted(l, key = alphanum_key)
+    convert = lambda text: int(text) if text.isdigit() else text.lower()
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    return sorted(elements, key=alphanum_key)
 
 
 def convert_certifications(certification_path, output_path):
     """ Convert certification to pages format """
     navigation_config = []
     certification = load_yaml(certification_path)
+    certification_name = certification['name']
     for standard_key in natural_sort(certification['standards']):
         standard_navigation = create_standards_nav(standard_key)
-        for control_key in natural_sort(certification['standards'][standard_key]):
+        for control_key in natural_sort(
+                certification['standards'][standard_key]):
             control = certification['standards'][standard_key][control_key]
             standard_navigation['children'].append(
                 create_control_nav(control_key, control)
@@ -184,9 +209,9 @@ def convert_certifications(certification_path, output_path):
                 output_path, standard_key, control_key, control
             )
         navigation_config.append(standard_navigation)
-        create_standard_markdown(output_path, standard_key)
+        create_standard_markdown(output_path, standard_key, navigation_config)
     update_config(output_path, navigation_config)
-
+    update_index(output_path, navigation_config, certification_name)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -196,5 +221,5 @@ if __name__ == "__main__":
     _, certification = sys.argv
     convert_certifications(
         certification_path="exports/certifications/" + certification + ".yaml",
-        output_path="exports/Pages"
+        output_path="exports/Pages",
     )
