@@ -53,8 +53,8 @@ def layer_with_references(components, workbook):
         if not components[component_id].get('references'):
             components[component_id]['references'] = []
         components[component_id]['references'].append({
-            'reference_name': reference_name,
-            'reference_url': reference_url,
+            'name': reference_name,
+            'url': reference_url,
         })
     return components
 
@@ -73,8 +73,8 @@ def layer_with_governors(components, workbook):
         if not components[component_id].get('governors'):
             components[component_id]['governors'] = []
         components[component_id]['governors'].append({
-            'governor_name': governor_name,
-            'governor_url': governor_url,
+            'name': governor_name,
+            'url': governor_url,
         })
     return components
 
@@ -92,8 +92,8 @@ def layer_with_justifications(components, workbook):
             sheet_name='Justifications'
         )
         if not components[component_id].get('satisfies'):
-            components[component_id]['satisfies'] = dict()
-        components[component_id]['satisfies'][control_id] = narrative
+            components[component_id]['satisfies'] = {'NIST-800-53': {}}
+        components[component_id]['satisfies']['NIST-800-53'][control_id] = narrative
     return components
 
 
@@ -128,8 +128,8 @@ def process_certifications(workbook):
     standards dict """
     certifications = {}
     certifications['LATO'] = {'name': 'LATO', 'standards': {}}
-    certifications['FISMA-low'] = {'name': 'FISMA-low', 'standards': {}}
-    certifications['FISMA-med'] = {'name': 'FISMA-med', 'standards': {}}
+    certifications['FedRAMP-low'] = {'name': 'FedRAMP-low', 'standards': {}}
+    certifications['FedRAMP-med'] = {'name': 'FedRAMP-med', 'standards': {}}
 
     def add_control_to_certification(
             certification, standard, control_id, status):
@@ -144,11 +144,11 @@ def process_certifications(workbook):
         standard = row[0].value.strip().upper()
         control_id = row[1].value.strip()
         add_control_to_certification(
-            'LATO', standard, control_id, status=row[3].value)
+            'LATO', standard, control_id, status=row[6].value)
         add_control_to_certification(
-            'FISMA-low', standard, control_id, status=row[4].value)
+            'FedRAMP-low', standard, control_id, status=row[3].value)
         add_control_to_certification(
-            'FISMA-med', standard, control_id, status=row[6].value)
+            'FedRAMP-med', standard, control_id, status=row[4].value)
     return certifications
 
 
