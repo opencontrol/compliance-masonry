@@ -1,15 +1,26 @@
 name: Amazon Virtual Private Cloud
 references:
-- reference_name: Amazon VPC
-  reference_url: https://aws.amazon.com/vpc/
+- name: Amazon VPC
+  url: https://aws.amazon.com/vpc/
 satisfies:
-  SC-7:
-    b: |
-      - 18F utilizes the AWS Virtual Private Cloud (VPC), which provides a private subnet within the AWS cloud. Each VPC is configured to utilize Routing Rules, Subnet Rules, and Security Group Rules. Each of these controls must have appropriate rules and routes in-place before any external service is able to reach a host within AWS.
-        - Each VPC is configured to utilize Routing Tables, and Security Groups.  Each of these controls must have appropriate rules and routes in-place before any external service is able to reach a host within Cloud Foundry.
-        - Sophos UTM 9 Endpoint Protection is deployed and configured on all instances.
-        - Host Based Firewall rules are enforced to provide security in depth
-        - Each Amazon VPC is a distinct, isolated network within the cloud; network traffic within each Amazon VPC is isolated from all other Amazon VPCs
-  AC-2 (1): |
-    - AWS Infrastructure as a services Account Management Life Cycle is automated to use AWS CLI scripts.
-    - 18F AWS Virtual Private Cloud can use the AWS Command Line Interface (CLI) to automate the account management Life Cycle within its environment
+  NIST-800-53:
+    AC-2 (1): '- AWS Infrastructure as a services Account Management Life Cycle is
+      automated to use AWS CLI scripts.
+
+      - 18F AWS Virtual Private Cloud can use the AWS Command Line Interface (CLI)
+      to automate the account management Life Cycle within its environment
+
+      '
+    SC-7:
+      b: "- 18F utilizes the AWS Virtual Private Cloud (VPC), which provides a private\
+        \ subnet within the AWS cloud. Each VPC is configured to utilize Routing Rules,\
+        \ Subnet Rules, and Security Group Rules. Each of these controls must have\
+        \ appropriate rules and routes in-place before any external service is able\
+        \ to reach a host within AWS.\n  - Each VPC is configured to utilize Routing\
+        \ Tables, and Security Groups.  Each of these controls must have appropriate\
+        \ rules and routes in-place before any external service is able to reach a\
+        \ host within Cloud Foundry.\n  - Sophos UTM 9 Endpoint Protection is deployed\
+        \ and configured on all instances.\n  - Host Based Firewall rules are enforced\
+        \ to provide security in depth\n  - Each Amazon VPC is a distinct, isolated\
+        \ network within the cloud; network traffic within each Amazon VPC is isolated\
+        \ from all other Amazon VPCs\n"

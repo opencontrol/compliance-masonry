@@ -1,10 +1,13 @@
 name: Sophos UTM
 references:
-- reference_name: Sophos UTM
-  reference_url: https://www.sophos.com/en-us/support/documentation/sophos-utm.aspx
+- name: Sophos UTM
+  url: https://www.sophos.com/en-us/support/documentation/sophos-utm.aspx
 satisfies:
-  SC-7:
-    a: |
-      - Sophos UTM 9 for AWS is deployed and configured on all instances
-    b: |
-      - Sophos UTM 9 Endpoint Protection is deployed and configured on all instances.
+  NIST-800-53:
+    SC-7:
+      a: '- Sophos UTM 9 for AWS is deployed and configured on all instances
+
+        '
+      b: '- Sophos UTM 9 Endpoint Protection is deployed and configured on all instances.
+
+  '
