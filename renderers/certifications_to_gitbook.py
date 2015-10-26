@@ -20,21 +20,12 @@ def write_markdown(output_path, filename, text):
         md_file.write(text)
 
 
-def convert_references(references):
+def convert_name_url(references):
     """ Converts references data to markdown url bullet point. """
     text = ''
     for reference in references:
         text += '\n* [{0}]({1})\n'.format(
-            reference['reference_name'], reference['reference_url'])
-    return text
-
-
-def covert_governors(governors):
-    """ Converts governors data to markdown url bullet point. """
-    text = ''
-    for reference in governors:
-        text += '\n* [{0}]({1})\n'.format(
-            reference['governor_name'], reference['governor_url'])
+            reference['name'], reference['url'])
     return text
 
 
@@ -88,11 +79,11 @@ def create_content(control):
         references = justification.get('references')
         if references:
             text += '\n### References\n'
-            text += convert_references(references)
+            text += convert_name_url(references)
         governors = justification.get('governors')
         if governors:
             text += '\n### Governors\n'
-            text += covert_governors(governors)
+            text += convert_name_url(governors)
         text += "\n--------\n"
     return text
 
