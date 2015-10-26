@@ -25,386 +25,217 @@ navigation:
   url: index.html
 - children:
   - internal: true
-    text: AC-1 Access Control Policy and Procedures
-    url: AC-1/
-  - internal: true
     text: AC-2 Account Management
     url: AC-2/
+  - internal: true
+    text: AC-2 (1) Account Management | Automated System Account Management
+    url: AC-2 (1)/
+  - internal: true
+    text: AC-2 (2) Account Management | Removal of Temporary / Emergency Accounts
+    url: AC-2 (2)/
+  - internal: true
+    text: AC-2 (3) Account Management | Disable Inactive Accounts
+    url: AC-2 (3)/
+  - internal: true
+    text: AC-2 (4) Account Management | Automated Audit Actions
+    url: AC-2 (4)/
+  - internal: true
+    text: AC-2 (5) Account Management | Inactivity Logout
+    url: AC-2 (5)/
+  - internal: true
+    text: AC-2 (7) Account Management | Role-Based Schemes
+    url: AC-2 (7)/
+  - internal: true
+    text: AC-2 (9) Account Management | Restrictions on Use of Shared Groups / Accounts
+    url: AC-2 (9)/
+  - internal: true
+    text: AC-2 (10) Account Management | Shared / Group Account Credential Termination
+    url: AC-2 (10)/
+  - internal: true
+    text: AC-2 (12) Account Management | Account Monitoring / Atypical Usage
+    url: AC-2 (12)/
   - internal: true
     text: AC-3 Access Enforcement
     url: AC-3/
   - internal: true
-    text: AC-7 Unsuccessful Logon Attempts
-    url: AC-7/
+    text: AC-6 Least Privilege
+    url: AC-6/
   - internal: true
-    text: AC-8 System Use Notification
-    url: AC-8/
+    text: AC-6 (1) Least Privilege | Authorize Access to Security Functions
+    url: AC-6 (1)/
   - internal: true
-    text: AC-14 Permitted Actions Without Identification or Authentication
-    url: AC-14/
+    text: AC-6 (2) Least Privilege | Non-Privileged Access For No security Functions
+    url: AC-6 (2)/
   - internal: true
-    text: AC-17 Remote Access
-    url: AC-17/
+    text: AC-6 (5) Least Privilege | Privileged Accounts
+    url: AC-6 (5)/
   - internal: true
-    text: AC-18 Wireless Access
-    url: AC-18/
+    text: AC-6 (9) Least Privilege | Auditing Use of Privileged Functions
+    url: AC-6 (9)/
   - internal: true
-    text: AC-19 Access Control For Mobile Devices
-    url: AC-19/
-  - internal: true
-    text: AC-20 Use of External Information Systems
-    url: AC-20/
-  - internal: true
-    text: AC-22 Publicly Accessible Content
-    url: AC-22/
-  - internal: true
-    text: AT-1 Security Awareness and Training Policy and Procedures
-    url: AT-1/
-  - internal: true
-    text: AT-2 Security Awareness Training
-    url: AT-2/
-  - internal: true
-    text: AT-3 Role-Based Security Training
-    url: AT-3/
-  - internal: true
-    text: AT-4 Security Training Records
-    url: AT-4/
-  - internal: true
-    text: AU-1 Audit and Accountability Policy and Procedures
-    url: AU-1/
+    text: AC-6 (10) Least Privilege | Prohibit Non-privileged Users from Executing
+      Privileged Functions
+    url: AC-6 (10)/
   - internal: true
     text: AU-2 Audit Events
     url: AU-2/
   - internal: true
-    text: AU-3 Content of Audit Records
-    url: AU-3/
-  - internal: true
-    text: AU-4 Audit Storage Capacity
-    url: AU-4/
-  - internal: true
-    text: AU-5 Response to Audit Processing Failures
-    url: AU-5/
+    text: AU-2 (3) Audit Events | Reviews and Updates
+    url: AU-2 (3)/
   - internal: true
     text: AU-6 Audit Review, Analysis, and Reporting
     url: AU-6/
   - internal: true
-    text: AU-8 Time Stamps
-    url: AU-8/
+    text: AU-6 (1) Audit Review, Analysis, and Reporting | Process Integration
+    url: AU-6 (1)/
   - internal: true
-    text: AU-9 Protection of Audit Information
-    url: AU-9/
+    text: AU-6 (3) Audit Review, Analysis, and Reporting | Correlate Audit Repositories
+    url: AU-6 (3)/
   - internal: true
-    text: AU-11 Audit Record Retention
-    url: AU-11/
+    text: CA-8 Penetration Testing
+    url: CA-8/
   - internal: true
-    text: AU-12 Audit Generation
-    url: AU-12/
+    text: CA-8 (1) Penetration Testing | Independent Penetration Agent or Team
+    url: CA-8 (1)/
   - internal: true
-    text: CA-1 Security Assessment and Authorization Policies and Procedures
-    url: CA-1/
+    text: CM-2 (1) Baseline Configuration | Reviews and Updates
+    url: CM-2 (1)/
   - internal: true
-    text: CA-2 Security Assessments
-    url: CA-2/
+    text: CM-2 (3) Baseline Configuration | Retention of Previous Configurations
+    url: CM-2 (3)/
   - internal: true
-    text: CA-2 (1) Security Assessments | Independent Assessors
-    url: CA-2 (1)/
+    text: CM-2 (7) Baseline Configuration | Configure Systems, Components, or Devices
+      for High-Risk Areas
+    url: CM-2 (7)/
   - internal: true
-    text: CA-3 System Interconnections
-    url: CA-3/
+    text: CM-2(2) Baseline Configuration | Automation Support For Accuracy / Currency
+    url: CM-2(2)/
   - internal: true
-    text: CA-5 Plan of Action and Milestones
-    url: CA-5/
-  - internal: true
-    text: CA-6 Security Authorization
-    url: CA-6/
-  - internal: true
-    text: CA-7 Continuous Monitoring
-    url: CA-7/
-  - internal: true
-    text: CA-9 Internal System Connections
-    url: CA-9/
-  - internal: true
-    text: CM-1 Configuration Management Policy and Procedures
-    url: CM-1/
-  - internal: true
-    text: CM-2 Baseline Configuration
-    url: CM-2/
-  - internal: true
-    text: CM-4 Security Impact Analysis
-    url: CM-4/
+    text: CM-3 Configuration Change Control
+    url: CM-3/
   - internal: true
     text: CM-6 Configuration Settings
     url: CM-6/
   - internal: true
-    text: CM-7 Least Functionality
-    url: CM-7/
+    text: CM-6 (1) Configuration Settings | Automated essential Management / Application
+      / Verification
+    url: CM-6 (1)/
   - internal: true
     text: CM-8 Information System Component Inventory
     url: CM-8/
   - internal: true
-    text: CM-10 Software Usage Restrictions
-    url: CM-10/
+    text: CM-8 (1) Information System Component Inventory | Updates During Installations
+      / Removals
+    url: CM-8 (1)/
   - internal: true
-    text: CM-11 User-Installed Software
-    url: CM-11/
+    text: CM-8 (3) Information System Component Inventory | Automated Unauthorized
+      Component Detection
+    url: CM-8 (3)/
   - internal: true
-    text: CP-1 Contingency Planning Policy and Procedures
-    url: CP-1/
-  - internal: true
-    text: CP-2 Contingency Plan
-    url: CP-2/
-  - internal: true
-    text: CP-3 Contingency Training
-    url: CP-3/
-  - internal: true
-    text: CP-4 Contingency Plan Testing
-    url: CP-4/
-  - internal: true
-    text: CP-9 Information System Backup
-    url: CP-9/
-  - internal: true
-    text: CP-10 Information System Recovery and Reconstitution
-    url: CP-10/
-  - internal: true
-    text: IA-1 Identification and Authentication Policy and Procedures
-    url: IA-1/
-  - internal: true
-    text: IA-2 Identification and Authentication (Organizational Users)
-    url: IA-2/
+    text: CM-8 (5) Information System Component Inventory | No Duplicate Accounting
+      of Components
+    url: CM-8 (5)/
   - internal: true
     text: IA-2 (1) Identification and Authentication (Organizational Users) | Network
       Access to Privileged Accounts
     url: IA-2 (1)/
   - internal: true
+    text: IA-2 (2) Identification and Authentication (Organizational Users) | Network
+      Access to Non-Privileged Accounts
+    url: IA-2 (2)/
+  - internal: true
     text: IA-2 (12) Identification and Authentication (Organizational Users) | Acceptance
       of PIV Credentials
     url: IA-2 (12)/
   - internal: true
-    text: IA-4 Identifier Management
-    url: IA-4/
-  - internal: true
-    text: IA-5 Authenticator Management
-    url: IA-5/
-  - internal: true
-    text: IA-5 (1) Authenticator Management | Password-Based Authentication
-    url: IA-5 (1)/
-  - internal: true
-    text: IA-5 (11) Authenticator Management | Hardware Token-Based Authentication
-    url: IA-5 (11)/
-  - internal: true
-    text: IA-6 Authenticator Feedback
-    url: IA-6/
-  - internal: true
-    text: IA-7 Cryptographic Module Authentication
-    url: IA-7/
-  - internal: true
-    text: IA-8 Identification and Authentication (Non-Organizational Users)
-    url: IA-8/
-  - internal: true
-    text: IA-8 (1) Identification and Authentication (Non-Organizational Users) |
-      Acceptance of PIV Credentials from Other Agencies
-    url: IA-8 (1)/
-  - internal: true
-    text: IA-8 (2) Identification and Authentication (Non-Organizational Users) |
-      Acceptance of Third-Party Credentials
-    url: IA-8 (2)/
-  - internal: true
-    text: IA-8 (3) Identification and Authentication (Non-Organizational Users) |
-      Use of FICAM-Approved Products
-    url: IA-8 (3)/
-  - internal: true
-    text: IA-8 (4) Identification and Authentication (Non-Organizational Users) |
-      Use of FICAM-Issued Profiles
-    url: IA-8 (4)/
-  - internal: true
-    text: IR-1 Incident Response Policy and Procedures
-    url: IR-1/
-  - internal: true
-    text: IR-2 Incident Response Training
-    url: IR-2/
-  - internal: true
-    text: IR-4 Incident Handling
-    url: IR-4/
-  - internal: true
-    text: IR-5 Incident Monitoring
-    url: IR-5/
-  - internal: true
-    text: IR-6 Incident Reporting
-    url: IR-6/
-  - internal: true
-    text: IR-7 Incident Response Assistance
-    url: IR-7/
-  - internal: true
-    text: IR-8 Incident Response Plan
-    url: IR-8/
-  - internal: true
-    text: MA-1 System Maintenance Policy and Procedures
-    url: MA-1/
-  - internal: true
-    text: MA-2 Controlled Maintenance
-    url: MA-2/
-  - internal: true
-    text: MA-4 Nonlocal Maintenance
-    url: MA-4/
-  - internal: true
-    text: MA-5 Maintenance Personnel
-    url: MA-5/
-  - internal: true
-    text: MP-1 Media Protection Policy and Procedures
-    url: MP-1/
-  - internal: true
-    text: MP-2 Media Access
-    url: MP-2/
-  - internal: true
-    text: MP-6 Media Sanitization
-    url: MP-6/
-  - internal: true
-    text: MP-7 Media Use
-    url: MP-7/
-  - internal: true
-    text: PE-1 Physical and Environmental Protection Policy and Procedures
-    url: PE-1/
-  - internal: true
-    text: PE-2 Physical Access Authorizations
-    url: PE-2/
-  - internal: true
-    text: PE-3 Physical Access Control
-    url: PE-3/
-  - internal: true
-    text: PE-6 Monitoring Physical Access
-    url: PE-6/
-  - internal: true
-    text: PE-8 Visitor Access Records
-    url: PE-8/
-  - internal: true
-    text: PE-12 Emergency Lighting
-    url: PE-12/
-  - internal: true
-    text: PE-13 Fire Protection
-    url: PE-13/
-  - internal: true
-    text: PE-14 Temperature and Humidity Controls
-    url: PE-14/
-  - internal: true
-    text: PE-15 Water Damage Protection
-    url: PE-15/
-  - internal: true
-    text: PE-16 Delivery and Removal
-    url: PE-16/
-  - internal: true
-    text: PL-1 Security Planning Policy and Procedures
-    url: PL-1/
-  - internal: true
-    text: PL-2 System Security Plan
-    url: PL-2/
-  - internal: true
-    text: PL-4 Rules of Behavior
-    url: PL-4/
-  - internal: true
-    text: PS-1 Personnel Security Policy and Procedures
-    url: PS-1/
-  - internal: true
-    text: PS-2 Position Risk Designation
-    url: PS-2/
-  - internal: true
-    text: PS-3 Personnel Screening
-    url: PS-3/
-  - internal: true
-    text: PS-4 Personnel Termination
-    url: PS-4/
-  - internal: true
-    text: PS-5 Personnel Transfer
-    url: PS-5/
-  - internal: true
-    text: PS-6 Access Agreements
-    url: PS-6/
-  - internal: true
-    text: PS-7 Third-Party Personnel Security
-    url: PS-7/
-  - internal: true
-    text: PS-8 Personnel Sanctions
-    url: PS-8/
-  - internal: true
-    text: RA-1 Risk Assessment Policy and Procedures
-    url: RA-1/
-  - internal: true
-    text: RA-2 Security Categorization
-    url: RA-2/
-  - internal: true
-    text: RA-3 Risk Assessment
-    url: RA-3/
+    text: PL-8 Information Security Architecture
+    url: PL-8/
   - internal: true
     text: RA-5 Vulnerability Scanning
     url: RA-5/
   - internal: true
-    text: SA-1 System and Services Acquisition Policy and Procedures
-    url: SA-1/
+    text: RA-5 (1) Vulnerability Scanning | Update Tool Capability
+    url: RA-5 (1)/
   - internal: true
-    text: SA-2 Allocation of Resources
-    url: SA-2/
+    text: RA-5 (2) Vulnerability Scanning | Update by Frequency / Prior to New Scan
+      / When Identified
+    url: RA-5 (2)/
   - internal: true
-    text: SA-3 System Development Life Cycle
-    url: SA-3/
+    text: RA-5 (3) Vulnerability Scanning | Breadth / Depth of Coverage
+    url: RA-5 (3)/
   - internal: true
-    text: SA-4 Acquisition Process
-    url: SA-4/
+    text: RA-5 (5) Vulnerability Scanning | Privileged Access
+    url: RA-5 (5)/
   - internal: true
-    text: SA-4 (10) Acquisition Process | Use of Approved PIV Products
-    url: SA-4 (10)/
+    text: RA-5 (6) Vulnerability Scanning | Automated Trend Analyses
+    url: RA-5 (6)/
   - internal: true
-    text: SA-5 Information System Documentation
-    url: SA-5/
+    text: RA-5 (8) Vulnerability Scanning | Review Historic Audit Logs
+    url: RA-5 (8)/
   - internal: true
-    text: SA-9 External Information System Services
-    url: SA-9/
-  - internal: true
-    text: SC-1 System and Communications Protection Policy and Procedures
-    url: SC-1/
-  - internal: true
-    text: SC-5 Denial of Service Protection
-    url: SC-5/
+    text: SA-11 (1) Developer Security Testing and Evaluation | Static Code Analysis
+    url: SA-11 (1)/
   - internal: true
     text: SC-7 Boundary Protection
     url: SC-7/
   - internal: true
-    text: SC-12 Cryptographic Key Establishment and Management
-    url: SC-12/
+    text: SC-7 (3) Boundary Protection | Access Points
+    url: SC-7 (3)/
+  - internal: true
+    text: SC-7 (5) Boundary Protection | Deny by Default / Allow by Exception
+    url: SC-7 (5)/
+  - internal: true
+    text: SC-7 (12) Boundary Protection | Host-Based Protection
+    url: SC-7 (12)/
+  - internal: true
+    text: SC-7 (13) Boundary Protection | Isolation of Security Tools / Mechanisms
+      / Support Components
+    url: SC-7 (13)/
   - internal: true
     text: SC-13 Cryptographic Protection
     url: SC-13/
   - internal: true
-    text: SC-15 Collaborative Computing Devices
-    url: SC-15/
-  - internal: true
-    text: SC-20 Secure Name / Address Resolution Service (Authoritative Source)
-    url: SC-20/
-  - internal: true
-    text: SC-21 Secure Name / Address Resolution Service (Recursive or Caching Resolver)
-    url: SC-21/
-  - internal: true
-    text: SC-22 Architecture and Provisioning for Name / Address Resolution Service
-    url: SC-22/
-  - internal: true
-    text: SC-39 Process Isolation
-    url: SC-39/
-  - internal: true
-    text: SI-1 System and Information Integrity Policy and Procedures
-    url: SI-1/
+    text: SC-28 (1) Protection Of Information At Rest | Cryptographic Protection
+    url: SC-28 (1)/
   - internal: true
     text: SI-2 Flaw Remediation
     url: SI-2/
   - internal: true
-    text: SI-3 Malicious Code Protection
-    url: SI-3/
+    text: SI-2 (2) Flaw Remediation | Automated Flaw Remediation Status
+    url: SI-2 (2)/
+  - internal: true
+    text: SI-2 (3) Flaw Remediation | Time to Remediate Flaws / Benchmarks for Corrective
+      Actions
+    url: SI-2 (3)/
   - internal: true
     text: SI-4 Information System Monitoring
     url: SI-4/
   - internal: true
-    text: SI-5 Security Alerts, Advisories, and Directives
-    url: SI-5/
+    text: SI-4 (1) Information System Monitoring | System-Wide Intrusion Detection
+      System
+    url: SI-4 (1)/
   - internal: true
-    text: SI-12 Information Handling and Retention
-    url: SI-12/
+    text: SI-4 (2) Information System Monitoring | Automated Tools For Real-Time Analysis
+    url: SI-4 (2)/
+  - internal: true
+    text: SI-4 (4) Information System Monitoring | Inbound and Outbound Communications
+      Traffic
+    url: SI-4 (4)/
+  - internal: true
+    text: SI-4 (5) Information System Monitoring | System-Generated Alerts
+    url: SI-4 (5)/
+  - internal: true
+    text: SI-4 (16) Information System Monitoring | Correlate Monitoring Information
+    url: SI-4 (16)/
+  - internal: true
+    text: SI-4 (23) Information System Monitoring | Host-Based Devices
+    url: SI-4 (23)/
+  - internal: true
+    text: SI-4(14) Information System Monitoring | Wireless Intrusion Detection
+    url: SI-4(14)/
+  - internal: true
+    text: SI-10 Information Input Validation
+    url: SI-10/
   internal: true
   text: NIST-800-53 Documentation
   url: NIST-800-53/
