@@ -117,6 +117,8 @@ def build_certifications(certifications_path, components, standards):
 def create_certifications(
         certifications_path, components_path, output_path, standards_path):
     """ Generate certification yamls from data """
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
     standards = create_standards_dic(standards_path)
     components = create_bystandards_dict(components_path)
     certifications = build_certifications(
