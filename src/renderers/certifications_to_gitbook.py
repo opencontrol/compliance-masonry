@@ -2,8 +2,6 @@ from slugify import slugify
 from yaml import load
 
 import os
-import logging
-import sys
 import re
 
 
@@ -18,6 +16,13 @@ def write_markdown(output_path, filename, text):
     filename = os.path.join(output_path, filename)
     with open(filename, 'w') as md_file:
         md_file.write(text)
+
+
+def prepare_cert_path(certification, certification_dir):
+    """ Prepare the path for a specific certification """
+    if not certification_dir:
+        certification_dir = 'exports/certifications/'
+    return os.path.join(certification_dir, '{0}.yaml'.format(certification))
 
 
 def convert_name_url(references):
@@ -106,8 +111,9 @@ def natural_sort(elements):
     return sorted(elements, key=alphanum_key)
 
 
-def convert_certifications(certification_path, output_path):
+def create_gitbook_documentation(certification, certification_dir, output_path):
     """ Convert certification to pages format """
+    certification_path = prepare_cert_path(certification, certification_dir)
     summary = []
     certification = load_yaml(certification_path)
     for standard_key in natural_sort(certification['standards']):
@@ -116,15 +122,4 @@ def convert_certifications(certification_path, output_path):
             summary.append(page_dict)
             build_page(page_dict, certification, output_path)
     build_summary(summary, output_path)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    if len(sys.argv) < 2 or len(sys.argv) > 2:
-        logging.error("Correct usage `python renders/certifications_to_pages.py <CERTIFICATION NAME>`")
-        sys.exit()
-    _, certification = sys.argv
-    convert_certifications(
-        certification_path="exports/certifications/" + certification + ".yaml",
-        output_path="exports/Gitbook"
-    )
+    return output_path

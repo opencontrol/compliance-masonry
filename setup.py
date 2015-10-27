@@ -3,16 +3,16 @@ Create SSP Documentation
 """
 from setuptools import find_packages, setup
 
-dependencies = ['click', 'pyyaml', 'slugify']
+dependencies = ['click', 'pyyaml', 'python-slugify']
 
 setup(
     name='control-masonry',
     version='0.1.0',
-    url='https://github.com/ramirezg/control-masonry',
+    url='https://github.com/18F/control-masonry',
     license='BSD',
     author='Gabriel Ramirez',
     author_email='gabriel.e.ramirez@gmail.com',
-    description='Create SSP Documentation',
+    description='Build SSP Documentation',
     long_description=__doc__,
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
@@ -21,7 +21,7 @@ setup(
     install_requires=dependencies,
     entry_points={
         'console_scripts': [
-            'masonry = control_masonry.cli:main',
+            'masonry = src.cli:main',
         ],
     },
     classifiers=[

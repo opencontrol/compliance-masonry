@@ -22,6 +22,27 @@ def yaml_loader(glob_path):
             yield load(yaml_file)
 
 
+def prepare_data_paths(data_dir):
+    """ Create glob paths for data directory includes glob path for
+    certifications, components, and standards """
+    if not data_dir:
+        data_dir = 'data'
+    certifications_path = os.path.join(data_dir, 'certifications/*.yaml')
+    components_path = os.path.join(data_dir, 'components/*/*.yaml')
+    standards_path = os.path.join(data_dir, 'standards/*.yaml')
+    return certifications_path, components_path, standards_path
+
+
+def prepare_cert_output_path(output_dir):
+    """ Creates a path for the certifications exports directory """
+    if not output_dir:
+        output_dir = 'exports'
+    output_path = os.path.join(output_dir, 'certifications')
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    return output_path
+
+
 def create_standards_dic(standards_path):
     """ Create a standards dictionary for later merging with the
     certifications documentation """
@@ -114,11 +135,10 @@ def build_certifications(certifications_path, components, standards):
         yield certification['name'], certification
 
 
-def create_certifications(
-        certifications_path, components_path, output_path, standards_path):
+def create_certifications(data_dir, output_dir):
     """ Generate certification yamls from data """
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    certifications_path, components_path, standards_path = prepare_data_paths(data_dir)
+    output_path = prepare_cert_output_path(output_dir)
     standards = create_standards_dic(standards_path)
     components = create_bystandards_dict(components_path)
     certifications = build_certifications(
@@ -126,13 +146,4 @@ def create_certifications(
     for name, certification in certifications:
         filename = os.path.join(output_path, name + '.yaml')
         yaml_writer(component_data=certification, filename=filename)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    create_certifications(
-        certifications_path='data/certifications/*.yaml',
-        components_path='data/components/*/*.yaml',
-        standards_path='data/standards/*.yaml',
-        output_path='exports/certifications'
-    )
+    return output_path
