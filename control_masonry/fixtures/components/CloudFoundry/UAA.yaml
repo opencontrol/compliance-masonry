@@ -1,0 +1,17 @@
+name: User Account and Authentication (UAA) Server
+governors:
+- name: Governor Name
+  url: https://github.com/18F/control-masonry
+- name: Governor Name 2
+  url: https://github.com/18F/control-masonry
+references:
+- name: Reference Name
+  url: https://github.com/18F/control-masonry
+- name: Reference Name 2
+  url: https://github.com/18F/control-masonry
+satisfies:
+  NIST-800-53:
+    AC-2:
+      a: "Justifications narrative AC-2 a"
+      b: "Justifications narrative AC-2 b"
+    AC-6: "Justification AC-6"
