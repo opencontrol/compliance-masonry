@@ -1,7 +1,7 @@
 import click
 import logging
 
-from src.masonry import build_certifications, build_gitbook
+from src.renderers import yamls_to_certification, certifications_to_gitbook
 
 
 @click.group()
@@ -18,7 +18,7 @@ def main(verbose):
 @click.option(
     '--data-dir', '-d',
     type=click.Path(exists=True),
-    help='Directory where components, standards, and certifications are located.'
+    help='Directory containing components, standards, and certifications data.'
 )
 @click.option(
     '--output-dir', '-o',
@@ -27,7 +27,9 @@ def main(verbose):
 )
 def certs(data_dir, output_dir):
     """ Create certification yamls """
-    output_path = build_certifications(data_dir, output_dir)
+    output_path = yamls_to_certification.create_yaml_certifications(
+        data_dir, output_dir
+    )
     click.echo('Certifications Created in: `{0}`'.format(output_path))
 
 
@@ -47,11 +49,9 @@ def certs(data_dir, output_dir):
 def docs(export_format, certification, certs_dir, output_dir):
     """ Create certification documentation """
     if export_format == 'gitbook':
-        build_gitbook(
-            certification=certification,
-            certification_dir=certs_dir,
-            output_dir=output_dir
+        output_path = certifications_to_gitbook.create_gitbook_documentation(
+            certification, certs_dir, output_dir
         )
-        click.echo('{0} created'.format(export_format))
+        click.echo('Gitbook Files Created in `{0}`'.format(output_path))
     else:
         click.echo('{0} format is not supported yet...'.format(export_format))
