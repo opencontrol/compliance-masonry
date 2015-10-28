@@ -1,4 +1,4 @@
-""" An interface for the renderers """
+""" An interface for the renderers to be used when importing """
 
 from src.renderers import (
     yamls_to_certification, certifications_to_gitbook
@@ -8,7 +8,7 @@ from src.renderers import (
 def build_certifications(data_dir, output_dir):
     """ Interface for the yamls_to_certification renderer, which creates yaml
     certifications """
-    return yamls_to_certification.create_certifications(
+    return yamls_to_certification.create_yaml_certifications(
         data_dir=data_dir, output_dir=output_dir
     )
 
