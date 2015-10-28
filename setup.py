@@ -3,7 +3,7 @@ Create SSP Documentation
 """
 from setuptools import find_packages, setup
 
-dependencies = ['click', 'pyyaml', 'python-slugify']
+dependencies = ['click', 'pyyaml', 'awesome-slugify']
 
 setup(
     name='control-masonry',
