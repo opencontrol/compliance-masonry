@@ -135,7 +135,7 @@ def build_certifications(certifications_path, components, standards):
         yield certification['name'], certification
 
 
-def create_certifications(data_dir, output_dir):
+def create_yaml_certifications(data_dir, output_dir):
     """ Generate certification yamls from data """
     certifications_path, components_path, standards_path = prepare_data_paths(data_dir)
     output_path = prepare_cert_output_path(output_dir)
