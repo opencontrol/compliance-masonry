@@ -18,6 +18,7 @@ DATA_DIR = 'fixtures/'
 CERTS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'exports/')
 CERTS_DATA_DIR = 'fixtures/exports/certifications/'
 DOCS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'docs/')
+COMPS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'components/')
 
 
 def load_file(file_path):
@@ -83,5 +84,45 @@ def test_gitbook_files(runner):
         expected_file_path = os.path.join('fixtures/docs', generated_file)
         assert os.path.exists(generated_file_path)
         assert load_file(generated_file_path) == load_file(expected_file_path)
+
+
+def test_gitbook_catches_unsupported_type_error(runner):
+    """ Check that the gitbook command is runs properly """
+    result = runner.invoke(
+        cli.main,
+        [
+            'docs', 'gitbooc', 'LATO',
+            '-c{0}'.format(CERTS_DATA_DIR),
+            '-o{0}'.format(DOCS_OUTPUT_DIR)
+        ]
+    )
+    assert result.output.strip() == "gitbooc format is not supported yet..."
+
+
+def test_new_component_runs(runner):
+    """ Check that the new component command is runs properly """
+    result = runner.invoke(
+        cli.main,
+        [
+            'new', 'component', 'AWS', 'EC2',
+            '-o{0}'.format(COMPS_OUTPUT_DIR)
+        ]
+    )
+    assert result.exit_code == 0
+    assert not result.exception
+    output = 'New Component: `{0}`'.format(
+        os.path.join(COMPS_OUTPUT_DIR, 'AWS', 'EC2.yaml')
+    )
+    assert result.output.strip() == output
+
+
+def test_new_component_yaml(runner):
+    """ Check that the certification that was created has the correct
+    attributes """
+    comp_yaml_file = os.path.join(COMPS_OUTPUT_DIR, 'AWS/ec2.yaml')
+    generated_yaml = load_yaml_file(comp_yaml_file)
+    expected_yaml = load_yaml_file('fixtures/components/AWS/ec2.yaml')
+    assert generated_yaml == expected_yaml
+
 
 TEMP_OUTPUT_DIR.cleanup()
