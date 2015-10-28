@@ -2,6 +2,7 @@ import click
 import logging
 
 from src.renderers import yamls_to_certification, certifications_to_gitbook
+from src import template_generator
 
 
 @click.group()
@@ -55,3 +56,23 @@ def docs(export_format, certification, certs_dir, output_dir):
         click.echo('Gitbook Files Created in `{0}`'.format(output_path))
     else:
         click.echo('{0} format is not supported yet...'.format(export_format))
+
+
+@main.command()
+@click.argument('file-type')
+@click.argument('system-name')
+@click.argument('component-name')
+@click.option(
+    '--output-dir', '-o',
+    type=click.Path(exists=False),
+    help='Directory where documentation is exported'
+)
+def new(file_type, system_name, component_name, output_dir):
+    """ Command for generating new yaml files """
+    if file_type == "component":
+        component_path = template_generator.create_new_component_yaml(
+            system_name, component_name, output_dir
+        )
+        click.echo('New Component: `{0}`'.format(component_path))
+    else:
+        click.echo('Avaiable file-types: `component`')
