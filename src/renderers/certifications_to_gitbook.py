@@ -25,6 +25,16 @@ def prepare_cert_path(certification, certification_dir):
     return os.path.join(certification_dir, '{0}.yaml'.format(certification))
 
 
+def prepare_output_path(output_path):
+    """ Set output_path and create a content dir if needed """
+    if not output_path:
+        output_path = 'exports/gitbook'
+    content_path = os.path.join(output_path, 'content')
+    if not os.path.exists(content_path):
+        os.makedirs(content_path)
+    return output_path
+
+
 def convert_name_url(references):
     """ Converts references data to markdown url bullet point. """
     text = ''
@@ -113,6 +123,7 @@ def natural_sort(elements):
 
 def create_gitbook_documentation(certification, certification_dir, output_path):
     """ Convert certification to pages format """
+    output_path = prepare_output_path(output_path)
     certification_path = prepare_cert_path(certification, certification_dir)
     summary = []
     certification = load_yaml(certification_path)
