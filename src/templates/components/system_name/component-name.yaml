@@ -1,0 +1,9 @@
+governors:
+- name: Governor Name
+- url: Governor URL
+name: component_name
+references:
+- name: Reference Name
+- url: Refernce URL
+satisfies: {}
+system: system_name

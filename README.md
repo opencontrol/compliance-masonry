@@ -5,32 +5,24 @@ Control Masonry allows users to construct certification documentation, which is 
 
 Alpha Note: Control Masonry is an emerging project. We recognize that in its current state, Control Masonry's user experience still needs to mature. Nevertheless, we are "eating our own dog food" and working to make continuous improvements.
 
-#### Long Term Plan Diagram
-![control-masonry](https://cloud.githubusercontent.com/assets/47762/9829499/08d2b1dc-58bb-11e5-8185-5dc617188ae7.png)
-(Here's [the .gliffy source](https://gist.github.com/mogul/8d7cb123e03b0fe1b993).)
+# Quick Start
 
-## Benefits
-Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Control Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.
+### Installing
+Only Tested on Python 3+
+```bash
+$ git clone https://github.com/18F/control-masonry.git
+$ cd control-masonry
+$ python setup.py install
+```
 
-Control Masonry simplifies the process of certification documentations by providing:
-1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
-2. a way for government project to edit existing files and also add new control files for their applications and organizations.
-3. a pipeline for generating clean and standardized certification documentation
+### New Component template
+```bash
+masonry new component system_name component_name
+```
+New component template will be created `data/components/system_name/component_name.yaml`
 
-# Creating Documentation (How to use)
-### Data Flow Diagram
-![control_masonry](https://cloud.githubusercontent.com/assets/4596845/10542998/e6397422-73e9-11e5-8681-5539be8b8164.png)
 
 ### Adding Data
-Data can be added via two potential entry points. The [`data/xlsx/Control-Masonry.xlsx`](https://github.com/18F/control-masonry/blob/master/data/xlsx/Control-masonry.xlsx) document or the [`data/components`](https://github.com/18F/control-masonry/tree/master/data/components) directory.
-
-[**OPTION 1: Control-Masonry.xlsx**](https://github.com/18F/control-masonry/blob/master/data/xlsx/Control-masonry.xlsx)
-Data in this excel file is organized loosely in SQL-like format. The `Justifications` worksheet contains mapping from NIST controls to systems and components ids. The `Components` worksheet contains mappings from the components ids to the component names. The `References` and `Governors` worksheets contain mappings from the component ids to the information about the components and artifacts, which prove compliance.
-
-To generate [component yamls file](https://github.com/18F/control-masonry/tree/master/data/components) execute the following command from the main directory.
-```bash
-python renderers/workbook_to_yamls.py
-```
 
 [**OPTION 2: writing component yamls**](https://github.com/18F/control-masonry/tree/master/data/components)
 Component yamls are organizations by system and then by component. (see [Components Documentation](#components-documentation) below)
@@ -50,6 +42,23 @@ python renderers/certifications_to_pages.py <<Certification Name>>
 ```
 
 # Documentation Format
+
+#### Long Term Plan Diagram
+![control-masonry](https://cloud.githubusercontent.com/assets/47762/9829499/08d2b1dc-58bb-11e5-8185-5dc617188ae7.png)
+(Here's [the .gliffy source](https://gist.github.com/mogul/8d7cb123e03b0fe1b993).)
+
+### Data Flow Diagram
+![control_masonry](https://cloud.githubusercontent.com/assets/4596845/10542998/e6397422-73e9-11e5-8681-5539be8b8164.png)
+
+
+## Benefits
+Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Control Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.
+
+Control Masonry simplifies the process of certification documentations by providing:
+1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
+2. a way for government project to edit existing files and also add new control files for their applications and organizations.
+3. a pipeline for generating clean and standardized certification documentation
+
 
 ### Components Documentation
 Component documentation contains information about individual system components and the standards they satisfy.

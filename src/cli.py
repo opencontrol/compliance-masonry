@@ -59,6 +59,18 @@ def docs(export_format, certification, certs_dir, output_dir):
 
 
 @main.command()
+@click.option(
+    '--directory', '-d',
+    type=click.Path(exists=False),
+    help='Directory where documentation is exported'
+)
+def init(directory):
+    """ Initalize a new control masonry project """
+    project_path = template_generator.init_project(directory)
+    click.echo('New Project: `{0}`'.format(project_path))
+
+
+@main.command()
 @click.argument('file-type')
 @click.argument('system-name')
 @click.argument('component-name')

@@ -1,9 +1,28 @@
 """ Module for generating empty data templates """
 
 import os
+import shutil
 import yaml
 
+from glob import iglob
 from slugify import slugify
+
+def get_template_dir():
+    """ Finds the directory that the project templates are in """
+    module_dir = os.path.dirname(__file__)
+    return os.path.join(module_dir, 'templates/')
+
+
+def create_output_dirs(output_path):
+    """ Create the directories on the output path if they don't exist """
+    if output_path and not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+
+def copy_template_files(template_dir, copy_to_path):
+    """ Copies files in template directory to target path """
+    for x in os.walk(template_dir):
+        print(x)
 
 
 def get_file_path(system, name, output_dir):
@@ -12,8 +31,7 @@ def get_file_path(system, name, output_dir):
     if not output_dir:
         output_dir = 'data/components'
     output_path = os.path.join(output_dir, system)
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    create_output_dirs(output_path)
     return os.path.join(output_path, '{0}.yaml'.format(slugify(name)))
 
 
@@ -35,3 +53,16 @@ def create_new_component_yaml(system, name, output_dir):
     with open(file_path, 'w') as yaml_file:
         yaml_file.write(yaml.dump(component_dict, default_flow_style=False))
     return file_path
+
+
+def init_project(output_dir):
+    """ Create a new control masonry project template """
+    if not output_dir:
+        output_dir = 'data'
+    output_container, _ = os.path.split(output_dir)
+    create_output_dirs(output_container)
+    template_dir = get_template_dir()
+    copy_to_path = os.path.join(os.getcwd(), output_dir)
+    import pdb; pdb.set_trace()
+    copy_template_files(template_dir, copy_to_path)
+    return output_dir
