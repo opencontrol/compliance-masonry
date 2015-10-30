@@ -98,7 +98,7 @@ def create_bystandards_dict(components_path):
 def merge_components(certification, components, standard, control):
     """ Adds the components to the certification control and warns
     user if control has no documentation """
-    control_justification = components.get(standard).get(control)
+    control_justification = components.get(standard, {}).get(control)
     if control_justification:
         certification['standards'][standard][control]['justifications'] = \
             control_justification
@@ -142,7 +142,8 @@ def create_yaml_certifications(data_dir, output_dir):
     standards = create_standards_dic(standards_path)
     components = create_bystandards_dict(components_path)
     certifications = build_certifications(
-        certifications_path, components, standards)
+        certifications_path, components, standards
+    )
     for name, certification in certifications:
         filename = os.path.join(output_path, name + '.yaml')
         yaml_writer(component_data=certification, filename=filename)
