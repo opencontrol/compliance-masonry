@@ -5,7 +5,7 @@ Control Masonry allows users to construct certification documentation, which is 
 
 Alpha Note: Control Masonry is an emerging project. We recognize that in its current state, Control Masonry's user experience still needs to mature. Nevertheless, we are "eating our own dog food" and working to make continuous improvements.
 
-# Quick Start
+# Quick Start with CLI
 
 ### Installing
 Only Tested on Python 3+
@@ -31,13 +31,28 @@ New component template will be created as `data/components/system_name/component
 ```bash
 masonry certs
 ```
-Creates component yamls in `exports/certifications`
+Creates certification yamls in `exports/certifications`
 
 ### Creates documentations
 ```bash
 masonry docs gitbook FedRAMP-low
 ```
-Create the markdowns for a gitbook.
+Generates the markdowns for a gitbook.
+
+## Importing Control Masonry
+```
+import masonry
+
+masonry.build_certifications(
+  data_dir="data_directory", output_dir="output_directory"
+)
+
+masonry.build_gitbook(
+  certification="certification_name",
+  certification_dir="location of certification's directory",
+  output_dir="location to output gitbook"
+)
+```
 
 # Documentation Format
 
