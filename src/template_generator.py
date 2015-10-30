@@ -19,12 +19,6 @@ def create_output_dirs(output_path):
         os.makedirs(output_path)
 
 
-def copy_template_files(template_dir, copy_to_path):
-    """ Copies files in template directory to target path """
-    for x in os.walk(template_dir):
-        print(x)
-
-
 def get_file_path(system, name, output_dir):
     """ Creates the path for the directory that will contain the component
     if it doesn't exist and returns the file path of component yaml"""
@@ -63,6 +57,5 @@ def init_project(output_dir):
     create_output_dirs(output_container)
     template_dir = get_template_dir()
     copy_to_path = os.path.join(os.getcwd(), output_dir)
-    import pdb; pdb.set_trace()
-    copy_template_files(template_dir, copy_to_path)
+    shutil.copytree(template_dir, copy_to_path)
     return output_dir
