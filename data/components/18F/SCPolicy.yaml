@@ -1,7 +1,0 @@
-name: System and Communications Protection Policy for 18F
-references:
-- name: Policy Document
-  url: https://drive.google.com/drive/u/1/folders/0B6fPl5s12igNfnhnZWJqQVluNUxybWo5WVQwaHUwN29qRmVaQlczN0tpVUZEa25WZFdsTjg
-satisfies:
-  NIST-800-53:
-    SC-1: 18F Policy
