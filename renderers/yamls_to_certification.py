@@ -53,12 +53,15 @@ def convert_to_bystandards(component_dict, bystandards_dict):
     """ Adds each component dictionary to a dictionary organized by
     by the control it satisfies deep copies are used because a component
     can meet multiple standards"""
-    for control in component_dict['satisfies']:
-        if not bystandards_dict.get(control):
-            bystandards_dict[control] = list()
-        preped_component = prepare_component(component_dict)
-        preped_component['narative'] = component_dict['satisfies'][control]
-        bystandards_dict[control].append(preped_component)
+    for standard in component_dict['satisfies']:
+        if not bystandards_dict.get(standard):
+            bystandards_dict[standard] = dict()
+        for control in component_dict['satisfies'][standard]:
+            if not bystandards_dict[standard].get(control):
+                bystandards_dict[standard][control] = list()
+            preped_component = prepare_component(component_dict)
+            preped_component['narative'] = component_dict['satisfies'][standard][control]
+            bystandards_dict[standard][control].append(preped_component)
 
 
 def create_bystandards_dict(components_path):
@@ -74,7 +77,7 @@ def create_bystandards_dict(components_path):
 def merge_components(certification, components, standard, control):
     """ Adds the components to the certification control and warns
     user if control has no documentation """
-    control_justification = components.get(control)
+    control_justification = components.get(standard).get(control)
     if control_justification:
         certification['standards'][standard][control]['justifications'] = \
             control_justification

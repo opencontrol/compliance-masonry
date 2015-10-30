@@ -1,8 +1,9 @@
 name: AWS Service Catalog
 references:
-- reference_name: AWS Service Catalog Documentation
-  reference_url: https://aws.amazon.com/servicecatalog/
+- name: AWS Service Catalog Documentation
+  url: https://aws.amazon.com/servicecatalog/
 satisfies:
-  CM-2: AWS Service Catalog allows 18F to centrally manage commonly deployed IT services,
-    and helps achieve consistent governance and meet compliance requirements, while
-    enabling users to quickly deploy only the approved IT services they need.
+  NIST-800-53:
+    CM-2: AWS Service Catalog allows 18F to centrally manage commonly deployed IT
+      services, and helps achieve consistent governance and meet compliance requirements,
+      while enabling users to quickly deploy only the approved IT services they need.

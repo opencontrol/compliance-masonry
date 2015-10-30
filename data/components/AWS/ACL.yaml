@@ -1,8 +1,11 @@
 name: Access Control List
 references:
-- reference_name: Access Control List Overview
-  reference_url: http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html
+- name: Access Control List Overview
+  url: http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html
 satisfies:
-  SC-7:
-    a : |
-      - ACLs, or traffic flow policies, are established on each managed interface, which manage and enforce the flow of traffic.
+  NIST-800-53:
+    SC-7:
+      a: '- ACLs, or traffic flow policies, are established on each managed interface,
+        which manage and enforce the flow of traffic.
+
+        '

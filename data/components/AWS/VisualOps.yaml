@@ -1,8 +1,12 @@
 name: VisualOps
 references:
-- reference_name: VisualOps
-  reference_url: https://www.visualops.io/
+- name: VisualOps
+  url: https://www.visualops.io/
 satisfies:
-  CM-8:
-    a: |
-      - The VisualOps Cloud management tool is used to provide a visual, real-time and automated representation of the AWS infrastructure and applications within the environment.
+  NIST-800-53:
+    CM-8:
+      a: '- The VisualOps Cloud management tool is used to provide a visual, real-time
+        and automated representation of the AWS infrastructure and applications within
+        the environment.
+
+        '

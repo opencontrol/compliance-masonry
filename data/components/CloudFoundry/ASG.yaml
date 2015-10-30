@@ -1,28 +1,60 @@
 name: Application Security Groups
-summary: |
-  Cloud Foundry application security groups control the traffic flowing out of applications. Each cf application uses a dedicated Linux container, and each container includes a dedicated virtual network interface. Application controls are defined by a CF administrator, and the application specific policies are stored and then applied to the virtual network interface by the platform before an application even starts. Application security groups are a collection of ‘allow’ rules that can be made with global or application specific assignments enabling access to be set on individual application requirements. These requirements are added through whitelisting and whitelisting is layered on top of a series of container-centric lock-downs, allowing limited access to other applications and services. By locking application containers down to pre-defined routes, administrations are given the ability to reject all unexpected traffic by default. DevOps can run the following commands to view information about existing security groups:
-  `cf security-groups`&colon; Displays all security groups in an org.
-  `cf staging-security-groups`&colon; Displays all security groups in the Default Staging set.
-  `cf running-security-groups`&colon; Displays all security groups in the Default Running set.
-  `cf security-group SECURITY-GROUP`&colon; Displays details about the specified security group.
-
 references:
-- reference_name: Application Security Groups
-  reference_url: http://docs.cloudfoundry.org/adminguide/app-sec-groups.html
+- name: Application Security Groups
+  url: http://docs.cloudfoundry.org/adminguide/app-sec-groups.html
 satisfies:
-  AC-2:
-    a: |
-      - Cloud Foundry uses Application security groups (ASGs) to act as virtual firewalls to control outbound traffic from the applications in the deployment. A security group consists of a list of network egress access rules.
-      - An administrator can assign one or more security groups to a Cloud Foundry deployment or to a specific space in an org within a deployment.
-      - Cloud Foundry user, organization, and application roles and security groups are documented in section 9.3 Types of Users. 
+  NIST-800-53:
+    AC-2:
+      a: "- Cloud Foundry uses Application security groups (ASGs) to act as virtual\
+        \ firewalls to control outbound traffic from the applications in the deployment.\
+        \ A security group consists of a list of network egress access rules.\n- An\
+        \ administrator can assign one or more security groups to a Cloud Foundry\
+        \ deployment or to a specific space in an org within a deployment.\n- Cloud\
+        \ Foundry user, organization, and application roles and security groups are\
+        \ documented in section 9.3 Types of Users. \n"
+    AC-3: "- Within the CF PaaS, Cloud Foundry uses security groups to act as firewalls\
+      \ to control outbound applications in the deployment. 18F uses Cloud Foundry\
+      \ ASGs to specify egress access rules for its applications. This functionality\
+      \ enables 18F to securely restrict application outbound traffic to predefined\
+      \ routes.       \n- Cloud Foundry evaluates security groups and other network\
+      \ traffic rules in a strict priority order. Cloud Foundry returns an allow,\
+      \ deny, or reject result for the first rule that matches the outbound traffic\
+      \ request parameters, and does not evaluate any lower-priority rules\n- Cloud\
+      \ Foundry implements network traffic rules using Linux iptables on the component\
+      \ VMs. Operators can configure rules to prevent system access from external\
+      \ networks and between internal components, and to restrict applications from\
+      \ establishing connections over the DEA network interface.\n"
+    SC-7:
+      a: '- Cloud Foundry implements network traffic rules using Linux iptables on
+        the component VMs. Operators can configure rules to prevent system access
+        from external networks and between internal components, and to restrict applications
+        from establishing connections over the DEA network interface.
 
-  AC-3: |
-    - Within the CF PaaS, Cloud Foundry uses security groups to act as firewalls to control outbound applications in the deployment. 18F uses Cloud Foundry ASGs to specify egress access rules for its applications. This functionality enables 18F to securely restrict application outbound traffic to predefined routes.       
-    - Cloud Foundry evaluates security groups and other network traffic rules in a strict priority order. Cloud Foundry returns an allow, deny, or reject result for the first rule that matches the outbound traffic request parameters, and does not evaluate any lower-priority rules
-    - Cloud Foundry implements network traffic rules using Linux iptables on the component VMs. Operators can configure rules to prevent system access from external networks and between internal components, and to restrict applications from establishing connections over the DEA network interface.
+        - Cloud Foundry recommends that you use Cloud Foundry ASGs to specify egress
+        access rules for your applications. This functionality enables you to more
+        securely restrict application outbound traffic to predefined routes.
 
-  SC-7:
-    a: |
-      - Cloud Foundry implements network traffic rules using Linux iptables on the component VMs. Operators can configure rules to prevent system access from external networks and between internal components, and to restrict applications from establishing connections over the DEA network interface.
-      - Cloud Foundry recommends that you use Cloud Foundry ASGs to specify egress access rules for your applications. This functionality enables you to more securely restrict application outbound traffic to predefined routes.
-      - Spoofing: If an IP, MAC, or ARP spoofing attack bypasses the physical firewall for the deployment, Cloud Foundry network traffic rules help prevent the attack from accessing application containers. Cloud Foundry uses application isolation, operating system restrictions, and encrypted connections to further mitigate risk.
+        - Spoofing: If an IP, MAC, or ARP spoofing attack bypasses the physical firewall
+        for the deployment, Cloud Foundry network traffic rules help prevent the attack
+        from accessing application containers. Cloud Foundry uses application isolation,
+        operating system restrictions, and encrypted connections to further mitigate
+        risk.
+
+        '
+summary: "Cloud Foundry application security groups control the traffic flowing out\
+  \ of applications. Each cf application uses a dedicated Linux container, and each\
+  \ container includes a dedicated virtual network interface. Application controls\
+  \ are defined by a CF administrator, and the application specific policies are stored\
+  \ and then applied to the virtual network interface by the platform before an application\
+  \ even starts. Application security groups are a collection of \u2018allow\u2019\
+  \ rules that can be made with global or application specific assignments enabling\
+  \ access to be set on individual application requirements. These requirements are\
+  \ added through whitelisting and whitelisting is layered on top of a series of container-centric\
+  \ lock-downs, allowing limited access to other applications and services. By locking\
+  \ application containers down to pre-defined routes, administrations are given the\
+  \ ability to reject all unexpected traffic by default. DevOps can run the following\
+  \ commands to view information about existing security groups:\n`cf security-groups`&colon;\
+  \ Displays all security groups in an org.\n`cf staging-security-groups`&colon; Displays\
+  \ all security groups in the Default Staging set.\n`cf running-security-groups`&colon;\
+  \ Displays all security groups in the Default Running set.\n`cf security-group SECURITY-GROUP`&colon;\
+  \ Displays details about the specified security group.\n"
