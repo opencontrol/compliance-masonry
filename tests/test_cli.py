@@ -53,7 +53,7 @@ def test_certs_yaml(runner):
     attributes """
     certs_yaml_file = os.path.join(CERTS_OUTPUT_DIR, 'certifications/LATO.yaml')
     generated_yaml = load_yaml_file(certs_yaml_file)
-    expected_yaml = load_yaml_file(os.path.join(DATA_DIR, 'exports/Certifications/LATO.yaml'))
+    expected_yaml = load_yaml_file(os.path.join(DATA_DIR, 'exports/certifications/LATO.yaml'))
     assert generated_yaml == expected_yaml
 
 
@@ -121,9 +121,9 @@ def test_new_component_runs(runner):
 def test_new_component_yaml(runner):
     """ Check that the certification that was created has the correct
     attributes """
-    comp_yaml_file = os.path.join(COMPS_OUTPUT_DIR, 'AWS/ec2.yaml')
+    comp_yaml_file = os.path.join(COMPS_OUTPUT_DIR, 'AWS/EC2.yaml')
     generated_yaml = load_yaml_file(comp_yaml_file)
-    expected_yaml = load_yaml_file(os.path.join(DATA_DIR, 'components/AWS/ec2.yaml'))
+    expected_yaml = load_yaml_file(os.path.join(DATA_DIR, 'components/AWS/EC2.yaml'))
     assert generated_yaml == expected_yaml
 
 
