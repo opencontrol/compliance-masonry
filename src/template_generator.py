@@ -4,8 +4,8 @@ import os
 import shutil
 import yaml
 
-from glob import iglob
 from slugify import slugify
+
 
 def get_template_dir():
     """ Finds the directory that the project templates are in """
