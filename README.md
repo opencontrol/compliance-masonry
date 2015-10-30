@@ -33,7 +33,7 @@ masonry certs
 ```
 Creates certification yamls in `exports/certifications`
 
-### Creates documentations
+### Create documentations
 ```bash
 masonry docs gitbook FedRAMP-low
 ```
