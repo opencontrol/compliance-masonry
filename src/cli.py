@@ -1,4 +1,5 @@
 import click
+import os
 import logging
 
 from src.renderers import yamls_to_certification, certifications_to_gitbook
@@ -66,8 +67,13 @@ def docs(export_format, certification, certs_dir, output_dir):
 )
 def init(directory):
     """ Initalize a new control masonry project """
-    project_path = template_generator.init_project(directory)
-    click.echo('New Project: `{0}`'.format(project_path))
+    if not directory:
+        directory = 'data'
+    if not os.path.exists(directory):
+        project_path = template_generator.init_project(directory)
+        click.echo('New Project: `{0}`'.format(project_path))
+    else:
+        click.echo('Directory exists, please choose different directory with -d')
 
 
 @main.command()
