@@ -14,9 +14,11 @@ def runner():
     return CliRunner()
 
 TEMP_OUTPUT_DIR = tempfile.TemporaryDirectory()
-DATA_DIR = 'fixtures/'
+DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'fixtures')
 CERTS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'exports/')
-CERTS_DATA_DIR = 'fixtures/exports/certifications/'
+CERTS_DATA_DIR = os.path.join(
+    os.path.dirname(__file__), '..', 'fixtures', 'exports', 'certifications'
+)
 DOCS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'docs/')
 COMPS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'components/')
 
@@ -51,7 +53,7 @@ def test_certs_yaml(runner):
     attributes """
     certs_yaml_file = os.path.join(CERTS_OUTPUT_DIR, 'certifications/LATO.yaml')
     generated_yaml = load_yaml_file(certs_yaml_file)
-    expected_yaml = load_yaml_file('fixtures/exports/Certifications/LATO.yaml')
+    expected_yaml = load_yaml_file(os.path.join(DATA_DIR, 'exports/Certifications/LATO.yaml'))
     assert generated_yaml == expected_yaml
 
 
@@ -65,9 +67,9 @@ def test_gitbook_runs(runner):
             '-o{0}'.format(DOCS_OUTPUT_DIR)
         ]
     )
+    output = 'Gitbook Files Created in `{0}`'.format(DOCS_OUTPUT_DIR)
     assert result.exit_code == 0
     assert not result.exception
-    output = 'Gitbook Files Created in `{0}`'.format(DOCS_OUTPUT_DIR)
     assert result.output.strip() == output
 
 
@@ -108,11 +110,11 @@ def test_new_component_runs(runner):
             '-o{0}'.format(COMPS_OUTPUT_DIR)
         ]
     )
-    assert result.exit_code == 0
-    assert not result.exception
     output = 'New Component: `{0}`'.format(
         os.path.join(COMPS_OUTPUT_DIR, 'AWS', 'EC2.yaml')
     )
+    assert result.exit_code == 0
+    assert not result.exception
     assert result.output.strip() == output
 
 
@@ -121,7 +123,7 @@ def test_new_component_yaml(runner):
     attributes """
     comp_yaml_file = os.path.join(COMPS_OUTPUT_DIR, 'AWS/ec2.yaml')
     generated_yaml = load_yaml_file(comp_yaml_file)
-    expected_yaml = load_yaml_file('fixtures/components/AWS/ec2.yaml')
+    expected_yaml = load_yaml_file(os.path.join(DATA_DIR, 'components/AWS/ec2.yaml'))
     assert generated_yaml == expected_yaml
 
 
