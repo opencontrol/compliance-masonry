@@ -1,3 +1,14 @@
 node_modules/
 *.swp
 old/
+
+*.pyc
+
+dist/
+build/
+*.egg-info/
+
+.tox/
+.coverage
+
+.cache/

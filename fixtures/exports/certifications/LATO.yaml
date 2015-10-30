@@ -1,0 +1,40 @@
+name: LATO
+standards:
+  NIST-800-53:
+    AC-2:
+      justifications:
+      - governors:
+        - name: Governor Name
+          url: https://github.com/18F/control-masonry
+        - name: Governor Name 2
+          url: https://github.com/18F/control-masonry
+        name: User Account and Authentication (UAA) Server
+        narative:
+          a: Justifications narrative AC-2 a
+          b: Justifications narrative AC-2 b
+        references:
+        - name: Reference Name
+          url: https://github.com/18F/control-masonry
+        - name: Reference Name 2
+          url: https://github.com/18F/control-masonry
+      meta:
+        name: Account Management
+    AC-6:
+      justifications:
+      - governors:
+        - name: Governor Name
+          url: https://github.com/18F/control-masonry
+        - name: Governor Name 2
+          url: https://github.com/18F/control-masonry
+        name: User Account and Authentication (UAA) Server
+        narative: Justification AC-6
+        references:
+        - name: Reference Name
+          url: https://github.com/18F/control-masonry
+        - name: Reference Name 2
+          url: https://github.com/18F/control-masonry
+      meta:
+        name: Least Privilege
+    CM-2:
+      meta:
+        name: Baseline Configuration

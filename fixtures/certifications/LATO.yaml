@@ -1,0 +1,6 @@
+name: LATO
+standards:
+  NIST-800-53:
+    AC-2: {}
+    AC-6: {}
+    CM-2: {}
