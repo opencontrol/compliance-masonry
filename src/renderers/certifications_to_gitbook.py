@@ -59,16 +59,35 @@ def generate_text_narative(narative):
 
 def build_summary(summary, output_path):
     """ Construct a gitbook summary for the controls """
-    text = "# Summary\n\n"
-    for section in summary:
-            text += '* [{0} {1} - {2}](content/{3}.md)\n'.format(
-                section['standard'],
-                section['control'],
-                section['control_name'],
-                section['slug']
+    main_summary = "# Summary\n\n"
+    last_family = ''
+    section_summary = ''
+    for control in summary:
+        new_family = control['family']
+        if last_family != new_family:
+            main_summary += '* [{0} - {1}](content/{2}.md)\n'.format(
+                control['standard'],
+                control['family'],
+                control['family']
             )
-    write_markdown(output_path, 'SUMMARY.md', text)
-    write_markdown(output_path, 'README.md', text)
+            # Write the section summary
+            if last_family:
+                write_markdown(output_path, 'content/' + last_family + '.md', section_summary)
+            # Start a new section summary
+            section_summary = '# {0} Controls\n\n'.format(new_family)
+        # Create a control url
+        control_url = '* [{0} - {1}](content/{2}.md)\n'.format(
+            control['control'],
+            control['control_name'],
+            control['slug']
+        )
+        # Add the control url to main summary
+        main_summary += '\t' + control_url
+        section_summary += control_url
+        last_family = new_family
+
+    write_markdown(output_path, 'SUMMARY.md', main_summary)
+    write_markdown(output_path, 'README.md', main_summary)
 
 
 def document_page(summary, certification, standard_key, control_key):
@@ -80,6 +99,7 @@ def document_page(summary, certification, standard_key, control_key):
     return {
         'control': control_key,
         'standard': standard_key,
+        'family': control_key.split('-')[0],
         'control_name': control_name,
         'slug': slug
     }
