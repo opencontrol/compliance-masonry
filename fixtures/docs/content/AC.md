@@ -1,4 +1,4 @@
-# AC Controls
+# AC - Account Management
 
-* [AC-2 - Account Management](content/NIST-800-53-AC-2.md)
-* [AC-6 - Least Privilege](content/NIST-800-53-AC-6.md)
+* [AC-2 - Account Management](NIST-800-53-AC-2.md)
+* [AC-6 - Least Privilege](NIST-800-53-AC-6.md)
