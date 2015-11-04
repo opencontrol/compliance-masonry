@@ -65,27 +65,32 @@ def build_summary(summary, output_path):
     for control in summary:
         new_family = control['family']
         if last_family != new_family:
-            main_summary += '* [{0} - {1}](content/{2}.md)\n'.format(
+            control_family_name = control['control_name']
+            main_summary += '* [{0} - {1} - {2}](content/{1}.md)\n'.format(
                 control['standard'],
                 control['family'],
-                control['family']
+                control_family_name,
             )
             # Write the section summary
             if last_family:
                 write_markdown(output_path, 'content/' + last_family + '.md', section_summary)
             # Start a new section summary
-            section_summary = '# {0} Controls\n\n'.format(new_family)
-        # Create a control url
-        control_url = '* [{0} - {1}](content/{2}.md)\n'.format(
+            section_summary = '# {0} - {1}\n\n'.format(new_family, control_family_name)
+        # Add the control url to main summary
+        main_summary += '\t* [{0} - {1}](content/{2}.md)\n'.format(
             control['control'],
             control['control_name'],
             control['slug']
         )
-        # Add the control url to main summary
-        main_summary += '\t' + control_url
-        section_summary += control_url
+        # Add the control url to section summary
+        section_summary += '* [{0} - {1}]({2}.md)\n'.format(
+            control['control'],
+            control['control_name'],
+            control['slug']
+        )
         last_family = new_family
-
+    # Export the last family
+    write_markdown(output_path, 'content/' + last_family + '.md', section_summary)
     write_markdown(output_path, 'SUMMARY.md', main_summary)
     write_markdown(output_path, 'README.md', main_summary)
 
@@ -149,8 +154,9 @@ def create_gitbook_documentation(certification, certification_dir, output_path):
     certification = load_yaml(certification_path)
     for standard_key in natural_sort(certification['standards']):
         for control_key in natural_sort(certification['standards'][standard_key]):
-            page_dict = document_page(summary, certification, standard_key, control_key)
-            summary.append(page_dict)
-            build_page(page_dict, certification, output_path)
+            if 'justifications' in certification['standards'][standard_key][control_key]:
+                page_dict = document_page(summary, certification, standard_key, control_key)
+                summary.append(page_dict)
+                build_page(page_dict, certification, output_path)
     build_summary(summary, output_path)
     return output_path
