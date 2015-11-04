@@ -79,7 +79,6 @@ def test_gitbook_files(runner):
         'SUMMARY.md', 'README.md',
         'content/NIST-800-53-AC-2.md',
         'content/NIST-800-53-AC-6.md',
-        'content/NIST-800-53-CM-2.md'
     ]
     for generated_file in generated_files:
         generated_file_path = os.path.join(DOCS_OUTPUT_DIR, generated_file)

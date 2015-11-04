@@ -5,7 +5,7 @@ AC-10:
 AC-11:
   name: Session Lock
 AC-11 (1):
-  name: Session Lock | Pattern-Hiding Displays
+  name: Pattern-Hiding Displays
 AC-12:
   name: Session Termination
 AC-14:
@@ -13,49 +13,49 @@ AC-14:
 AC-17:
   name: Remote Access
 AC-17 (1):
-  name: Remote Access | Automated Monitoring / Control
+  name: Automated Monitoring / Control
 AC-17 (2):
-  name: Remote Access | Protection of Confidentiality / Integrity Using Encryption
+  name: Protection of Confidentiality / Integrity Using Encryption
 AC-17 (3):
-  name: Remote Access | Managed Access Control Points
+  name: Managed Access Control Points
 AC-17 (4):
-  name: Remote Access | Privileged Commands / Access
+  name: Privileged Commands / Access
 AC-17 (9):
-  name: Remote Access | Disconnect / Disable Access
+  name: Disconnect / Disable Access
 AC-18:
   name: Wireless Access
 AC-18 (1):
-  name: Wireless Access | Authentication and Encryption
+  name: Authentication and Encryption
 AC-19:
   name: Access Control For Mobile Devices
 AC-19 (5):
-  name: Access Control For Mobile Devices | Full Device / Container-Based Encryption
+  name: Full Device / Container-Based Encryption
 AC-2:
   name: Account Management
 AC-2 (1):
-  name: Account Management | Automated System Account Management
+  name: Automated System Account Management
 AC-2 (10):
-  name: Account Management | Shared / Group Account Credential Termination
+  name: Shared / Group Account Credential Termination
 AC-2 (12):
-  name: Account Management | Account Monitoring / Atypical Usage
+  name: Account Monitoring / Atypical Usage
 AC-2 (2):
-  name: Account Management | Removal of Temporary / Emergency Accounts
+  name: Removal of Temporary / Emergency Accounts
 AC-2 (3):
-  name: Account Management | Disable Inactive Accounts
+  name: Disable Inactive Accounts
 AC-2 (4):
-  name: Account Management | Automated Audit Actions
+  name: Automated Audit Actions
 AC-2 (5):
-  name: Account Management | Inactivity Logout
+  name: Inactivity Logout
 AC-2 (7):
-  name: Account Management | Role-Based Schemes
+  name: Role-Based Schemes
 AC-2 (9):
-  name: Account Management | Restrictions on Use of Shared Groups / Accounts
+  name: Restrictions on Use of Shared Groups / Accounts
 AC-20:
   name: Use of External Information Systems
 AC-20 (1):
-  name: Use of External Information Systems | Limits on Authorized Use
+  name: Limits on Authorized Use
 AC-20 (2):
-  name: Use of External Information Systems | Portable Storage Devices
+  name: Portable Storage Devices
 AC-21:
   name: Information Sharing
 AC-22:
@@ -65,23 +65,21 @@ AC-3:
 AC-4:
   name: Information Flow Enforcement
 AC-4 (21):
-  name: Information Flow Enforcement | Physical / Logical Separation of Information
-    Flows
+  name: Physical / Logical Separation of Information Flows
 AC-5:
   name: Separation of Duties
 AC-6:
   name: Least Privilege
 AC-6 (1):
-  name: Least Privilege | Authorize Access to Security Functions
+  name: Authorize Access to Security Functions
 AC-6 (10):
-  name: Least Privilege | Prohibit Non-privileged Users from Executing Privileged
-    Functions
+  name: Prohibit Non-privileged Users from Executing Privileged Functions
 AC-6 (2):
-  name: Least Privilege | Non-Privileged Access For No security Functions
+  name: Non-Privileged Access For No security Functions
 AC-6 (5):
-  name: Least Privilege | Privileged Accounts
+  name: Privileged Accounts
 AC-6 (9):
-  name: Least Privilege | Auditing Use of Privileged Functions
+  name: Auditing Use of Privileged Functions
 AC-7:
   name: Unsuccessful Logon Attempts
 AC-8:
@@ -91,7 +89,7 @@ AT-1:
 AT-2:
   name: Security Awareness Training
 AT-2 (2):
-  name: Security Awareness | Insider Threat
+  name: Insider Threat
 AT-3:
   name: Role-Based Security Training
 AT-4:
@@ -105,11 +103,11 @@ AU-12:
 AU-2:
   name: Audit Events
 AU-2 (3):
-  name: Audit Events | Reviews and Updates
+  name: Reviews and Updates
 AU-3:
   name: Content of Audit Records
 AU-3 (1):
-  name: Content of Audit Records | Additional Audit Information
+  name: Additional Audit Information
 AU-4:
   name: Audit Storage Capacity
 AU-5:
@@ -117,40 +115,39 @@ AU-5:
 AU-6:
   name: Audit Review, Analysis, and Reporting
 AU-6 (1):
-  name: Audit Review, Analysis, and Reporting | Process Integration
+  name: Process Integration
 AU-6 (3):
-  name: Audit Review, Analysis, and Reporting | Correlate Audit Repositories
+  name: Correlate Audit Repositories
 AU-7:
   name: Audit Reduction and Report Generation
 AU-7 (1):
-  name: Audit Reduction and Report Generation | Automatic Processing
+  name: Automatic Processing
 AU-8:
   name: Time Stamps
 AU-8 (1):
-  name: Time Stamps | Synchronization With Authoritative Time Source
+  name: Synchronization With Authoritative Time Source
 AU-9:
   name: Protection of Audit Information
 AU-9 (2):
-  name: Protection of Audit Information | Audit Backup on Separate Physical Systems
-    / Components
+  name: Audit Backup on Separate Physical Systems / Components
 AU-9 (4):
-  name: Protection of Audit Information | Access by Subset of Privileged Users
+  name: Access by Subset of Privileged Users
 CA-1:
   name: Security Assessment and Authorization Policies and Procedures
 CA-2:
   name: Security Assessments
 CA-2 (1):
-  name: Security Assessments | Independent Assessors
+  name: Independent Assessors
 CA-2 (2):
-  name: Security Assessments | Specialized Assessments
+  name: Specialized Assessments
 CA-2 (3):
-  name: Security Assessments | External Organizations
+  name: External Organizations
 CA-3:
   name: System Interconnections
 CA-3 (3):
-  name: System Interconnections | Unclassified Non-National Security System Connections
+  name: Unclassified Non-National Security System Connections
 CA-3 (5):
-  name: System Interconnections | Restrictions on External Network Connections
+  name: Restrictions on External Network Connections
 CA-5:
   name: Plan of Action and Milestones
 CA-6:
@@ -158,11 +155,11 @@ CA-6:
 CA-7:
   name: Continuous Monitoring
 CA-7 (1):
-  name: Continuous Monitoring | Independent Assessment
+  name: Independent Assessment
 CA-8:
   name: Penetration Testing
 CA-8 (1):
-  name: Penetration Testing | Independent Penetration Agent or Team
+  name: Independent Penetration Agent or Team
 CA-9:
   name: Internal System Connections
 CM-1:
@@ -170,20 +167,19 @@ CM-1:
 CM-10:
   name: Software Usage Restrictions
 CM-10 (1):
-  name: Software Usage Restrictions | Open Source Software
+  name: Open Source Software
 CM-11:
   name: User-Installed Software
 CM-2:
   name: Baseline Configuration
 CM-2 (1):
-  name: Baseline Configuration | Reviews and Updates
+  name: Reviews and Updates
 CM-2 (3):
-  name: Baseline Configuration | Retention of Previous Configurations
+  name: Retention of Previous Configurations
 CM-2 (7):
-  name: Baseline Configuration | Configure Systems, Components, or Devices for High-Risk
-    Areas
+  name: Configure Systems, Components, or Devices for High-Risk Areas
 CM-2(2):
-  name: Baseline Configuration | Automation Support For Accuracy / Currency
+  name: Automation Support For Accuracy / Currency
 CM-3:
   name: Configuration Change Control
 CM-4:
@@ -191,32 +187,31 @@ CM-4:
 CM-5:
   name: Access Restrictions For Change
 CM-5 (1):
-  name: Access Restrictions For Change | Automated Access Enforcement / Auditing
+  name: Automated Access Enforcement / Auditing
 CM-5 (3):
-  name: Access Restrictions For Change | Signed Components
+  name: Signed Components
 CM-5 (5):
-  name: Access Restrictions For Change | Limit Production / Operational Privileges
+  name: Limit Production / Operational Privileges
 CM-6:
   name: Configuration Settings
 CM-6 (1):
-  name: Configuration Settings | Automated essential Management / Application / Verification
+  name: Automated essential Management / Application / Verification
 CM-7:
   name: Least Functionality
 CM-7 (1):
-  name: Least Functionality | Periodic Review
+  name: Periodic Review
 CM-7 (2):
-  name: Least Functionality | Prevent Program Execution
+  name: Prevent Program Execution
 CM-7 (5):
-  name: Least Functionality | Authorized Software / Whitelisting
+  name: Authorized Software / Whitelisting
 CM-8:
   name: Information System Component Inventory
 CM-8 (1):
-  name: Information System Component Inventory | Updates During Installations / Removals
+  name: Updates During Installations / Removals
 CM-8 (3):
-  name: Information System Component Inventory | Automated Unauthorized Component
-    Detection
+  name: Automated Unauthorized Component Detection
 CM-8 (5):
-  name: Information System Component Inventory | No Duplicate Accounting of Components
+  name: No Duplicate Accounting of Components
 CM-9:
   name: Configuration Management Plan
 CP-1:
@@ -224,95 +219,89 @@ CP-1:
 CP-10:
   name: Information System Recovery and Reconstitution
 CP-10 (2):
-  name: Information System Recovery and Reconstitution | Transaction Recovery
+  name: Transaction Recovery
 CP-2:
   name: Contingency Plan
 CP-2 (1):
-  name: Contingency Plan | Coordinate With Related Plans
+  name: Coordinate With Related Plans
 CP-2 (2):
-  name: Contingency Plan | Capacity Planning
+  name: Capacity Planning
 CP-2 (3):
-  name: Contingency Plan | Resume Essential Missions / Business Functions
+  name: Resume Essential Missions / Business Functions
 CP-2 (8):
-  name: Contingency Plan | Identify Critical Assets
+  name: Identify Critical Assets
 CP-3:
   name: Contingency Training
 CP-4:
   name: Contingency Plan Testing
 CP-4 (1):
-  name: Contingency Plan Testing | Coordinate With Related Plans
+  name: Coordinate With Related Plans
 CP-6:
   name: Alternate Storage Site
 CP-6 (1):
-  name: Alternate Storage Site | Separation From Primary Site
+  name: Separation From Primary Site
 CP-6 (3):
-  name: Alternate Storage Site | Accessibility
+  name: Accessibility
 CP-7:
   name: Alternate Processing Site
 CP-7 (1):
-  name: Alternate Processing Site | Separation From Primary Site
+  name: Separation From Primary Site
 CP-7 (2):
-  name: Alternate Processing Site | Accessibility
+  name: Accessibility
 CP-7 (3):
-  name: Alternate Processing Site | Priority of Service
+  name: Priority of Service
 CP-8:
   name: Telecommunications Services
 CP-8 (1):
-  name: Telecommunications Services | Priority of Service Provisions
+  name: Priority of Service Provisions
 CP-8 (2):
-  name: Telecommunications Services | Single Points of Failure
+  name: Single Points of Failure
 CP-9:
   name: Information System Backup
 CP-9 (1):
-  name: Information System Backup | Testing For Reliability / Integrity
+  name: Testing For Reliability / Integrity
 CP-9 (3):
-  name: Information System Backup | Separate Storage for Critical Information
+  name: Separate Storage for Critical Information
 IA-1:
   name: Identification and Authentication Policy and Procedures
 IA-2:
   name: Identification and Authentication (Organizational Users)
 IA-2 (1):
-  name: Identification and Authentication (Organizational Users) | Network Access
-    to Privileged Accounts
+  name: Network Access to Privileged Accounts
 IA-2 (11):
-  name: Identification and Authentication (Organizational Users) | Remote Access -
-    Separate Device
+  name: Remote Access - Separate Device
 IA-2 (12):
-  name: Identification and Authentication (Organizational Users) | Acceptance of PIV
-    Credentials
+  name: Acceptance of PIV Credentials
 IA-2 (2):
-  name: Identification and Authentication (Organizational Users) | Network Access
-    to Non-Privileged Accounts
+  name: Network Access to Non-Privileged Accounts
 IA-2 (3):
-  name: Identification and Authentication (Organizational Users) | Local Access to
-    Privileged Accounts
+  name: Local Access to Privileged Accounts
 IA-2 (5):
-  name: Identification and Authentication (Organizational Users) | Group Authentication
+  name: Group Authentication
 IA-2 (8):
-  name: Identification and Authentication (Organizational Users) | Network Access
-    to Privileged Accounts - Replay Resistant
+  name: Network Access to Privileged Accounts - Replay Resistant
 IA-3:
   name: Device Identification and Authentication
 IA-4:
   name: Identifier Management
 IA-4 (4):
-  name: Identifier Management | Identify User Status
+  name: Identify User Status
 IA-5:
   name: Authenticator Management
 IA-5 (1):
-  name: Authenticator Management | Password-Based Authentication
+  name: Password-Based Authentication
 IA-5 (11):
-  name: Authenticator Management | Hardware Token-Based Authentication
+  name: Hardware Token-Based Authentication
 IA-5 (2):
-  name: Authenticator Management | PKI-Based Authentication
+  name: PKI-Based Authentication
 IA-5 (3):
-  name: Authenticator Management | In-Person or Trusted Third-Party Registration
+  name: In-Person or Trusted Third-Party Registration
 IA-5 (4):
-  name: Authenticator Management | Automated Support for Password Strength Determination
+  name: Automated Support for Password Strength Determination
 IA-5 (6):
-  name: Authenticator Management | Protection of Authenticators
+  name: Protection of Authenticators
 IA-5 (7):
-  name: Authenticator Management | No Embedded Unencrypted Static Authenticators
+  name: No Embedded Unencrypted Static Authenticators
 IA-6:
   name: Authenticator Feedback
 IA-7:
@@ -320,17 +309,13 @@ IA-7:
 IA-8:
   name: Identification and Authentication (Non-Organizational Users)
 IA-8 (1):
-  name: Identification and Authentication (Non-Organizational Users) | Acceptance
-    of PIV Credentials from Other Agencies
+  name: Acceptance of PIV Credentials from Other Agencies
 IA-8 (2):
-  name: Identification and Authentication (Non-Organizational Users) | Acceptance
-    of Third-Party Credentials
+  name: Acceptance of Third-Party Credentials
 IA-8 (3):
-  name: Identification and Authentication (Non-Organizational Users) | Use of FICAM-Approved
-    Products
+  name: Use of FICAM-Approved Products
 IA-8 (4):
-  name: Identification and Authentication (Non-Organizational Users) | Use of FICAM-Issued
-    Profiles
+  name: Use of FICAM-Issued Profiles
 IR-1:
   name: Incident Response Policy and Procedures
 IR-2:
@@ -338,36 +323,35 @@ IR-2:
 IR-3:
   name: Incident Response Testing
 IR-3 (2):
-  name: Incident Response Testing | Coordination With Related Plans
+  name: Coordination With Related Plans
 IR-4:
   name: Incident Handling
 IR-4 (1):
-  name: Incident Handling | Automated Incident Handling Processes
+  name: Automated Incident Handling Processes
 IR-5:
   name: Incident Monitoring
 IR-6:
   name: Incident Reporting
 IR-6 (1):
-  name: Incident Reporting | Automated Reporting
+  name: Automated Reporting
 IR-7:
   name: Incident Response Assistance
 IR-7 (1):
-  name: Incident Response Assistance | Automation Support For Availability of Information
-    / Support
+  name: Automation Support For Availability of Information / Support
 IR-7 (2):
-  name: Incident Response Assistance | Coordination With External Providers
+  name: Coordination With External Providers
 IR-8:
   name: Incident Response Plan
 IR-9:
   name: Information Spillage Response
 IR-9 (1):
-  name: Information Spillage Response | Responsible Personnel
+  name: Responsible Personnel
 IR-9 (2):
-  name: Information Spillage Response | Training
+  name: Training
 IR-9 (3):
-  name: Information Spillage Response | Post-Spill Operations
+  name: Post-Spill Operations
 IR-9 (4):
-  name: Information Spillage Response | Exposure to Unauthorized Personnel
+  name: Exposure to Unauthorized Personnel
 MA-1:
   name: System Maintenance Policy and Procedures
 MA-2:
@@ -375,19 +359,19 @@ MA-2:
 MA-3:
   name: Maintenance Tools
 MA-3 (1):
-  name: Maintenance Tools | Inspect Tools
+  name: Inspect Tools
 MA-3 (2):
-  name: Maintenance Tools | Inspect Media
+  name: Inspect Media
 MA-3 (3):
-  name: Maintenance Tools | Prevent Unauthorized Removal
+  name: Prevent Unauthorized Removal
 MA-4:
   name: Nonlocal Maintenance
 MA-4 (2):
-  name: Nonlocal Maintenance | Document Nonlocal Maintenance
+  name: Document Nonlocal Maintenance
 MA-5:
   name: Maintenance Personnel
 MA-5 (1):
-  name: Maintenance Personnel | Individuals Without Appropriate Access
+  name: Individuals Without Appropriate Access
 MA-6:
   name: Timely Maintenance
 MP-1:
@@ -401,15 +385,15 @@ MP-4:
 MP-5:
   name: Media Transport
 MP-5 (4):
-  name: Media Transport | Cryptographic Protection
+  name: Cryptographic Protection
 MP-6:
   name: Media Sanitization
 MP-6 (2):
-  name: Media Sanitization | Equipment Testing
+  name: Equipment Testing
 MP-7:
   name: Media Use
 MP-7 (1):
-  name: Media Use | Prohibit Use without Owner
+  name: Prohibit Use without Owner
 PE-1:
   name: Physical and Environmental Protection Policy and Procedures
 PE-10:
@@ -421,13 +405,13 @@ PE-12:
 PE-13:
   name: Fire Protection
 PE-13 (2):
-  name: Fire Protection | Suppression Devices / Systems
+  name: Suppression Devices / Systems
 PE-13 (3):
-  name: Fire Protection | Automatic Fire Suppression
+  name: Automatic Fire Suppression
 PE-14:
   name: Temperature and Humidity Controls
 PE-14 (2):
-  name: Temperature and Humidity Controls | Monitoring With Alarms / Notifications
+  name: Monitoring With Alarms / Notifications
 PE-15:
   name: Water Damage Protection
 PE-16:
@@ -445,7 +429,7 @@ PE-5:
 PE-6:
   name: Monitoring Physical Access
 PE-6 (1):
-  name: Monitoring Physical Access | Intrusion Alarms / Surveillance Equipment
+  name: Intrusion Alarms / Surveillance Equipment
 PE-8:
   name: Visitor Access Records
 PE-9:
@@ -455,11 +439,11 @@ PL-1:
 PL-2:
   name: System Security Plan
 PL-2 (3):
-  name: System Security Plan | Plan / Coordinate With Other Organizational Entities
+  name: Plan / Coordinate With Other Organizational Entities
 PL-4:
   name: Rules of Behavior
 PL-4 (1):
-  name: Rules of Behavior | Social Media and Networking Restrictions
+  name: Social Media and Networking Restrictions
 PL-8:
   name: Information Security Architecture
 PS-1:
@@ -469,7 +453,7 @@ PS-2:
 PS-3:
   name: Personnel Screening
 PS-3 (3):
-  name: Personnel Screening | Information With Special Protection Measures
+  name: Information With Special Protection Measures
 PS-4:
   name: Personnel Termination
 PS-5:
@@ -489,31 +473,31 @@ RA-3:
 RA-5:
   name: Vulnerability Scanning
 RA-5 (1):
-  name: Vulnerability Scanning | Update Tool Capability
+  name: Update Tool Capability
 RA-5 (2):
-  name: Vulnerability Scanning | Update by Frequency / Prior to New Scan / When Identified
+  name: Update by Frequency / Prior to New Scan / When Identified
 RA-5 (3):
-  name: Vulnerability Scanning | Breadth / Depth of Coverage
+  name: Breadth / Depth of Coverage
 RA-5 (5):
-  name: Vulnerability Scanning | Privileged Access
+  name: Privileged Access
 RA-5 (6):
-  name: Vulnerability Scanning | Automated Trend Analyses
+  name: Automated Trend Analyses
 RA-5 (8):
-  name: Vulnerability Scanning | Review Historic Audit Logs
+  name: Review Historic Audit Logs
 SA-1:
   name: System and Services Acquisition Policy and Procedures
 SA-10:
   name: Developer Configuration Management
 SA-10 (1):
-  name: Developer Configuration Management | Software / Firmware Integrity Verification
+  name: Software / Firmware Integrity Verification
 SA-11:
   name: Developer Security Testing and Evaluation
 SA-11 (1):
-  name: Developer Security Testing and Evaluation | Static Code Analysis
+  name: Static Code Analysis
 SA-11 (2):
-  name: Developer Security Testing and Evaluation | Threat and Vulnerability Analyses
+  name: Threat and Vulnerability Analyses
 SA-11 (8):
-  name: Developer Security Testing and Evaluation | Dynamic Code Analysis
+  name: Dynamic Code Analysis
 SA-2:
   name: Allocation of Resources
 SA-22:
@@ -523,15 +507,15 @@ SA-3:
 SA-4:
   name: Acquisition Process
 SA-4 (1):
-  name: Acquisition Process | Functional Properties of Security Controls
+  name: Functional Properties of Security Controls
 SA-4 (10):
-  name: Acquisition Process | Use of Approved PIV Products
+  name: Use of Approved PIV Products
 SA-4 (2):
-  name: Acquisition Process | Design / Implementation Information for Security Controls
+  name: Design / Implementation Information for Security Controls
 SA-4 (8):
-  name: Acquisition Process | Continuous Monitoring Plan
+  name: Continuous Monitoring Plan
 SA-4 (9):
-  name: Acquisition Process | Functions / Ports / Protocols / Services in Use
+  name: Functions / Ports / Protocols / Services in Use
 SA-5:
   name: Information System Documentation
 SA-8:
@@ -539,14 +523,13 @@ SA-8:
 SA-9:
   name: External Information System Services
 SA-9 (1):
-  name: External Information Systems | Risk Assessments / Organizational Approvals
+  name: Risk Assessments / Organizational Approvals
 SA-9 (2):
-  name: External Information Systems | Identification of Functions / Ports / Protocols
-    / Services
+  name: Identification of Functions / Ports / Protocols / Services
 SA-9 (4):
-  name: External Information Systems | Consistent Interests of Consumers and Providers
+  name: Consistent Interests of Consumers and Providers
 SA-9 (5):
-  name: External Information Systems | Processing, Storage, and Service Location
+  name: Processing, Storage, and Service Location
 SC-1:
   name: System and Communications Protection Policy and Procedures
 SC-10:
@@ -554,9 +537,9 @@ SC-10:
 SC-12:
   name: Cryptographic Key Establishment and Management
 SC-12 (2):
-  name: Cryptographic Key Establishment and Management | Symmetric Keys
+  name: Symmetric Keys
 SC-12 (3):
-  name: Cryptographic Key Establishment and Management | Asymmetric Keys
+  name: Asymmetric Keys
 SC-13:
   name: Cryptographic Protection
 SC-15:
@@ -580,7 +563,7 @@ SC-23:
 SC-28:
   name: Protection of Information At Rest
 SC-28 (1):
-  name: Protection Of Information At Rest | Cryptographic Protection
+  name: Cryptographic Protection
 SC-39:
   name: Process Isolation
 SC-4:
@@ -592,26 +575,25 @@ SC-6:
 SC-7:
   name: Boundary Protection
 SC-7 (12):
-  name: Boundary Protection | Host-Based Protection
+  name: Host-Based Protection
 SC-7 (13):
-  name: Boundary Protection | Isolation of Security Tools / Mechanisms / Support Components
+  name: Isolation of Security Tools / Mechanisms / Support Components
 SC-7 (18):
-  name: Boundary Protection | Fail Secure
+  name: Fail Secure
 SC-7 (3):
-  name: Boundary Protection | Access Points
+  name: Access Points
 SC-7 (4):
-  name: Boundary Protection | External Telecommunications Services
+  name: External Telecommunications Services
 SC-7 (5):
-  name: Boundary Protection | Deny by Default / Allow by Exception
+  name: Deny by Default / Allow by Exception
 SC-7 (7):
-  name: Boundary Protection | Prevent Split Tunneling for Remote Devices
+  name: Prevent Split Tunneling for Remote Devices
 SC-7 (8):
-  name: Boundary Protection | Route Traffic to Authenticated Proxy Servers
+  name: Route Traffic to Authenticated Proxy Servers
 SC-8:
   name: Transmission Confidentiality and Integrity
 SC-8 (1):
-  name: Transmission Confidentiality and Integrity | Cryptographic or Alternate Physical
-    Protection
+  name: Cryptographic or Alternate Physical Protection
 SI-1:
   name: System and Information Integrity Policy and Procedures
 SI-10:
@@ -625,33 +607,33 @@ SI-16:
 SI-2:
   name: Flaw Remediation
 SI-2 (2):
-  name: Flaw Remediation | Automated Flaw Remediation Status
+  name: Automated Flaw Remediation Status
 SI-2 (3):
-  name: Flaw Remediation | Time to Remediate Flaws / Benchmarks for Corrective Actions
+  name: Time to Remediate Flaws / Benchmarks for Corrective Actions
 SI-3:
   name: Malicious Code Protection
 SI-3 (1):
-  name: Malicious Code Protection | essential Management
+  name: essential Management
 SI-3 (2):
-  name: Malicious Code Protection | Automatic Updates
+  name: Automatic Updates
 SI-3 (7):
-  name: Malicious Code Protection | Nonsignature-Based Detection
+  name: Nonsignature-Based Detection
 SI-4:
   name: Information System Monitoring
 SI-4 (1):
-  name: Information System Monitoring | System-Wide Intrusion Detection System
+  name: System-Wide Intrusion Detection System
 SI-4 (16):
-  name: Information System Monitoring | Correlate Monitoring Information
+  name: Correlate Monitoring Information
 SI-4 (2):
-  name: Information System Monitoring | Automated Tools For Real-Time Analysis
+  name: Automated Tools For Real-Time Analysis
 SI-4 (23):
-  name: Information System Monitoring | Host-Based Devices
+  name: Host-Based Devices
 SI-4 (4):
-  name: Information System Monitoring | Inbound and Outbound Communications Traffic
+  name: Inbound and Outbound Communications Traffic
 SI-4 (5):
-  name: Information System Monitoring | System-Generated Alerts
+  name: System-Generated Alerts
 SI-4(14):
-  name: Information System Monitoring | Wireless Intrusion Detection
+  name: Wireless Intrusion Detection
 SI-5:
   name: Security Alerts, Advisories, and Directives
 SI-6:
@@ -659,14 +641,13 @@ SI-6:
 SI-7:
   name: Software, Firmware, and Information Integrity
 SI-7 (1):
-  name: Software, Firmware, and Information Integrity | Integrity Checks
+  name: Integrity Checks
 SI-7 (7):
-  name: Software, Firmware, and Information Integrity | Integration of Detection and
-    Response
+  name: Integration of Detection and Response
 SI-8:
   name: Spam Protection
 SI-8 (1):
-  name: Spam Protection | essential Management
+  name: essential Management
 SI-8 (2):
-  name: Spam Protection | Automatic Updates
+  name: Automatic Updates
 name: NIST-800-53
