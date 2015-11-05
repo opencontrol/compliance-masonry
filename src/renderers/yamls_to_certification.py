@@ -64,7 +64,7 @@ def prepare_component(component_dict):
     """ Creates a deep copy of the component dict, but only keeps the name,
     references, and governors data"""
     new_component_dict = dict()
-    for key in ['name', 'references', 'governors']:
+    for key in ['name', 'system', 'references', 'governors']:
         check_and_add_key(
             new_dict=new_component_dict, old_dict=component_dict, key=key)
     return new_component_dict

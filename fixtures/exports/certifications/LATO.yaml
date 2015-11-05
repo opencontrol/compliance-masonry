@@ -9,6 +9,7 @@ standards:
         - name: Governor Name 2
           url: https://github.com/18F/control-masonry
         name: User Account and Authentication (UAA) Server
+        system: CloudFoundry
         narative:
           a: Justifications narrative AC-2 a
           b: Justifications narrative AC-2 b
@@ -27,6 +28,7 @@ standards:
         - name: Governor Name 2
           url: https://github.com/18F/control-masonry
         name: User Account and Authentication (UAA) Server
+        system: CloudFoundry
         narative: Justification AC-6
         references:
         - name: Reference Name

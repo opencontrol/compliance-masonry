@@ -61,6 +61,7 @@ Component documentation contains information about individual system components 
 
 ```yaml
 name: User Account and Authentication (UAA) Server
+system: CloudFoundry
 references:
 - name: User Account and Authentication (UAA) Server
   url: http://docs.pivotal.io/pivotalcf/concepts/architecture/uaa.html
