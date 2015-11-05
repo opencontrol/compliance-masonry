@@ -13,14 +13,17 @@ from src import cli
 def runner():
     return CliRunner()
 
-TEMP_OUTPUT_DIR = tempfile.TemporaryDirectory()
+# Data directories
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'fixtures')
+CERTS_DATA_DIR = os.path.join(DATA_DIR, 'exports', 'certifications')
+INVENT_DATA_DIR = os.path.join(DATA_DIR, 'inventory')
+
+# Output directories
+TEMP_OUTPUT_DIR = tempfile.TemporaryDirectory()
 CERTS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'exports/')
-CERTS_DATA_DIR = os.path.join(
-    os.path.dirname(__file__), '..', 'fixtures', 'exports', 'certifications'
-)
 DOCS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'docs/')
 COMPS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'components/')
+INVENT_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'inventory/')
 
 
 def load_file(file_path):
@@ -54,6 +57,35 @@ def test_certs_yaml(runner):
     certs_yaml_file = os.path.join(CERTS_OUTPUT_DIR, 'certifications/LATO.yaml')
     generated_yaml = load_yaml_file(certs_yaml_file)
     expected_yaml = load_yaml_file(os.path.join(DATA_DIR, 'exports/certifications/LATO.yaml'))
+    assert generated_yaml == expected_yaml
+
+
+def test_inventory_builder(runner):
+    result = runner.invoke(
+        cli.main,
+        [
+            'inventory',
+            '-c{0}'.format(CERTS_DATA_DIR),
+            '-o{0}'.format(INVENT_OUTPUT_DIR),
+            'FedRAMP-low',
+        ]
+    )
+    output = 'Inventory yaml created at `{0}`'.format(
+        os.path.join(INVENT_OUTPUT_DIR, 'FedRAMP-low.yaml')
+    )
+    assert result.exit_code == 0
+    assert not result.exception
+    assert result.output.strip() == output
+
+
+def test_inventory_builder_yaml_output(runner):
+    """ Check that the certification that was created has the correct
+    attributes """
+    certs_yaml_file = os.path.join(INVENT_OUTPUT_DIR, 'FedRAMP-low.yaml')
+    generated_yaml = load_yaml_file(certs_yaml_file)
+    expected_yaml = load_yaml_file(
+        os.path.join(INVENT_DATA_DIR, 'FedRAMP-low.yaml')
+    )
     assert generated_yaml == expected_yaml
 
 
