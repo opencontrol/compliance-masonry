@@ -42,6 +42,7 @@ def analyze_component(component):
     return {
         'references': analyze_attribute(component.get('references')),
         'governors': analyze_attribute(component.get('governors')),
+        'documentation_completed': component.get('documentation_complete'),
     }
 
 
@@ -52,10 +53,15 @@ def catalog_control(inventory, control, standard_key, control_key):
         for component in control['justifications']:
             system = component.get('system', 'No System')
             name = component.get('name', 'No Name')
+            # Catalog component in certification inventory
             if system not in inventory[standard_key][control_key]:
-                inventory[standard_key][control_key][system] = {}
+                inventory[standard_key][control_key][system] = []
+            inventory[standard_key][control_key][system].append(name)
+            # Catalog component in component inventory
             analysis = analyze_component(component)
-            inventory[standard_key][control_key][system][name] = analysis
+            if system not in inventory['components']:
+                inventory['components'][system] = {}
+            inventory['components'][system][name] = analysis
     else:
         inventory[standard_key][control_key] = "Missing Justifications"
 
@@ -63,7 +69,10 @@ def catalog_control(inventory, control, standard_key, control_key):
 def build_inventory(certification_path):
     """ Create an inventory of components for a specific certification """
     certification = yaml_loader(certification_path)
-    inventory = {'certification': certification.get('name')}
+    inventory = {
+        'certification': certification.get('name'),
+        'components': {}
+    }
     for standard_key in certification['standards']:
         inventory[standard_key] = {}
         for control_key in certification['standards'][standard_key]:
