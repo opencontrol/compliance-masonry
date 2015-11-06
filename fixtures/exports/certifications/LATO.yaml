@@ -18,6 +18,7 @@ standards:
           url: https://github.com/18F/control-masonry
         - name: Reference Name 2
           url: https://github.com/18F/control-masonry
+        documentation_complete: false
       meta:
         name: Account Management
     AC-6:
@@ -35,6 +36,7 @@ standards:
           url: https://github.com/18F/control-masonry
         - name: Reference Name 2
           url: https://github.com/18F/control-masonry
+        documentation_complete: false
       meta:
         name: Least Privilege
     CM-2:

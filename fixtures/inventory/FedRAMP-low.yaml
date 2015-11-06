@@ -1,13 +1,20 @@
 NIST-800-53:
   AC-2:
     AWS:
-      Component Name 1:
-        governors: Missing
-        references: 1
+    - Component Name 1
   AC-3: Missing Justifications
   CM-3:
     CloudFoundry:
-      Component Name 2:
-        governors: 1
-        references: Missing
+    - Component Name 2
 certification: FedRAMP-low
+components:
+  AWS:
+    Component Name 1:
+      documentation_completed: false
+      governors: Missing
+      references: 1
+  CloudFoundry:
+    Component Name 2:
+      documentation_completed: false
+      governors: 1
+      references: Missing

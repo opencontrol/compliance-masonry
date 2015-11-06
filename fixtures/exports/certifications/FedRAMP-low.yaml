@@ -5,6 +5,7 @@ standards:
       justifications:
         - name: Component Name 1
           system: AWS
+          documentation_complete: false
           narative: "Why this is met?!"
           references:
             - name: Amazon Elastic Block Store
@@ -15,6 +16,7 @@ standards:
         - name: Component Name 2
           system: CloudFoundry
           narative: "Why this is met?!"
+          documentation_complete: false
           governors:
             - name: Amazon Elastic Block Store
               url: https://aws.amazon.com/ebs/
