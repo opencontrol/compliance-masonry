@@ -39,6 +39,12 @@ masonry docs gitbook FedRAMP-low
 ```
 Generates the markdowns for a gitbook.
 
+### Create Inventory
+```bash
+masonry inventory FedRAMP-low
+```
+Generates a yaml inventory of listing  missing certification and components documentation.
+
 ## Importing Control Masonry
 ```
 import masonry
@@ -62,6 +68,7 @@ Component documentation contains information about individual system components 
 ```yaml
 name: User Account and Authentication (UAA) Server
 system: CloudFoundry
+documentation_complete: true
 references:
 - name: User Account and Authentication (UAA) Server
   url: http://docs.pivotal.io/pivotalcf/concepts/architecture/uaa.html
