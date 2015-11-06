@@ -36,7 +36,8 @@ def create_component_dict(system, name):
         'name': name,
         'references': [{'name': 'Reference Name'}, {'url': 'Refernce URL'}],
         'governors': [{'name': 'Governor Name'}, {'url': 'Governor URL'}],
-        'satisfies': {}
+        'satisfies': {},
+        'documentation_complete': False
     }
 
 

@@ -2,7 +2,9 @@ import click
 import os
 import logging
 
-from src.renderers import yamls_to_certification, certifications_to_gitbook
+from src.renderers import (
+    yamls_to_certification, certifications_to_gitbook, inventory_builder
+)
 from src import template_generator
 
 
@@ -57,6 +59,29 @@ def docs(export_format, certification, certs_dir, output_dir):
         click.echo('Gitbook Files Created in `{0}`'.format(output_path))
     else:
         click.echo('{0} format is not supported yet...'.format(export_format))
+
+
+@main.command()
+@click.argument('certification')
+@click.option(
+    '--certs-dir', '-c',
+    type=click.Path(exists=True),
+    help='Directory containing certification yamls'
+)
+@click.option(
+    '--output-dir', '-o',
+    type=click.Path(exists=False),
+    help='Directory where inventory is exported'
+)
+def inventory(certification, certs_dir, output_dir):
+    """ Creates an inventory for a specific certification  """
+    output_path, error = inventory_builder.create_inventory(
+        certification, certs_dir, output_dir
+    )
+    if output_path:
+        click.echo('Inventory yaml created at `{0}`'.format(output_path))
+    else:
+        click.echo(error)
 
 
 @main.command()
