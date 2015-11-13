@@ -1,17 +1,8 @@
+""" Script for creating an inventory yaml """
+
 import os
-import yaml
 
-
-def yaml_loader(filename):
-    """ Load a yaml file """
-    with open(filename) as yaml_file:
-        return yaml.load(yaml_file)
-
-
-def yaml_writer(data, filename):
-    """ Write yaml file"""
-    with open(filename, 'w') as yaml_file:
-        yaml_file.write(yaml.dump(data, default_flow_style=False))
+from src import utils
 
 
 def prepare_cert_path(certification, certification_dir):
@@ -25,8 +16,7 @@ def prepare_output_path(output_path):
     """ Set output_path and create a content dir if needed """
     if not output_path:
         output_path = 'exports/inventory'
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    utils.create_dir(output_path)
     return output_path
 
 
@@ -68,7 +58,7 @@ def catalog_control(inventory, control, standard_key, control_key):
 
 def build_inventory(certification_path):
     """ Create an inventory of components for a specific certification """
-    certification = yaml_loader(certification_path)
+    certification = utils.yaml_loader(certification_path)
     inventory = {
         'certification': certification.get('name'),
         'components': {}
@@ -83,6 +73,7 @@ def build_inventory(certification_path):
 
 
 def create_inventory(certification, certification_dir, output_path):
+    """ Creates an inventory yaml """
     certification_path = prepare_cert_path(certification, certification_dir)
     if not os.path.exists(certification_path):
         return None, "{} certification not found".format(certification)
@@ -92,5 +83,5 @@ def create_inventory(certification, certification_dir, output_path):
         output_path,
         inventory.get('certification') + '.yaml'
     )
-    yaml_writer(inventory, inventory_path)
+    utils.yaml_writer(inventory, inventory_path)
     return inventory_path, None

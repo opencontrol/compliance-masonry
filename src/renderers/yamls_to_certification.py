@@ -2,33 +2,19 @@
 certifications """
 
 import copy
-import glob
 import logging
 import os
 
-from yaml import dump, load
+from src import utils
+
 
 RELEVANT_KEYS = [
     'name', 'system', 'references', 'governors', 'documentation_complete'
 ]
 
 
-def yaml_writer(component_data, filename):
-    """ Write component data to a yaml file """
-    with open(filename, 'w') as yaml_file:
-        yaml_file.write(dump(component_data, default_flow_style=False))
-
-
-def yaml_loader(glob_path):
-    """ Creates a generator for loading yaml files into dicts """
-    for filename in glob.iglob(glob_path):
-        with open(filename, 'r') as yaml_file:
-            yield load(yaml_file)
-
-
-def prepare_data_paths(data_dir):
-    """ Create glob paths for data directory includes glob path for
-    certifications, components, and standards """
+def prepare_data_paths(data_dir=None):
+    """ Create the default glob paths for certifications, components, and standards """
     if not data_dir:
         data_dir = 'data'
     certifications_path = os.path.join(data_dir, 'certifications/*.yaml')
@@ -37,13 +23,12 @@ def prepare_data_paths(data_dir):
     return certifications_path, components_path, standards_path
 
 
-def prepare_cert_output_path(output_dir):
+def prepare_output_path(output_dir):
     """ Creates a path for the certifications exports directory """
     if not output_dir:
         output_dir = 'exports'
     output_path = os.path.join(output_dir, 'certifications')
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    utils.create_dir(output_path)
     return output_path
 
 
@@ -51,7 +36,7 @@ def create_standards_dic(standards_path):
     """ Create a standards dictionary for later merging with the
     certifications documentation """
     return {
-        standard['name']: standard for standard in yaml_loader(standards_path)
+        standard['name']: standard for standard in utils.yaml_gen_loader(standards_path)
     }
 
 
@@ -66,12 +51,10 @@ def check_and_add_key(new_dict, old_dict, key):
 
 def prepare_component(component_dict):
     """ Creates a deep copy of the component dict, but only keeps the name,
-    references, and governors data"""
+    references, and governors data """
     new_component_dict = dict()
-
     for key in RELEVANT_KEYS:
-        check_and_add_key(
-            new_dict=new_component_dict, old_dict=component_dict, key=key)
+        check_and_add_key(new_dict=new_component_dict, old_dict=component_dict, key=key)
     return new_component_dict
 
 
@@ -94,7 +77,7 @@ def create_bystandards_dict(components_path):
     """ Open component files and organize them by the standards/controls
     each satisfies """
     bystandards_dict = dict()
-    for component_dict in yaml_loader(components_path):
+    for component_dict in utils.yaml_gen_loader(components_path):
         convert_to_bystandards(
             component_dict=component_dict, bystandards_dict=bystandards_dict)
     return bystandards_dict
@@ -130,7 +113,7 @@ def merge_standard(certification, standards, standard, control):
 def build_certifications(certifications_path, components, standards):
     """ Merges the components and standards data with the certification
     data """
-    for certification in yaml_loader(certifications_path):
+    for certification in utils.yaml_gen_loader(certifications_path):
         for standard in sorted(certification['standards']):
             for control in sorted(certification['standards'][standard]):
                 # Create a reference to the certification control
@@ -143,7 +126,7 @@ def build_certifications(certifications_path, components, standards):
 def create_yaml_certifications(data_dir, output_dir):
     """ Generate certification yamls from data """
     certifications_path, components_path, standards_path = prepare_data_paths(data_dir)
-    output_path = prepare_cert_output_path(output_dir)
+    output_path = prepare_output_path(output_dir)
     standards = create_standards_dic(standards_path)
     components = create_bystandards_dict(components_path)
     certifications = build_certifications(
@@ -151,5 +134,5 @@ def create_yaml_certifications(data_dir, output_dir):
     )
     for name, certification in certifications:
         filename = os.path.join(output_path, name + '.yaml')
-        yaml_writer(component_data=certification, filename=filename)
+        utils.yaml_writer(component_data=certification, filename=filename)
     return output_path
