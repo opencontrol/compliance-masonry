@@ -1,4 +1,4 @@
-# Control Masonry - Alpha
+# Control Masonry (AKA Compliance Masonry) - Alpha
 [![Build Status](https://travis-ci.org/18F/control-masonry.svg)](https://travis-ci.org/18F/control-masonry)
 [![Code Climate](https://codeclimate.com/github/18F/control-masonry/badges/gpa.svg)](https://codeclimate.com/github/18F/control-masonry)
 ## About
