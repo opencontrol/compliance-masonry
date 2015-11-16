@@ -1,14 +1,8 @@
-from slugify import slugify
-from yaml import load
-
 import os
 import re
 
-
-def load_yaml(filename):
-    """ Load a specific yaml file """
-    with open(filename, 'r') as yaml_file:
-        return load(yaml_file)
+from slugify import slugify
+from src import utils
 
 
 def write_markdown(output_path, filename, text):
@@ -30,8 +24,7 @@ def prepare_output_path(output_path):
     if not output_path:
         output_path = 'exports/gitbook'
     content_path = os.path.join(output_path, 'content')
-    if not os.path.exists(content_path):
-        os.makedirs(content_path)
+    utils.create_dir(content_path)
     return output_path
 
 
@@ -151,7 +144,7 @@ def create_gitbook_documentation(certification, certification_dir, output_path):
     output_path = prepare_output_path(output_path)
     certification_path = prepare_cert_path(certification, certification_dir)
     summary = []
-    certification = load_yaml(certification_path)
+    certification = utils.yaml_loader(certification_path)
     for standard_key in natural_sort(certification['standards']):
         for control_key in natural_sort(certification['standards'][standard_key]):
             if 'justifications' in certification['standards'][standard_key][control_key]:
