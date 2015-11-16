@@ -1,44 +1,59 @@
 name: LATO
+components:
+  AWS:
+    EC2:
+      name: Amazon Elastic Compute Cloud
+      documentation_complete: false
+      references:
+        - name: Reference
+          url: Refernce URL
+          type: URL
+      configurations:
+        EC2_Configuration_1:
+          name: EC2 Configuration 1
+          url: Configuration 1 URL
+          type: URL
+        EC2_Configuration_2:
+          name: EC2 Configuration 2
+          url: Configuration 2 URL
+          type: Image
+  CloudFoundry:
+    UAA:
+      name: User Account and Authentication Server
+      documentation_complete: false
+      references:
+        - name: Reference
+          url: Refernce URL
+          type: URL
+      configurations:
+        UAA_Configuration_1:
+          name: UAA Configuration 1
+          url: Configuration 1 URL
+          type: URL
+        UAA_Configuration_2:
+          name: UAA Configuration 2
+          url: Configuration 2 URL
+          type: Image
 standards:
   NIST-800-53:
     AC-2:
-      justifications:
-      - governors:
-        - name: Governor Name
-          url: https://github.com/18F/control-masonry
-        - name: Governor Name 2
-          url: https://github.com/18F/control-masonry
-        name: User Account and Authentication (UAA) Server
-        system: CloudFoundry
-        narative:
-          a: Justifications narrative AC-2 a
-          b: Justifications narrative AC-2 b
-        references:
-        - name: Reference Name
-          url: https://github.com/18F/control-masonry
-        - name: Reference Name 2
-          url: https://github.com/18F/control-masonry
-        documentation_complete: false
       meta:
         name: Account Management
-    AC-6:
       justifications:
-      - governors:
-        - name: Governor Name
-          url: https://github.com/18F/control-masonry
-        - name: Governor Name 2
-          url: https://github.com/18F/control-masonry
-        name: User Account and Authentication (UAA) Server
-        system: CloudFoundry
-        narative: Justification AC-6
-        references:
-        - name: Reference Name
-          url: https://github.com/18F/control-masonry
-        - name: Reference Name 2
-          url: https://github.com/18F/control-masonry
-        documentation_complete: false
-      meta:
-        name: Least Privilege
+        - system: CloudFoundry
+          component: UAA
+          narrative: Justification in narrative form
+          implementation_status: complete
     CM-2:
       meta:
         name: Baseline Configuration
+      justifications:
+        - system: AWS
+          component: EC2
+          narrative: Justification in narrative form
+          implementation_status: partial
+          references:
+            - configuration: EC2_Configuration_1
+            - system: CloudFoundry
+              component: UAA
+              configuration: UAA_Configuration_1

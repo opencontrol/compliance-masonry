@@ -1,19 +1,20 @@
 name: User Account and Authentication (UAA) Server
-system: CloudFoundry
-governors:
-- name: Governor Name
-  url: https://github.com/18F/control-masonry
-- name: Governor Name 2
-  url: https://github.com/18F/control-masonry
+documentation_complete: false
 references:
-- name: Reference Name
-  url: https://github.com/18F/control-masonry
-- name: Reference Name 2
-  url: https://github.com/18F/control-masonry
+  - name: Reference
+    url: Refernce URL
+    type: URL
+configurations:
+  UAA_Configuration_1:
+    name: UAA Configuration 1
+    url: Configuration 1 URL
+    type: URL
+  UAA_Configuration_2:
+    name: UAA Configuration 2
+    url: Configuration 2 URL
+    type: Image
 satisfies:
   NIST-800-53:
     AC-2:
-      a: "Justifications narrative AC-2 a"
-      b: "Justifications narrative AC-2 b"
-    AC-6: "Justification AC-6"
-documentation_complete: false
+      narrative: Justification in narrative form
+      implementation_status: complete
