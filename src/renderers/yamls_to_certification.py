@@ -40,13 +40,14 @@ def create_standards_dic(standards_path):
     }
 
 
-def check_and_add_key(new_dict, old_dict, key):
-    """ Check if the dict has a key, otherwise issues a warning """
+def copy_key(new_dict, old_dict, key):
+    """ Copy value of key if it exists from old dict and add it to a
+    new dictionary  """
     if key in old_dict:
         new_dict[key] = copy.deepcopy(old_dict.get(key))
     else:
         logging.warning(
-            "Component `%s` is missing `%s` data", old_dict.get('name'), key)
+            "Component `%s` is missing `%s` data", old_dict.get("name"), key)
 
 
 def prepare_component(component_dict):
@@ -54,7 +55,7 @@ def prepare_component(component_dict):
     references, and governors data """
     new_component_dict = dict()
     for key in RELEVANT_KEYS:
-        check_and_add_key(new_dict=new_component_dict, old_dict=component_dict, key=key)
+        copy_key(new_dict=new_component_dict, old_dict=component_dict, key=key)
     return new_component_dict
 
 
