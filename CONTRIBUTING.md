@@ -4,7 +4,7 @@ We're so glad you're thinking about contributing to an 18F open source project! 
 
 Before contributing, we encourage you to read our CONTRIBUTING policy (you are here), our LICENSE, and our README, all of which should be in this repository. If you have any questions, or want to read more about our underlying policies, you can consult the 18F Open Source Policy GitHub repository at https://github.com/18f/open-source-policy, or just shoot us an email/official government letterhead note to [18f@gsa.gov](mailto:18f@gsa.gov).
 
-# Contributing to Control Masonry
+# Contributing to Compliance Masonry
 
 ## Help Wanted On
 - Adding new renderers `/src/renderers`
@@ -15,7 +15,7 @@ Before contributing, we encourage you to read our CONTRIBUTING policy (you are h
 
 
 ## Setting up development environment
-1. Fork Control Masonry
+1. Fork Compliance Masonry
 2. Clone forked repository
 ```
 git clone https://github.com/<<Your Forked Repo>>.git
@@ -24,7 +24,7 @@ git clone https://github.com/<<Your Forked Repo>>.git
 ```
 pip install -r requirements.txt
 ```
-4. Install Control Masonry (will need to repeat to see changes)
+4. Install Compliance Masonry (will need to repeat to see changes)
 ```
 python setup.py install
 ```
@@ -45,7 +45,7 @@ tox
 
 
 ## Found an Issue? or Want a Feature?
-Create a new issue on [our Issues page](https://github.com/18F/control-masonry/issues)
+Create a new issue on [our Issues page](https://github.com/opencontrol/compliance-masonry/issues)
 
 
 ## Public domain

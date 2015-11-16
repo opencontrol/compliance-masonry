@@ -1,18 +1,19 @@
-# Control Masonry (AKA Compliance Masonry) - Alpha
+# Compliance Masonry - Alpha
+>>>>>>> changing documentation names from Control Masonry to Compliance Masonry
 [![Build Status](https://travis-ci.org/18F/control-masonry.svg)](https://travis-ci.org/18F/control-masonry)
 [![Code Climate](https://codeclimate.com/github/18F/control-masonry/badges/gpa.svg)](https://codeclimate.com/github/18F/control-masonry)
 ## About
-Control Masonry allows users to construct certification documentation, which is required for approval of government IT systems and applications.
+Compliance Masonry allows users to construct certification documentation, which is required for approval of government IT systems and applications.
 
-Alpha Note: Control Masonry is an emerging project. We recognize that in its current state, Control Masonry's user experience still needs to mature. Nevertheless, we are "eating our own dog food" and working to make continuous improvements.
+Alpha Note: Compliance Masonry is an emerging project. We recognize that in its current state, Compliance Masonry's user experience still needs to mature. Nevertheless, we are "eating our own dog food" and working to make continuous improvements.
 
 # Quick Start with CLI
 
 ### Installing
 Only Tested on Python 3+
 ```bash
-$ git clone https://github.com/18F/control-masonry.git
-$ cd control-masonry
+$ https://github.com/opencontrol/compliance-masonry.git
+$ cd compliance-masonry
 $ python setup.py install
 ```
 
@@ -46,7 +47,7 @@ masonry inventory FedRAMP-low
 ```
 Generates a yaml inventory of listing  missing certification and components documentation.
 
-## Importing Control Masonry
+## Importing Compliance Masonry
 ```
 import masonry
 
@@ -129,17 +130,17 @@ standards:
 ```
 
 ## Benefits
-Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Control Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.
+Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Compliance Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.
 
-Control Masonry simplifies the process of certification documentations by providing:
+Compliance Masonry simplifies the process of certification documentations by providing:
 1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
 2. a way for government project to edit existing files and also add new control files for their applications and organizations.
 3. a pipeline for generating clean and standardized certification documentation
 
 
 ### Long Term Plan Diagram
-![control-masonry](https://cloud.githubusercontent.com/assets/47762/9829499/08d2b1dc-58bb-11e5-8185-5dc617188ae7.png)
+![compliance-masonry](https://cloud.githubusercontent.com/assets/47762/9829499/08d2b1dc-58bb-11e5-8185-5dc617188ae7.png)
 (Here's [the .gliffy source](https://gist.github.com/mogul/8d7cb123e03b0fe1b993).)
 
 ### Data Flow Diagram
-![control_masonry](https://cloud.githubusercontent.com/assets/4596845/10542998/e6397422-73e9-11e5-8681-5539be8b8164.png)
+![compliance-masonry](https://cloud.githubusercontent.com/assets/4596845/10542998/e6397422-73e9-11e5-8681-5539be8b8164.png)
