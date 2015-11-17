@@ -19,6 +19,7 @@ def main(verbose):
 
 
 @main.command()
+@click.argument('certification')
 @click.option(
     '--data-dir', '-d',
     type=click.Path(exists=True),
@@ -29,10 +30,10 @@ def main(verbose):
     type=click.Path(exists=False),
     help='Directory where certifications is exported'
 )
-def certs(data_dir, output_dir):
+def certs(certification, data_dir, output_dir):
     """ Create certification yamls """
     output_path = yamls_to_certification.create_yaml_certifications(
-        data_dir, output_dir
+        certification, data_dir, output_dir
     )
     click.echo('Certifications Created in: `{0}`'.format(output_path))
 
