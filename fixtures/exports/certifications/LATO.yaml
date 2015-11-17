@@ -1,59 +1,65 @@
-name: LATO
-components:
+components: # An object for storing components this information will be rendered in a appendix.
   AWS:
     EC2:
-      name: Amazon Elastic Compute Cloud
       documentation_complete: false
+      name: Amazon Elastic Compute Cloud
       references:
-        - name: Reference
-          url: Refernce URL
+      - name: Reference
+        type: URL
+        url: Refernce URL
+      verifications:
+        EC2_Verification_1:
+          name: EC2 Verification 1
           type: URL
-      configurations:
-        EC2_Configuration_1:
-          name: EC2 Configuration 1
-          url: Configuration 1 URL
-          type: URL
-        EC2_Configuration_2:
-          name: EC2 Configuration 2
-          url: Configuration 2 URL
+          url: Verification 1 URL
+        EC2_Verification_2:
+          name: EC2 Governor 2
           type: Image
+          url: Verification 2 URL
   CloudFoundry:
     UAA:
-      name: User Account and Authentication Server
       documentation_complete: false
+      name: User Account and Authentication (UAA) Server
       references:
-        - name: Reference
-          url: Refernce URL
+      - name: Reference
+        type: URL
+        url: Refernce URL
+      verifications:
+        UAA_Verification_1:
+          name: UAA Verification 1
           type: URL
-      configurations:
-        UAA_Configuration_1:
-          name: UAA Configuration 1
-          url: Configuration 1 URL
-          type: URL
-        UAA_Configuration_2:
-          name: UAA Configuration 2
-          url: Configuration 2 URL
+          url: Verification 1 URL
+        UAA_Verification_2:
+          name: UAA Verification 2
           type: Image
+          url: Verification 2 URL
+name: LATO
 standards:
   NIST-800-53:
     AC-2:
+      justifications:
+      - component: UAA
+        implementation_status: complete
+        narrative: Justification in narrative form
+        references: null
+        system: CloudFoundry
       meta:
         name: Account Management
-      justifications:
-        - system: CloudFoundry
-          component: UAA
-          narrative: Justification in narrative form
-          implementation_status: complete
+    AC-6:
+      meta:
+        name: Least Privilege
     CM-2:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        references: # verifications that don't have a a system and components are given thier parent's
+        - component: EC2
+          system: AWS
+          verification: EC2_Verification_1
+        - component: UAA
+          system: CloudFoundry
+          verification: UAA_Verification_1
+        system: AWS
       meta:
         name: Baseline Configuration
-      justifications:
-        - system: AWS
-          component: EC2
-          narrative: Justification in narrative form
-          implementation_status: partial
-          references:
-            - configuration: EC2_Configuration_1
-            - system: CloudFoundry
-              component: UAA
-              configuration: UAA_Configuration_1

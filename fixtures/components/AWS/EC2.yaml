@@ -4,14 +4,14 @@ references:
   - name: Reference  # Name of the reference ie. EC2 website
     url: Refernce URL  # Url of the reference
     type: URL # type of reference (will affect how it's rendered in the documentation)
-configurations:
-  EC2_Configuration_1: # ID of configuration
-    name: EC2 Configuration 1  # Name of configuration
-    url: Configuration 1 URL #  URL of the configuration
+verifications:
+  EC2_Verification_1: # ID of verification
+    name: EC2 Verification 1  # Name of verification
+    url: Verification 1 URL #  URL of the verification
     type: URL # type of reference (will affect how it's rendered in the documentation)
-  EC2_Configuration_2:
+  EC2_Verification_2:
     name: EC2 Governor 2
-    url: Configuration 2 URL
+    url: Verification 2 URL
     type: Image
 satisfies:
   NIST-800-53:
@@ -19,7 +19,7 @@ satisfies:
       narrative: Justification in narrative form # Justification text
       implementation_status: partial # Manual status of implementation (for gap analysis)
       references:
-        - configuration: EC2_Configuration_1 # The specific configuration ID that the reference links, no component or system is needed for internal references
-        - system: CloudFoundry  # System name of the configuration (can link to other systems / components)
-          component: UAA  # System name of the configuration (can link to other systems / components)
-          configuration: UAA_Configuration_1 # The specific configuration ID that the reference links to
+        - verification: EC2_Verification_1 # The specific verification ID that the reference links, no component or system is needed for internal references
+        - system: CloudFoundry  # System name of the verification (can link to other systems / components)
+          component: UAA  # System name of the verification (can link to other systems / components)
+          verification: UAA_Verification_1 # The specific verification ID that the reference links to

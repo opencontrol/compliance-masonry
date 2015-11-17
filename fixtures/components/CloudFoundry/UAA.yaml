@@ -4,14 +4,14 @@ references:
   - name: Reference
     url: Refernce URL
     type: URL
-configurations:
-  UAA_Configuration_1:
-    name: UAA Configuration 1
-    url: Configuration 1 URL
+verifications:
+  UAA_Verification_1:
+    name: UAA Verification 1
+    url: Verification 1 URL
     type: URL
-  UAA_Configuration_2:
-    name: UAA Configuration 2
-    url: Configuration 2 URL
+  UAA_Verification_2:
+    name: UAA Verification 2
+    url: Verification 2 URL
     type: Image
 satisfies:
   NIST-800-53:
