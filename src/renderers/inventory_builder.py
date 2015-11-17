@@ -12,14 +12,6 @@ def prepare_cert_path(certification, certification_dir):
     return os.path.join(certification_dir, '{0}.yaml'.format(certification))
 
 
-def prepare_output_path(output_path):
-    """ Set output_path and create a content dir if needed """
-    if not output_path:
-        output_path = 'exports/inventory'
-    utils.create_dir(output_path)
-    return output_path
-
-
 def analyze_attribute(attribute):
     """ Check how many elements an attribute has otherwise return "Missing """
     if attribute:
@@ -72,16 +64,12 @@ def build_inventory(certification_path):
     return inventory
 
 
-def create_inventory(certification, certification_dir, output_path):
+def create_inventory(certification_path, output_path):
     """ Creates an inventory yaml """
-    certification_path = prepare_cert_path(certification, certification_dir)
-    if not os.path.exists(certification_path):
-        return None, "{} certification not found".format(certification)
-    output_path = prepare_output_path(output_path)
     inventory = build_inventory(certification_path)
     inventory_path = os.path.join(
         output_path,
         inventory.get('certification') + '.yaml'
     )
     utils.yaml_writer(inventory, inventory_path)
-    return inventory_path, None
+    return inventory_path

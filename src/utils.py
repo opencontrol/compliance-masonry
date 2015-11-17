@@ -40,3 +40,20 @@ def components_loader(glob_path):
             data['component'] = component
             data['system'] = system
             yield data
+
+
+def fetch_available_certifications(data_dir):
+    """ Return a list of avaiable certifications """
+    return [
+        os.path.split(path.replace('.yaml', ''))[-1] for path in glob.iglob(os.path.join(data_dir, '*.yaml'))
+    ]
+
+
+def check_certifications(certification, data_dir):
+    """ Checks if certification is present, if the certification is present
+    returns the certification path otherwise returns a list of the certifications
+    that are avaiable """
+    certification_path = os.path.join(data_dir, certification + ".yaml")
+    if os.path.exists(certification_path):
+        return certification_path, None
+    return None, fetch_available_certifications(data_dir)

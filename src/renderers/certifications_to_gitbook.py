@@ -12,22 +12,6 @@ def write_markdown(output_path, filename, text):
         md_file.write(text)
 
 
-def prepare_cert_path(certification, certification_dir):
-    """ Prepare the path for a specific certification """
-    if not certification_dir:
-        certification_dir = 'exports/certifications/'
-    return os.path.join(certification_dir, '{0}.yaml'.format(certification))
-
-
-def prepare_output_path(output_path):
-    """ Set output_path and create a content dir if needed """
-    if not output_path:
-        output_path = 'exports/gitbook'
-    content_path = os.path.join(output_path, 'content')
-    utils.create_dir(content_path)
-    return output_path
-
-
 def convert_name_url(references):
     """ Converts references data to markdown url bullet point. """
     text = ''
@@ -139,10 +123,8 @@ def natural_sort(elements):
     return sorted(elements, key=alphanum_key)
 
 
-def create_gitbook_documentation(certification, certification_dir, output_path):
+def create_gitbook_documentation(certification_path, output_path):
     """ Convert certification to pages format """
-    output_path = prepare_output_path(output_path)
-    certification_path = prepare_cert_path(certification, certification_dir)
     summary = []
     certification = utils.yaml_loader(certification_path)
     for standard_key in natural_sort(certification['standards']):

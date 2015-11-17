@@ -8,10 +8,8 @@ import os
 from src import utils
 
 
-def prepare_data_paths(certification, data_dir=None):
+def prepare_data_paths(certification, data_dir):
     """ Create the default glob paths for certifications, components, and standards """
-    if not data_dir:
-        data_dir = 'data'
     certifications_path = os.path.join(
         data_dir, 'certifications/{0}.yaml'.format(certification)
     )
@@ -20,12 +18,9 @@ def prepare_data_paths(certification, data_dir=None):
     return certifications_path, components_path, standards_path
 
 
-def prepare_output_path(output_dir):
+def prepare_output_path(output_path):
     """ Creates a path for the certifications exports directory """
-    if not output_dir:
-        output_dir = 'exports'
-    output_path = os.path.join(output_dir, 'certifications')
-    utils.create_dir(output_path)
+
     return output_path
 
 
@@ -150,13 +145,12 @@ def build_certification(certifications_path, bystandards_dict, standards):
 def create_yaml_certifications(certification, data_dir, output_dir):
     """ Generate certification yamls from data """
     certifications_path, components_path, standards_path = prepare_data_paths(certification, data_dir)
-    output_path = prepare_output_path(output_dir)
     standards = create_standards_dic(standards_path)
     components_dict, bystandards_dict = parse_components(components_path)
     name, certification = build_certification(
         certifications_path, bystandards_dict, standards
     )
     certification['components'] = components_dict
-    filename = os.path.join(output_path, name + '.yaml')
+    filename = os.path.join(output_dir, name + '.yaml')
     utils.yaml_writer(component_data=certification, filename=filename)
-    return output_path
+    return filename
