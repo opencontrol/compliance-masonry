@@ -1,0 +1,523 @@
+name: PCI-DSS-MAY-2015
+Requirement 1:
+  name: Install and maintain a firewall configuration to protect cardholder data
+1.1:
+  name: Establish and implement firewall and router configuration standards.
+1.1.1:
+  name: A formal process for approving and testing all network connections and changes to the firewall and router configurations
+1.1.2:
+  name: Current network diagram that identifies all connections between the cardholder data environment and other networks, including any wireless networks
+1.1.3:
+  name: Current diagram that shows all cardholder data flows across systems and networks 
+1.1.4:
+  name: Requirements for a firewall at each Internet connection and between any demilitarized zone (DMZ) and the internal network zone
+1.1.5:
+  name: Description of groups, roles, and responsibilities for management of network components
+1.1.6:
+  name: Documentation and business justification for use of all services, protocols, and ports allowed, including documentation of security features implemented for those protocols considered to be insecure.
+1.1.7:
+  name: Requirement to review firewall and router rule sets at least every six months
+1.2:
+  name: Build firewall and router configurations that restrict connections between untrusted networks and any system components in the cardholder data environment.
+1.2.1:
+  name: Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic.
+1.2.2:
+  name: Secure and synchronize router configuration files.
+1.2.3:
+  name: Install perimeter firewalls between all wireless networks and the cardholder data environment, and configure these firewalls to deny or, if traffic is necessary for business purposes, permit only authorized traffic between the wireless environment and the cardholder data environment.
+1.3:
+  name: Prohibit direct public access between the Internet and any system component in the cardholder data environment.
+1.3.1:
+  name: Implement a DMZ to limit inbound traffic to only system components that provide authorized publicly accessible services, protocols, and ports.
+1.3.2:
+  name: Limit inbound Internet traffic to IP addresses within the DMZ.
+1.3.3:
+  name: Do not allow any direct connections inbound or outbound for traffic between the Internet and the cardholder data environment.
+1.3.4:
+  name: Implement anti-spoofing measures to detect and block forged source IP addresses from entering the network. 
+1.3.5:
+  name: Do not allow unauthorized outbound traffic from the cardholder data environment to the Internet.
+1.3.6:
+  name: Implement stateful inspection, also known as dynamic packet filtering. (That is, only “established” connections are allowed into the network.)
+1.3.7:
+  name: Place system components that store cardholder data (such as a database) in an internal network zone, segregated from the DMZ and other untrusted networks.
+1.3.8:
+  name: Do not disclose private IP addresses and routing information to unauthorized parties.
+1.4:
+  name: Install personal firewall software on any mobile and/or employee-owned devices that connect to the Internet when outside the network (for example, laptops used by employees), and which are also used to access the network.
+1.5:
+  name: Ensure that security policies and operational procedures for managing firewalls are documented, in use, and known to all affected parties.
+Requirement 2:
+  name: Do not use vendor-supplied defaults for system passwords and other security parameters
+2.1:
+  name: Always change vendor-supplied defaults and remove or disable unnecessary default accounts before installing a system on the network.
+2.1.1:
+  name: For wireless environments connected to the cardholder data environment or transmitting cardholder data, change ALL wireless vendor defaults at installation, including but not limited to default wireless encryption keys, passwords, and SNMP community strings.
+2.2:
+  name: Develop configuration standards for all system components. Assure that these standards address all known security vulnerabilities and are consistent with industry-accepted system hardening standards.
+2.2.1:
+  name: Implement only one primary function per server to prevent functions that require different security levels from co-existing on the same server. (For example, web servers, database servers, and DNS should be implemented on separate servers.)
+2.2.2:
+  name: Enable only necessary services, protocols, daemons, etc., as required for the function of the system.
+2.2.3:
+  name: Implement additional security features for any required services, protocols, or daemons that are considered to be insecure—for example, use secured technologies such as SSH, S-FTP, TLS, or IPSec VPN to protect insecure services such as NetBIOS, file-sharing, Telnet, FTP, etc.
+2.2.4:
+  name: Configure system security parameters to prevent misuse.
+2.2.5:
+  name: Remove all unnecessary functionality, such as scripts, drivers, features, subsystems, file systems, and unnecessary web servers.
+2.3:
+  name: Encrypt all non-console administrative access using strong cryptography. Use technologies such as SSH, VPN, or TLS for web-based management and other non-console administrative access.
+2.4:
+  name: Maintain an inventory of system components that are in scope for PCI DSS.
+2.5:
+  name: Ensure that security policies and operational procedures for managing vendor defaults and other security parameters are documented, in use, and known to all affected parties.
+2.6:
+  name: Shared hosting providers must protect each entity’s hosted environment and cardholder data. These providers must meet specific requirements as detailed in Appendix A.
+Requirement 3:
+  name: Protect stored cardholder data
+3.1:
+  name: Keep cardholder data storage to a minimum by implementing data retention and disposal policies, procedures and processes 
+3.2:
+  name: Do not store sensitive authentication data after authorization (even if encrypted). If sensitive authentication data is received, render all data unrecoverable upon completion of the authorization process.
+3.2.1:
+  name: Do not store the full contents of any track (from the magnetic stripe located on the back of a card, equivalent data contained on a chip, or elsewhere) after authorization. This data is alternatively called full track, track, track 1, track 2, and magnetic-stripe data.
+
+3.2.2:
+  name: Do not store the card verification code or value (three-digit or four-digit number printed on the front or back of a payment card used to verify card-not-present transactions) after authorization.
+3.2.3:
+  name: Do not store the personal identification number (PIN) or the encrypted PIN block after authorization.
+3.3:
+  name: Mask PAN when displayed (the first six and last four digits are the maximum number of digits to be displayed), such that only personnel with a legitimate business need can see the full PAN.
+3.4:
+  name: Render PAN unreadable anywhere it is stored (including on portable digital media, backup media, and in logs).
+3.4.1:
+  name: If disk encryption is used (rather than file- or column-level database encryption), logical access must be managed separately and independently of native operating system authentication and access control mechanisms (for example, by not using local user account databases or general network login credentials). Decryption keys must not be associated with user accounts. 
+3.5:
+  name: Document and implement procedures to protect keys used to secure stored cardholder data against disclosure and misuse.
+3.5.1:
+  name: Restrict access to cryptographic keys to the fewest number of custodians necessary.
+3.5.2:
+  name: Store secret and private keys used to encrypt/decrypt cardholder data in one (or more) of the following forms at all times 
+3.5.3:
+  name: Store cryptographic keys in the fewest possible locations.
+3.6:
+  name: Fully document and implement all key-management processes and procedures for cryptographic keys used for encryption of cardholder data.
+3.6.1:
+  name: Generation of strong cryptographic keys
+3.6.2:
+  name: Secure cryptographic key distribution
+3.6.3:
+  name: Secure cryptographic key storage
+3.6.4:
+  name: Cryptographic key changes for keys that have reached the end of their cryptoperiod (for example, after a defined period of time has passed and/or after a certain amount of cipher-text has been produced by a given key), as defined by the associated application vendor or key owner, and based on industry best practices and guidelines (for example, NIST Special Publication 800-57).
+3.6.5:
+  name: Retirement or replacement (for example, archiving, destruction, and/or revocation) of keys as deemed necessary when the integrity of the key has been weakened (for example, departure of an employee with knowledge of a clear-text key component), or keys are suspected of being compromised.
+3.6.6:
+  name: If manual clear-text cryptographic key-management operations are used, these operations must be managed using split knowledge and dual control.
+3.6.7:
+  name: Prevention of unauthorized substitution of cryptographic keys.
+3.6.8:
+  name: Requirement for cryptographic key custodians to formally acknowledge that they understand and accept their key-custodian responsibilities.
+3.7:
+  name: Ensure that security policies and operational procedures for protecting stored cardholder data are documented, in use, and known to all affected parties.
+Requirement 4:
+  name: Encrypt transmission of cardholder data across open, public networks
+4.1:
+  name: Use strong cryptography and security protocols (for example, TLS, IPSEC, SSH, etc.) to safeguard sensitive cardholder data during transmission over open, public networks.
+4.1.1:
+  name: Ensure wireless networks transmitting cardholder data or connected to the cardholder data environment, use industry best practices (for example, IEEE 802.11i) to implement strong encryption for authentication and transmission.
+4.2:
+  name: Never send unprotected PANs by end-user messaging technologies (for example, e-mail, instant messaging, SMS, chat, etc.).
+4.3:
+  name: Ensure that security policies and operational procedures for encrypting transmissions of cardholder data are documented, in use, and known to all affected parties.
+Requirement 5:
+  name: Use and regularly update anti-virus software or programs 
+5.1:
+  name: Deploy anti-virus software on all systems commonly affected by malicious software (particularly personal computers and servers).
+5.1.1:
+  name: Ensure that anti-virus programs are capable of detecting, removing, and protecting against all known types of malicious software.
+5.1.2:
+  name: For systems considered to be not commonly affected by malicious software, perform periodic evaluations to identify and evaluate evolving malware threats in order to confirm whether such systems continue to not require anti-virus software.
+5.2:
+  name: Ensure that all anti-virus mechanisms are maintained .
+5.3:
+  name: Ensure that anti-virus mechanisms are actively running and cannot be disabled or altered by users, unless specifically authorized by management on a case-by-case basis for a limited time period. 
+5.4:
+  name: Ensure that security policies and operational procedures for protecting systems against malware are documented, in use, and known to all affected parties.
+Requirement 6:
+  name: Develop and maintain secure systems and applications
+6.1:
+  name: Establish a process to identify security vulnerabilities, using reputable outside sources for security vulnerability information, and assign a risk ranking (for example, as “high,” “medium,” or “low”) to newly discovered security vulnerabilities.
+6.2:
+  name: Ensure that all system components and software are protected from known vulnerabilities by installing applicable vendor-supplied security patches. Install critical security patches within one month of release.
+6.3:
+  name: Develop internal and external software applications (including web-based administrative access to applications) securely.
+6.3.1:
+  name: Remove development, test and/or custom application accounts, user IDs, and passwords before applications become active or are released to customers.
+6.3.2:
+  name: Review custom code prior to release to production or customers in order to identify any potential coding vulnerability (using either manual or automated processes)
+6.4:
+  name: Follow change control processes and procedures for all changes to system components.
+6.4.1:
+  name: Separate development/test environments from production environments, and enforce the separation with access controls.
+6.4.2:
+  name: Separation of duties between development/test and production environments
+6.4.3:
+  name: Production data (live PANs) are not used for testing or development
+6.4.4:
+  name: Removal of test data and accounts before production systems become active
+6.4.5:
+  name: Change control procedures for the implementation of security patches and software modifications.
+6.4.5.1:
+  name: Documentation of impact.
+6.4.5.2:
+  name: Documented change approval by authorized parties. 
+6.4.5.3:
+  name: Functionality testing to verify that the change does not adversely impact the security of the system.
+6.4.5.4:
+  name: Back-out procedures.
+6.5:
+  name: Address common coding vulnerabilities in software-development processes.
+6.5.1:
+  name: Injection flaws, particularly SQL injection. Also consider OS Command Injection, LDAP and XPath injection flaws as well as other injection flaws.
+6.5.2:
+  name: Buffer overflows
+6.5.3:
+  name: Insecure cryptographic storage
+6.5.4:
+  name: Insecure communications
+6.5.5:
+  name: Improper error handling
+6.5.6:
+  name: All “high risk” vulnerabilities identified in the vulnerability identification process (as defined in PCI DSS Requirement 6.1).
+6.5.7:
+  name: Cross-site scripting (XSS)
+6.5.8:
+  name: Improper access control (such as insecure direct object references, failure to restrict URL access, directory traversal, and failure to restrict user access to functions).
+6.5.9:
+  name: Cross-site request forgery (CSRF)
+6.5.10:
+  name: Broken authentication and session management 
+6.6:
+  name: For public-facing web applications, address new threats and vulnerabilities on an ongoing basis and ensure these applications are protected against known attacks. 
+6.7:
+  name: Ensure that security policies and operational procedures for developing and maintaining secure systems and applications are documented, in use, and known to all affected parties.
+Requirement 7:
+  name: Restrict access to cardholder data by business need to know
+7.1:
+  name: Limit access to system components and cardholder data to only those individuals whose job requires such access.
+7.1.1:
+  name: Define access needs for each role.
+7.1.2:
+  name: Restrict access to privileged user IDs to least privileges necessary to perform job responsibilities. 
+7.1.3:
+  name: Assign access based on individual personnel’s job classification and function.
+7.1.4:
+  name: Require documented approval by authorized parties specifying required privileges.
+7.2:
+  name: Establish an access control system for systems components that restricts access based on a user’s need to know, and is set to “deny all” unless specifically allowed.
+7.2.1:
+  name: Coverage of all system components
+7.2.2:
+  name: Assignment of privileges to individuals based on job classification and function.
+7.2.3:
+  name: Default “deny-all” setting.
+7.3:
+  name: Ensure that security policies and operational procedures for restricting access to cardholder data are documented, in use, and known to all affected parties.
+Requirement 8:
+  name: Assign a unique ID to each person with computer access
+8.1:
+  name: Define and implement policies and procedures to ensure proper user identification management for non-consumer users and administrators on all system components.
+8.1.1:
+  name: Assign all users a unique ID before allowing them to access system components or cardholder data.
+8.1.2:
+  name: Control addition, deletion, and modification of user IDs, credentials, and other identifier objects.
+8.1.3:
+  name: Immediately revoke access for any terminated users.
+8.1.4:
+  name: Remove/disable inactive user accounts within 90 days.
+8.1.5:
+  name: Manage IDs used by vendors to access, support, or maintain system components via remote access .
+8.1.6:
+  name: Limit repeated access attempts by locking out the user ID after not more than six attempts.
+8.1.7:
+  name: Set the lockout duration to a minimum of 30 minutes or until an administrator enables the user ID.
+8.1.8:
+  name: If a session has been idle for more than 15 minutes, require the user to re-authenticate to re-activate the terminal or session.
+8.2:
+  name: In addition to assigning a unique ID, ensure proper user-authentication management for non-consumer users and administrators on all system components by employing at least one of the following methods to authenticate all users.
+8.2.1:
+  name: Using strong cryptography, render all authentication credentials (such as passwords/phrases) unreadable during transmission and storage on all system components.
+8.2.2:
+  name: Verify user identity before modifying any authentication credential—for example, performing password resets, provisioning new tokens, or generating new keys.
+8.2.3:
+  name: Passwords/phrases must meet the following(Require a minimum length of at least seven characters.Contain both numeric and alphabetic characters.)
+8.2.4:
+  name: Change user passwords/passphrases at least once every 90 days.
+8.2.5:
+  name: Do not allow an individual to submit a new password/phrase that is the same as any of the last four passwords/phrases he or she has used.
+8.2.6:
+  name: Set passwords/phrases for first-time use and upon reset to a unique value for each user, and change immediately after the first use.
+8.3:
+  name: Incorporate two-factor authentication for remote network access originating from outside the network by personnel (including users and administrators) and all third parties, (including vendor access for support or maintenance).
+8.4:
+  name: Document and communicate authentication policies and procedures to all users. 
+8.5:
+  name: Do not use group, shared, or generic IDs, passwords, or other authentication methods.
+8.5.1:
+  name: Additional requirement for service providers only. Service providers with remote access to customer premises (for example, for support of POS systems or servers) must use a unique authentication credential (such as a password/phrase) for each customer.
+8.6:
+  name: Where other authentication mechanisms are used (for example, physical or logical security tokens, smart cards, certificates, etc.), use of these mechanisms must be assigned .
+8.7:
+  name: All access to any database containing cardholder data (including access by applications, administrators, and all other users) is restricted .
+8.8:
+  name: Ensure that security policies and operational procedures for identification and authentication are documented, in use, and known to all affected parties.
+Requirement 9:
+  name: Restrict physical access to cardholder data
+9.1:
+  name: Use appropriate facility entry controls to limit and monitor physical access to systems in the cardholder data environment.
+9.1.1:
+  name: Use video cameras and/or access control mechanisms to monitor individual physical access to sensitive areas. Review collected data and correlate with other entries. Store for at least three months, unless otherwise restricted by law.
+9.1.2:
+  name: Implement physical and/or logical controls to restrict access to publicly accessible network jacks.
+9.1.3:
+  name: Restrict physical access to wireless access points, gateways, handheld devices, networking/communications hardware, and telecommunication lines.
+9.2:
+  name: Develop procedures to easily distinguish between onsite personnel and visitors.
+9.3:
+  name: Control physical access for onsite personnel to sensitive areas.
+9.4:
+  name: Implement procedures to identify and authorize visitors.
+9.4.1:
+  name: Visitors are authorized before entering, and escorted at all times within, areas where cardholder data is processed or maintained.
+9.4.2:
+  name: Visitors are identified and given a badge or other identification that expires and that visibly distinguishes the visitors from onsite personnel.
+9.4.3:
+  name: Visitors are asked to surrender the badge or identification before leaving the facility or at the date of expiration.
+9.4.4:
+  name: A visitor log is used to maintain a physical audit trail of visitor activity to the facility as well as computer rooms and data centers where cardholder data is stored or transmitted.
+9.5:
+  name: Physically secure all media.
+9.5.1:
+  name: Store media backups in a secure location, preferably an off-site facility, such as an alternate or backup site, or a commercial storage facility. Review the location’s security at least annually.
+9.6:
+  name: Maintain strict control over the internal or external distribution of any kind of media. 
+9.6.1:
+  name: Classify media so the sensitivity of the data can be determined.
+9.6.2:
+  name: Send the media by secured courier or other delivery method that can be accurately tracked.
+9.6.3:
+  name: Ensure management approves any and all media that is moved from a secured area (including when media is distributed to individuals).
+9.7:
+  name: Maintain strict control over the storage and accessibility of media.
+9.7.1:
+  name: Properly maintain inventory logs of all media and conduct media inventories at least annually.
+9.8:
+  name: Destroy media when it is no longer needed for business or legal reasons .
+9.8.1:
+  name: Shred, incinerate, or pulp hard-copy materials so that cardholder data cannot be reconstructed. Secure storage containers used for materials that are to be destroyed.
+9.8.2:
+  name: Render cardholder data on electronic media unrecoverable so that cardholder data cannot be reconstructed.
+9.9:
+  name: Protect devices that capture payment card data via direct physical interaction with the card from tampering and substitution.
+9.9.1:
+  name: Maintain an up-to-date list of devices.
+9.9.2:
+  name: Periodically inspect device surfaces to detect tampering (for example, addition of card skimmers to devices), or substitution (for example, by checking the serial number or other device characteristics to verify it has not been swapped with a fraudulent device).
+9.9.3:
+  name: Provide training for personnel to be aware of attempted tampering or replacement of devices.
+9.10:
+  name: Ensure that security policies and operational procedures for restricting physical access to cardholder data are documented, in use, and known to all affected parties.
+Requirement 10:
+  name: Track and monitor all access to network resources and cardholder data
+10.1:
+  name: Implement audit trails to link all access to system components to each individual user.
+10.2:
+  name: Implement automated audit trails for all system components to reconstruct the following events.
+10.2.1:
+  name: All individual user accesses to cardholder data
+10.2.2:
+  name: All actions taken by any individual with root or administrative privileges
+10.2.3:
+  name: Access to all audit trails
+10.2.4:
+  name: Invalid logical access attempts
+10.2.5:
+  name: Use of and changes to identification and authentication mechanisms—including but not limited to creation of new accounts and elevation of privileges—and all changes, additions, or deletions to accounts with root or administrative privileges
+10.2.6:
+  name: Initialization, stopping, or pausing of the audit logs
+10.2.7:
+  name: Creation and deletion of system-level objects
+10.3:
+  name: Record at least the following audit trail entries for all system components for each event.
+10.3.1:
+  name: User identification
+10.3.2:
+  name: Type of event
+10.3.3:
+  name: Date and time
+10.3.4:
+  name: Success or failure indication
+10.3.5:
+  name: Origination of event
+10.3.6:
+  name: Identity or name of affected data, system component, or resource.
+10.4:
+  name: Using time-synchronization technology, synchronize all critical system clocks and times and ensure that the following is implemented for acquiring, distributing, and storing time.
+10.4.1:
+  name: Critical systems have the correct and consistent time.
+10.4.2:
+  name: Time data is protected.
+10.4.3:
+  name: Time settings are received from industry-accepted time sources.
+10.5:
+  name: Secure audit trails so they cannot be altered.
+10.5.1:
+  name: Limit viewing of audit trails to those with a job-related need.
+10.5.2:
+  name: Protect audit trail files from unauthorized modifications.
+10.5.3:
+  name: Promptly back up audit trail files to a centralized log server or media that is difficult to alter.
+10.5.4:
+  name: Write logs for external-facing technologies onto a secure, centralized, internal log server or media device.
+10.5.5:
+  name: Use file-integrity monitoring or change-detection software on logs to ensure that existing log data cannot be changed without generating alerts (although new data being added should not cause an alert).
+10.6:
+  name: Review logs and security events for all system components to identify anomalies or suspicious activity.
+10.6.1:
+  name: Review the following at least daily (-All security events. -Logs of all system components that store, process, or transmit CHD and/or SAD.-Logs of all critical system components.-Logs of all servers and system components that perform security functions (for example, firewalls, intrusion-detection systems/intrusion-prevention systems (IDS/IPS), authentication servers, e-commerce redirection servers, etc.)
+10.6.2:
+  name: Review logs of all other system components periodically based on the organization’s policies and risk management strategy, as determined by the organization’s annual risk assessment. 
+10.6.3:
+  name: Follow up exceptions and anomalies identified during the review process.
+10.7:
+  name: Retain audit trail history for at least one year, with a minimum of three months immediately available for analysis (for example, online, archived, or restorable from backup).
+10.8:
+  name: Ensure that security policies and operational procedures for monitoring all access to network resources and cardholder data are documented, in use, and known to all affected parties.
+Requirement 11:
+  name: Regularly test security systems and processes
+11.1:
+  name: Implement processes to test for the presence of wireless access points (802.11), and detect and identify all authorized and unauthorized wireless access points on a quarterly basis.
+11.1.1:
+  name: Maintain an inventory of authorized wireless access points including a documented business justification.
+11.1.2:
+  name: Implement incident response procedures in the event unauthorized wireless access points are detected.
+11.2:
+  name: Run internal and external network vulnerability scans at least quarterly and after any significant change in the network (such as new system component installations, changes in network topology, firewall rule modifications, product upgrades).
+11.2.1:
+  name: Perform quarterly internal vulnerability scans and rescans as needed, until all “high-risk” vulnerabilities (as identified in Requirement 6.1) are resolved. Scans must be performed by qualified personnel.
+11.2.2:
+  name: Perform quarterly external vulnerability scans, via an Approved Scanning Vendor (ASV) approved by the Payment Card Industry Security Standards Council (PCI SSC). Perform rescans as needed, until passing scans are achieved.
+11.2.3:
+  name: Perform internal and external scans, and rescans as needed, after any significant change. Scans must be performed by qualified personnel.
+11.3:
+  name: Implement a methodology for penetration testing. 
+11.3.1:
+  name: Perform external penetration testing at least annually and after any significant infrastructure or application upgrade or modification (such as an operating system upgrade, a sub-network added to the environment, or a web server added to the environment).
+11.3.2:
+  name: Perform internal penetration testing at least annually and after any significant infrastructure or application upgrade or modification (such as an operating system upgrade, a sub-network added to the environment, or a web server added to the environment). 
+11.3.3:
+  name: Exploitable vulnerabilities found during penetration testing are corrected and testing is repeated to verify the corrections.
+11.3.4:
+  name: If segmentation is used to isolate the CDE from other networks, perform penetration tests at least annually and after any changes to segmentation controls/methods to verify that the segmentation methods are operational and effective, and isolate all out-of-scope systems from systems in the CDE.
+11.4:
+  name: Use intrusion-detection and/or intrusion-prevention techniques to detect and/or prevent intrusions into the network. Monitor all traffic at the perimeter of the cardholder data environment as well as at critical points in the cardholder data environment, and alert personnel to suspected compromises.Keep all intrusion-detection and prevention engines, baselines, and signatures up to date.
+11.5:
+  name: Deploy a change-detection mechanism (for example, file-integrity monitoring tools) to alert personnel to unauthorized modification (including changes, additions, and deletions) of critical system files, configuration files, or content files; and configure the software to perform critical file comparisons at least weekly.
+11.5.1:
+  name: Implement a process to respond to any alerts generated by the change-detection solution.
+11.6:
+  name: Ensure that security policies and operational procedures for security monitoring and testing are documented, in use, and known to all affected parties.
+Requirement 12:
+  name: Maintain a policy that addresses information security for all personnel
+12.1:
+  name: Establish, publish, maintain, and disseminate a security policy.
+12.1.1:
+  name: Review the security policy at least annually and update the policy when the environment changes.
+12.2:
+  name: Implement a risk-assessment process.
+12.3:
+  name: Develop usage policies for critical technologies and define proper use of these technologies.
+12.3.1:
+  name: Explicit approval by authorized parties
+12.3.2:
+  name: Authentication for use of the technology
+12.3.3:
+  name: A list of all such devices and personnel with access
+12.3.4:
+  name: A method to accurately and readily determine owner, contact information, and purpose (for example, labeling, coding, and/or inventorying of devices)
+12.3.5:
+  name: Acceptable uses of the technology
+12.3.6:
+  name: Acceptable network locations for the technologies
+12.3.7:
+  name: List of company-approved products
+12.3.8:
+  name: Automatic disconnect of sessions for remote-access technologies after a specific period of inactivity
+12.3.9:
+  name: Activation of remote-access technologies for vendors and business partners only when needed by vendors and business partners, with immediate deactivation after use
+12.3.10:
+  name: For personnel accessing cardholder data via remote-access technologies, prohibit the copying, moving, and storage of cardholder data onto local hard drives and removable electronic media, unless explicitly authorized for a defined business need. Where there is an authorized business need, the usage policies must require the data be protected in accordance with all applicable PCI DSS Requirements. 
+12.4:
+  name: Ensure that the security policy and procedures clearly define information security responsibilities for all personnel.
+12.5:
+  name: Assign to an individual or team the following information security management responsibilities.
+12.5.1:
+  name: Establish, document, and distribute security policies and procedures.
+12.5.2:
+  name: Monitor and analyze security alerts and information, and distribute to appropriate personnel.
+12.5.3:
+  name: Establish, document, and distribute security incident response and escalation procedures to ensure timely and effective handling of all situations.
+12.5.4:
+  name: Administer user accounts, including additions, deletions, and modifications.
+12.5.5:
+  name: Monitor and control all access to data.
+12.6:
+  name: Implement a formal security awareness program to make all personnel aware of the importance of cardholder data security.
+12.6.1:
+  name: Educate personnel upon hire and at least annually.
+12.6.2:
+  name: Require personnel to acknowledge at least annually that they have read and understood the security policy and procedures.
+12.7:
+  name: Screen potential personnel prior to hire to minimize the risk of attacks from internal sources. (Examples of background checks include previous employment history, criminal record, credit history, and reference checks.)
+12.8:
+  name: Maintain and implement policies and procedures to manage service providers with whom cardholder data is shared, or that could affect the security of cardholder data.
+12.8.1:
+  name: Maintain a list of service providers.
+12.8.2:
+  name: Maintain a written agreement that includes an acknowledgement that the service providers are responsible for the security of cardholder data the service providers possess or otherwise store, process or transmit on behalf of the customer, or to the extent that they could impact the security of the customer’s cardholder data environment.
+12.8.3:
+  name: Ensure there is an established process for engaging service providers including proper due diligence prior to engagement.
+12.8.4:
+  name: Maintain a program to monitor service providers’ PCI DSS compliance status at least annually.
+12.8.5:
+  name: Maintain information about which PCI DSS requirements are managed by each service provider, and which are managed by the entity.
+12.9:
+  name: Additional requirement for service providers only. Service providers acknowledge in writing to customers that they are responsible for the security of cardholder data the service provider possesses or otherwise stores, processes, or transmits on behalf of the customer, or to the extent that they could impact the security of the customer’s cardholder data environment.
+12.10:
+  name: Implement an incident response plan. Be prepared to respond immediately to a system breach.
+12.10.1:
+  name: Create the incident response plan to be implemented in the event of system breach. Ensure the plan addresses the following.
+12.10.2:
+  name: Test the plan at least annually.
+12.10.3:
+  name: Designate specific personnel to be available on a 24/7 basis to respond to alerts.
+12.10.4:
+  name: Provide appropriate training to staff with security breach response responsibilities.
+12.10.5:
+  name: Include alerts from security monitoring systems, including but not limited to intrusion-detection, intrusion-prevention, firewalls, and file-integrity monitoring systems.
+12.10.6:
+  name: Develop a process to modify and evolve the incident response plan according to lessons learned and to incorporate industry developments.
+Requirement A.1:
+  name: Shared hosting providers must protect the cardholder data environment 
+A.1:
+  name: Protect each entity’s (that is, merchant, service provider, or other entity) hosted environment and data, per A.1.1 through A.1.4 
+A.1.1:
+  name: Ensure that each entity only runs processes that have access to that entity’s cardholder data environment.
+A.1.2:
+  name: Restrict each entity’s access and privileges to its own cardholder data environment only.
+A.1.3:
+  name: Ensure logging and audit trails are enabled and unique to each entity’s cardholder data environment and consistent with PCI DSS Requirement 10.
+A.1.4:
+  name: Enable processes to provide for timely forensic investigation in the event of a compromise to any hosted merchant or service provider.
+  
