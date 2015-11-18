@@ -7,16 +7,16 @@ from src.renderers import yamls_to_certification
 
 def test_prepare_data_paths_default():
     """ Check that default data paths are created given no data dir """
-    certs, components, standards = yamls_to_certification.prepare_data_paths()
-    assert certs == 'data/certifications/*.yaml'
+    certs, components, standards = yamls_to_certification.prepare_data_paths('LATO', 'data')
+    assert certs == 'data/certifications/LATO.yaml'
     assert components == 'data/components/*/*.yaml'
     assert standards == 'data/standards/*.yaml'
 
 
 def test_prepare_data_paths_custom():
     """ Check that default data paths are created given a data directory """
-    certs, components, standards = yamls_to_certification.prepare_data_paths('t')
-    assert certs == 't/certifications/*.yaml'
+    certs, components, standards = yamls_to_certification.prepare_data_paths('LATO', 't')
+    assert certs == 't/certifications/LATO.yaml'
     assert components == 't/components/*/*.yaml'
     assert standards == 't/standards/*.yaml'
 
