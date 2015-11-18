@@ -1,0 +1,11 @@
+documentation_complete: false
+name: testcomponent
+references:
+- name: Reference Name
+  type: Image
+  url: Refernce URL
+satisfies: {}
+verifications:
+- name: Verification Name
+  type: Image
+  url: Verification URL

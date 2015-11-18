@@ -133,13 +133,15 @@ def init(directory):
 @click.argument('system-name')
 @click.argument('component-name')
 @click.option(
-    '--output-dir', '-o',
+    '--data-dir', '-d',
     type=click.Path(exists=False),
+    default='data',
     help='Directory where documentation is exported'
 )
-def new(file_type, system_name, component_name, output_dir):
+def new(file_type, system_name, component_name, data_dir):
     """ Command for generating new yaml files """
     if file_type == "component":
+        output_dir = os.path.join(data_dir, 'components')
         component_path = template_generator.create_new_component_yaml(
             system_name, component_name, output_dir
         )
