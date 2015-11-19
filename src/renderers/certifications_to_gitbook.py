@@ -30,10 +30,9 @@ def generate_text_narative(narative):
     return text
 
 
-def build_summary(summaries, output_path):
-    """ Construct a gitbook summary for the controls """
-
-    main_summary = "# Summary  \n\n ## Standards  \n\n"
+def build_standards_summary(summaries, output_path):
+    """ Construct the summary for the standards """
+    main_summary = "## Standards  \n\n"
     for standard_key in natural_sort(summaries['standards']):
         for family_key in natural_sort(summaries['standards'][standard_key]):
             section_summary = '# {0}  \n'.format(family_key)
@@ -51,8 +50,12 @@ def build_summary(summaries, output_path):
                     control['slug']
                 )
             write_markdown(output_path, 'content/' + family_key + '.md', section_summary)
+    return main_summary
 
-    main_summary += '\n## Systems  \n\n'
+
+def build_components_summary(summaries, output_path):
+    """ Construct the summary for the components """
+    main_summary = '\n## Systems  \n\n'
     for system_key in sorted(summaries['components']):
         main_summary += '* [{0}](content/{1}.md)\n'.format(system_key, system_key)
         section_summary = '# {0}  \n###Components  \n'.format(system_key)
@@ -69,7 +72,14 @@ def build_summary(summaries, output_path):
                 component['slug']
             )
         write_markdown(output_path, 'content/' + system_key + '.md', section_summary)
+    return main_summary
 
+
+def build_summary(summaries, output_path):
+    """ Construct a gitbook summary for the controls """
+    main_summary = "# Summary  \n\n"
+    main_summary += build_standards_summary(summaries, output_path)
+    main_summary += build_components_summary(summaries, output_path)
     write_markdown(output_path, 'SUMMARY.md', main_summary)
     write_markdown(output_path, 'README.md', main_summary)
 
