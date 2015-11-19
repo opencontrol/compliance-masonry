@@ -5,7 +5,7 @@ import yaml
 
 def create_dir(output_path):
     """ Given output path create directories """
-    if not os.path.exists(output_path):
+    if output_path and not os.path.exists(output_path):
         os.makedirs(output_path)
 
 

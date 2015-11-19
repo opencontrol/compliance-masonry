@@ -162,7 +162,7 @@ def build_control_text(control, certification):
 def build_component_text(component):
     """ Create markdown output for component text """
     text = '\n### References  \n'
-    for reference in sorted(component.get('references', [])):
+    for reference in sorted(component.get('references', []), key=lambda k: k['name']):
         text += convert_element(reference)
     text += '\n### Verifications  \n'
     for verification_key in sorted(component.get('verifications', [])):

@@ -28,9 +28,13 @@ def create_component_dict(system, component):
         'references': [
             {'name': 'Reference Name', 'url': 'Refernce URL',  'type': 'Image'}
         ],
-        'verifications': [
-            {'name': 'Verification Name', 'url': 'Verification URL',  'type': 'Image'}
-        ],
+        'verifications': {
+            'Verification_ID': {
+                'name': 'Verification Name',
+                'url': 'Verification URL',
+                'type': 'Image'
+            }
+        },
         'satisfies': {},
         'documentation_complete': False
     }

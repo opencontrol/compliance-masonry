@@ -51,8 +51,8 @@ def extract_components(main_dict, component_dict):
         main_dict[component_dict['system']][component_dict['component']] = {
             'name': component_dict['name'],
             'documentation_complete': component_dict['documentation_complete'],
-            'references':  component_dict['references'],
-            'verifications': component_dict['verifications'],
+            'references':  component_dict.get('references', []),
+            'verifications': component_dict.get('verifications', {}),
         }
 
 
