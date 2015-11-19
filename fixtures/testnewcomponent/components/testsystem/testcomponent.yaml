@@ -6,6 +6,7 @@ references:
   url: Refernce URL
 satisfies: {}
 verifications:
-- name: Verification Name
-  type: Image
-  url: Verification URL
+  Verification_ID:
+    name: Verification Name
+    type: Image
+    url: Verification URL
