@@ -32,38 +32,27 @@ def generate_text_narative(narative):
 
 def build_summary(summaries, output_path):
     """ Construct a gitbook summary for the controls """
-    main_summary = "# Summary\n\n"
-    last_family = ''
-    section_summary = ''
-    for control in summaries['standards']:
-        new_family = control['family']
-        if last_family != new_family:
-            control_family_name = control['control_name']
-            main_summary += '* [{0} - {1} - {2}](content/{1}.md)\n'.format(
-                control['standard'],
-                control['family'],
-                control_family_name,
-            )
-            # Write the section summary
-            if last_family:
-                write_markdown(output_path, 'content/' + last_family + '.md', section_summary)
-            # Start a new section summary
-            section_summary = '# {0} - {1}\n\n'.format(new_family, control_family_name)
-        # Add the control url to main summary
-        main_summary += '\t* [{0} - {1}](content/{2}.md)\n'.format(
-            control['control'],
-            control['control_name'],
-            control['slug']
-        )
-        # Add the control url to section summary
-        section_summary += '* [{0} - {1}]({2}.md)\n'.format(
-            control['control'],
-            control['control_name'],
-            control['slug']
-        )
-        last_family = new_family
-    # Export the last family
-    write_markdown(output_path, 'content/' + last_family + '.md', section_summary)
+
+    main_summary = "# Summary  \n\n ## Standards  \n\n"
+    for standard_key in natural_sort(summaries['standards']):
+        for family_key in natural_sort(summaries['standards'][standard_key]):
+            section_summary = '# {0}  \n'.format(family_key)
+            main_summary += '* [{0} - {1}](content/{1}.md)\n'.format(standard_key, family_key)
+            for control_key in natural_sort(summaries['standards'][standard_key][family_key]):
+                control = summaries['standards'][standard_key][family_key][control_key]
+                main_summary += '\t* [{0} - {1}](content/{2}.md)\n'.format(
+                    control['family'],
+                    control['control_name'],
+                    control['slug']
+                )
+                section_summary += '* [{0} - {1}]({2}.md)\n'.format(
+                    control['control'],
+                    control['control_name'],
+                    control['slug']
+                )
+            write_markdown(output_path, 'content/' + family_key + '.md', section_summary)
+
+    main_summary += '\n## Systems  \n\n'
     for system_key in sorted(summaries['components']):
         main_summary += '* [{0}](content/{1}.md)\n'.format(system_key, system_key)
         section_summary = '# {0}  \n###Components  \n'.format(system_key)
@@ -71,12 +60,12 @@ def build_summary(summaries, output_path):
             component = summaries['components'][system_key][component_key]
             # Add the components url to main summary
             main_summary += '\t* [{0}](content/{1}.md)\n'.format(
-                component['component_name'],
+                component['component_key'],
                 component['slug']
             )
             # Add the components url to section summary
             section_summary += '* [{0}]({1}.md)\n'.format(
-                component['component_name'],
+                component['component_key'],
                 component['slug']
             )
         write_markdown(output_path, 'content/' + system_key + '.md', section_summary)
@@ -144,9 +133,9 @@ def build_control_text(control, certification):
     text = ''
     # Order the justifications by system and then component
     justifications_dict = org_by_system_component(control.get('justifications', []))
-    for system_key in justifications_dict:
+    for system_key in sorted(justifications_dict):
         text += '\n## {0}\n'.format(system_key)
-        for component_key in justifications_dict[system_key]:
+        for component_key in sorted(justifications_dict[system_key]):
             justification = justifications_dict[system_key][component_key]
             component = fetch_component(justification, certification)
             text += '\n## {0}\n'.format(component.get('name'))
@@ -163,11 +152,11 @@ def build_control_text(control, certification):
 def build_component_text(component):
     """ Create markdown output for component text """
     text = '\n### References  \n'
-    for reference in component.get('references', []):
+    for reference in sorted(component.get('references', [])):
         text += convert_element(reference)
     text += '\n### Verifications  \n'
-    for verification_key in component.get('verifications', []):
-            text += convert_element(component['verifications'][verification_key])
+    for verification_key in sorted(component.get('verifications', [])):
+        text += convert_element(component['verifications'][verification_key])
     return text
 
 
@@ -200,22 +189,25 @@ def natural_sort(elements):
 
 def build_standards_documentation(certification, output_path):
     """ Create the documentation for standards """
-    summary = []
-    for standard_key in natural_sort(certification['standards']):
-        for control_key in natural_sort(certification['standards'][standard_key]):
+    summary = {}
+    for standard_key in certification['standards']:
+        summary[standard_key] = {}
+        for control_key in certification['standards'][standard_key]:
             if 'justifications' in certification['standards'][standard_key][control_key]:
                 page_dict = document_cert_page(certification, standard_key, control_key)
                 build_cert_page(page_dict, certification, output_path)
-                summary.append(page_dict)
+                if page_dict['family'] not in summary[standard_key]:
+                    summary[standard_key][page_dict['family']] = {}
+                summary[standard_key][page_dict['family']][control_key] = page_dict
     return summary
 
 
 def build_components_documentation(certification, output_path):
     """ Create the documentation for the components """
     summary = {}
-    for system_key in certification['components']:
+    for system_key in sorted(certification['components']):
         summary[system_key] = {}
-        for component_key in certification['components'][system_key]:
+        for component_key in sorted(certification['components'][system_key]):
             page_dict = document_component_page(certification, system_key, component_key)
             build_component_page(page_dict, certification, output_path)
             summary[system_key][component_key] = page_dict
