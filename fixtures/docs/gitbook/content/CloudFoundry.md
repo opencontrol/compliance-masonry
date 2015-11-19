@@ -1,3 +1,3 @@
 # CloudFoundry  
 ###Components  
-* [User Account and Authentication (UAA) Server](CloudFoundry-UAA.md)
+* [UAA](CloudFoundry-UAA.md)

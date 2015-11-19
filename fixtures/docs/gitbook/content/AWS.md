@@ -1,3 +1,3 @@
 # AWS  
 ###Components  
-* [Amazon Elastic Compute Cloud](AWS-EC2.md)
+* [EC2](AWS-EC2.md)
