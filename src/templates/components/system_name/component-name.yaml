@@ -1,9 +1,11 @@
-governors:
-- name: Governor Name
-- url: Governor URL
-name: component_name
-references:
+documentation_complete: false # Flag to show that documentation is complete
+name: testcomponent # Name of the component
+references: # References about the component
 - name: Reference Name
-- url: Refernce URL
+  type: URL
+  url: Refernce URL
 satisfies: {}
-system: system_name
+verifications: # Verifications that prove system is configured correctly.
+- name: Verification Name
+  type: Image
+  url: Verification URL
