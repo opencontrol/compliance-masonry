@@ -30,7 +30,7 @@ New component template will be created as `data/components/system_name/component
 
 ### Create certification yamls
 ```bash
-masonry certs
+masonry certs FedRAMP-low
 ```
 Creates certification yamls in `exports/certifications`
 
@@ -46,56 +46,37 @@ masonry inventory FedRAMP-low
 ```
 Generates a yaml inventory of listing  missing certification and components documentation.
 
-## Importing Compliance Masonry
-```
-import masonry
-
-masonry.build_certifications(
-  data_dir="data_directory", output_dir="output_directory"
-)
-
-masonry.build_gitbook(
-  certification="certification_name",
-  certification_dir="location of certification's directory",
-  output_dir="location to output gitbook"
-)
-```
-
 # Documentation Format
 
 ### Components Documentation
 Component documentation contains information about individual system components and the standards they satisfy.
 
 ```yaml
-name: User Account and Authentication (UAA) Server
-system: CloudFoundry
-documentation_complete: true
+name: Amazon Elastic Compute Cloud # Name of the component
+documentation_complete: false # Manual check if the documentation is complete (for gap analysis)
 references:
-- name: User Account and Authentication (UAA) Server
-  url: http://docs.pivotal.io/pivotalcf/concepts/architecture/uaa.html
-- name: Creating and Managing Users with the UAA CLI (UAAC)
-  url: http://docs.pivotal.io/pivotalcf/adminguide/uaa-user-management.html
-governors:
-- name: Cloud Foundry Roles
-  url: https://cf-p1-docs-prod.cfapps.io/pivotalcf/concepts/roles.html
-- name: Cloud Foundry Org Access
-  url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/organization_access_spec.rb
-- name: Cloud Foundry Space Access
-  url: https://github.com/cloudfoundry/cloud_controller_ng/blob/master/spec/unit/access/space_access_spec.rb
+  - name: Reference  # Name of the reference ie. EC2 website
+    url: Refernce URL  # Url of the reference
+    type: URL # type of reference (will affect how it's rendered in the documentation)
+verifications:
+  EC2_Verification_1: # ID of verification
+    name: EC2 Verification 1  # Name of verification
+    url: Verification 1 URL #  URL of the verification
+    type: URL # type of reference (will affect how it's rendered in the documentation)
+  EC2_Verification_2:
+    name: EC2 Governor 2
+    url: Verification 2 URL
+    type: Image
 satisfies:
   NIST-800-53:
-    AC-2: Cloud Foundry accounts are managed through the User Account and Authentication
-      (UAA) Server.
-    IA-2: The UAA is the identity management service for Cloud Foundry. Its primary
-      role is as an OAuth2 provider, issuing tokens for client applications to use when
-      they act on behalf of Cloud Foundry users.
-    SC-13: All traffic from the public internet to the Cloud Controller and UAA happens
-      over HTTPS and operators configure encryption of the identity store in the UAA
-    SC-28 (1): Operators configure encryption of the identity store in the UAA. When
-      users register an account with the Cloud Foundry platform, the UAA, acts as the
-      user store and stores user passwords in the UAA database using bcrypt. Bcrypt
-      is a blowfish encryption algorithm, which enables cloud foundry to store a secure
-      hash of your users' passwords.
+    CM-2:
+      narrative: Justification in narrative form # Justification text
+      implementation_status: partial # Manual status of implementation (for gap analysis)
+      references:
+        - verification: EC2_Verification_1 # The specific verification ID that the reference links, no component or system is needed for internal references
+        - system: CloudFoundry  # System name of the verification (can link to other systems / components)
+          component: UAA  # System name of the verification (can link to other systems / components)
+          verification: UAA_Verification_1 # The specific verification ID that the reference links to
 ```
 
 ### Standards Documentation
