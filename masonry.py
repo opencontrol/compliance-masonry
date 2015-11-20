@@ -5,7 +5,7 @@ from src.renderers import (
 )
 
 
-def build_certifications(data_dir, output_dir):
+def build_certifications(certification, data_dir, output_dir):
     """ Interface for the yamls_to_certification renderer, which creates yaml
     certifications """
     return yamls_to_certification.create_yaml_certifications(

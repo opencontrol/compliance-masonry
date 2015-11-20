@@ -1,44 +1,65 @@
+components: # An object for storing components this information will be rendered in a appendix.
+  AWS:
+    EC2:
+      documentation_complete: false
+      name: Amazon Elastic Compute Cloud
+      references:
+      - name: Reference
+        type: URL
+        url: Refernce URL
+      verifications:
+        EC2_Verification_1:
+          name: EC2 Verification 1
+          type: URL
+          url: Verification 1 URL
+        EC2_Verification_2:
+          name: EC2 Governor 2
+          type: Image
+          url: Verification 2 URL
+  CloudFoundry:
+    UAA:
+      documentation_complete: false
+      name: User Account and Authentication (UAA) Server
+      references:
+      - name: Reference
+        type: URL
+        url: Refernce URL
+      verifications:
+        UAA_Verification_1:
+          name: UAA Verification 1
+          type: URL
+          url: Verification 1 URL
+        UAA_Verification_2:
+          name: UAA Verification 2
+          type: Image
+          url: Verification 2 URL
 name: LATO
 standards:
   NIST-800-53:
     AC-2:
       justifications:
-      - governors:
-        - name: Governor Name
-          url: https://github.com/18F/control-masonry
-        - name: Governor Name 2
-          url: https://github.com/18F/control-masonry
-        name: User Account and Authentication (UAA) Server
+      - component: UAA
+        implementation_status: complete
+        narrative: Justification in narrative form
+        references: null
         system: CloudFoundry
-        narative:
-          a: Justifications narrative AC-2 a
-          b: Justifications narrative AC-2 b
-        references:
-        - name: Reference Name
-          url: https://github.com/18F/control-masonry
-        - name: Reference Name 2
-          url: https://github.com/18F/control-masonry
-        documentation_complete: false
       meta:
         name: Account Management
     AC-6:
-      justifications:
-      - governors:
-        - name: Governor Name
-          url: https://github.com/18F/control-masonry
-        - name: Governor Name 2
-          url: https://github.com/18F/control-masonry
-        name: User Account and Authentication (UAA) Server
-        system: CloudFoundry
-        narative: Justification AC-6
-        references:
-        - name: Reference Name
-          url: https://github.com/18F/control-masonry
-        - name: Reference Name 2
-          url: https://github.com/18F/control-masonry
-        documentation_complete: false
       meta:
         name: Least Privilege
     CM-2:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        references: # verifications that don't have a a system and components are given thier parent's
+        - component: EC2
+          system: AWS
+          verification: EC2_Verification_1
+        - component: UAA
+          system: CloudFoundry
+          verification: UAA_Verification_1
+        system: AWS
       meta:
         name: Baseline Configuration

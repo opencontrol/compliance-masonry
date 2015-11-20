@@ -2,9 +2,9 @@
 
 import os
 import shutil
-import yaml
 
 from slugify import slugify
+from src import utils
 
 
 def get_template_dir():
@@ -13,40 +13,38 @@ def get_template_dir():
     return os.path.join(module_dir, 'templates/')
 
 
-def create_output_dirs(output_path):
-    """ Create the directories on the output path if they don't exist """
-    if output_path and not os.path.exists(output_path):
-        os.makedirs(output_path)
-
-
 def get_file_path(system, name, output_dir):
     """ Creates the path for the directory that will contain the component
     if it doesn't exist and returns the file path of component yaml"""
-    if not output_dir:
-        output_dir = 'data/components'
     output_path = os.path.join(output_dir, system)
-    create_output_dirs(output_path)
+    utils.create_dir(output_path)
     return os.path.join(output_path, '{0}.yaml'.format(slugify(name)))
 
 
-def create_component_dict(system, name):
+def create_component_dict(system, component):
     """ Generates a starting template for the component dictionary """
     return {
-        'system': system,
-        'name': name,
-        'references': [{'name': 'Reference Name'}, {'url': 'Refernce URL'}],
-        'governors': [{'name': 'Governor Name'}, {'url': 'Governor URL'}],
+        'name': component,
+        'references': [
+            {'name': 'Reference Name', 'url': 'Refernce URL',  'type': 'Image'}
+        ],
+        'verifications': {
+            'Verification_ID': {
+                'name': 'Verification Name',
+                'url': 'Verification URL',
+                'type': 'Image'
+            }
+        },
         'satisfies': {},
         'documentation_complete': False
     }
 
 
-def create_new_component_yaml(system, name, output_dir):
+def create_new_component_yaml(system, component, output_dir):
     """ Create new component yaml """
-    file_path = get_file_path(system, name, output_dir)
-    component_dict = create_component_dict(system, name)
-    with open(file_path, 'w') as yaml_file:
-        yaml_file.write(yaml.dump(component_dict, default_flow_style=False))
+    file_path = get_file_path(system, component, output_dir)
+    component_dict = create_component_dict(system, component)
+    utils.yaml_writer(component_dict, file_path)
     return file_path
 
 
@@ -55,7 +53,7 @@ def init_project(output_dir):
     if not output_dir:
         output_dir = 'data'
     output_container, _ = os.path.split(output_dir)
-    create_output_dirs(output_container)
+    utils.create_dir(output_container)
     template_dir = get_template_dir()
     copy_to_path = os.path.join(os.getcwd(), output_dir)
     shutil.copytree(template_dir, copy_to_path)
