@@ -134,7 +134,7 @@ def build_certification(certifications_path, bystandards_dict, standards):
     data """
     certification = utils.yaml_loader(certifications_path)
     for standard in certification['standards']:
-        for control in sorted(certification['standards'][standard]):
+        for control in certification['standards'][standard]:
             # Create a reference to the certification control
             certification['standards'][standard][control] = dict()
             merge_components(certification, bystandards_dict, standard, control)
