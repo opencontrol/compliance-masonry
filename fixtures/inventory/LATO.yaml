@@ -12,6 +12,25 @@ NIST-800-53:
         implementation_status: partial
         narrative: Present
         references: 2
+PCI-DSS-MAY-2015:
+  1.1.1:
+    AWS:
+      EC2:
+        implementation_status: partial
+        narrative: Present
+        references: Missing
+  2.1:
+    AWS:
+      EC2:
+        implementation_status: partial
+        narrative: Present
+        references: Missing
+  1.1:
+    AWS:
+      EC2:
+        implementation_status: partial
+        narrative: Present
+        references: 2
 certification: LATO
 components:
   AWS:

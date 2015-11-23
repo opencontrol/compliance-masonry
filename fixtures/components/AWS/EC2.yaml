@@ -23,3 +23,18 @@ satisfies:
         - system: CloudFoundry  # System name of the verification (can link to other systems / components)
           component: UAA  # System name of the verification (can link to other systems / components)
           verification: UAA_Verification_1 # The specific verification ID that the reference links to
+  PCI-DSS-MAY-2015:
+    1.1:
+      narrative: Justification in narrative form # Justification text
+      implementation_status: partial # Manual status of implementation (for gap analysis)
+      references:
+        - verification: EC2_Verification_1 # The specific verification ID that the reference links, no component or system is needed for internal references
+        - system: CloudFoundry  # System name of the verification (can link to other systems / components)
+          component: UAA  # System name of the verification (can link to other systems / components)
+          verification: UAA_Verification_1 # The specific verification ID that the reference links to
+    1.1.1:
+      narrative: Justification in narrative form # Justification text
+      implementation_status: partial # Manual status of implementation (for gap analysis)
+    2.1:
+      narrative: Justification in narrative form # Justification text
+      implementation_status: partial # Manual status of implementation (for gap analysis)

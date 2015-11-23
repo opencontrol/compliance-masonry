@@ -1,4 +1,4 @@
-components: # An object for storing components this information will be rendered in a appendix.
+components:
   AWS:
     EC2:
       documentation_complete: false
@@ -44,16 +44,18 @@ standards:
         references: null
         system: CloudFoundry
       meta:
+        family: AC
         name: Account Management
     AC-6:
       meta:
+        family: AC
         name: Least Privilege
     CM-2:
       justifications:
       - component: EC2
         implementation_status: partial
         narrative: Justification in narrative form
-        references: # verifications that don't have a a system and components are given thier parent's
+        references:
         - component: EC2
           system: AWS
           verification: EC2_Verification_1
@@ -62,4 +64,44 @@ standards:
           verification: UAA_Verification_1
         system: AWS
       meta:
+        family: CM
         name: Baseline Configuration
+  PCI-DSS-MAY-2015:
+    1.1.1:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        references: null
+        system: AWS
+      meta:
+        family: '1'
+        name: A formal process for approving and testing all network connections and
+          changes to the firewall and router configurations
+    1.1:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        references:
+        - component: EC2
+          system: AWS
+          verification: EC2_Verification_1
+        - component: UAA
+          system: CloudFoundry
+          verification: UAA_Verification_1
+        system: AWS
+      meta:
+        family: '1'
+        name: Establish and implement firewall and router configuration standards.
+    2.1:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        references: null
+        system: AWS
+      meta:
+        family: '2'
+        name: Always change vendor-supplied defaults and remove or disable unnecessary
+          default accounts before installing a system on the network.

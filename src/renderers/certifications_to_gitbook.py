@@ -88,13 +88,14 @@ def document_cert_page(certification, standard_key, control_key):
     """ Create a new page dict. This item is a dictionary that
     contains the standard and control keys, a slug of the combined key, and the
     name of the control"""
-    control_name = certification['standards'][standard_key][control_key]['meta']['name']
+    meta_data = certification['standards'][standard_key][control_key]['meta']
+
     slug = slugify('{0}-{1}'.format(standard_key, control_key))
     return {
         'control': control_key,
         'standard': standard_key,
-        'family': control_key.split('-')[0],
-        'control_name': control_name,
+        'family': meta_data.get('family'),
+        'control_name': meta_data.get('name'),
         'slug': slug
     }
 
@@ -193,7 +194,7 @@ def natural_sort(elements):
     stackoverflow.com/questions/4836710/
     """
     convert = lambda text: int(text) if text.isdigit() else text.lower()
-    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', str(key))]
     return sorted(elements, key=alphanum_key)
 
 

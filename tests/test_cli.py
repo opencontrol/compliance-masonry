@@ -1,5 +1,6 @@
 """ Integration tests for Control Masonry CLI """
 
+import glob
 import os
 import yaml
 import pytest
@@ -16,6 +17,7 @@ def runner():
 # Data directories
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'fixtures')
 CERTS_DATA_DIR = os.path.join(DATA_DIR, 'exports', 'certifications')
+DOCS_DATA_DIR = os.path.join(DATA_DIR, 'docs')
 INVENT_DATA_DIR = os.path.join(DATA_DIR, 'inventory')
 
 # Output directories
@@ -107,21 +109,9 @@ def test_gitbook_runs(runner):
 
 def test_gitbook_files(runner):
     """ Check that the gitbook files were created properly """
-    generated_files = [
-        'SUMMARY.md', 'README.md',
-        'content/NIST-800-53-AC-2.md',
-        'content/NIST-800-53-CM-2.md',
-        'content/AC.md',
-        'content/CloudFoundry.md',
-        'content/AWS-EC2.md',
-        'content/AWS.md',
-        'content/CloudFoundry-UAA.md',
-        'content/CM.md',
-
-    ]
-    for generated_file in generated_files:
-        generated_file_path = os.path.join(DOCS_OUTPUT_DIR, 'gitbook', generated_file)
-        expected_file_path = os.path.join('fixtures', 'docs', 'gitbook', generated_file)
+    glob_path = os.path.join(DOCS_DATA_DIR, '*/*.md')
+    for expected_file_path in glob.iglob(glob_path):
+        generated_file_path = expected_file_path.replace(DOCS_DATA_DIR, DOCS_OUTPUT_DIR)
         assert os.path.exists(generated_file_path)
         assert load_file(generated_file_path) == load_file(expected_file_path)
 
