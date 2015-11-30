@@ -11,7 +11,7 @@ verifications:
     type: URL # type of reference (will affect how it's rendered in the documentation)
   EC2_Verification_2:
     name: EC2 Governor 2
-    url: Verification 2 URL
+    url: artifact-ec2-1.png
     type: Image
 satisfies:
   NIST-800-53:
