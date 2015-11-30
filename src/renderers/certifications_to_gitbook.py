@@ -82,7 +82,7 @@ def concat_markdowns(markdown_path, output_path):
     """ Add markdown content files to the gitbook directory and make the summary
     file the base summary string in order to join the markdown summary with
     the gitbook generated in this file. """
-    for filename in glob.iglob(os.path.join(markdown_path, "*", "*.md")):
+    for filename in glob.iglob(os.path.join(markdown_path, "*", "*")):
         # Get the output file path and create the directory before copying
         output_filepath = os.path.join(
             output_path, filename.replace(os.path.join(markdown_path, ''), '')
