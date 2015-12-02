@@ -7,4 +7,4 @@
 
 [EC2 Verification 1](Verification 1 URL)
 
-[EC2 Governor 2](Verification 2 URL)
+![EC2 Governor 2](/artifacts/AWS/artifact-ec2-1.png)
