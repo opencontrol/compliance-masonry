@@ -67,8 +67,9 @@ def prepare_local_files(component_dict, ref_key, components_path, output_dir):
         file_import_path = os.path.join(import_base_path, path)
         is_local = not ('http://' in file_import_path or 'https://' in file_import_path)
         if os.path.exists(file_import_path) and is_local:
-            # Copy File
+            # Create dir and copy file
             file_output_path = os.path.join(output_base_path, path)
+            utils.create_dir(os.path.dirname(file_output_path))
             shutil.copy(file_import_path, file_output_path)
             # Rename url
             file_relative_path = os.path.join(relative_base_path, path)

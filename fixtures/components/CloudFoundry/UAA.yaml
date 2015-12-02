@@ -7,7 +7,7 @@ references:
 verifications:
   UAA_Verification_1:
     name: UAA Verification 1
-    url: Verification 1 URL
+    url: http://Verification 1 URL
     type: URL
   UAA_Verification_2:
     name: UAA Verification 2

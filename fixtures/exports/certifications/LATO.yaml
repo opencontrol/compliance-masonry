@@ -6,12 +6,12 @@ components:
       references:
       - name: Reference
         type: URL
-        url: Refernce URL
+        url: http://VerificationURL.com
       verifications:
         EC2_Verification_1:
           name: EC2 Verification 1
           type: URL
-          url: Verification 1 URL
+          url: http://VerificationURL.com
         EC2_Verification_2:
           name: EC2 Governor 2
           type: Image
@@ -28,7 +28,7 @@ components:
         UAA_Verification_1:
           name: UAA Verification 1
           type: URL
-          url: Verification 1 URL
+          url: http://Verification 1 URL
         UAA_Verification_2:
           name: UAA Verification 2
           type: Image

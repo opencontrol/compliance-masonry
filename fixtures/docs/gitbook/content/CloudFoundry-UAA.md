@@ -5,6 +5,6 @@
 
 ### Verifications  
 
-[UAA Verification 1](Verification 1 URL)
+[UAA Verification 1](http://Verification 1 URL)
 
 ![UAA Verification 2](/artifacts/CloudFoundry/artifact-uaa-2.png)

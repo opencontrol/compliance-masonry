@@ -34,8 +34,8 @@ def prepare_locally_stored_files(element, io_paths):
 
 def convert_element(element, io_paths=None):
     """ Converts a dict with a name url and type to markdown """
+    prepare_locally_stored_files(element, io_paths)
     if element['type'].lower() == 'image':
-        prepare_locally_stored_files(element, io_paths)
         base_text = '\n![{0}]({1})\n'
     else:
         base_text = '\n[{0}]({1})\n'
@@ -211,11 +211,15 @@ def build_control_text(control, certification):
 def build_component_text(component, io_paths):
     """ Create markdown output for component text """
     text = '\n### References  \n'
-    for reference in sorted(component.get('references', []), key=lambda k: k['name']):
-        text += convert_element(reference, io_paths)
-    text += '\n### Verifications  \n'
-    for verification_key in sorted(component.get('verifications', [])):
-        text += convert_element(component['verifications'][verification_key], io_paths)
+    references = component.get('references', [])
+    if references:
+        for reference in sorted(references, key=lambda k: k['name']):
+            text += convert_element(reference, io_paths)
+        text += '\n### Verifications  \n'
+    verifications = component.get('verifications', [])
+    if verifications:
+        for verification_key in sorted(verifications):
+            text += convert_element(component['verifications'][verification_key], io_paths)
     return text
 
 
