@@ -1,5 +1,8 @@
+import glob
 import os
+import shutil
 import re
+
 
 from slugify import slugify
 from src import utils
@@ -75,9 +78,31 @@ def build_components_summary(summaries, output_path):
     return main_summary
 
 
-def build_summary(summaries, output_path):
+def concat_markdowns(markdown_path, output_path):
+    """ Add markdown content files to the gitbook directory and make the summary
+    file the base summary string in order to join the markdown summary with
+    the gitbook generated in this file. """
+    for filename in glob.iglob(os.path.join(markdown_path, "*", "*")):
+        # Get the output file path and create the directory before copying
+        output_filepath = os.path.join(
+            output_path, filename.replace(os.path.join(markdown_path, ''), '')
+        )
+        ouput_dir = os.path.dirname(output_filepath)
+        utils.create_dir(ouput_dir)
+        shutil.copy(filename, output_filepath)
+    summary_path = os.path.join(markdown_path, 'SUMMARY.md')
+    with open(summary_path, 'r') as f:
+        main_summary = f.read()
+    return main_summary
+
+
+def build_summary(summaries, output_path, markdown_path):
     """ Construct a gitbook summary for the controls """
-    main_summary = "# Summary  \n\n"
+    if markdown_path and os.path.exists(markdown_path):
+        main_summary = concat_markdowns(markdown_path, output_path)
+        # load the main markdown
+    else:
+        main_summary = "# Summary  \n\n"
     main_summary += build_standards_summary(summaries, output_path)
     main_summary += build_components_summary(summaries, output_path)
     write_markdown(output_path, 'SUMMARY.md', main_summary)
@@ -225,11 +250,11 @@ def build_components_documentation(certification, output_path):
     return summary
 
 
-def create_gitbook_documentation(certification_path, output_path):
+def create_gitbook_documentation(certification_path, output_path, markdown_path=None):
     """ Convert certification to pages format """
     summaries = {}
     certification = utils.yaml_loader(certification_path)
     summaries['standards'] = build_standards_documentation(certification, output_path)
     summaries['components'] = build_components_documentation(certification, output_path)
-    build_summary(summaries, output_path)
+    build_summary(summaries, output_path, markdown_path)
     return output_path

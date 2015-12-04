@@ -62,10 +62,16 @@ def certs(certification, data_dir, output_dir):
 @click.argument('export-format')
 @click.argument('certification')
 @click.option(
-    '--certs-dir', '-c',
+    '--exports-dir', '-e',
     type=click.Path(exists=True),
-    default='exports/certifications',
+    default='exports',
     help='Directory containing certification yamls'
+)
+@click.option(
+    '--data-dir', '-d',
+    type=click.Path(exists=False),
+    default='data',
+    help='Directory containing components, standards, markdowns and certifications data.'
 )
 @click.option(
     '--output-dir', '-o',
@@ -73,15 +79,18 @@ def certs(certification, data_dir, output_dir):
     default='exports',
     help='Directory where documentation is exported'
 )
-def docs(export_format, certification, certs_dir, output_dir):
+def docs(export_format, certification, exports_dir, data_dir, output_dir):
     """ Create certification documentation """
+    certs_dir = os.path.join(exports_dir, 'certifications')
     cert_path = verify_certification_path(certification, certs_dir)
+    markdown_dir = os.path.join(data_dir, 'markdowns')
     if cert_path:
         if export_format == 'gitbook':
             gitbook_output_dir = os.path.join(output_dir, 'gitbook')
+            gitbook_markdown_dir = os.path.join(markdown_dir, 'gitbook')
             utils.create_dir(os.path.join(gitbook_output_dir, 'content'))
             output_path = certifications_to_gitbook.create_gitbook_documentation(
-                cert_path, gitbook_output_dir
+                cert_path, gitbook_output_dir, gitbook_markdown_dir
             )
             click.echo('Gitbook Files Created in `{0}`'.format(output_path))
         else:
@@ -91,9 +100,9 @@ def docs(export_format, certification, certs_dir, output_dir):
 @main.command()
 @click.argument('certification')
 @click.option(
-    '--certs-dir', '-c',
+    '--exports-dir', '-e',
     type=click.Path(exists=True),
-    default='exports/certifications',
+    default='exports',
     help='Directory containing certification yamls'
 )
 @click.option(
@@ -102,8 +111,9 @@ def docs(export_format, certification, certs_dir, output_dir):
     default='exports/inventory',
     help='Directory where inventory is exported'
 )
-def inventory(certification, certs_dir, output_dir):
+def inventory(certification, exports_dir, output_dir):
     """ Creates an inventory for a specific certification  """
+    certs_dir = os.path.join(exports_dir, 'certifications')
     utils.create_dir(output_dir)
     cert_path = verify_certification_path(certification, certs_dir)
     if cert_path:

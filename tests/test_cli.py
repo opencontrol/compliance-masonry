@@ -16,7 +16,7 @@ def runner():
 
 # Data directories
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'fixtures')
-CERTS_DATA_DIR = os.path.join(DATA_DIR, 'exports', 'certifications')
+EXPORTS_DATA_DIR = os.path.join(DATA_DIR, 'exports')
 DOCS_DATA_DIR = os.path.join(DATA_DIR, 'docs')
 INVENT_DATA_DIR = os.path.join(DATA_DIR, 'inventory')
 
@@ -67,7 +67,7 @@ def test_inventory_builder(runner):
         cli.main,
         [
             'inventory',
-            '-c{0}'.format(CERTS_DATA_DIR),
+            '-e{0}'.format(EXPORTS_DATA_DIR),
             '-o{0}'.format(INVENT_OUTPUT_DIR),
             'LATO',
         ]
@@ -97,7 +97,8 @@ def test_gitbook_runs(runner):
         cli.main,
         [
             'docs', 'gitbook', 'LATO',
-            '-c{0}'.format(CERTS_DATA_DIR),
+            '-e{0}'.format(EXPORTS_DATA_DIR),
+            '-d{0}'.format(DATA_DIR),
             '-o{0}'.format(DOCS_OUTPUT_DIR)
         ]
     )
@@ -122,7 +123,7 @@ def test_gitbook_catches_unsupported_type_error(runner):
         cli.main,
         [
             'docs', 'gitbooc', 'LATO',
-            '-c{0}'.format(CERTS_DATA_DIR),
+            '-e{0}'.format(EXPORTS_DATA_DIR),
             '-o{0}'.format(DOCS_OUTPUT_DIR)
         ]
     )
