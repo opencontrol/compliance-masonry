@@ -3,8 +3,9 @@ import os
 import logging
 
 from src.renderers import (
-    yamls_to_certification, certifications_to_gitbook, inventory_builder
+    certifications_to_gitbook, inventory_builder
 )
+from src.masonry import Masonry
 from src import template_generator
 from src import utils
 
@@ -52,10 +53,9 @@ def certs(certification, data_dir, output_dir):
     utils.create_dir(output_dir)
     certs_dir = os.path.join(data_dir, 'certifications')
     if verify_certification_path(certification, certs_dir):
-        output_path = yamls_to_certification.create_yaml_certifications(
-            certification, data_dir, output_dir
-        )
-        click.echo('Certification created in: `{0}`'.format(output_path))
+        masonry = Masonry(data_dir)
+        masonry.export_certification(certification, output_dir)
+        click.echo('Certification created in: `{0}`'.format(output_dir))
 
 
 @main.command()

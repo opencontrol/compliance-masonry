@@ -34,7 +34,7 @@ def analyze_component(component):
 def catalog_control(inventory, control, standard_key, control_key):
     """ Adds all the components in the control into the inventory
     while determing the gaps """
-    if 'justifications' in control:
+    if control.get('justifications'):
         for component in control['justifications']:
             system_key = component.get('system', 'No System')
             component_key = component.get('component', 'No Name')
@@ -72,9 +72,9 @@ def inventory_components(certification, inventory):
     for system_key in certification['components']:
         if system_key not in inventory['components']:
             inventory['components'][system_key] = {}
-        for component_key in certification['components'][system_key]:
+        for component_key in certification['components'][system_key]['components']:
             catalog_component(
-                certification['components'][system_key][component_key],
+                certification['components'][system_key]['components'][component_key],
                 inventory,
                 system_key,
                 component_key

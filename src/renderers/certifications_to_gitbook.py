@@ -151,7 +151,7 @@ def document_component_page(certification, system_key, component_key):
     """ Create a new page dict. This item is a dictionary that
     contains the standard and control keys, a slug of the combined key, and the
     name of the control"""
-    component = certification['components'][system_key][component_key]
+    component = certification['components'][system_key]['components'][component_key]
     slug = slugify('{0}-{1}'.format(system_key, component_key))
     return {
         'system_key': system_key,
@@ -165,7 +165,7 @@ def fetch_component(reference, certification):
     """ Fetches a specific component from the certification dict,
     this component will be used to extract the component name and it's verifications
     when they are referenced """
-    return certification['components'][reference['system']][reference['component']]
+    return certification['components'][reference['system']]['components'][reference['component']]
 
 
 def fetch_verification(verification_ref, certification):
@@ -235,7 +235,7 @@ def build_cert_page(page_dict, certification, output_path):
 def build_component_page(page_dict, certification, io_paths):
     """ Write a page for the gitbook """
     text = '# {0}'.format(page_dict['component_name'])
-    component = certification['components'][page_dict['system_key']][page_dict['component_key']]
+    component = certification['components'][page_dict['system_key']]['components'][page_dict['component_key']]
     text += build_component_text(component, io_paths)
     file_name = 'content/' + page_dict['slug'] + '.md'
     write_markdown(io_paths['output'], file_name, text)
@@ -270,7 +270,7 @@ def build_components_documentation(certification, io_paths):
     summary = {}
     for system_key in sorted(certification['components']):
         summary[system_key] = {}
-        for component_key in sorted(certification['components'][system_key]):
+        for component_key in sorted(certification['components'][system_key]['components']):
             page_dict = document_component_page(certification, system_key, component_key)
             build_component_page(page_dict, certification, io_paths)
             summary[system_key][component_key] = page_dict
