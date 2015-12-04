@@ -46,6 +46,9 @@ masonry inventory FedRAMP-low
 ```
 Generates a yaml inventory of listing  missing certification and components documentation.
 
+### Add General Documentation
+General documentation can be concatenated to gitbook documentation placing gitbook compatible format in the `data/markdowns/gitbook` directory.  
+
 # Documentation Format
 
 ### Components Documentation
