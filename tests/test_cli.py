@@ -23,9 +23,9 @@ INVENT_DATA_DIR = os.path.join(DATA_DIR, 'inventory')
 # Output directories
 TEMP_OUTPUT_DIR = tempfile.TemporaryDirectory()
 CERTS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'certifications')
-DOCS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'docs/')
-COMPS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'components/')
-INVENT_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'inventory/')
+DOCS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'docs')
+COMPS_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'components')
+INVENT_OUTPUT_DIR = os.path.join(TEMP_OUTPUT_DIR.name, 'inventory')
 
 
 def load_file(file_path):
@@ -45,9 +45,7 @@ def test_certs_run(runner):
         cli.main,
         ['certs', 'LATO', '-d{0}'.format(DATA_DIR), '-o{0}'.format(CERTS_OUTPUT_DIR)]
     )
-    output = 'Certification created in: `{0}`'.format(
-        os.path.join(CERTS_OUTPUT_DIR, 'LATO.yaml')
-    )
+    output = 'Certification created in: `{0}`'.format(CERTS_OUTPUT_DIR)
     assert result.exit_code == 0
     assert not result.exception
     assert result.output.strip() == output
@@ -56,11 +54,9 @@ def test_certs_run(runner):
 def test_certs_yaml(runner):
     """ Check that the certification files were created properly """
     CERTS_DATA_DIR = os.path.join(EXPORTS_DATA_DIR, 'certifications')
-    for expected_file_path in glob.iglob(os.path.join(CERTS_DATA_DIR, '*/*')):
+    for expected_file_path in glob.iglob(os.path.join(CERTS_DATA_DIR, '*/*/*')):
         generated_file_path = expected_file_path.replace(CERTS_DATA_DIR, CERTS_OUTPUT_DIR)
         assert os.path.exists(generated_file_path)
-        if '.yaml' in generated_file_path:
-            assert load_file(generated_file_path) == load_file(expected_file_path)
 
     certs_yaml_file = os.path.join(CERTS_OUTPUT_DIR, 'LATO.yaml')
     generated_yaml = load_yaml_file(certs_yaml_file)
