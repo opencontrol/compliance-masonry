@@ -1,38 +1,44 @@
 components:
   AWS:
-    EC2:
-      documentation_complete: false
-      name: Amazon Elastic Compute Cloud
-      references:
-      - name: Reference
-        type: URL
-        url: http://VerificationURL.com
-      verifications:
-        EC2_Verification_1:
-          name: EC2 Verification 1
+    components:
+      EC2:
+        documentation_complete: false
+        name: Amazon Elastic Compute Cloud
+        references:
+        - name: Reference
           type: URL
           url: http://VerificationURL.com
-        EC2_Verification_2:
-          name: EC2 Governor 2
-          type: Image
-          url: AWS/EC2/artifact-ec2-1.png
+        verifications:
+          EC2_Verification_1:
+            name: EC2 Verification 1
+            type: URL
+            url: http://VerificationURL.com
+          EC2_Verification_2:
+            name: EC2 Governor 2
+            type: Image
+            url: AWS/EC2/artifact-ec2-1.png
+    meta:
+      name: Amazon Web Services
   CloudFoundry:
-    UAA:
-      documentation_complete: false
-      name: User Account and Authentication (UAA) Server
-      references:
-      - name: Reference
-        type: Image
-        url: CloudFoundry/UAA/artifact-uaa-1.png
-      verifications:
-        UAA_Verification_1:
-          name: UAA Verification 1
-          type: URL
-          url: http://Verification 1 URL
-        UAA_Verification_2:
-          name: UAA Verification 2
+    components:
+      UAA:
+        documentation_complete: false
+        name: User Account and Authentication (UAA) Server
+        references:
+        - name: Reference
           type: Image
-          url: CloudFoundry/UAA/artifact-uaa-2.png
+          url: CloudFoundry/UAA/artifact-uaa-1.png
+        verifications:
+          UAA_Verification_1:
+            name: UAA Verification 1
+            type: URL
+            url: http://Verification 1 URL
+          UAA_Verification_2:
+            name: UAA Verification 2
+            type: Image
+            url: CloudFoundry/UAA/artifact-uaa-2.png
+    meta:
+      name: Cloud Foundry
 name: LATO
 standards:
   NIST-800-53:
@@ -87,16 +93,6 @@ standards:
       meta:
         family: '1'
         name: Establish and implement firewall and router configuration standards.
-    1.1.1:
-      justifications:
-      - component: EC2
-        implementation_status: partial
-        narrative: Justification in narrative form
-        system: AWS
-      meta:
-        family: '1'
-        name: A formal process for approving and testing all network connections and
-          changes to the firewall and router configurations
     2.1:
       justifications:
       - component: EC2
@@ -107,3 +103,13 @@ standards:
         family: '2'
         name: Always change vendor-supplied defaults and remove or disable unnecessary
           default accounts before installing a system on the network.
+    1.1.1:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        system: AWS
+      meta:
+        family: '1'
+        name: A formal process for approving and testing all network connections and
+          changes to the firewall and router configurations
