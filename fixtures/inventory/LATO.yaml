@@ -12,25 +12,30 @@ NIST-800-53:
         implementation_status: partial
         narrative: Present
         references: 2
+    CloudFoundry:
+      UAA:
+        implementation_status: complete
+        narrative: Present
+        references: Missing
 PCI-DSS-MAY-2015:
-  1.1.1:
-    AWS:
-      EC2:
-        implementation_status: partial
-        narrative: Present
-        references: Missing
-  2.1:
-    AWS:
-      EC2:
-        implementation_status: partial
-        narrative: Present
-        references: Missing
   1.1:
     AWS:
       EC2:
         implementation_status: partial
         narrative: Present
         references: 2
+  2.1:
+    AWS:
+      EC2:
+        implementation_status: partial
+        narrative: Present
+        references: Missing
+  1.1.1:
+    AWS:
+      EC2:
+        implementation_status: partial
+        narrative: Present
+        references: Missing
 certification: LATO
 components:
   AWS:

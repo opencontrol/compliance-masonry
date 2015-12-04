@@ -15,7 +15,7 @@ components:
         EC2_Verification_2:
           name: EC2 Governor 2
           type: Image
-          url: AWS/artifact-ec2-1.png
+          url: AWS/EC2/artifact-ec2-1.png
   CloudFoundry:
     UAA:
       documentation_complete: false
@@ -23,7 +23,7 @@ components:
       references:
       - name: Reference
         type: Image
-        url: CloudFoundry/artifact-uaa-1.png
+        url: CloudFoundry/UAA/artifact-uaa-1.png
       verifications:
         UAA_Verification_1:
           name: UAA Verification 1
@@ -32,7 +32,7 @@ components:
         UAA_Verification_2:
           name: UAA Verification 2
           type: Image
-          url: CloudFoundry/artifact-uaa-2.png
+          url: CloudFoundry/UAA/artifact-uaa-2.png
 name: LATO
 standards:
   NIST-800-53:
@@ -41,12 +41,12 @@ standards:
       - component: UAA
         implementation_status: complete
         narrative: Justification in narrative form
-        references: null
         system: CloudFoundry
       meta:
         family: AC
         name: Account Management
     AC-6:
+      justifications: []
       meta:
         family: AC
         name: Least Privilege
@@ -63,6 +63,10 @@ standards:
           system: CloudFoundry
           verification: UAA_Verification_1
         system: AWS
+      - component: UAA
+        implementation_status: complete
+        narrative: Justification in narrative form
+        system: CloudFoundry
       meta:
         family: CM
         name: Baseline Configuration
@@ -83,25 +87,23 @@ standards:
       meta:
         family: '1'
         name: Establish and implement firewall and router configuration standards.
-    2.1:
-      justifications:
-      - component: EC2
-        implementation_status: partial
-        narrative: Justification in narrative form
-        references: null
-        system: AWS
-      meta:
-        family: '2'
-        name: Always change vendor-supplied defaults and remove or disable unnecessary
-          default accounts before installing a system on the network.
     1.1.1:
       justifications:
       - component: EC2
         implementation_status: partial
         narrative: Justification in narrative form
-        references: null
         system: AWS
       meta:
         family: '1'
         name: A formal process for approving and testing all network connections and
           changes to the firewall and router configurations
+    2.1:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        system: AWS
+      meta:
+        family: '2'
+        name: Always change vendor-supplied defaults and remove or disable unnecessary
+          default accounts before installing a system on the network.
