@@ -72,7 +72,7 @@ class Component:
         output_base_path = os.path.join(export_dir, relative_base_path)
         utils.create_dir(output_base_path)
         for reference in utils.inplace_gen(references):
-            path = reference.get('url', 'NONE')
+            path = reference.get('path', 'NONE')
             file_import_path = os.path.join(self.component_directory, path)
             is_local = not ('http://' in file_import_path or 'https://' in file_import_path)
             if os.path.exists(file_import_path) and is_local:
@@ -80,9 +80,9 @@ class Component:
                 file_output_path = os.path.join(output_base_path, path)
                 utils.create_dir(os.path.dirname(file_output_path))
                 shutil.copy(file_import_path, file_output_path)
-                # Rename url
+                # Rename path
                 file_relative_path = os.path.join(relative_base_path, path)
-                reference['url'] = file_relative_path
+                reference['path'] = file_relative_path
         return references
 
     def export_component(self, export_dir):

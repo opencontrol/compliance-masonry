@@ -21,9 +21,9 @@ def write_markdown(output_path, filename, text):
 def prepare_locally_stored_files(element, io_paths):
     """ Prepare the files by moving locally stored files to the `artifacts` directory
     and linking filepaths to that directory """
-    item_path = element['url']
+    item_path = element['path']
     if not ('http://' in item_path or 'https://' in item_path):
-        element['url'] = os.path.join('/artifacts', item_path).replace('\\', '/')
+        element['path'] = os.path.join('/artifacts', item_path).replace('\\', '/')
         if io_paths:
             output_path = os.path.join(io_paths['output'], 'artifacts', item_path)
             input_path = os.path.join(io_paths['input'], item_path)
@@ -33,13 +33,13 @@ def prepare_locally_stored_files(element, io_paths):
 
 
 def convert_element(element, io_paths=None):
-    """ Converts a dict with a name url and type to markdown """
+    """ Converts a dict with a name path and type to markdown """
     prepare_locally_stored_files(element, io_paths)
     if element['type'].lower() == 'image':
         base_text = '\n![{0}]({1})\n'
     else:
         base_text = '\n[{0}]({1})\n'
-    return base_text.format(element['name'], element['url'])
+    return base_text.format(element['name'], element['path'])
 
 
 def generate_text_narative(narative):
@@ -86,12 +86,12 @@ def build_components_summary(summaries, output_path):
         section_summary = '# {0}  \n###Components  \n'.format(system_key)
         for component_key in sorted(summaries['components'][system_key]):
             component = summaries['components'][system_key][component_key]
-            # Add the components url to main summary
+            # Add the components path to main summary
             main_summary += '\t* [{0}](content/{1}.md)\n'.format(
                 component['component_key'],
                 component['slug']
             )
-            # Add the components url to section summary
+            # Add the components path to section summary
             section_summary += '* [{0}]({1}.md)\n'.format(
                 component['component_key'],
                 component['slug']

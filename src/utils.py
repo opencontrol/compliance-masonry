@@ -83,5 +83,3 @@ def inplace_gen(iterable):
     elif isinstance(iterable, list):
         for item in iterable:
             yield item
-    else:
-        return iterable

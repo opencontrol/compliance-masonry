@@ -13,38 +13,52 @@ def get_template_dir():
     return os.path.join(module_dir, 'templates/')
 
 
-def get_file_path(system, name, output_dir):
+def get_file_path(output_dir, system_key, component_key=None):
     """ Creates the path for the directory that will contain the component
     if it doesn't exist and returns the file path of component yaml"""
-    output_path = os.path.join(output_dir, system)
-    utils.create_dir(output_path)
-    return os.path.join(output_path, '{0}.yaml'.format(slugify(name)))
+    filepath = os.path.join(output_dir, system_key)
+    filename = 'system.yaml'
+    if component_key:
+        filepath = os.path.join(filepath, component_key)
+        filename = 'component.yaml'
+    utils.create_dir(filepath)
+    return os.path.join(filepath, filename)
 
 
-def create_component_dict(system, component):
+def create_data_dict(system_key, component_key):
     """ Generates a starting template for the component dictionary """
-    return {
-        'name': component,
-        'references': [
-            {'name': 'Reference Name', 'url': 'Refernce URL',  'type': 'Image'}
-        ],
-        'verifications': {
-            'Verification_ID': {
-                'name': 'Verification Name',
-                'url': 'Verification URL',
-                'type': 'Image'
-            }
-        },
-        'satisfies': {},
-        'documentation_complete': False
-    }
+    if component_key:
+        return {
+            'name': component_key,
+            'references': [
+                {
+                    'name': 'Reference Name',
+                    'path': 'http://dummyimage.com/600x400',
+                    'type': 'Image'
+                }
+            ],
+            'verifications': {
+                'Verification_ID': {
+                    'name': 'Verification Name',
+                    'path': 'http://dummyimage.com/600x400',
+                    'type': 'Image'
+                }
+            },
+            'satisfies': {},
+            'documentation_complete': False
+        }
+    else:
+        return {'name': system_key}
 
 
-def create_new_component_yaml(system, component, output_dir):
+def create_new_data_yaml(output_dir, system_key, component_key=None):
     """ Create new component yaml """
-    file_path = get_file_path(system, component, output_dir)
-    component_dict = create_component_dict(system, component)
-    utils.yaml_writer(component_dict, file_path)
+    system_key = slugify(system_key)
+    if component_key:
+        component_key = slugify(component_key)
+    file_path = get_file_path(output_dir, system_key, component_key)
+    data_dict = create_data_dict(system_key, component_key)
+    utils.yaml_writer(data_dict, file_path)
     return file_path
 
 

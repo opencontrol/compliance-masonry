@@ -140,21 +140,26 @@ def init(directory):
 
 @main.command()
 @click.argument('file-type')
-@click.argument('system-name')
-@click.argument('component-name')
+@click.argument('system-key')
+@click.argument('component-key', required=False)
 @click.option(
     '--data-dir', '-d',
     type=click.Path(exists=False),
     default='data',
     help='Directory where documentation is exported'
 )
-def new(file_type, system_name, component_name, data_dir):
+def new(file_type, system_key, component_key, data_dir):
     """ Command for generating new yaml files """
-    if file_type == "component":
-        output_dir = os.path.join(data_dir, 'components')
-        component_path = template_generator.create_new_component_yaml(
-            system_name, component_name, output_dir
+    output_dir = os.path.join(data_dir, 'components')
+    if file_type == "system":
+        system_path = template_generator.create_new_data_yaml(
+            output_dir=output_dir, system_key=system_key, component_key=None
+        )
+        click.echo('New System: `{0}`'.format(system_path))
+    elif file_type == "component":
+        component_path = template_generator.create_new_data_yaml(
+            output_dir=output_dir, system_key=system_key, component_key=component_key
         )
         click.echo('New Component: `{0}`'.format(component_path))
     else:
-        click.echo('Avaiable file-types: `component`')
+        click.echo('Avaiable file-types: `system` or `component`')
