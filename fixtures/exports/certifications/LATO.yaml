@@ -7,16 +7,16 @@ components:
         references:
         - name: Reference
           type: URL
-          url: http://VerificationURL.com
+          path: http://VerificationURL.com
         verifications:
           EC2_Verification_1:
             name: EC2 Verification 1
             type: URL
-            url: http://VerificationURL.com
+            path: http://VerificationURL.com
           EC2_Verification_2:
             name: EC2 Governor 2
             type: Image
-            url: AWS/EC2/artifact-ec2-1.png
+            path: AWS/EC2/artifact-ec2-1.png
     meta:
       name: Amazon Web Services
   CloudFoundry:
@@ -27,16 +27,16 @@ components:
         references:
         - name: Reference
           type: Image
-          url: CloudFoundry/UAA/artifact-uaa-1.png
+          path: CloudFoundry/UAA/artifact-uaa-1.png
         verifications:
           UAA_Verification_1:
             name: UAA Verification 1
             type: URL
-            url: http://Verification 1 URL
+            path: http://Verification 1 URL
           UAA_Verification_2:
             name: UAA Verification 2
             type: Image
-            url: CloudFoundry/UAA/artifact-uaa-2.png
+            path: CloudFoundry/UAA/artifact-uaa-2.png
     meta:
       name: Cloud Foundry
 name: LATO
