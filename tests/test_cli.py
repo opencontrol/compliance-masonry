@@ -132,6 +132,40 @@ def test_gitbook_catches_unsupported_type_error(runner):
     assert result.output.strip() == "gitbooc format is not supported yet..."
 
 
+def test_new_system_runs(runner):
+    """ Check that the new component command is runs properly """
+    result = runner.invoke(
+        cli.main,
+        [
+            'new', 'system', 'testsystem',
+            '-d{0}'.format(COMPS_OUTPUT_DIR)
+        ]
+    )
+    output = 'New System: `{0}`'.format(
+        os.path.join(
+            COMPS_OUTPUT_DIR, 'components', 'testsystem', 'system.yaml'
+        )
+    )
+    assert result.exit_code == 0
+    assert not result.exception
+    assert result.output.strip() == output
+
+
+def test_new_system_yaml(runner):
+    """ Check that the certification that was created has the correct
+    attributes """
+    comp_yaml_file = os.path.join(
+        COMPS_OUTPUT_DIR, 'components', 'testsystem', 'system.yaml'
+    )
+    generated_yaml = load_yaml_file(comp_yaml_file)
+    expected_yaml = load_yaml_file(
+        os.path.join(
+            DATA_DIR, 'testnewcomponent', 'components', 'testsystem', 'system.yaml'
+        )
+    )
+    assert generated_yaml == expected_yaml
+
+
 def test_new_component_runs(runner):
     """ Check that the new component command is runs properly """
     result = runner.invoke(
@@ -142,7 +176,10 @@ def test_new_component_runs(runner):
         ]
     )
     output = 'New Component: `{0}`'.format(
-        os.path.join(COMPS_OUTPUT_DIR, 'components', 'testsystem', 'testcomponent.yaml')
+        os.path.join(
+            COMPS_OUTPUT_DIR, 'components', 'testsystem',
+            'testcomponent', 'component.yaml'
+        )
     )
     assert result.exit_code == 0
     assert not result.exception
@@ -153,12 +190,14 @@ def test_new_component_yaml(runner):
     """ Check that the certification that was created has the correct
     attributes """
     comp_yaml_file = os.path.join(
-        COMPS_OUTPUT_DIR, 'components', 'testsystem', 'testcomponent.yaml'
+        COMPS_OUTPUT_DIR, 'components', 'testsystem',
+        'testcomponent', 'component.yaml'
     )
     generated_yaml = load_yaml_file(comp_yaml_file)
     expected_yaml = load_yaml_file(
         os.path.join(
-            DATA_DIR, 'testnewcomponent', 'components', 'testsystem', 'testcomponent.yaml'
+            DATA_DIR, 'testnewcomponent', 'components', 'testsystem',
+            'testcomponent', 'component.yaml'
         )
     )
     assert generated_yaml == expected_yaml
