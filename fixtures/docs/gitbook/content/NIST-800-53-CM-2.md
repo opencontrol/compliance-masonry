@@ -4,6 +4,6 @@
 ## Amazon Elastic Compute Cloud
 Justification in narrative form  
 
-[EC2 Verification 1](Verification 1 URL)
+[EC2 Verification 1](http://VerificationURL.com)
 
-[UAA Verification 1](Verification 1 URL)
+[UAA Verification 1](http://Verification 1 URL)

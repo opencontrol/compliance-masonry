@@ -2,16 +2,16 @@ name: User Account and Authentication (UAA) Server
 documentation_complete: false
 references:
   - name: Reference
-    url: Refernce URL
-    type: URL
+    url: artifact-uaa-1.png
+    type: Image
 verifications:
   UAA_Verification_1:
     name: UAA Verification 1
-    url: Verification 1 URL
+    url: http://Verification 1 URL
     type: URL
   UAA_Verification_2:
     name: UAA Verification 2
-    url: Verification 2 URL
+    url: artifact-uaa-2.png
     type: Image
 satisfies:
   NIST-800-53:

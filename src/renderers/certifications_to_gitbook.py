@@ -1,3 +1,6 @@
+""" Converts certification documentation to a gitbook """
+
+import filecmp
 import glob
 import os
 import shutil
@@ -15,9 +18,28 @@ def write_markdown(output_path, filename, text):
         md_file.write(text)
 
 
-def convert_element(element):
+def prepare_locally_stored_files(element, io_paths):
+    """ Prepare the files by moving locally stored files to the `artifacts` directory
+    and linking filepaths to that directory """
+    item_path = element['url']
+    if not ('http://' in item_path or 'https://' in item_path):
+        element['url'] = os.path.join('/artifacts', item_path).replace('\\', '/')
+        if io_paths:
+            output_path = os.path.join(io_paths['output'], 'artifacts', item_path)
+            input_path = os.path.join(io_paths['input'], item_path)
+            utils.create_dir(os.path.dirname(output_path))
+            if not os.path.exists(output_path) or not filecmp.cmp(input_path, output_path):
+                shutil.copy(input_path, output_path)
+
+
+def convert_element(element, io_paths=None):
     """ Converts a dict with a name url and type to markdown """
-    return '\n[{0}]({1})\n'.format(element['name'], element['url'])
+    prepare_locally_stored_files(element, io_paths)
+    if element['type'].lower() == 'image':
+        base_text = '\n![{0}]({1})\n'
+    else:
+        base_text = '\n[{0}]({1})\n'
+    return base_text.format(element['name'], element['url'])
 
 
 def generate_text_narative(narative):
@@ -25,7 +47,7 @@ def generate_text_narative(narative):
     If the narrative is in dict format the script converts it to to a
     string """
     text = ''
-    if type(narative) == dict:
+    if isinstance(narative, dict):
         for key in sorted(narative):
             text += '{0}. {1} \n '.format(key, narative[key])
     else:
@@ -91,8 +113,8 @@ def concat_markdowns(markdown_path, output_path):
         utils.create_dir(ouput_dir)
         shutil.copy(filename, output_filepath)
     summary_path = os.path.join(markdown_path, 'SUMMARY.md')
-    with open(summary_path, 'r') as f:
-        main_summary = f.read()
+    with open(summary_path, 'r') as summary_file:
+        main_summary = summary_file.read()
     return main_summary
 
 
@@ -147,6 +169,7 @@ def fetch_component(reference, certification):
 
 
 def fetch_verification(verification_ref, certification):
+    """ Get the verfication component """
     component = fetch_component(verification_ref, certification)['verifications']
     return component[verification_ref['verification']]
 
@@ -185,14 +208,18 @@ def build_control_text(control, certification):
     return text
 
 
-def build_component_text(component):
+def build_component_text(component, io_paths):
     """ Create markdown output for component text """
     text = '\n### References  \n'
-    for reference in sorted(component.get('references', []), key=lambda k: k['name']):
-        text += convert_element(reference)
-    text += '\n### Verifications  \n'
-    for verification_key in sorted(component.get('verifications', [])):
-        text += convert_element(component['verifications'][verification_key])
+    references = component.get('references', [])
+    if references:
+        for reference in sorted(references, key=lambda k: k['name']):
+            text += convert_element(reference, io_paths)
+        text += '\n### Verifications  \n'
+    verifications = component.get('verifications', [])
+    if verifications:
+        for verification_key in sorted(verifications):
+            text += convert_element(component['verifications'][verification_key], io_paths)
     return text
 
 
@@ -205,13 +232,13 @@ def build_cert_page(page_dict, certification, output_path):
     write_markdown(output_path, file_name, text)
 
 
-def build_component_page(page_dict, certification, output_path):
+def build_component_page(page_dict, certification, io_paths):
     """ Write a page for the gitbook """
     text = '# {0}'.format(page_dict['component_name'])
     component = certification['components'][page_dict['system_key']][page_dict['component_key']]
-    text += build_component_text(component)
+    text += build_component_text(component, io_paths)
     file_name = 'content/' + page_dict['slug'] + '.md'
-    write_markdown(output_path, file_name, text)
+    write_markdown(io_paths['output'], file_name, text)
 
 
 def natural_sort(elements):
@@ -238,14 +265,14 @@ def build_standards_documentation(certification, output_path):
     return summary
 
 
-def build_components_documentation(certification, output_path):
+def build_components_documentation(certification, io_paths):
     """ Create the documentation for the components """
     summary = {}
     for system_key in sorted(certification['components']):
         summary[system_key] = {}
         for component_key in sorted(certification['components'][system_key]):
             page_dict = document_component_page(certification, system_key, component_key)
-            build_component_page(page_dict, certification, output_path)
+            build_component_page(page_dict, certification, io_paths)
             summary[system_key][component_key] = page_dict
     return summary
 
@@ -253,8 +280,12 @@ def build_components_documentation(certification, output_path):
 def create_gitbook_documentation(certification_path, output_path, markdown_path=None):
     """ Convert certification to pages format """
     summaries = {}
+    io_paths = {
+        'output': output_path,
+        'input': os.path.dirname(certification_path)
+    }
     certification = utils.yaml_loader(certification_path)
+    summaries['components'] = build_components_documentation(certification, io_paths)
     summaries['standards'] = build_standards_documentation(certification, output_path)
-    summaries['components'] = build_components_documentation(certification, output_path)
     build_summary(summaries, output_path, markdown_path)
     return output_path

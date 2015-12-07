@@ -4,6 +4,7 @@ certifications """
 import copy
 import logging
 import os
+import shutil
 
 from src import utils
 
@@ -20,7 +21,6 @@ def prepare_data_paths(certification, data_dir):
 
 def prepare_output_path(output_path):
     """ Creates a path for the certifications exports directory """
-
     return output_path
 
 
@@ -42,7 +42,42 @@ def copy_key(new_dict, old_dict, key):
             "Component `%s` is missing `%s` data", old_dict.get("name"), key)
 
 
-def extract_components(main_dict, component_dict):
+def inplace_gen(iterable):
+    """ Create a generator for both lists and dicts that returns an object
+    that can be modified in place """
+    if isinstance(iterable, dict):
+        for key in iterable:
+            yield iterable[key]
+    elif isinstance(iterable, list):
+        for item in iterable:
+            yield item
+    else:
+        return iterable
+
+
+def prepare_local_files(component_dict, ref_key, components_path, output_dir):
+    """ Prepare references by saving files referenced locally to certifications
+    repository """
+    relative_base_path = os.path.join(component_dict['system'], '')
+    output_base_path = os.path.join(output_dir, relative_base_path)
+    import_base_path = os.path.join(components_path, relative_base_path)
+    utils.create_dir(output_base_path)
+    for reference in inplace_gen(component_dict.get(ref_key)):
+        path = reference.get('url', 'NONE')
+        file_import_path = os.path.join(import_base_path, path)
+        is_local = not ('http://' in file_import_path or 'https://' in file_import_path)
+        if os.path.exists(file_import_path) and is_local:
+            # Create dir and copy file
+            file_output_path = os.path.join(output_base_path, path)
+            utils.create_dir(os.path.dirname(file_output_path))
+            shutil.copy(file_import_path, file_output_path)
+            # Rename url
+            file_relative_path = os.path.join(relative_base_path, path)
+            reference['url'] = file_relative_path
+    return component_dict.get(ref_key)
+
+
+def extract_components(main_dict, component_dict, components_path, output_dir):
     """ Extracts the fields that pertain to the individual components and
     adds to an existing dict (main_dict) """
     if not component_dict['system'] in main_dict:
@@ -51,8 +86,12 @@ def extract_components(main_dict, component_dict):
         main_dict[component_dict['system']][component_dict['component']] = {
             'name': component_dict['name'],
             'documentation_complete': component_dict['documentation_complete'],
-            'references':  component_dict.get('references', []),
-            'verifications': component_dict.get('verifications', {}),
+            'references':  prepare_local_files(
+                component_dict, 'references', components_path, output_dir
+            ),
+            'verifications': prepare_local_files(
+                component_dict, 'verifications', components_path, output_dir
+            ),
         }
 
 
@@ -91,13 +130,18 @@ def extract_standards(main_dict, component_dict):
             })
 
 
-def parse_components(components_path):
+def prepare_components(components_path, data_dir, output_dir):
     """ Open component files and organize them into two dicts on with
     components data and the other with standards data """
     components_dict = dict()
     bystandards_dict = dict()
     for component_dict in utils.components_loader(components_path):
-        extract_components(main_dict=components_dict, component_dict=component_dict)
+        extract_components(
+            main_dict=components_dict,
+            component_dict=component_dict,
+            components_path=os.path.join(data_dir, 'components'),
+            output_dir=output_dir
+        )
         extract_standards(main_dict=bystandards_dict, component_dict=component_dict)
     return components_dict, bystandards_dict
 
@@ -146,7 +190,7 @@ def create_yaml_certifications(certification, data_dir, output_dir):
     """ Generate certification yamls from data """
     certifications_path, components_path, standards_path = prepare_data_paths(certification, data_dir)
     standards = create_standards_dic(standards_path)
-    components_dict, bystandards_dict = parse_components(components_path)
+    components_dict, bystandards_dict = prepare_components(components_path, data_dir, output_dir)
     name, certification = build_certification(
         certifications_path, bystandards_dict, standards
     )

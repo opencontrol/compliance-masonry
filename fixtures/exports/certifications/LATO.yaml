@@ -6,33 +6,33 @@ components:
       references:
       - name: Reference
         type: URL
-        url: Refernce URL
+        url: http://VerificationURL.com
       verifications:
         EC2_Verification_1:
           name: EC2 Verification 1
           type: URL
-          url: Verification 1 URL
+          url: http://VerificationURL.com
         EC2_Verification_2:
           name: EC2 Governor 2
           type: Image
-          url: Verification 2 URL
+          url: AWS/artifact-ec2-1.png
   CloudFoundry:
     UAA:
       documentation_complete: false
       name: User Account and Authentication (UAA) Server
       references:
       - name: Reference
-        type: URL
-        url: Refernce URL
+        type: Image
+        url: CloudFoundry/artifact-uaa-1.png
       verifications:
         UAA_Verification_1:
           name: UAA Verification 1
           type: URL
-          url: Verification 1 URL
+          url: http://Verification 1 URL
         UAA_Verification_2:
           name: UAA Verification 2
           type: Image
-          url: Verification 2 URL
+          url: CloudFoundry/artifact-uaa-2.png
 name: LATO
 standards:
   NIST-800-53:
@@ -67,17 +67,6 @@ standards:
         family: CM
         name: Baseline Configuration
   PCI-DSS-MAY-2015:
-    1.1.1:
-      justifications:
-      - component: EC2
-        implementation_status: partial
-        narrative: Justification in narrative form
-        references: null
-        system: AWS
-      meta:
-        family: '1'
-        name: A formal process for approving and testing all network connections and
-          changes to the firewall and router configurations
     1.1:
       justifications:
       - component: EC2
@@ -105,3 +94,14 @@ standards:
         family: '2'
         name: Always change vendor-supplied defaults and remove or disable unnecessary
           default accounts before installing a system on the network.
+    1.1.1:
+      justifications:
+      - component: EC2
+        implementation_status: partial
+        narrative: Justification in narrative form
+        references: null
+        system: AWS
+      meta:
+        family: '1'
+        name: A formal process for approving and testing all network connections and
+          changes to the firewall and router configurations
