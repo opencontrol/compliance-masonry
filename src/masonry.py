@@ -13,16 +13,19 @@ class Component:
     """ Component stores data from a component yaml and handles
     the export of locally stored artifacts """
 
-    def __init__(self, component_directory):
+    def __init__(self, component_directory=None, component_dict=None):
         """ Initialize a component object by identifying the system and
         component key, loading the metadata from the component.yaml, and
         creating a mapping of the controls it satisfies
         """
-        self.component_directory = component_directory
-        system_dir, self.component_key = os.path.split(component_directory)
-        self.system_key = os.path.split(system_dir)[-1]
-        self.load_metadata(component_directory)
-        self.justification_mapping = self.prepare_justifications()
+        if not component_dict:
+            self.component_directory = component_directory
+            system_dir, self.component_key = os.path.split(component_directory)
+            self.system_key = os.path.split(system_dir)[-1]
+            self.load_metadata(component_directory)
+            self.justification_mapping = self.prepare_justifications()
+        else:
+            self.meta = component_dict
 
     def load_metadata(self, component_directory):
         """ Load metadata from components.yaml """
@@ -103,14 +106,15 @@ class Component:
 class System:
     """ System stores data from the system yaml along with a dict of Component
     objects that fall under the system """
-    def __init__(self, system_directory):
+    def __init__(self, system_directory=None, system_dict=None):
         """ Initializes a System object by identifying the system yaml-file,
         loading the system key, metadata, and all the components under the system
         """
-        self.system_directory = system_directory
-        self.system_key = os.path.split(system_directory)[-1]
-        self.load_metadata(self.system_directory)
-        self.load_components(self.system_directory)
+        if not system_dict:
+            self.system_directory = system_directory
+            self.system_key = os.path.split(system_directory)[-1]
+            self.load_metadata(self.system_directory)
+            self.load_components(self.system_directory)
 
     def load_components(self, system_directory):
         """ Load the components under the system and store the data
@@ -123,7 +127,7 @@ class System:
         for component_yaml_path in components_glob:
             component_dir_path = os.path.split(component_yaml_path)[0]
             component_key = os.path.split(component_dir_path)[-1]
-            component = Component(component_dir_path)
+            component = Component(component_directory=component_dir_path)
             # return mapping
             utils.merge_justification(
                 self.justification_mapping, component.justification_mapping
@@ -155,20 +159,46 @@ class System:
         return self.meta.get('name', 'Unnamed System')
 
 
+class Control:
+    """ Control stores both control metadata and justifications """
+    def __init__(self, control_dict):
+        self.meta = control_dict
+        self.justifications = []
+
+    def update(self, new_control):
+        """ Update control metadata with another control """
+        self.meta.update(new_control.meta)
+
+    def add_justifications(self, new_justifications):
+        """ Add justifications to this control """
+        self.justifications = new_justifications
+
+    def export(self):
+        """ Export justifications in dict format """
+        return {'meta': self.meta, 'justifications': self.justifications}
+
+
 class Standard:
     """ Standard stores control data from a standard yaml """
-    def __init__(self, standards_yaml_path):
+    def __init__(self, standards_yaml_path=None, standard_dict=None):
         """ Given a standard yaml load all of the standards controls """
+        if standards_yaml_path:
+            standard_dict = yaml.load(open(standards_yaml_path))
         self.standards_yaml_path = standards_yaml_path
-        self.load_controls(standards_yaml_path)
+        self.load_controls(standard_dict)
+        if 'name' in standard_dict:
+            self.name = standard_dict['name']
+            del standard_dict['name']
 
-    def load_controls(self, standards_yaml_path):
+    def load_controls(self, standard_dict):
         """ Open the standars yaml and load all the controls """
-        data = yaml.load(open(standards_yaml_path))
-        self.controls = data
-        if 'name' in data:
-            self.name = data['name']
-            del data['name']
+        self.controls = {}
+        for control_key in standard_dict:
+            self.controls[control_key] = Control(standard_dict[control_key])
+
+    def export(self):
+        """ Export standards in dict format """
+        return {control_key: control.export() for control_key, control in self.controls.items()}
 
     def __getitem__(self, control_key):
         if self.controls:
@@ -176,6 +206,50 @@ class Standard:
 
     def __str__(self):
         return self.name
+
+    def __iter__(self):
+        for control_key in self.controls:
+            yield (control_key, self.controls[control_key])
+
+
+class Certification:
+    """ Certification stores data from a certification yaml """
+    def __init__(self, certification_yaml_path=None):
+        if certification_yaml_path:
+            self.certification_yaml_path = certification_yaml_path
+            self.load_standards(certification_yaml_path)
+            self.components = {}
+
+    def load_standards(self, certification_yaml_path):
+        """ Load the standards inside a certification """
+        certification_data = yaml.load(open(certification_yaml_path))
+        self.standards_dict = {}
+        for standard_key in certification_data['standards']:
+            self.standards_dict[standard_key] = Standard(
+                standard_dict=certification_data['standards'][standard_key]
+            )
+
+    def load_system_components(self, system_components_dict):
+        """ Update the components directory in the certification """
+        self.components.update(system_components_dict)
+
+    def export(self):
+        """ Export certification in dict format """
+        return {
+            'standards': {
+                standard_key: standard.export()
+                for standard_key, standard in self.standards_dict.items()
+            },
+            'components': self.components
+        }
+
+    def __getitem__(self, standard_key):
+        if self.standards_dict:
+            return self.standards_dict[standard_key]
+
+    def __iter__(self):
+        for standard_key in self.standards_dict:
+            yield (standard_key, self.standards_dict[standard_key])
 
 
 class Masonry:
@@ -204,7 +278,7 @@ class Masonry:
         for system_yaml_path in systems_glob:
             system_dir_path = os.path.split(system_yaml_path)[0]
             system_key = os.path.split(system_dir_path)[-1]
-            system = System(system_dir_path)
+            system = System(system_directory=system_dir_path)
             utils.merge_justification(self.justification_mapping, system.justification_mapping)
             self.systems[system_key] = system
 
@@ -214,11 +288,11 @@ class Masonry:
             os.path.join(data_directory, 'standards', '*.yaml')
         )
         self.standards = {}
-        for standard_yaml_path in standards_glob:
+        for standards_yaml_path in standards_glob:
             standard_key = os.path.splitext(
-                os.path.split(standard_yaml_path)[-1]
+                os.path.split(standards_yaml_path)[-1]
             )[0]
-            self.standards[standard_key] = Standard(standard_yaml_path)
+            self.standards[standard_key] = Standard(standards_yaml_path=standards_yaml_path)
 
     def get_justifications(self, standard_key, control_key):
         """ Given a standard and control return all the justification from the
@@ -237,27 +311,34 @@ class Masonry:
             systems_dict.update(system.export_system(export_dir))
         return systems_dict
 
-    def prepare_certification(self, certification_data):
+    def prepare_certification_controls(self, certification):
         """ Prepare a specific certification for export by merging all
         justifications from systems and components """
-        for standard in certification_data['standards']:
-            for control in certification_data['standards'][standard]:
-                certification_data['standards'][standard][control]['justifications'] = \
-                    list(self.get_justifications(standard, control))
-                certification_data['standards'][standard][control]['meta'] = \
-                    self.standards[standard][control]
-        return certification_data
+        for standard_key, standard in certification:
+            for control_key, control in standard:
+                control.update(self.standards[standard_key][control_key])
+                control.add_justifications(list(self.get_justifications(standard_key, control_key)))
+
+    def create_certification(self, certification, export_dir):
+        """ Create a certification object by updating the controls and loading systems """
+        certification_yaml_path = os.path.join(
+            self.data_directory, 'certifications', certification + '.yaml'
+        )
+        certification = Certification(certification_yaml_path=certification_yaml_path)
+        certification.load_system_components(self.prepare_systems(export_dir))
+        self.prepare_certification_controls(certification)
+        return certification
 
     def export_certification(self, certification, export_dir):
         """ Given a certification name and an export directory exports all the
         locally stored references to the directory along with the certification
         yaml. """
-        certification_data = yaml.load(open(
-            os.path.join(
-                self.data_directory, 'certifications', certification + '.yaml'
-            )
-        ))
-        certification_data = self.prepare_certification(certification_data)
-        certification_data['components'] = self.prepare_systems(export_dir)
+        certification_obj = self.create_certification(certification, export_dir)
         with open(os.path.join(export_dir, certification + '.yaml'), 'w') as cert_file:
-            cert_file.write(yaml.dump(certification_data, default_flow_style=False, indent=2))
+            cert_file.write(
+                yaml.dump(
+                    certification_obj.export(),
+                    default_flow_style=False,
+                    indent=2
+                )
+            )

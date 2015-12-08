@@ -45,7 +45,7 @@ def main(verbose):
 @click.option(
     '--output-dir', '-o',
     type=click.Path(exists=False),
-    default='exports/certifications',
+    default=os.path.join('exports', 'certifications'),
     help='Directory where certifications is exported'
 )
 def certs(certification, data_dir, output_dir):
