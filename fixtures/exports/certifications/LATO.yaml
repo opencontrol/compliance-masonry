@@ -6,17 +6,17 @@ components:
         name: Amazon Elastic Compute Cloud
         references:
         - name: Reference
-          type: URL
           path: http://VerificationURL.com
+          type: URL
         verifications:
           EC2_Verification_1:
             name: EC2 Verification 1
-            type: URL
             path: http://VerificationURL.com
+            type: URL
           EC2_Verification_2:
             name: EC2 Governor 2
-            type: Image
             path: AWS/EC2/artifact-ec2-1.png
+            type: Image
     meta:
       name: Amazon Web Services
   CloudFoundry:
@@ -26,20 +26,19 @@ components:
         name: User Account and Authentication (UAA) Server
         references:
         - name: Reference
-          type: Image
           path: CloudFoundry/UAA/artifact-uaa-1.png
+          type: Image
         verifications:
           UAA_Verification_1:
             name: UAA Verification 1
-            type: URL
             path: http://Verification 1 URL
+            type: URL
           UAA_Verification_2:
             name: UAA Verification 2
-            type: Image
             path: CloudFoundry/UAA/artifact-uaa-2.png
+            type: Image
     meta:
       name: Cloud Foundry
-name: LATO
 standards:
   NIST-800-53:
     AC-2:
