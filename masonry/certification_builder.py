@@ -1,0 +1,101 @@
+
+import glob
+import os
+import shutil
+import yaml
+
+from src import utils
+from masonry.core import Component, System, Control, Standard, Certification
+
+
+class CertificationBuilder:
+    """ Masonry contains main methods for loading data and exporting
+    certification documentation """
+
+    def __init__(self, data_directory=None):
+        """ Given a data directory loads the systems and standards
+        given a certification yaml loads a certification """
+        self.data_directory = data_directory
+        self.load_systems(self.data_directory)
+        self.load_standards(self.data_directory)
+
+    def system_iter(self):
+        """ An iterator for looping through a systems dict and returning
+        an object that editable in place.  """
+        for system in self.systems:
+            yield self.systems[system]
+
+    def load_systems(self, data_directory):
+        """ Load all the systems in the data data directory """
+        systems_glob = glob.iglob(
+            os.path.join(data_directory, 'components', '*', 'system.yaml')
+        )
+        self.systems = {}
+        self.justification_mapping = {}
+        for system_yaml_path in systems_glob:
+            system_dir_path = os.path.split(system_yaml_path)[0]
+            system_key = os.path.split(system_dir_path)[-1]
+            system = System(system_directory=system_dir_path)
+            utils.merge_justification(self.justification_mapping, system.justification_mapping)
+            self.systems[system_key] = system
+
+    def load_standards(self, data_directory):
+        """ Load standards in the data directory """
+        standards_glob = glob.iglob(
+            os.path.join(data_directory, 'standards', '*.yaml')
+        )
+        self.standards = {}
+        for standards_yaml_path in standards_glob:
+            standard_key = os.path.splitext(
+                os.path.split(standards_yaml_path)[-1]
+            )[0]
+            self.standards[standard_key] = Standard(standards_yaml_path=standards_yaml_path)
+
+    def get_justifications(self, standard_key, control_key):
+        """ Given a standard and control return all the justification from the
+        components data """
+        if standard_key in self.justification_mapping:
+            if control_key in self.justification_mapping[standard_key]:
+                for system, component in self.justification_mapping[standard_key][control_key]:
+                    yield self.systems[system][component].get_justifications(
+                        standard_key, control_key
+                    )
+
+    def prepare_systems(self, export_dir):
+        """ Get a system directory while storing any local files """
+        systems_dict = {}
+        for system in self.system_iter():
+            systems_dict.update(system.export_system(export_dir))
+        return systems_dict
+
+    def prepare_certification_controls(self, certification):
+        """ Prepare a specific certification for export by merging all
+        justifications from systems and components """
+        for standard_key, standard in certification:
+            for control_key, control in standard:
+                control.update_metadata(self.standards[standard_key][control_key])
+                control.add_justifications(list(self.get_justifications(standard_key, control_key)))
+
+    def create_certification(self, certification, export_dir):
+        """ Create a certification object by updating the controls and loading systems """
+        certification_yaml_path = os.path.join(
+            self.data_directory, 'certifications', certification + '.yaml'
+        )
+        certification = Certification(certification_yaml_path=certification_yaml_path)
+        certification.import_components(self.prepare_systems(export_dir))
+        self.prepare_certification_controls(certification)
+        return certification
+
+    def export_certification(self, certification, export_dir):
+        """ Given a certification name and an export directory exports all the
+        locally stored references to the directory along with the certification
+        yaml. """
+        certification_obj = self.create_certification(certification, export_dir)
+        with open(os.path.join(export_dir, certification + '.yaml'), 'w') as cert_file:
+            cert_file.write(
+                yaml.dump(
+                    certification_obj.export(),
+                    default_flow_style=False,
+                    indent=2
+                )
+            )

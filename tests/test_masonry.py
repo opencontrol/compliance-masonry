@@ -4,10 +4,10 @@ import tempfile
 import glob
 
 
-from src import masonry
+from masonry.core import Component
 
 
-COMPONENT = masonry.Component('fixtures/components/AWS/EC2')
+COMPONENT = Component('fixtures/components/AWS/EC2')
 
 
 def test_component_load_file():
