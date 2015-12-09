@@ -158,6 +158,7 @@ class Control:
         """ Load a control depending of the type of control if control does not
         contain 'meta' store everything as meta data, otherwise store
         meta and justifications separately.  """
+        self.justifications = {}
         if 'justifications' not in control_dict:
             self.meta = control_dict
         else:
@@ -179,10 +180,11 @@ class Control:
 
 class Standard:
     """ Standard stores control data from a standard yaml """
-    def __init__(self, standards_yaml_path=None, standard_dict=None):
+    def __init__(self, standards_yaml_path=None, standard_dict=None, control_class=Control):
         """ Given a standard yaml or standard dict load all of the controls"""
         if standards_yaml_path:
             standard_dict = yaml.load(open(standards_yaml_path))
+        self.control_class = control_class
         self.standards_yaml_path = standards_yaml_path
         self.load_controls(standard_dict)
         if 'name' in standard_dict:
@@ -193,7 +195,7 @@ class Standard:
         self.controls = {}
         for control_key, control_dict in standard_dict.items():
             if isinstance(control_dict, dict):
-                self.controls[control_key] = Control(control_dict)
+                self.controls[control_key] = self.control_class(control_dict)
 
     def export(self):
         """ Export standards in dict format """
@@ -213,9 +215,13 @@ class Standard:
 
 class Certification:
     """ Certification stores data from a certification yaml """
-    def __init__(self, certification_yaml_path=None):
+    def __init__(self, certification_yaml_path=None, standard_class=Standard):
+        # Set Paths
         self.certification_yaml_path = certification_yaml_path
         self.name = os.path.split(os.path.splitext(certification_yaml_path)[0])[-1]
+        # Set standard class
+        self.standard_class = standard_class
+        # Load Data
         certification_data = yaml.load(open(certification_yaml_path))
         self.load_standards(certification_data)
         self.load_components(certification_data)
@@ -224,7 +230,7 @@ class Certification:
         """ Load the standards inside a certification """
         self.standards_dict = {}
         for standard_key, standard in certification_dict['standards'].items():
-            self.standards_dict[standard_key] = Standard(standard_dict=standard)
+            self.standards_dict[standard_key] = self.standard_class(standard_dict=standard)
 
     def load_components(self, certification_dict):
         self.components = certification_dict.get('components', {})
