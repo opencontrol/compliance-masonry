@@ -13,19 +13,17 @@ class Component:
     """ Component stores data from a component yaml and handles
     the export of locally stored artifacts """
 
-    def __init__(self, component_directory=None, component_dict=None):
+    def __init__(self, component_directory):
         """ Initialize a component object by identifying the system and
         component key, loading the metadata from the component.yaml, and
         creating a mapping of the controls it satisfies
         """
-        if not component_dict:
-            self.component_directory = component_directory
-            system_dir, self.component_key = os.path.split(component_directory)
-            self.system_key = os.path.split(system_dir)[-1]
-            self.load_metadata(component_directory)
-            self.justification_mapping = self.prepare_justifications()
-        else:
-            self.meta = component_dict
+        self.component_directory = component_directory
+        system_dir, self.component_key = os.path.split(component_directory)
+        self.system_key = os.path.split(system_dir)[-1]
+        self.load_metadata(component_directory)
+        self.justification_mapping = self.prepare_justifications()
+
 
     def load_metadata(self, component_directory):
         """ Load metadata from components.yaml """
@@ -34,9 +32,9 @@ class Component:
         )
 
     def tag_references(self, control_justification):
-        """ Some references do not have a system or component id. This
-        method tags the control justifications so they can be referenced
-        later """
+        """ References that do not have component or system ID, point to
+        the system and component in which they are located. This method tags
+        the control justifications so they can be referenced later """
         for reference in control_justification['references']:
             if 'system' not in reference:
                 reference['system'] = self.system_key
@@ -46,16 +44,16 @@ class Component:
     def prepare_justifications(self):
         """ Create a mapping of the controls this component satisfies and
         ensure that all references have system and component tags """
-        justifications = self.meta.get('satisfies')
+        justifications = self.meta.get('satisfies', [])
         justification_mapping = {}
-        for standard_key in justifications:
+        for standard_key, standard in justifications.items():
             justification_mapping[standard_key] = {}
-            for control_key in justifications[standard_key]:
+            for control_key, control in standard.items():
                 justification_mapping[standard_key][control_key] = [
                     (self.system_key, self.component_key)
                 ]
-                if 'references' in justifications[standard_key][control_key]:
-                    self.tag_references(justifications[standard_key][control_key])
+                if 'references' in control:
+                    self.tag_references(control)
         return justification_mapping
 
     def get_justifications(self, standard_key, control_key):
@@ -106,15 +104,14 @@ class Component:
 class System:
     """ System stores data from the system yaml along with a dict of Component
     objects that fall under the system """
-    def __init__(self, system_directory=None, system_dict=None):
+    def __init__(self, system_directory):
         """ Initializes a System object by identifying the system yaml-file,
         loading the system key, metadata, and all the components under the system
         """
-        if not system_dict:
-            self.system_directory = system_directory
-            self.system_key = os.path.split(system_directory)[-1]
-            self.load_metadata(self.system_directory)
-            self.load_components(self.system_directory)
+        self.system_directory = system_directory
+        self.system_key = os.path.split(system_directory)[-1]
+        self.load_metadata(self.system_directory)
+        self.load_components(self.system_directory)
 
     def load_components(self, system_directory):
         """ Load the components under the system and store the data
@@ -128,7 +125,6 @@ class System:
             component_dir_path = os.path.split(component_yaml_path)[0]
             component_key = os.path.split(component_dir_path)[-1]
             component = Component(component_directory=component_dir_path)
-            # return mapping
             utils.merge_justification(
                 self.justification_mapping, component.justification_mapping
             )
@@ -162,10 +158,16 @@ class System:
 class Control:
     """ Control stores both control metadata and justifications """
     def __init__(self, control_dict):
-        self.meta = control_dict
-        self.justifications = []
+        """ Load a control depending of the type of control if control does not
+        contain 'meta' store everything as meta data, otherwise store
+        meta and justifications separately.  """
+        if 'justifications' not in control_dict:
+            self.meta = control_dict
+        else:
+            self.meta = control_dict.get('meta', {})
+            self.justifications = control_dict.get('justifications', [])
 
-    def update(self, new_control):
+    def update_metadata(self, new_control):
         """ Update control metadata with another control """
         self.meta.update(new_control.meta)
 
@@ -181,20 +183,20 @@ class Control:
 class Standard:
     """ Standard stores control data from a standard yaml """
     def __init__(self, standards_yaml_path=None, standard_dict=None):
-        """ Given a standard yaml load all of the standards controls """
+        """ Given a standard yaml or standard dict load all of the controls"""
         if standards_yaml_path:
             standard_dict = yaml.load(open(standards_yaml_path))
         self.standards_yaml_path = standards_yaml_path
         self.load_controls(standard_dict)
         if 'name' in standard_dict:
             self.name = standard_dict['name']
-            del standard_dict['name']
 
     def load_controls(self, standard_dict):
         """ Open the standars yaml and load all the controls """
         self.controls = {}
-        for control_key in standard_dict:
-            self.controls[control_key] = Control(standard_dict[control_key])
+        for control_key, control_dict in standard_dict.items():
+            if isinstance(control_dict, dict):
+                self.controls[control_key] = Control(control_dict)
 
     def export(self):
         """ Export standards in dict format """
@@ -215,21 +217,22 @@ class Standard:
 class Certification:
     """ Certification stores data from a certification yaml """
     def __init__(self, certification_yaml_path=None):
-        if certification_yaml_path:
-            self.certification_yaml_path = certification_yaml_path
-            self.load_standards(certification_yaml_path)
-            self.components = {}
-
-    def load_standards(self, certification_yaml_path):
-        """ Load the standards inside a certification """
+        self.certification_yaml_path = certification_yaml_path
+        self.name = os.path.split(os.path.splitext(certification_yaml_path)[0])[-1]
         certification_data = yaml.load(open(certification_yaml_path))
-        self.standards_dict = {}
-        for standard_key in certification_data['standards']:
-            self.standards_dict[standard_key] = Standard(
-                standard_dict=certification_data['standards'][standard_key]
-            )
+        self.load_standards(certification_data)
+        self.load_components(certification_data)
 
-    def load_system_components(self, system_components_dict):
+    def load_standards(self, certification_dict):
+        """ Load the standards inside a certification """
+        self.standards_dict = {}
+        for standard_key, standard in certification_dict['standards'].items():
+            self.standards_dict[standard_key] = Standard(standard_dict=standard)
+
+    def load_components(self, certification_dict):
+        self.components = certification_dict.get('components', {})
+
+    def import_components(self, system_components_dict):
         """ Update the components directory in the certification """
         self.components.update(system_components_dict)
 
@@ -255,12 +258,13 @@ class Certification:
 class Masonry:
     """ Masonry contains main methods for loading data and exporting
     certification documentation """
+
     def __init__(self, data_directory=None):
-        """ Given a data directory loads the systems and standards """
-        if data_directory:
-            self.data_directory = data_directory
-            self.load_systems(self.data_directory)
-            self.load_standards(self.data_directory)
+        """ Given a data directory loads the systems and standards
+        given a certification yaml loads a certification """
+        self.data_directory = data_directory
+        self.load_systems(self.data_directory)
+        self.load_standards(self.data_directory)
 
     def system_iter(self):
         """ An iterator for looping through a systems dict and returning
@@ -316,7 +320,7 @@ class Masonry:
         justifications from systems and components """
         for standard_key, standard in certification:
             for control_key, control in standard:
-                control.update(self.standards[standard_key][control_key])
+                control.update_metadata(self.standards[standard_key][control_key])
                 control.add_justifications(list(self.get_justifications(standard_key, control_key)))
 
     def create_certification(self, certification, export_dir):
@@ -325,7 +329,7 @@ class Masonry:
             self.data_directory, 'certifications', certification + '.yaml'
         )
         certification = Certification(certification_yaml_path=certification_yaml_path)
-        certification.load_system_components(self.prepare_systems(export_dir))
+        certification.import_components(self.prepare_systems(export_dir))
         self.prepare_certification_controls(certification)
         return certification
 
