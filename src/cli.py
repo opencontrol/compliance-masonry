@@ -2,10 +2,10 @@ import click
 import os
 import logging
 
-from src.renderers import (
-    certifications_to_gitbook, inventory_builder
-)
+from src.renderers import certifications_to_gitbook
+
 from masonry.certification_builder import CertificationBuilder
+from masonry.inventory_builder import InventoryBuilder
 from src import template_generator
 from src import utils
 
@@ -117,7 +117,7 @@ def inventory(certification, exports_dir, output_dir):
     utils.create_dir(output_dir)
     cert_path = verify_certification_path(certification, certs_dir)
     if cert_path:
-        output_path = inventory_builder.create_inventory(cert_path, output_dir)
+        output_path = InventoryBuilder(cert_path).export(output_dir)
         click.echo('Inventory yaml created at `{0}`'.format(output_path))
 
 
