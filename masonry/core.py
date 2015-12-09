@@ -236,6 +236,7 @@ class Certification:
     def export(self):
         """ Export certification in dict format """
         return {
+            'name': self.name,
             'standards': {
                 standard_key: standard.export()
                 for standard_key, standard in self.standards_dict.items()
