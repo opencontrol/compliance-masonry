@@ -10,17 +10,24 @@ class Component:
     """ Component stores data from a component yaml and handles
     the export of locally stored artifacts """
 
-    def __init__(self, component_directory):
+    def __init__(self, component_directory=None, component_dict=None):
         """ Initialize a component object by identifying the system and
         component key, loading the metadata from the component.yaml, and
         creating a mapping of the controls it satisfies
         """
-        self.component_directory = component_directory
-        system_dir, self.component_key = os.path.split(component_directory)
-        self.system_key = os.path.split(system_dir)[-1]
-        self.load_metadata(component_directory)
-        self.justification_mapping = self.prepare_justifications()
+        if component_directory and not component_dict:
+            self.component_directory = component_directory
+            system_dir, self.component_key = os.path.split(component_directory)
+            self.system_key = os.path.split(system_dir)[-1]
+            self.load_metadata(component_directory)
+            self.justification_mapping = self.prepare_justifications()
+        elif component_dict and not component_directory:
+            self.load_component_dict(component_dict)
 
+    def load_component_dict(self, component_dict):
+        self.system_key = component_dict['system_key']
+        self.component_key = component_dict['component_key']
+        self.meta = component_dict
 
     def load_metadata(self, component_directory):
         """ Load metadata from components.yaml """
@@ -66,6 +73,8 @@ class Component:
         """ Given a list of references in either list or dict format,
         determin which references were saved locally and saves those to
         the appropriate location in the export directory  """
+        if not export_dir:
+            return references
         relative_base_path = os.path.join(self.system_key, self.component_key)
         output_base_path = os.path.join(export_dir, relative_base_path)
         utils.create_dir(output_base_path)
@@ -83,12 +92,14 @@ class Component:
                 reference['path'] = file_relative_path
         return references
 
-    def export_component(self, export_dir):
+    def export(self, export_dir=None):
         """ Return the metadata that is required in the certification documentation """
         return {
             self.component_key: {
                 'documentation_complete': self.meta.get('documentation_complete'),
                 'name': self.meta.get('name'),
+                'system_key': self.system_key,
+                'component_key': self.component_key,
                 'verifications': self.export_references(self.meta.get('verifications'), export_dir),
                 'references': self.export_references(self.meta.get('references'), export_dir)
             }
@@ -101,16 +112,25 @@ class Component:
 class System:
     """ System stores data from the system yaml along with a dict of Component
     objects that fall under the system """
-    def __init__(self, system_directory):
+    def __init__(self, system_directory=None, system_dict=None):
         """ Initializes a System object by identifying the system yaml-file,
         loading the system key, metadata, and all the components under the system
         """
-        self.system_directory = system_directory
-        self.system_key = os.path.split(system_directory)[-1]
-        self.load_metadata(self.system_directory)
-        self.load_components(self.system_directory)
+        if system_directory and not system_dict:
+            self.system_directory = system_directory
+            self.system_key = os.path.split(system_directory)[-1]
+            self.load_metadata_file(self.system_directory)
+            self.load_components_files(self.system_directory)
+        elif system_dict and not system_directory:
+            self.meta = system_dict.get('meta', {})
+            self.load_component_dict(system_dict.get('components', {}))
 
-    def load_components(self, system_directory):
+    def load_component_dict(self, components_dict):
+        self.components = {}
+        for component_key, component_dict in components_dict.items():
+            self.components[component_key] = Component(component_dict=component_dict)
+
+    def load_components_files(self, system_directory):
         """ Load the components under the system and store the data
         in individual component objects """
         components_glob = glob.iglob(
@@ -127,7 +147,7 @@ class System:
             )
             self.components[component_key] = component
 
-    def load_metadata(self, system_directory):
+    def load_metadata_file(self, system_directory):
         """ Load the component metadata """
         self.meta = yaml.load(
             open(os.path.join(system_directory, 'system.yaml'))
@@ -137,7 +157,7 @@ class System:
         """ Export system data and component data """
         component_dict = {}
         for component in self.components:
-            component_dict.update(self.components[component].export_component(export_dir))
+            component_dict.update(self.components[component].export(export_dir))
         return {self.system_key: {'components': component_dict, 'meta': self.meta}}
 
     def __iter__(self):
@@ -224,7 +244,7 @@ class Certification:
         # Load Data
         certification_data = yaml.load(open(certification_yaml_path))
         self.load_standards(certification_data)
-        self.load_components(certification_data)
+        self.load_systems(certification_data)
 
     def load_standards(self, certification_dict):
         """ Load the standards inside a certification """
@@ -232,14 +252,30 @@ class Certification:
         for standard_key, standard in certification_dict['standards'].items():
             self.standards_dict[standard_key] = self.standard_class(standard_dict=standard)
 
-    def load_components(self, certification_dict):
-        self.components = certification_dict.get('components', {})
+    def load_systems(self, certification_dict):
+        self.systems = {
+            system_key: System(system_dict=system)
+            for system_key, system in certification_dict.get('components', {}).items()
+        }
 
-    def import_components(self, system_components_dict):
+    def system_iter(self):
+        """ An iterator for looping through a systems dict and returning
+        an object that editable in place.  """
+        for system in self.systems:
+            yield self.systems[system]
+
+    def import_systems(self, systems):
         """ Update the components directory in the certification """
-        self.components.update(system_components_dict)
+        self.systems.update(systems)
 
-    def export(self):
+    def export_systems(self, export_dir):
+        """ Get a system directory while storing any local files """
+        systems_dict = {}
+        for system in self.system_iter():
+            systems_dict.update(system.export_system(export_dir))
+        return systems_dict
+
+    def export(self, export_dir):
         """ Export certification in dict format """
         return {
             'name': self.name,
@@ -247,7 +283,7 @@ class Certification:
                 standard_key: standard.export()
                 for standard_key, standard in self.standards_dict.items()
             },
-            'components': self.components
+            'components': self.export_systems(export_dir)
         }
 
     def __getitem__(self, standard_key):

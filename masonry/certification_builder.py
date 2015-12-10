@@ -19,12 +19,6 @@ class CertificationBuilder:
         self.load_systems(self.data_directory)
         self.load_standards(self.data_directory)
 
-    def system_iter(self):
-        """ An iterator for looping through a systems dict and returning
-        an object that editable in place.  """
-        for system in self.systems:
-            yield self.systems[system]
-
     def load_systems(self, data_directory):
         """ Load all the systems in the data data directory """
         systems_glob = glob.iglob(
@@ -61,13 +55,6 @@ class CertificationBuilder:
                         standard_key, control_key
                     )
 
-    def prepare_systems(self, export_dir):
-        """ Get a system directory while storing any local files """
-        systems_dict = {}
-        for system in self.system_iter():
-            systems_dict.update(system.export_system(export_dir))
-        return systems_dict
-
     def prepare_certification_controls(self, certification):
         """ Prepare a specific certification for export by merging all
         justifications from systems and components """
@@ -82,7 +69,7 @@ class CertificationBuilder:
             self.data_directory, 'certifications', certification + '.yaml'
         )
         certification = Certification(certification_yaml_path=certification_yaml_path)
-        certification.import_components(self.prepare_systems(export_dir))
+        certification.import_systems(self.systems)
         self.prepare_certification_controls(certification)
         return certification
 
@@ -94,7 +81,7 @@ class CertificationBuilder:
         with open(os.path.join(export_dir, certification + '.yaml'), 'w') as cert_file:
             cert_file.write(
                 yaml.dump(
-                    certification_obj.export(),
+                    certification_obj.export(export_dir),
                     default_flow_style=False,
                     indent=2
                 )

@@ -53,20 +53,20 @@ class InventoryBuilder(Certification):
     def __init__(self, certification_yaml_path):
         super().__init__(certification_yaml_path, standard_class=InventoryStandard)
         self.inventory = {}
-        self.component_inventory = self.inventory_components()
+        self.systems_inventory = self.inventory_systems()
         self.standard_inventory = self.inventory_standards()
 
-    def inventory_components(self):
-        component_inventory = {}
-        for system_key, system in self.components.items():
-            component_inventory[system_key] = {}
-            for component_key, component in system['components'].items():
-                component_inventory[system_key][component_key] = {
-                    'references': analyze_attribute(component.get('references')),
-                    'verifications': analyze_attribute(component.get('verifications')),
-                    'documentation_completed': component.get('documentation_complete'),
+    def inventory_systems(self):
+        systems_inventory = {}
+        for system_key, system in self.systems.items():
+            systems_inventory[system_key] = {}
+            for component in system:
+                systems_inventory[system_key][component.component_key] = {
+                    'references': analyze_attribute(component.meta.get('references')),
+                    'verifications': analyze_attribute(component.meta.get('verifications')),
+                    'documentation_completed': component.meta.get('documentation_complete'),
                 }
-        return component_inventory
+        return systems_inventory
 
     def inventory_standards(self):
         standard_inventory = {}
@@ -77,7 +77,7 @@ class InventoryBuilder(Certification):
     def make_export_dict(self):
         return {
             'certification': self.name,
-            'components': self.component_inventory,
+            'components': self.systems_inventory,
             'standards': self.standard_inventory
         }
 
