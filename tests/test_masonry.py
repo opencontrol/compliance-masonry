@@ -58,7 +58,7 @@ def test_export_component():
     certification """
     TEMP_OUTPUT_DIR = tempfile.TemporaryDirectory()
     # Export files
-    data = COMPONENT.export_component(TEMP_OUTPUT_DIR.name)
+    data = COMPONENT.export(TEMP_OUTPUT_DIR.name)
     assert data['EC2']['name'] == 'Amazon Elastic Compute Cloud'
 
 
