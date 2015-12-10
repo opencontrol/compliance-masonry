@@ -1,16 +1,17 @@
+""" This script uses the core masonry objects to construct certifications and
+export artifacts to certification folder """
 
 import glob
 import os
-import shutil
 import yaml
 
 from src import utils
-from masonry.core import Component, System, Control, Standard, Certification
+from masonry.core import System, Standard, Certification
 
 
 class CertificationBuilder:
-    """ Masonry contains main methods for loading data and exporting
-    certification documentation """
+    """ CertificationBuilder loads certification data and exports certification
+    documentation """
 
     def __init__(self, data_directory=None):
         """ Given a data directory loads the systems and standards
@@ -63,7 +64,7 @@ class CertificationBuilder:
                 control.update_metadata(self.standards[standard_key][control_key])
                 control.add_justifications(list(self.get_justifications(standard_key, control_key)))
 
-    def create_certification(self, certification, export_dir):
+    def create_certification(self, certification):
         """ Create a certification object by updating the controls and loading systems """
         certification_yaml_path = os.path.join(
             self.data_directory, 'certifications', certification + '.yaml'
@@ -77,7 +78,7 @@ class CertificationBuilder:
         """ Given a certification name and an export directory exports all the
         locally stored references to the directory along with the certification
         yaml. """
-        certification_obj = self.create_certification(certification, export_dir)
+        certification_obj = self.create_certification(certification)
         with open(os.path.join(export_dir, certification + '.yaml'), 'w') as cert_file:
             cert_file.write(
                 yaml.dump(

@@ -1,3 +1,5 @@
+""" This file contains the base classes for control masonry """
+
 import glob
 import os
 import shutil
@@ -7,13 +9,14 @@ from src import utils
 
 
 class Component:
-    """ Component stores data from a component yaml and handles
-    the export of locally stored artifacts """
-
+    """ Component stores data from either a component yaml or a component directory
+     and this class also handles the export of locally stored artifacts """
     def __init__(self, component_directory=None, component_dict=None):
         """ Initialize a component object by identifying the system and
         component key, loading the metadata from the component.yaml, and
-        creating a mapping of the controls it satisfies
+        creating a mapping of the controls it satisfies. If a component dict
+        is passed in no special mappings needs to be created because imports come
+        from certifications
         """
         if component_directory and not component_dict:
             self.component_directory = component_directory
@@ -90,7 +93,8 @@ class Component:
         return references
 
     def export(self, export_dir=None):
-        """ Return the metadata that is required in the certification documentation """
+        """ Return the metadata that is required in the certification documentation
+        exports files if given an export dict"""
         return {
             self.component_key: {
                 'documentation_complete': self.meta.get('documentation_complete'),
@@ -111,7 +115,7 @@ class System:
     objects that fall under the system """
     def __init__(self, system_directory=None, system_dict=None):
         """ Initializes a System object by identifying the system yaml-file,
-        loading the system key, metadata, and all the components under the system
+        loading the system key, metadata, and all the components under the system.
         """
         if system_directory and not system_dict:
             self.system_directory = system_directory
@@ -120,16 +124,18 @@ class System:
             self.load_components_files(self.system_directory)
         elif system_dict and not system_directory:
             self.meta = system_dict.get('meta', {})
+            self.system_key = self.meta['system_key']
             self.load_component_dict(system_dict.get('components', {}))
 
     def load_component_dict(self, components_dict):
+        """ Load the components by iterating over a component dictionary """
         self.components = {}
         for component_key, component_dict in components_dict.items():
             self.components[component_key] = Component(component_dict=component_dict)
 
     def load_components_files(self, system_directory):
-        """ Load the components under the system and store the data
-        in individual component objects """
+        """ Load the components under the system by crawling through the file system
+         and store the data in individual component objects """
         components_glob = glob.iglob(
             os.path.join(system_directory, '*', 'component.yaml')
         )
@@ -251,6 +257,8 @@ class Certification:
             self.standards_dict[standard_key] = self.standard_class(standard_dict=standard)
 
     def load_systems(self, certification_dict):
+        """ Load system components into System and Component objects
+         given a certification dictionary """
         self.systems = {
             system_key: System(system_dict=system)
             for system_key, system in certification_dict.get('components', {}).items()

@@ -1,10 +1,10 @@
-import glob
+""" This script uses uses core masonry objects to analyze missing parts of the
+certification """
 import os
-import shutil
-import yaml
 
 from masonry.core import Certification, Standard, Control
 from src import utils
+
 
 def analyze_attribute(attribute):
     """ Check how many elements an attribute has otherwise if it's a list
@@ -17,14 +17,17 @@ def analyze_attribute(attribute):
 
 
 class InventoryControl(Control):
+    """ InventoryControl inherits from the Control class and adds a method
+    to create an inventory of justifications """
     def inventory(self):
+        """ Create a catalog for a specific controls """
         control_dict = {}
         if not self.justifications:
             control_dict = "Missing Justifications"
         for component in self.justifications:
             system_key = component.get('system', 'No System')
             component_key = component.get('component', 'No Name')
-            if not system_key in control_dict:
+            if system_key not in control_dict:
                 control_dict[system_key] = {}
             control_dict[system_key][component_key] = {
                 'implementation_status': component.get('implementation_status', 'Missing'),
@@ -35,6 +38,9 @@ class InventoryControl(Control):
 
 
 class InventoryStandard(Standard):
+    """ InventoryStandard inherits from Standard, while overriding the Control
+    class with InventoryControl as the default storage for control data. This
+    class also adds a method to help analyze missing certification gaps """
     def __init__(self, standards_yaml_path=None, standard_dict=None):
         super().__init__(
             standards_yaml_path=standards_yaml_path,
@@ -43,6 +49,7 @@ class InventoryStandard(Standard):
         )
 
     def inventory(self):
+        """ Creates a catalog of controls in the system """
         control_inventory = {}
         for control_key, control in self:
             control_inventory[control_key] = control.inventory()
@@ -50,6 +57,7 @@ class InventoryStandard(Standard):
 
 
 class InventoryBuilder(Certification):
+    """ InventoryBuilder load certification data and exports a yaml gap analysis """
     def __init__(self, certification_yaml_path):
         super().__init__(certification_yaml_path, standard_class=InventoryStandard)
         self.inventory = {}
@@ -57,6 +65,7 @@ class InventoryBuilder(Certification):
         self.standard_inventory = self.inventory_standards()
 
     def inventory_systems(self):
+        """ Creates an system/components catalog """
         systems_inventory = {}
         for system_key, system in self.systems.items():
             systems_inventory[system_key] = {}
@@ -69,12 +78,14 @@ class InventoryBuilder(Certification):
         return systems_inventory
 
     def inventory_standards(self):
+        """ Creates an standards/controls catalog """
         standard_inventory = {}
         for standard_key, standard in self.standards_dict.items():
             standard_inventory[standard_key] = standard.inventory()
         return standard_inventory
 
     def make_export_dict(self):
+        """ Creates a dict version of the inventory report """
         return {
             'certification': self.name,
             'components': self.systems_inventory,
@@ -82,6 +93,7 @@ class InventoryBuilder(Certification):
         }
 
     def export(self, export_path):
+        """ Exports the inventory report to a yaml file """
         inventory_path = os.path.join(
             export_path,
             self.name + '.yaml'
