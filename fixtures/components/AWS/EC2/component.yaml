@@ -2,16 +2,16 @@ name: Amazon Elastic Compute Cloud # Name of the component
 documentation_complete: false # Manual check if the documentation is complete (for gap analysis)
 references:
   - name: Reference  # Name of the reference ie. EC2 website
-    url: http://VerificationURL.com  # Url of the reference
+    path: http://VerificationURL.com  # Url of the reference
     type: URL # type of reference (will affect how it's rendered in the documentation)
 verifications:
   EC2_Verification_1: # ID of verification
     name: EC2 Verification 1  # Name of verification
-    url: http://VerificationURL.com #  URL of the verification
+    path: http://VerificationURL.com #  URL of the verification
     type: URL # type of reference (will affect how it's rendered in the documentation)
   EC2_Verification_2:
     name: EC2 Governor 2
-    url: artifact-ec2-1.png
+    path: artifact-ec2-1.png
     type: Image
 satisfies:
   NIST-800-53:

@@ -7,4 +7,4 @@
 
 [EC2 Verification 1](http://VerificationURL.com)
 
-![EC2 Governor 2](/artifacts/AWS/artifact-ec2-1.png)
+![EC2 Governor 2](/artifacts/AWS/EC2/artifact-ec2-1.png)

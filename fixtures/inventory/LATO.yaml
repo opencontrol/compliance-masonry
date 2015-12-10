@@ -1,36 +1,3 @@
-NIST-800-53:
-  AC-2:
-    CloudFoundry:
-      UAA:
-        implementation_status: complete
-        narrative: Present
-        references: Missing
-  AC-6: Missing Justifications
-  CM-2:
-    AWS:
-      EC2:
-        implementation_status: partial
-        narrative: Present
-        references: 2
-PCI-DSS-MAY-2015:
-  1.1.1:
-    AWS:
-      EC2:
-        implementation_status: partial
-        narrative: Present
-        references: Missing
-  2.1:
-    AWS:
-      EC2:
-        implementation_status: partial
-        narrative: Present
-        references: Missing
-  1.1:
-    AWS:
-      EC2:
-        implementation_status: partial
-        narrative: Present
-        references: 2
 certification: LATO
 components:
   AWS:
@@ -43,3 +10,42 @@ components:
       documentation_completed: false
       references: 1
       verifications: 2
+standards:
+  NIST-800-53:
+    AC-2:
+      CloudFoundry:
+        UAA:
+          implementation_status: complete
+          narrative: Present
+          references: Missing
+    AC-6: Missing Justifications
+    CM-2:
+      AWS:
+        EC2:
+          implementation_status: partial
+          narrative: Present
+          references: 2
+      CloudFoundry:
+        UAA:
+          implementation_status: complete
+          narrative: Present
+          references: Missing
+  PCI-DSS-MAY-2015:
+    1.1.1:
+      AWS:
+        EC2:
+          implementation_status: partial
+          narrative: Present
+          references: Missing
+    1.1:
+      AWS:
+        EC2:
+          implementation_status: partial
+          narrative: Present
+          references: 2
+    2.1:
+      AWS:
+        EC2:
+          implementation_status: partial
+          narrative: Present
+          references: Missing

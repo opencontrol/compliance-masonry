@@ -7,6 +7,7 @@
 
 * [NIST-800-53 - AC](content/AC.md)
 	* [AC - Account Management](content/NIST-800-53-AC-2.md)
+	* [AC - Least Privilege](content/NIST-800-53-AC-6.md)
 * [NIST-800-53 - CM](content/CM.md)
 	* [CM - Baseline Configuration](content/NIST-800-53-CM-2.md)
 * [PCI-DSS-MAY-2015 - 1](content/1.md)

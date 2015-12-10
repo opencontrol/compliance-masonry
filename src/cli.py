@@ -2,9 +2,10 @@ import click
 import os
 import logging
 
-from src.renderers import (
-    yamls_to_certification, certifications_to_gitbook, inventory_builder
-)
+from src.renderers import certifications_to_gitbook
+
+from masonry.certification_builder import CertificationBuilder
+from masonry.inventory_builder import InventoryBuilder
 from src import template_generator
 from src import utils
 
@@ -44,7 +45,7 @@ def main(verbose):
 @click.option(
     '--output-dir', '-o',
     type=click.Path(exists=False),
-    default='exports/certifications',
+    default=os.path.join('exports', 'certifications'),
     help='Directory where certifications is exported'
 )
 def certs(certification, data_dir, output_dir):
@@ -52,10 +53,9 @@ def certs(certification, data_dir, output_dir):
     utils.create_dir(output_dir)
     certs_dir = os.path.join(data_dir, 'certifications')
     if verify_certification_path(certification, certs_dir):
-        output_path = yamls_to_certification.create_yaml_certifications(
-            certification, data_dir, output_dir
-        )
-        click.echo('Certification created in: `{0}`'.format(output_path))
+        builder = CertificationBuilder(data_dir)
+        builder.export_certification(certification, output_dir)
+        click.echo('Certification created in: `{0}`'.format(output_dir))
 
 
 @main.command()
@@ -117,7 +117,7 @@ def inventory(certification, exports_dir, output_dir):
     utils.create_dir(output_dir)
     cert_path = verify_certification_path(certification, certs_dir)
     if cert_path:
-        output_path = inventory_builder.create_inventory(cert_path, output_dir)
+        output_path = InventoryBuilder(cert_path).export(output_dir)
         click.echo('Inventory yaml created at `{0}`'.format(output_path))
 
 
@@ -140,21 +140,26 @@ def init(directory):
 
 @main.command()
 @click.argument('file-type')
-@click.argument('system-name')
-@click.argument('component-name')
+@click.argument('system-key')
+@click.argument('component-key', required=False)
 @click.option(
     '--data-dir', '-d',
     type=click.Path(exists=False),
     default='data',
     help='Directory where documentation is exported'
 )
-def new(file_type, system_name, component_name, data_dir):
+def new(file_type, system_key, component_key, data_dir):
     """ Command for generating new yaml files """
-    if file_type == "component":
-        output_dir = os.path.join(data_dir, 'components')
-        component_path = template_generator.create_new_component_yaml(
-            system_name, component_name, output_dir
+    output_dir = os.path.join(data_dir, 'components')
+    if file_type == "system":
+        system_path = template_generator.create_new_data_yaml(
+            output_dir=output_dir, system_key=system_key, component_key=None
+        )
+        click.echo('New System: `{0}`'.format(system_path))
+    elif file_type == "component":
+        component_path = template_generator.create_new_data_yaml(
+            output_dir=output_dir, system_key=system_key, component_key=component_key
         )
         click.echo('New Component: `{0}`'.format(component_path))
     else:
-        click.echo('Avaiable file-types: `component`')
+        click.echo('Avaiable file-types: `system` or `component`')

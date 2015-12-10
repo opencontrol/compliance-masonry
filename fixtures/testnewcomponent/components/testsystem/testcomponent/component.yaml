@@ -1,0 +1,12 @@
+documentation_complete: false
+name: testcomponent
+references:
+- name: Reference Name
+  path: http://dummyimage.com/600x400
+  type: Image
+satisfies: {}
+verifications:
+  Verification_ID:
+    name: Verification Name
+    path: http://dummyimage.com/600x400
+    type: Image

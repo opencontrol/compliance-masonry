@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 dependencies = ['click', 'pyyaml', 'awesome-slugify']
 
 setup(
-    name='control-masonry',
+    name='compliance-masonry',
     version='0.1.0',
     url='https://github.com/18F/control-masonry',
     license='BSD',

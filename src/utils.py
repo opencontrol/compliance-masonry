@@ -57,3 +57,29 @@ def check_certifications(certification, data_dir):
     if os.path.exists(certification_path):
         return certification_path, None
     return None, fetch_available_certifications(data_dir)
+
+
+def merge_justification(justifications, justification_mapping):
+    """ Merge two justification mapping dict into a justification dict """
+    for system_key in justification_mapping:
+        if system_key not in justifications:
+            justifications[system_key] = {}
+        for control_key in justification_mapping[system_key]:
+            if control_key not in justifications[system_key]:
+                justifications[system_key][control_key] = \
+                    justification_mapping[system_key][control_key]
+            else:
+                justifications[system_key][control_key].extend(
+                    justification_mapping[system_key][control_key]
+                )
+
+
+def inplace_gen(iterable):
+    """ Create a generator for both lists and dicts that returns an object
+    that can be modified in place """
+    if isinstance(iterable, dict):
+        for key in iterable:
+            yield iterable[key]
+    elif isinstance(iterable, list):
+        for item in iterable:
+            yield item

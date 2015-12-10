@@ -22,11 +22,17 @@ masonry init
 ```
 New data directory will be created called `data` containing certifications, standards, and components folders.
 
-### New Component template
+### New System Template
 ```bash
-masonry new component system_name component_name
+masonry new system system_key
 ```
-New component template will be created as `data/components/system_name/component_name.yaml`
+New system template will be created as `data/components/system_key/`
+
+### New Component Template
+```bash
+masonry new component system_key component_key
+```
+New system template will be created as `data/components/system_key/component_key`
 
 ### Create certification yamls
 ```bash
@@ -51,7 +57,23 @@ General documentation can be concatenated to gitbook documentation placing gitbo
 
 # Documentation Format
 
-### Components Documentation
+### Component File Organization
+```
+components/
+  system_key/
+    system.yaml
+    component_key/
+      component.yaml
+      image.png
+      table.md
+```
+
+### System yaml
+```yaml
+name: System Name
+```
+
+### Component yaml
 Component documentation contains information about individual system components and the standards they satisfy.
 
 ```yaml
@@ -59,16 +81,16 @@ name: Amazon Elastic Compute Cloud # Name of the component
 documentation_complete: false # Manual check if the documentation is complete (for gap analysis)
 references:
   - name: Reference  # Name of the reference ie. EC2 website
-    url: Refernce URL  # Url of the reference
-    type: URL # type of reference (will affect how it's rendered in the documentation)
+    path: Refernce Path  # Relative path of local file or URL
+    type: Image # Image type of reference (will affect how it's rendered in the documentation)
 verifications:
   EC2_Verification_1: # ID of verification
     name: EC2 Verification 1  # Name of verification
-    url: Verification 1 URL #  URL of the verification
-    type: URL # type of reference (will affect how it's rendered in the documentation)
+    path: Verification 1 URL #  URL of the verification
+    type: Image # Image type of reference (will affect how it's rendered in the documentation)
   EC2_Verification_2:
     name: EC2 Governor 2
-    url: Verification 2 URL
+    path: Verification 2 URL
     type: Image
 satisfies:
   NIST-800-53:

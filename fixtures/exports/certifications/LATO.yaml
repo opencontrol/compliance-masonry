@@ -1,38 +1,50 @@
 components:
   AWS:
-    EC2:
-      documentation_complete: false
-      name: Amazon Elastic Compute Cloud
-      references:
-      - name: Reference
-        type: URL
-        url: http://VerificationURL.com
-      verifications:
-        EC2_Verification_1:
-          name: EC2 Verification 1
+    components:
+      EC2:
+        component_key: EC2
+        documentation_complete: false
+        name: Amazon Elastic Compute Cloud
+        references:
+        - name: Reference
+          path: http://VerificationURL.com
           type: URL
-          url: http://VerificationURL.com
-        EC2_Verification_2:
-          name: EC2 Governor 2
-          type: Image
-          url: AWS/artifact-ec2-1.png
+        system_key: AWS
+        verifications:
+          EC2_Verification_1:
+            name: EC2 Verification 1
+            path: http://VerificationURL.com
+            type: URL
+          EC2_Verification_2:
+            name: EC2 Governor 2
+            path: AWS/EC2/artifact-ec2-1.png
+            type: Image
+    meta:
+      name: Amazon Web Services
+      system_key: AWS
   CloudFoundry:
-    UAA:
-      documentation_complete: false
-      name: User Account and Authentication (UAA) Server
-      references:
-      - name: Reference
-        type: Image
-        url: CloudFoundry/artifact-uaa-1.png
-      verifications:
-        UAA_Verification_1:
-          name: UAA Verification 1
-          type: URL
-          url: http://Verification 1 URL
-        UAA_Verification_2:
-          name: UAA Verification 2
+    components:
+      UAA:
+        component_key: UAA
+        documentation_complete: false
+        name: User Account and Authentication (UAA) Server
+        references:
+        - name: Reference
+          path: CloudFoundry/UAA/artifact-uaa-1.png
           type: Image
-          url: CloudFoundry/artifact-uaa-2.png
+        system_key: CloudFoundry
+        verifications:
+          UAA_Verification_1:
+            name: UAA Verification 1
+            path: http://Verification 1 URL
+            type: URL
+          UAA_Verification_2:
+            name: UAA Verification 2
+            path: CloudFoundry/UAA/artifact-uaa-2.png
+            type: Image
+    meta:
+      name: Cloud Foundry
+      system_key: CloudFoundry
 name: LATO
 standards:
   NIST-800-53:
@@ -41,12 +53,12 @@ standards:
       - component: UAA
         implementation_status: complete
         narrative: Justification in narrative form
-        references: null
         system: CloudFoundry
       meta:
         family: AC
         name: Account Management
     AC-6:
+      justifications: []
       meta:
         family: AC
         name: Least Privilege
@@ -63,6 +75,10 @@ standards:
           system: CloudFoundry
           verification: UAA_Verification_1
         system: AWS
+      - component: UAA
+        implementation_status: complete
+        narrative: Justification in narrative form
+        system: CloudFoundry
       meta:
         family: CM
         name: Baseline Configuration
@@ -88,7 +104,6 @@ standards:
       - component: EC2
         implementation_status: partial
         narrative: Justification in narrative form
-        references: null
         system: AWS
       meta:
         family: '2'
@@ -99,7 +114,6 @@ standards:
       - component: EC2
         implementation_status: partial
         narrative: Justification in narrative form
-        references: null
         system: AWS
       meta:
         family: '1'

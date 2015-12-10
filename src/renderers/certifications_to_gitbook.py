@@ -21,9 +21,9 @@ def write_markdown(output_path, filename, text):
 def prepare_locally_stored_files(element, io_paths):
     """ Prepare the files by moving locally stored files to the `artifacts` directory
     and linking filepaths to that directory """
-    item_path = element['url']
+    item_path = element['path']
     if not ('http://' in item_path or 'https://' in item_path):
-        element['url'] = os.path.join('/artifacts', item_path).replace('\\', '/')
+        element['path'] = os.path.join('/artifacts', item_path).replace('\\', '/')
         if io_paths:
             output_path = os.path.join(io_paths['output'], 'artifacts', item_path)
             input_path = os.path.join(io_paths['input'], item_path)
@@ -33,13 +33,13 @@ def prepare_locally_stored_files(element, io_paths):
 
 
 def convert_element(element, io_paths=None):
-    """ Converts a dict with a name url and type to markdown """
+    """ Converts a dict with a name path and type to markdown """
     prepare_locally_stored_files(element, io_paths)
     if element['type'].lower() == 'image':
         base_text = '\n![{0}]({1})\n'
     else:
         base_text = '\n[{0}]({1})\n'
-    return base_text.format(element['name'], element['url'])
+    return base_text.format(element['name'], element['path'])
 
 
 def generate_text_narative(narative):
@@ -86,12 +86,12 @@ def build_components_summary(summaries, output_path):
         section_summary = '# {0}  \n###Components  \n'.format(system_key)
         for component_key in sorted(summaries['components'][system_key]):
             component = summaries['components'][system_key][component_key]
-            # Add the components url to main summary
+            # Add the components path to main summary
             main_summary += '\t* [{0}](content/{1}.md)\n'.format(
                 component['component_key'],
                 component['slug']
             )
-            # Add the components url to section summary
+            # Add the components path to section summary
             section_summary += '* [{0}]({1}.md)\n'.format(
                 component['component_key'],
                 component['slug']
@@ -151,7 +151,7 @@ def document_component_page(certification, system_key, component_key):
     """ Create a new page dict. This item is a dictionary that
     contains the standard and control keys, a slug of the combined key, and the
     name of the control"""
-    component = certification['components'][system_key][component_key]
+    component = certification['components'][system_key]['components'][component_key]
     slug = slugify('{0}-{1}'.format(system_key, component_key))
     return {
         'system_key': system_key,
@@ -165,7 +165,7 @@ def fetch_component(reference, certification):
     """ Fetches a specific component from the certification dict,
     this component will be used to extract the component name and it's verifications
     when they are referenced """
-    return certification['components'][reference['system']][reference['component']]
+    return certification['components'][reference['system']]['components'][reference['component']]
 
 
 def fetch_verification(verification_ref, certification):
@@ -235,7 +235,7 @@ def build_cert_page(page_dict, certification, output_path):
 def build_component_page(page_dict, certification, io_paths):
     """ Write a page for the gitbook """
     text = '# {0}'.format(page_dict['component_name'])
-    component = certification['components'][page_dict['system_key']][page_dict['component_key']]
+    component = certification['components'][page_dict['system_key']]['components'][page_dict['component_key']]
     text += build_component_text(component, io_paths)
     file_name = 'content/' + page_dict['slug'] + '.md'
     write_markdown(io_paths['output'], file_name, text)
@@ -270,7 +270,7 @@ def build_components_documentation(certification, io_paths):
     summary = {}
     for system_key in sorted(certification['components']):
         summary[system_key] = {}
-        for component_key in sorted(certification['components'][system_key]):
+        for component_key in sorted(certification['components'][system_key]['components']):
             page_dict = document_component_page(certification, system_key, component_key)
             build_component_page(page_dict, certification, io_paths)
             summary[system_key][component_key] = page_dict
