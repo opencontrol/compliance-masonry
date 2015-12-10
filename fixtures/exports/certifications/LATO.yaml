@@ -1,14 +1,15 @@
-name: LATO
 components:
   AWS:
     components:
       EC2:
+        component_key: EC2
         documentation_complete: false
         name: Amazon Elastic Compute Cloud
         references:
         - name: Reference
           path: http://VerificationURL.com
           type: URL
+        system_key: AWS
         verifications:
           EC2_Verification_1:
             name: EC2 Verification 1
@@ -23,12 +24,14 @@ components:
   CloudFoundry:
     components:
       UAA:
+        component_key: UAA
         documentation_complete: false
         name: User Account and Authentication (UAA) Server
         references:
         - name: Reference
           path: CloudFoundry/UAA/artifact-uaa-1.png
           type: Image
+        system_key: CloudFoundry
         verifications:
           UAA_Verification_1:
             name: UAA Verification 1
@@ -40,6 +43,7 @@ components:
             type: Image
     meta:
       name: Cloud Foundry
+name: LATO
 standards:
   NIST-800-53:
     AC-2:
