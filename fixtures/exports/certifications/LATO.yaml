@@ -21,6 +21,7 @@ components:
             type: Image
     meta:
       name: Amazon Web Services
+      system_key: AWS
   CloudFoundry:
     components:
       UAA:
@@ -43,6 +44,7 @@ components:
             type: Image
     meta:
       name: Cloud Foundry
+      system_key: CloudFoundry
 name: LATO
 standards:
   NIST-800-53:

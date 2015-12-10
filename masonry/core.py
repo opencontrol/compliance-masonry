@@ -22,12 +22,9 @@ class Component:
             self.load_metadata(component_directory)
             self.justification_mapping = self.prepare_justifications()
         elif component_dict and not component_directory:
-            self.load_component_dict(component_dict)
-
-    def load_component_dict(self, component_dict):
-        self.system_key = component_dict['system_key']
-        self.component_key = component_dict['component_key']
-        self.meta = component_dict
+            self.system_key = component_dict['system_key']
+            self.component_key = component_dict['component_key']
+            self.meta = component_dict
 
     def load_metadata(self, component_directory):
         """ Load metadata from components.yaml """
@@ -148,10 +145,11 @@ class System:
             self.components[component_key] = component
 
     def load_metadata_file(self, system_directory):
-        """ Load the component metadata """
+        """ Load the component metadata and add the system key to metadata"""
         self.meta = yaml.load(
             open(os.path.join(system_directory, 'system.yaml'))
         )
+        self.meta['system_key'] = self.system_key
 
     def export_system(self, export_dir):
         """ Export system data and component data """
