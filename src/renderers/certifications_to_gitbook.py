@@ -47,8 +47,9 @@ def convert_element(element, io_paths=None):
     try:
         text = base_text.format(element['name'], element['path'])
     except:
-        text = element['name'] 
-    return text 
+        text = element['name']
+    return text
+
 
 def generate_text_narative(narative):
     """ Checks if the narrative is in dict format or in string format.
