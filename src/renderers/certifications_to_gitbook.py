@@ -18,11 +18,16 @@ def write_markdown(output_path, filename, text):
         md_file.write(text)
 
 
+def is_url(item_path):
+    if 'http://' in item_path or 'https://' in item_path:
+        return True
+
+
 def prepare_locally_stored_files(element, io_paths):
     """ Prepare the files by moving locally stored files to the `artifacts` directory
     and linking filepaths to that directory """
-    item_path = element['path']
-    if not ('http://' in item_path or 'https://' in item_path):
+    item_path = element.get('path')
+    if item_path and not is_url(item_path):
         element['path'] = os.path.join('/artifacts', item_path).replace('\\', '/')
         if io_paths:
             output_path = os.path.join(io_paths['output'], 'artifacts', item_path)
@@ -39,7 +44,11 @@ def convert_element(element, io_paths=None):
         base_text = '\n![{0}]({1})\n'
     else:
         base_text = '\n[{0}]({1})\n'
-    return base_text.format(element['name'], element['path'])
+    try:
+        text = base_text.format(element['name'], element['path'])
+    except:
+        text = element['name']
+    return text
 
 
 def generate_text_narative(narative):
