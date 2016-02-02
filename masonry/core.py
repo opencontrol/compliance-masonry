@@ -69,15 +69,7 @@ class Component:
         })
         return justifications
 
-    def export_references(self, references, export_dir):
-        """ Given a list of references in either list or dict format,
-        determin which references were saved locally and saves those to
-        the appropriate location in the export directory  """
-        if not export_dir:
-            return references
-        relative_base_path = os.path.join(self.system_key, self.component_key)
-        output_base_path = os.path.join(export_dir, relative_base_path)
-        utils.create_dir(output_base_path)
+    def collect_references(self, references, output_base_path, relative_base_path):
         for reference in utils.inplace_gen(references):
             path = reference.get('path', 'NONE')
             file_import_path = os.path.join(self.component_directory, path)
@@ -90,6 +82,21 @@ class Component:
                 # Rename path
                 file_relative_path = os.path.join(relative_base_path, path)
                 reference['path'] = file_relative_path
+
+    def export_references(self, references, export_dir):
+        """ Given a list of references in either list or dict format,
+        determin which references were saved locally and saves those to
+        the appropriate location in the export directory  """
+        if not export_dir:
+            return references
+        relative_base_path = os.path.join(self.system_key, self.component_key)
+        output_base_path = os.path.join(export_dir, relative_base_path)
+        utils.create_dir(output_base_path)
+        self.collect_references(
+            references=references,
+            output_base_path=output_base_path,
+            relative_base_path=relative_base_path
+        )
         return references
 
     def export(self, export_dir=None):
