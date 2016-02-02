@@ -138,6 +138,10 @@ standards:
     6:
 ```
 
+### Examples
+Compliance Masonry examples in the wild:
+* [cloud.gov](https://github.com/18F/cg-compliance)
+
 ## Benefits
 Modern applications are build on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Compliance Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.
 
