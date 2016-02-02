@@ -11,9 +11,13 @@ Alpha Note: Compliance Masonry is an emerging project. We recognize that in its 
 ### Installing
 Only Tested on Python 3+
 ```bash
-$ https://github.com/opencontrol/compliance-masonry.git
+$ git https://github.com/opencontrol/compliance-masonry.git
 $ cd compliance-masonry
 $ python setup.py install
+```
+or
+```
+pip install git+https://github.com/opencontrol/compliance-masonry.git
 ```
 
 ### New Masonry Project
