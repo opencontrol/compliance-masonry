@@ -23,18 +23,22 @@ def is_url(item_path):
         return True
 
 
+def export_local_files(item_path, io_paths):
+    """ Export local files to the new directory """
+    if io_paths:
+        output_path = os.path.join(io_paths['output'], 'artifacts', item_path)
+        input_path = os.path.join(io_paths['input'], item_path)
+        utils.create_dir(os.path.dirname(output_path))
+        if not os.path.exists(output_path) or not filecmp.cmp(input_path, output_path):
+            shutil.copy(input_path, output_path)
+
+
 def prepare_locally_stored_files(element, io_paths):
     """ Prepare the files by moving locally stored files to the `artifacts` directory
     and linking filepaths to that directory """
     item_path = element.get('path')
     if item_path and not is_url(item_path):
         element['path'] = os.path.join('/artifacts', item_path).replace('\\', '/')
-        if io_paths:
-            output_path = os.path.join(io_paths['output'], 'artifacts', item_path)
-            input_path = os.path.join(io_paths['input'], item_path)
-            utils.create_dir(os.path.dirname(output_path))
-            if not os.path.exists(output_path) or not filecmp.cmp(input_path, output_path):
-                shutil.copy(input_path, output_path)
 
 
 def convert_element(element, io_paths=None):
