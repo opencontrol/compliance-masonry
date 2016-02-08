@@ -16,23 +16,29 @@ Before contributing, we encourage you to read our CONTRIBUTING policy (you are h
 
 ## Setting up development environment
 1. Fork Compliance Masonry
-2. Clone forked repository
-```
-git clone https://github.com/<<Your Forked Repo>>.git
-```
-3. Install the development requirements
-```
-pip install -r requirements.txt
-```
-4. Install Compliance Masonry (will need to repeat to see changes)
-```
-python setup.py install
-```
-5. Make Changes!
+1. Clone forked repository
+
+    ```bash
+    git clone https://github.com/<your-username>/compliance-masonry.git
+    ```
+
+1. Install the development requirements
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+1. Install Compliance Masonry (will need to repeat to see changes)
+
+    ```bash
+    python setup.py install
+    ```
+
+1. Make Changes!
 
 ## Running Tests
 Before any contributions are accepted changes will need pass existing tests or make changes to the test when needed.
-```
+```bash
 tox
 ```
 
