@@ -13,16 +13,14 @@ Compliance Masonry examples in the wild:
 # Quick Start with CLI
 
 ### Installing
-Only Tested on Python 3+
-```bash
-$ git https://github.com/opencontrol/compliance-masonry.git
-$ cd compliance-masonry
-$ python setup.py install
-```
-or
-```
-pip install git+https://github.com/opencontrol/compliance-masonry.git
-```
+1. [Install Python 3.](https://pages.18f.gov/dev-environment-standardization/languages/python/)
+1. [Install Node.js.](https://pages.18f.gov/dev-environment-standardization/languages/javascript/)
+1. [Install gitbook.](https://github.com/GitbookIO/gitbook#how-to-use-it)
+1. Run
+
+    ```bash
+    pip install git+https://github.com/opencontrol/compliance-masonry.git
+    ```
 
 ### New Masonry Project
 ```bash
