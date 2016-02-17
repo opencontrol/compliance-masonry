@@ -3,7 +3,7 @@ Create SSP Documentation
 """
 from setuptools import find_packages, setup
 
-dependencies = ['click', 'pyyaml', 'awesome-slugify']
+dependencies = ['click', 'pyyaml', 'awesome-slugify', 'pykwalify']
 
 setup(
     name='compliance-masonry',
