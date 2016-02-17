@@ -56,11 +56,11 @@ def unflatten_satisfies(old_satisfies):
             field='implementation_status'
         )
         # Handle covered_by
-        refernces = transform_covered_by(element.get('covered_by', {}))
+        references = transform_covered_by(element.get('covered_by', {}))
         control_key = element['control_key']
         standard_key = element['standard_key']
-        if refernces:
-            new_element['refernces'] = refernces
+        if references:
+            new_element['references'] = references
         # Unflatten
         if standard_key not in new_satisfies:
             new_satisfies[standard_key] = {}

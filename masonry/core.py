@@ -3,10 +3,13 @@
 import glob
 import os
 import shutil
-import yaml
 
 from src import utils
 from src import v2_to_v1
+
+from pykwalify.core import Core
+
+OPENCONTROL_V2_SCHEMA = utils.yaml_loader('masonry/opencontrol-component-kwalify-schema.yaml')
 
 
 class Component:
@@ -19,6 +22,9 @@ class Component:
         is passed in no special mappings needs to be created because imports come
         from certifications
         """
+        self.validator = Core(
+            source_data={}, schema_data=OPENCONTROL_V2_SCHEMA
+        )
         if component_directory and not component_dict:
             self.component_directory = component_directory
             system_dir, self.component_key = os.path.split(component_directory)
@@ -34,11 +40,13 @@ class Component:
         """ Load metadata from components.yaml, but first check the OpenControl
         schema version. If the version is 2.0 first validate the input and then
         load the data """
-        meta_data = yaml.load(
-            open(os.path.join(component_directory, 'component.yaml'))
+        meta_data = utils.yaml_loader(
+            os.path.join(component_directory, 'component.yaml')
         )
         schema_version = meta_data.get('schema_version', 1)
         if int(schema_version) == 2:
+            self.validator.source = meta_data
+            self.validator.validate(raise_exception=True)
             meta_data = v2_to_v1.convert(meta_data)
         self.meta = meta_data
 
@@ -166,8 +174,8 @@ class System:
 
     def load_metadata_file(self, system_directory):
         """ Load the component metadata and add the system key to metadata"""
-        self.meta = yaml.load(
-            open(os.path.join(system_directory, 'system.yaml'))
+        self.meta = utils.yaml_loader(
+            os.path.join(system_directory, 'system.yaml')
         )
         self.meta['system_key'] = self.system_key
 
@@ -221,7 +229,7 @@ class Standard:
     def __init__(self, standards_yaml_path=None, standard_dict=None, control_class=Control):
         """ Given a standard yaml or standard dict load all of the controls"""
         if standards_yaml_path:
-            standard_dict = yaml.load(open(standards_yaml_path))
+            standard_dict = utils.yaml_loader(standards_yaml_path)
         self.control_class = control_class
         self.standards_yaml_path = standards_yaml_path
         self.load_controls(standard_dict)
@@ -260,7 +268,7 @@ class Certification:
         # Set standard class
         self.standard_class = standard_class
         # Load Data
-        certification_data = yaml.load(open(certification_yaml_path))
+        certification_data = utils.yaml_loader(certification_yaml_path)
         self.load_standards(certification_data)
         self.load_systems(certification_data)
 
