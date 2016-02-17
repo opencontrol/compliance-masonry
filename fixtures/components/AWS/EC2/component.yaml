@@ -1,40 +1,45 @@
-name: Amazon Elastic Compute Cloud # Name of the component
-documentation_complete: false # Manual check if the documentation is complete (for gap analysis)
+documentation_complete: false
+name: Amazon Elastic Compute Cloud
 references:
-  - name: Reference  # Name of the reference ie. EC2 website
-    path: http://VerificationURL.com  # Url of the reference
-    type: URL # type of reference (will affect how it's rendered in the documentation)
-verifications:
-  EC2_Verification_1: # ID of verification
-    name: EC2 Verification 1  # Name of verification
-    path: http://VerificationURL.com #  URL of the verification
-    type: URL # type of reference (will affect how it's rendered in the documentation)
-  EC2_Verification_2:
-    name: EC2 Governor 2
-    path: artifact-ec2-1.png
-    type: Image
+- name: Reference
+  path: http://VerificationURL.com
+  type: URL
 satisfies:
-  NIST-800-53:
-    CM-2:
-      narrative: Justification in narrative form # Justification text
-      implementation_status: partial # Manual status of implementation (for gap analysis)
-      references:
-        - verification: EC2_Verification_1 # The specific verification ID that the reference links, no component or system is needed for internal references
-        - system: CloudFoundry  # System name of the verification (can link to other systems / components)
-          component: UAA  # System name of the verification (can link to other systems / components)
-          verification: UAA_Verification_1 # The specific verification ID that the reference links to
-  PCI-DSS-MAY-2015:
-    1.1:
-      narrative: Justification in narrative form # Justification text
-      implementation_status: partial # Manual status of implementation (for gap analysis)
-      references:
-        - verification: EC2_Verification_1 # The specific verification ID that the reference links, no component or system is needed for internal references
-        - system: CloudFoundry  # System name of the verification (can link to other systems / components)
-          component: UAA  # System name of the verification (can link to other systems / components)
-          verification: UAA_Verification_1 # The specific verification ID that the reference links to
-    1.1.1:
-      narrative: Justification in narrative form # Justification text
-      implementation_status: partial # Manual status of implementation (for gap analysis)
-    2.1:
-      narrative: Justification in narrative form # Justification text
-      implementation_status: partial # Manual status of implementation (for gap analysis)
+- control_key: CM-2
+  covered_by:
+  - verification_key: EC2_Verification_1
+  - component_key: UAA
+    system_key: CloudFoundry
+    verification_key: UAA_Verification_1
+  implementation_status: partial
+  narrative: Justification in narrative form
+  standard_key: NIST-800-53
+- control_key: 1.1
+  covered_by:
+  - verification_key: EC2_Verification_1
+  - component_key: UAA
+    system_key: CloudFoundry
+    verification_key: UAA_Verification_1
+  implementation_status: partial
+  narrative: Justification in narrative form
+  standard_key: PCI-DSS-MAY-2015
+- control_key: 1.1.1
+  covered_by: []
+  implementation_status: partial
+  narrative: Justification in narrative form
+  standard_key: PCI-DSS-MAY-2015
+- control_key: 2.1
+  covered_by: []
+  implementation_status: partial
+  narrative: Justification in narrative form
+  standard_key: PCI-DSS-MAY-2015
+schema_version: 2.0
+verifications:
+- key: EC2_Verification_2
+  name: EC2 Governor 2
+  path: artifact-ec2-1.png
+  type: Image
+- key: EC2_Verification_1
+  name: EC2 Verification 1
+  path: http://VerificationURL.com
+  type: URL
