@@ -6,6 +6,7 @@ import shutil
 import yaml
 
 from src import utils
+from src import v2_to_v1
 
 
 class Component:
@@ -30,10 +31,16 @@ class Component:
             self.meta = component_dict
 
     def load_metadata(self, component_directory):
-        """ Load metadata from components.yaml """
-        self.meta = yaml.load(
+        """ Load metadata from components.yaml, but first check the OpenControl
+        schema version. If the version is 2.0 first validate the input and then
+        load the data """
+        meta_data = yaml.load(
             open(os.path.join(component_directory, 'component.yaml'))
         )
+        schema_version = meta_data.get('schema_version', 1)
+        if int(schema_version) == 2:
+            meta_data = v2_to_v1.convert(meta_data)
+        self.meta = meta_data
 
     def tag_references(self, control_justification):
         """ References that do not have component or system ID, point to
