@@ -29,7 +29,8 @@ setup(
             'templates/certifications/*',
             'templates/components/*/*',
             'templates/standards/*',
-        ]
+        ],
+        'masonry': ['*.py']
     },
     classifiers=[
         # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
