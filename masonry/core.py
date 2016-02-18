@@ -6,10 +6,9 @@ import shutil
 
 from src import utils
 from src import v2_to_v1
+from masonry.opencontrol_schema_v2 import OPENCONTROL_V2_SCHEMA
 
 from pykwalify.core import Core
-
-OPENCONTROL_V2_SCHEMA = utils.yaml_loader('masonry/opencontrol-component-kwalify-schema.yaml')
 
 
 class Component:
