@@ -37,13 +37,14 @@ def create_data_dict(system_key, component_key):
                     'type': 'Image'
                 }
             ],
-            'verifications': {
-                'Verification_ID': {
+            'verifications': [
+                {
+                    'key': 'Verification key',
                     'name': 'Verification Name',
                     'path': 'http://dummyimage.com/600x400',
                     'type': 'Image'
-                }
-            },
+                },
+            ],
             'satisfies': {},
             'documentation_complete': False
         }

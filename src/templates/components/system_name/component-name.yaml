@@ -6,7 +6,7 @@ references: # References about the component
   url: Refernce URL
 satisfies: {}
 verifications: # Verifications that prove system is configured correctly.
-  Verification_ID:
+    key: Verification Key
     name: Verification Name
     type: Image
     url: Verification URL
