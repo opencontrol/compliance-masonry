@@ -6,7 +6,7 @@ references:
   type: Image
 satisfies: {}
 verifications:
-  Verification_ID:
+  - key: Verification key
     name: Verification Name
     path: http://dummyimage.com/600x400
     type: Image

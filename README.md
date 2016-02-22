@@ -2,9 +2,9 @@
 [![Build Status](https://travis-ci.org/opencontrol/compliance-masonry.svg?branch=master)](https://travis-ci.org/18F/control-masonry)
 [![Code Climate](https://codeclimate.com/github/opencontrol/compliance-masonry/badges/gpa.svg)](https://codeclimate.com/github/opencontrol/compliance-masonry)
 ## About
-Compliance Masonry allows users to construct certification documentation, which is required for approval of government IT systems and applications. See [Benefits](#benefits) for more explanation.
+Compliance Masonry a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation.
 
-Alpha note: Compliance Masonry is an emerging project. We recognize that in its current state, Compliance Masonry's user experience still needs to mature. Nevertheless, we are "eating our own dog food" and working to make continuous improvements.
+Alpha note: Compliance Masonry is an emerging project. We recognize that in its current state, Compliance Masonry's user experience still needs to mature.
 
 ### Examples
 Compliance Masonry examples in the wild:
@@ -21,6 +21,8 @@ Compliance Masonry examples in the wild:
     ```bash
     pip install git+https://github.com/opencontrol/compliance-masonry.git
     ```
+
+## Commands
 
 ### New Masonry Project
 ```bash
@@ -62,86 +64,10 @@ Generates a yaml inventory of listing  missing certification and components docu
 General documentation can be concatenated to gitbook documentation placing gitbook compatible format in the `data/markdowns/gitbook` directory.  
 
 # Documentation Format
-
-### Component File Organization
-```
-components/
-  system_key/
-    system.yaml
-    component_key/
-      component.yaml
-      image.png
-      table.md
-```
-
-### System yaml
-```yaml
-name: System Name
-```
-
-### Component yaml
-Component documentation contains information about individual system components and the standards they satisfy.
-
-```yaml
-name: Amazon Elastic Compute Cloud # Name of the component
-documentation_complete: false # Manual check if the documentation is complete (for gap analysis)
-references:
-  - name: Reference  # Name of the reference ie. EC2 website
-    path: Refernce Path  # Relative path of local file or URL
-    type: Image # Image type of reference (will affect how it's rendered in the documentation)
-verifications:
-  EC2_Verification_1: # ID of verification
-    name: EC2 Verification 1  # Name of verification
-    path: Verification 1 URL #  URL of the verification
-    type: Image # Image type of reference (will affect how it's rendered in the documentation)
-  EC2_Verification_2:
-    name: EC2 Governor 2
-    path: Verification 2 URL
-    type: Image
-satisfies:
-  NIST-800-53:
-    CM-2:
-      narrative: Justification in narrative form # Justification text
-      implementation_status: partial # Manual status of implementation (for gap analysis)
-      references:
-        - verification: EC2_Verification_1 # The specific verification ID that the reference links, no component or system is needed for internal references
-        - system: CloudFoundry  # System name of the verification (can link to other systems / components)
-          component: UAA  # System name of the verification (can link to other systems / components)
-          verification: UAA_Verification_1 # The specific verification ID that the reference links to
-```
-
-### Standards Documentation
-Contain information about security standards.
-
-```yaml
-# nist-800-53.yaml
-standards:
-  C-2:
-    name: User Access
-    description: There is an affordance for managing access by...
-
-# PCI.yaml
-standards:
-  Regulation-6:
-    name: User Access PCI
-    description: There is an affordance for managing access by...
-```
-
-### Certifications
-Empty yaml for creating certification documentation. Serve as a template for combining controls and standards yamls.
-
-```yaml
-# Fisma.yaml
-standards:
-  nist-800-53:
-    C-2:
-    C-3:
-  PCI:
-    6:
-```
+Compliance Masonry uses the [OpenControl v2 Schema](https://github.com/opencontrol/schemas).
 
 ## Benefits
-Modern applications are built on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Compliance Masonry documentation is organized by components making it easier for engineers and security teams to collaborate.
+Modern applications are built on existing systems such as S3, EC2, and Cloud Foundry. Documentation for how these underlying systems fulfill NIST controls or PCI SSC Data Security Standards is a prerequisite for receiving authorization to operate (ATO). Unlike most [System Security Plan documentation](http://csrc.nist.gov/publications/nistpubs/800-18-Rev1/sp800-18-Rev1-final.pdf), Compliance Masonry documentation is built using [OpenControl Schema](https://github.com/opencontrol/schemas), a machine readable format for storing compliance documentation.
 
 Compliance Masonry simplifies the process of certification documentations by providing:
 1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).

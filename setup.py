@@ -3,11 +3,11 @@ Create SSP Documentation
 """
 from setuptools import find_packages, setup
 
-dependencies = ['click', 'pyyaml', 'awesome-slugify']
+dependencies = ['click', 'pyyaml', 'awesome-slugify', 'pykwalify']
 
 setup(
     name='compliance-masonry',
-    version='0.1.0',
+    version='2.0.0',
     url='https://github.com/18F/control-masonry',
     license='BSD',
     author='Gabriel Ramirez',
@@ -29,7 +29,8 @@ setup(
             'templates/certifications/*',
             'templates/components/*/*',
             'templates/standards/*',
-        ]
+        ],
+        'masonry': ['*.py']
     },
     classifiers=[
         # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
