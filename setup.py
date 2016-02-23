@@ -7,7 +7,7 @@ dependencies = ['click', 'pyyaml', 'awesome-slugify', 'pykwalify']
 
 setup(
     name='compliance-masonry',
-    version='2.0.0',
+    version='2.0.1',
     url='https://github.com/18F/control-masonry',
     license='BSD',
     author='Gabriel Ramirez',

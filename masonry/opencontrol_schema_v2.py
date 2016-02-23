@@ -60,7 +60,19 @@ OPENCONTROL_V2_SCHEMA = {
             "type": {
               "type": "str",
               "required": True
-            }
+            },
+            "steps": {
+              "type": "str"
+            },
+            "filename": {
+              "type": "str"
+            },
+            "test_passed": {
+              "type": "bool"
+            },
+            "last_run": {
+              "type": "any"
+            },
           }
         }
       ]
