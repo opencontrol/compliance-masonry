@@ -6,6 +6,8 @@ from src.renderers import certifications_to_gitbook
 
 from masonry.certification_builder import CertificationBuilder
 from masonry.inventory_builder import InventoryBuilder
+from masonry.gitbook_builder import GitbookBuilder
+
 from src import template_generator
 from src import utils
 
@@ -89,8 +91,11 @@ def docs(export_format, certification, exports_dir, data_dir, output_dir):
             gitbook_output_dir = os.path.join(output_dir, 'gitbook')
             gitbook_markdown_dir = os.path.join(markdown_dir, 'gitbook')
             utils.create_dir(os.path.join(gitbook_output_dir, 'content'))
-            output_path = certifications_to_gitbook.create_gitbook_documentation(
-                cert_path, gitbook_output_dir, gitbook_markdown_dir
+            # output_path = certifications_to_gitbook.create_gitbook_documentation(
+            #   cert_path, gitbook_output_dir, gitbook_markdown_dir
+            # )
+            output_path = GitbookBuilder(certification_yaml_path=cert_path).export(
+                gitbook_output_dir, gitbook_markdown_dir
             )
             click.echo('Gitbook Files Created in `{0}`'.format(output_path))
         else:

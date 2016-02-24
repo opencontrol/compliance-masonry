@@ -18,12 +18,13 @@ class Component:
         """ Initialize a component object by identifying the system and
         component key, loading the metadata from the component.yaml, and
         creating a mapping of the controls it satisfies. If a component dict
-        is passed in no special mappings needs to be created because imports come
-        from certifications
+        is passed in no special mappings needs to be created because imports
+        come from certifications
         """
         self.validator = Core(
             source_data={}, schema_data=OPENCONTROL_V2_SCHEMA
         )
+        self.meta = {}
         if component_directory and not component_dict:
             self.component_directory = component_directory
             system_dir, self.component_key = os.path.split(component_directory)
@@ -134,10 +135,14 @@ class Component:
 class System:
     """ System stores data from the system yaml along with a dict of Component
     objects that fall under the system """
-    def __init__(self, system_directory=None, system_dict=None):
+    def __init__(
+        self, system_directory=None, system_dict=None,
+        component_class=Component
+    ):
         """ Initializes a System object by identifying the system yaml-file,
         loading the system key, metadata, and all the components under the system.
         """
+        self.component_class = component_class
         if system_directory and not system_dict:
             self.system_directory = system_directory
             self.system_key = os.path.split(system_directory)[-1]
@@ -152,7 +157,9 @@ class System:
         """ Load the components by iterating over a component dictionary """
         self.components = {}
         for component_key, component_dict in components_dict.items():
-            self.components[component_key] = Component(component_dict=component_dict)
+            self.components[component_key] = self.component_class(
+                component_dict=component_dict
+            )
 
     def load_components_files(self, system_directory):
         """ Load the components under the system by crawling through the file system
@@ -165,7 +172,9 @@ class System:
         for component_yaml_path in components_glob:
             component_dir_path = os.path.split(component_yaml_path)[0]
             component_key = os.path.split(component_dir_path)[-1]
-            component = Component(component_directory=component_dir_path)
+            component = self.component_class(
+                component_directory=component_dir_path
+            )
             utils.merge_justification(
                 self.justification_mapping, component.justification_mapping
             )
@@ -260,12 +269,16 @@ class Standard:
 
 class Certification:
     """ Certification stores data from a certification yaml """
-    def __init__(self, certification_yaml_path=None, standard_class=Standard):
+    def __init__(
+        self, certification_yaml_path=None,
+        standard_class=Standard, system_class=System
+    ):
         # Set Paths
         self.certification_yaml_path = certification_yaml_path
         self.name = os.path.split(os.path.splitext(certification_yaml_path)[0])[-1]
         # Set standard class
         self.standard_class = standard_class
+        self.system_class = system_class
         # Load Data
         certification_data = utils.yaml_loader(certification_yaml_path)
         self.load_standards(certification_data)
@@ -281,7 +294,7 @@ class Certification:
         """ Load system components into System and Component objects
          given a certification dictionary """
         self.systems = {
-            system_key: System(system_dict=system)
+            system_key: self.system_class(system_dict=system)
             for system_key, system in certification_dict.get('components', {}).items()
         }
 
