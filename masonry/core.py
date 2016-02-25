@@ -3,9 +3,14 @@
 import glob
 import os
 import shutil
+import sys
 
-from src import utils
-from src import v2_to_v1
+if sys.version_info[0] < 3:
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+
+from masonry.helpers import utils
+from masonry.helpers import v2_to_v1
 from masonry.opencontrol_schema_v2 import OPENCONTROL_V2_SCHEMA
 
 from pykwalify.core import Core

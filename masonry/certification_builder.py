@@ -4,8 +4,13 @@ export artifacts to certification folder """
 import glob
 import os
 import yaml
+import sys
 
-from src import utils
+if sys.version_info[0] < 3:
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+
+from masonry.helpers import utils
 from masonry.core import System, Standard, Certification
 
 

@@ -2,16 +2,21 @@
 import glob
 import os
 import shutil
+import sys
 
+if sys.version_info[0] < 3:
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 from masonry.core import Certification, Standard, Control, System, Component
-from src.utils import create_dir
+from masonry.helpers.utils import create_dir
 
 
 def write_markdown(path, content):
     """ Exports content to the path in a format compatible with markdown """
     with open(path, 'w') as stream:
         stream.write(content)
+
 
 def clean_control_path(control_path):
     """ Removes all the parenthases from control path """
@@ -56,7 +61,8 @@ def prepend_markdown(export_dir, markdown_path):
 class GitbookComponent(Component):
     """ GitbookComponent loads component and exports data in gitbook format """
     def __init__(self, component_directory=None, component_dict=None):
-        super().__init__(
+        Component.__init__(
+            self,
             component_directory=component_directory,
             component_dict=component_dict
         )
@@ -122,7 +128,8 @@ class GitbookSystem(System):
     """ GitbookSystem loads systems and exports data in gitbook format """
 
     def __init__(self, system_directory=None, system_dict=None):
-        super().__init__(
+        System.__init__(
+            self,
             system_directory=system_directory,
             system_dict=system_dict,
             component_class=GitbookComponent
@@ -211,7 +218,8 @@ class GitbookStandard(Standard):
     def __init__(self, standards_yaml_path=None, standard_dict=None):
         """ Overwrites the Standard __init__ method to include a different
         class for exporting gitbooks """
-        super().__init__(
+        Standard.__init__(
+            self,
             standards_yaml_path=standards_yaml_path,
             standard_dict=standard_dict,
             control_class=GitbookControl
@@ -265,7 +273,8 @@ class GitbookBuilder(Certification):
     def __init__(self, certification_yaml_path):
         """ Overwrites the Certification __init__ method to include a different
         class for exports """
-        super().__init__(
+        Certification.__init__(
+            self,
             certification_yaml_path=certification_yaml_path,
             standard_class=GitbookStandard,
             system_class=GitbookSystem

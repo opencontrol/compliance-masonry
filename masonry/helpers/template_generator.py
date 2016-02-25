@@ -4,7 +4,7 @@ import os
 import shutil
 
 from slugify import slugify
-from src import utils
+from masonry.helpers import utils
 
 
 def get_template_dir():
