@@ -13,6 +13,21 @@ def write_markdown(path, content):
     with open(path, 'w') as stream:
         stream.write(content)
 
+def clean_control_path(control_path):
+    """ Removes all the parenthases from control path """
+    return control_path.replace('(', '').replace(')', '').replace(' ', '-')
+
+def generate_text_narative(narative):
+    """ Checks if the narrative is in dict format or in string format.
+    If the narrative is in dict format the script converts it to to a
+    string """
+    text = ''
+    if isinstance(narative, dict):
+        for key in sorted(narative):
+            text += '{0}. {1}  \n'.format(key, narative[key])
+    else:
+        text = narative + '  \n'
+    return text
 
 def concat_markdowns(markdown_path, output_path):
     """ Add markdown content files to the gitbook directory and make the summary
@@ -62,12 +77,12 @@ class GitbookComponent(Component):
         """ Exports the text of references in gitbook markdown format """
         text = ''
         if reference.get('type').lower() == 'url':
-            text += '[{0}]({1})  \n'.format(
+            text += '* [{0}]({1})  \n'.format(
                 reference.get('name'), reference.get('path')
             )
         elif reference.get('type').lower() == 'image':
             self.move_reference_file(reference)
-            text += '![{0}]({1})  \n'.format(
+            text += '* ![{0}]({1})  \n'.format(
                 reference.get('name'), reference.get('path')
             )
         return text
@@ -89,7 +104,6 @@ class GitbookComponent(Component):
             return ''
         text = "## Verifications  \n\n"
         for verification_key, verification in verifications.items():
-            text += "#### {0}\n".format(verification_key)
             text += self.export_markdown_reference(verification)
         return text
 
@@ -103,8 +117,6 @@ class GitbookComponent(Component):
         text += '\n\n'
         text += self.get_verifications_text()
         write_markdown(path=export_path, content=text)
-        return export_path
-
 
 class GitbookSystem(System):
     """ GitbookSystem loads systems and exports data in gitbook format """
@@ -129,7 +141,7 @@ class GitbookSystem(System):
                 import_dir=import_dir,
                 key=component_key
             )
-            system_summary += '[{0}]({1})'.format(
+            system_summary += '* [{0}]({1})\n'.format(
                 self.components[component_key].meta.get('name'),
                 '{0}-{1}.md'.format(key, component_key)
             )
@@ -143,17 +155,22 @@ class GitbookControl(Control):
     """ GitbookControl loads controls and exports data in gitbook format """
 
     @staticmethod
-    def extract_just_text(justification):
+    def extract_just_text(justification, systems):
         """ Returns the text of the control in markdown format """
-        text = '## {0}  \n'.format(justification['component'])
-        text += '{0}  \n'.format(justification['narrative'])
+        system = systems[justification['system']]
+        component = system[justification['component']]
+        text = '## {0}  \n'.format(component.meta['name'])
+        text += generate_text_narative(justification['narrative'])
         if 'references' in justification:
             text += '### Verified By:  \n'
             for reference in justification['references']:
+                ref_system = systems[reference['system']]
+                ref_component = system[reference['component']]
+                verification = ref_component.meta['verifications'][reference['verification']]
                 text += '[{0} in {1} {2}]({3})  \n'.format(
-                    reference['verification'],
-                    reference['system'],
-                    reference['component'],
+                    verification['name'],
+                    ref_system.meta['name'],
+                    ref_component.meta['name'],
                     os.path.join(
                         '..',
                         'components',
@@ -165,25 +182,27 @@ class GitbookControl(Control):
                 )
         return text
 
-    def export_markdown(self, export_path):
+    def export_markdown(self, export_path, systems):
         """ Export control in markdown format """
         text = '# {0}  \n'.format(self.meta['name'])
         system_text_dict = {}
         for justification in self.justifications:
             system_text_dict[justification['system']] = \
                 system_text_dict.get(justification['system'], '') +\
-                self.extract_just_text(justification)
-        for system, system_text in system_text_dict.items():
-            text += '## {0}  \n'.format(system)
+                self.extract_just_text(justification, systems)
+        for system_key, system_text in system_text_dict.items():
+            text += '## {0}  \n'.format(systems[system_key].meta['name'])
             text += system_text
 
         write_markdown(path=export_path, content=text)
 
-    def export_gitbook(self, export_dir, control_key):
+    def export_gitbook(self, export_dir, control_key, systems):
         """ Export a control data in gitbook format returns the family of the
         control to help with the creation of the summary  """
-        file_path = '{0}-{1}.md'.format(export_dir, control_key)
-        self.export_markdown(file_path)
+        file_path = '{0}-{1}.md'.format(
+            export_dir, clean_control_path(control_key)
+        )
+        self.export_markdown(file_path, systems)
         return self.meta['family']
 
 
@@ -198,17 +217,17 @@ class GitbookStandard(Standard):
             control_class=GitbookControl
         )
 
-    def export_gitbook(self, export_dir, key):
-        """ Exports standard the standard and controls and returns a summary
+    def export_gitbook(self, export_dir, key, systems):
+        """ Exports standards and controls and returns a summary
         """
         summary_text = ''
         family_dict = {}
         export_path = os.path.join(export_dir, key)
         relative_export_path = os.path.join('standards', key)
-
+        # export control namr
         for control_key, control in self.controls.items():
             family = control.export_gitbook(
-                export_dir=export_path, control_key=control_key
+                export_dir=export_path, control_key=control_key, systems=systems
             )
             family_dict[family] = family_dict.get(family, []) \
                 + [str(control_key)]
@@ -223,13 +242,16 @@ class GitbookStandard(Standard):
                 key, family, family_path
             )
             for control in sorted(family_dict[family]):
-                family_summary_text += '* [{0}]({1})\n'.format(
+                control_path = clean_control_path(control)
+                control_name = self.controls[control].meta['name']
+                family_summary_text += '* [{0} - {1}]({2})\n'.format(
                     control,
-                    '{0}-{1}.md'.format(key, control)
+                    control_name,
+                    '{0}-{1}.md'.format(key, control_path)
                 )
                 summary_text += '\t* [{0}]({1})\n'.format(
                     control,
-                    '{0}-{1}.md'.format(relative_export_path, control)
+                    '{0}-{1}.md'.format(relative_export_path, control_path)
                 )
             write_markdown(
                 path=family_summary_path,
@@ -257,18 +279,20 @@ class GitbookBuilder(Certification):
         create_dir(components_export_path)
         componets_import_path = os.path.split(self.certification_yaml_path)[0]
         for system_key in sorted(self.systems):
+            system_name = self.systems[system_key].meta['name']
             components = self.systems[system_key].export(
                 export_dir=components_export_path,
                 import_dir=componets_import_path,
                 key=system_key
             )
             summary_text += '* [{0}]({1})  \n'.format(
-                system_key,
+                system_name,
                 os.path.join('components', '{0}.md'.format(system_key))
             )
             for component_key in sorted(components):
+                component_name = self.systems[system_key][component_key].meta['name']
                 summary_text += '\t* [{0}]({1})  \n'.format(
-                    component_key,
+                    component_name,
                     os.path.join('components', '{0}-{1}.md'.format(
                         system_key, component_key
                     ))
@@ -280,7 +304,7 @@ class GitbookBuilder(Certification):
         standard_path = os.path.join(export_dir, 'standards')
         create_dir(standard_path)
         standards_summary = ''.join([
-            standard.export_gitbook(export_dir=standard_path, key=key)
+            standard.export_gitbook(export_dir=standard_path, key=key, systems=self.systems)
             for key, standard in self.standards_dict.items()
         ])
         return standards_summary
@@ -301,3 +325,4 @@ class GitbookBuilder(Certification):
             path=os.path.join(export_dir, 'SUMMARY.md'),
             content=summary_text
         )
+        return export_dir
