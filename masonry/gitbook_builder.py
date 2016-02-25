@@ -318,7 +318,7 @@ class GitbookBuilder(Certification):
         create_dir(standard_path)
         standards_summary = ''.join([
             standard.export_gitbook(export_dir=standard_path, key=key, systems=self.systems)
-            for key, standard in self.standards_dict.items()
+            for key, standard in sorted(self.standards_dict.items(), key=lambda value: str(value[0]))
         ])
         return standards_summary
 
