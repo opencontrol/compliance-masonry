@@ -21,7 +21,8 @@ def write_markdown(path, content):
 
 def clean_control_path(control_path):
     """ Removes all the parenthases from control path """
-    return control_path.replace('(', '').replace(')', '').replace(' ', '-')
+    return str(control_path).replace('(', '').replace(')', '').replace(' ', '-')
+
 
 def generate_text_narative(narative):
     """ Checks if the narrative is in dict format or in string format.
@@ -241,9 +242,9 @@ class GitbookStandard(Standard):
                 export_dir=export_path, control_key=control_key, systems=systems
             )
             family_dict[family] = family_dict.get(family, []) \
-                + [str(control_key)]
+                + [control_key]
 
-        for family in sorted(family_dict):
+        for family in sorted(family_dict, key=lambda value: str(value)):
             family_path = '{0}-{1}.md'.format(relative_export_path, family)
             family_summary_path = os.path.join(
                 os.path.split(export_dir)[0], family_path
@@ -252,7 +253,7 @@ class GitbookStandard(Standard):
             summary_text += '* [{0} - {1}]({2})\n'.format(
                 key, family, family_path
             )
-            for control in sorted(family_dict[family]):
+            for control in sorted(family_dict[family], key=lambda value: str(value)):
                 control_path = clean_control_path(control)
                 control_name = self.controls[control].meta['name']
                 family_summary_text += '* [{0} - {1}]({2})\n'.format(
