@@ -21,16 +21,19 @@ setup(
     install_requires=dependencies,
     entry_points={
         'console_scripts': [
-            'masonry = src.cli:main',
+            'masonry = masonry.cli:main',
         ],
     },
     package_data={
-        'src': [
-            'templates/certifications/*',
-            'templates/components/*/*',
-            'templates/standards/*',
+        'masonry': [
+            '*.py',
         ],
-        'masonry': ['*.py']
+        'helpers': [
+            'helpers/*.py',
+            'helpers/templates/certifications/*',
+            'helpers/templates/components/*/*',
+            'helpers/templates/standards/*',
+        ]
     },
     classifiers=[
         # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
