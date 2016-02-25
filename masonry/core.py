@@ -1,4 +1,9 @@
 """ This file contains the base classes for control masonry """
+from masonry.helpers import utils, v2_to_v1
+from masonry.helpers.opencontrol_schema_v2 import OPENCONTROL_V2_SCHEMA
+from pykwalify.core import Core
+from importlib import reload
+
 
 import glob
 import os
@@ -8,12 +13,6 @@ import sys
 if sys.version_info[0] < 3:
     reload(sys)
     sys.setdefaultencoding('utf-8')
-
-from masonry.helpers import utils
-from masonry.helpers import v2_to_v1
-from masonry.opencontrol_schema_v2 import OPENCONTROL_V2_SCHEMA
-
-from pykwalify.core import Core
 
 
 class Component:

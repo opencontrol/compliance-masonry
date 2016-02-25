@@ -1,3 +1,12 @@
+from masonry.certification_builder import CertificationBuilder
+from masonry.inventory_builder import InventoryBuilder
+from masonry.gitbook_builder import GitbookBuilder
+from importlib import reload
+
+
+from masonry.helpers import template_generator
+from masonry.helpers import utils
+
 import click
 import os
 import logging
@@ -6,13 +15,6 @@ import sys
 if sys.version_info[0] < 3:
     reload(sys)
     sys.setdefaultencoding('utf-8')
-
-from masonry.certification_builder import CertificationBuilder
-from masonry.inventory_builder import InventoryBuilder
-from masonry.gitbook_builder import GitbookBuilder
-
-from masonry.helpers import template_generator
-from masonry.helpers import utils
 
 
 def verify_certification_path(certification, certs_path):

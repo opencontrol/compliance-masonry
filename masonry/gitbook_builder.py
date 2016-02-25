@@ -1,4 +1,8 @@
 """ This script uses uses core masonry objects to create gitbook output """
+from masonry.core import Certification, Standard, Control, System, Component
+from masonry.helpers.utils import create_dir
+from importlib import reload
+
 import glob
 import os
 import shutil
@@ -7,9 +11,6 @@ import sys
 if sys.version_info[0] < 3:
     reload(sys)
     sys.setdefaultencoding('utf-8')
-
-from masonry.core import Certification, Standard, Control, System, Component
-from masonry.helpers.utils import create_dir
 
 
 def write_markdown(path, content):
@@ -33,6 +34,7 @@ def generate_text_narative(narative):
     else:
         text = narative + '  \n'
     return text
+
 
 def concat_markdowns(markdown_path, output_path):
     """ Add markdown content files to the gitbook directory and make the summary
@@ -124,6 +126,7 @@ class GitbookComponent(Component):
         text += self.get_verifications_text()
         write_markdown(path=export_path, content=text)
 
+
 class GitbookSystem(System):
     """ GitbookSystem loads systems and exports data in gitbook format """
 
@@ -172,7 +175,7 @@ class GitbookControl(Control):
             text += '### Verified By:  \n'
             for reference in justification['references']:
                 ref_system = systems[reference['system']]
-                ref_component = system[reference['component']]
+                ref_component = ref_system[reference['component']]
                 verification = ref_component.meta['verifications'][reference['verification']]
                 text += '[{0} in {1} {2}]({3})  \n'.format(
                     verification['name'],

@@ -1,16 +1,15 @@
 """ This script uses uses core masonry objects to analyze missing parts of the
 certification """
+from masonry.core import Certification, Standard, Control
+from masonry.helpers import utils
+from importlib import reload
+
 import os
 import sys
 
 if sys.version_info[0] < 3:
     reload(sys)
     sys.setdefaultencoding('utf-8')
-
-
-from masonry.core import Certification, Standard, Control
-from masonry.helpers import utils
-
 
 
 def analyze_attribute(attribute):

@@ -1,5 +1,9 @@
 """ This script uses the core masonry objects to construct certifications and
 export artifacts to certification folder """
+from masonry.helpers import utils
+from masonry.core import System, Standard, Certification
+from importlib import reload
+
 
 import glob
 import os
@@ -9,9 +13,6 @@ import sys
 if sys.version_info[0] < 3:
     reload(sys)
     sys.setdefaultencoding('utf-8')
-
-from masonry.helpers import utils
-from masonry.core import System, Standard, Certification
 
 
 class CertificationBuilder:
