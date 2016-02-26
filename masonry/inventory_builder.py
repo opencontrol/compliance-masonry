@@ -2,13 +2,12 @@
 certification """
 from masonry.core import Certification, Standard, Control
 from masonry.helpers import utils
-from importlib import reload
 
 import os
 import sys
 
 if sys.version_info[0] < 3:
-    reload(sys)
+    reload(sys)  # noqa
     sys.setdefaultencoding('utf-8')
 
 

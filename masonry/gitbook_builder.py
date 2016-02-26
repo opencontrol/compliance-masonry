@@ -1,7 +1,6 @@
 """ This script uses uses core masonry objects to create gitbook output """
 from masonry.core import Certification, Standard, Control, System, Component
 from masonry.helpers.utils import create_dir
-from importlib import reload
 
 import glob
 import os
@@ -9,7 +8,7 @@ import shutil
 import sys
 
 if sys.version_info[0] < 3:
-    reload(sys)
+    reload(sys)  # noqa
     sys.setdefaultencoding('utf-8')
 
 

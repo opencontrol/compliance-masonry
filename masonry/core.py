@@ -2,7 +2,6 @@
 from masonry.helpers import utils, v2_to_v1
 from masonry.helpers.opencontrol_schema_v2 import OPENCONTROL_V2_SCHEMA
 from pykwalify.core import Core
-from importlib import reload
 
 
 import glob
@@ -11,7 +10,7 @@ import shutil
 import sys
 
 if sys.version_info[0] < 3:
-    reload(sys)
+    reload(sys)  # noqa
     sys.setdefaultencoding('utf-8')
 
 
