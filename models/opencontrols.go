@@ -28,7 +28,7 @@ func NewOpenControl() *OpenControl {
 	}
 }
 
-func LoadData(opencontrol_dir string) *OpenControl {
+func LoadData(opencontrol_dir string, certification_path string) *OpenControl {
 	var wg sync.WaitGroup
 	openControl := NewOpenControl()
 	wg.Add(3)
@@ -43,7 +43,7 @@ func LoadData(opencontrol_dir string) *OpenControl {
 	}()
 	go func() {
 		defer wg.Done()
-		openControl.LoadCertifications(filepath.Join(opencontrol_dir, "certifications"))
+		openControl.LoadCertifications(certification_path)
 	}()
 	wg.Wait()
 	return openControl
