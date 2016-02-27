@@ -10,9 +10,9 @@ import (
 )
 
 type OpenControl struct {
-	Systems        map[string]*System
-	Standards      map[string]*Standard
-	Certifications map[string]*Certification
+	Systems       map[string]*System
+	Standards     map[string]*Standard
+	Certification *Certification
 }
 
 func getKey(file_path string) string {
@@ -22,9 +22,8 @@ func getKey(file_path string) string {
 
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
-		make(map[string]*System),
-		make(map[string]*Standard),
-		make(map[string]*Certification),
+		Systems:   make(map[string]*System),
+		Standards: make(map[string]*Standard),
 	}
 }
 
@@ -43,7 +42,7 @@ func LoadData(opencontrol_dir string, certification_path string) *OpenControl {
 	}()
 	go func() {
 		defer wg.Done()
-		openControl.LoadCertifications(certification_path)
+		openControl.LoadCertification(certification_path)
 	}()
 	wg.Wait()
 	return openControl
@@ -111,15 +110,5 @@ func (openControl *OpenControl) LoadCertification(certification_file string) {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	openControl.Certifications[certification.Key] = &certification
-}
-
-func (openControl *OpenControl) LoadCertifications(certifications_dir string) {
-	certifications_files, err := ioutil.ReadDir(certifications_dir)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	for _, certification_file := range certifications_files {
-		openControl.LoadCertification(filepath.Join(certifications_dir, certification_file.Name()))
-	}
+	openControl.Certification = &certification
 }

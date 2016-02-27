@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/codegangsta/cli"
-	"github.com/geramirez/masonry-go/models"
+	"github.com/geramirez/masonry-go/renderers"
 )
 
 func main() {
@@ -43,21 +43,25 @@ func main() {
 						if certification == "" {
 							println("Error: New Missing Certification Argument")
 							println("Usage: masonry-go docs gitbook LATO")
-						} else{
+						} else {
 							certification_path := filepath.Join(
 								opencontrol_dir,
 								"certifications",
-								certification + ".yaml",
+								certification+".yaml",
 							)
 							if _, err := os.Stat(certification_path); os.IsNotExist(err) {
 								println("Error: %s does not exist", certification_path)
 							} else {
-							models.LoadData(opencontrol_dir, certification_path)
-							println("New Gitbook Documentation Created")
-						}
+								renderers.BuildGitbook(
+									opencontrol_dir,
+									certification_path,
+									"exports",
+								)
+								println("New Gitbook Documentation Created")
+							}
 
 						}
-						},
+					},
 				},
 			},
 		},
