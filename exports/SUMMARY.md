@@ -1,0 +1,17 @@
+## Standards  
+* [NIST-800-53](standards/NIST-800-53-AC.md)  
+	* [AC-2](standards/NIST-800-53-AC-2.md)  
+	* [AC-6](standards/NIST-800-53-AC-6.md)  
+* [NIST-800-53](standards/NIST-800-53-CM.md)  
+	* [CM-2](standards/NIST-800-53-CM-2.md)  
+* [PCI-DSS-MAY-2015](standards/PCI-DSS-MAY-2015-1.md)  
+	* [1.1.1](standards/PCI-DSS-MAY-2015-1.1.1.md)  
+* [PCI-DSS-MAY-2015](standards/PCI-DSS-MAY-2015-2.md)  
+	* [2.1](standards/PCI-DSS-MAY-2015-2.1.md)  
+* [PCI-DSS-MAY-2015](standards/PCI-DSS-MAY-2015-1.md)  
+	* [1.1](standards/PCI-DSS-MAY-2015-1.1.md)  
+## Systems  
+* [Amazon Web Services](standards/AWS.md)  
+	* [Amazon Elastic Compute Cloud](standards/AWS-.md)  
+* [Cloud Foundry](standards/CloudFoundry.md)  
+	* [User Account and Authentication (UAA) Server](standards/CloudFoundry-.md)  
