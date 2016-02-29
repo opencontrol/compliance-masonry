@@ -26,15 +26,11 @@ func (openControl *OpenControlGitBook) exportStandardsReadMe() string {
 		for controlKey := range certStandard.Controls {
 			newFamily = standard.Controls[controlKey].Family
 			if newFamily != oldFamily {
-				readme += exportLink(
-					standardKey,
-					filepath.Join("standards", standardKey+"-"+newFamily+".md"),
-				)
+				standardLink := filepath.Join("standards", standardKey+"-"+newFamily+".md")
+				readme += exportLink(standardKey, standardLink)
 			}
-			readme += "\t" + exportLink(
-				controlKey,
-				filepath.Join("standards", standardKey+"-"+controlKey+".md"),
-			)
+			controlLink := filepath.Join("standards", standardKey+"-"+controlKey+".md")
+			readme += "\t" + exportLink(controlKey, controlLink)
 			oldFamily = newFamily
 		}
 	}
@@ -45,15 +41,11 @@ func (openControl *OpenControlGitBook) exportStandardsReadMe() string {
 func (openControl *OpenControlGitBook) exportSystemsReadMe() string {
 	readme := "## Systems  \n"
 	for _, system := range openControl.Systems {
-		readme += exportLink(
-			system.Name,
-			filepath.Join("standards", system.Key+".md"),
-		)
+		systemLink := filepath.Join("sytems", system.Key+".md")
+		readme += exportLink(system.Name, systemLink)
 		for _, component := range system.Components {
-			readme += "\t" + exportLink(
-				component.Name,
-				filepath.Join("standards", system.Key+"-"+component.Key+".md"),
-			)
+			componentLink := filepath.Join("sytems", system.Key+"-"+component.Key+".md")
+			readme += "\t" + exportLink(component.Name, componentLink)
 		}
 	}
 	return readme
