@@ -14,62 +14,68 @@ type OpenControlGitBook struct {
 	exportPath string
 }
 
-func (openControl *OpenControlGitBook) BuildReadMe() {
-	var readme string
-	readme += "## Standards  \n"
+func exportLink(text string, location string) string {
+	return fmt.Sprintf("* [%s](%s)  \n", text, location)
+}
 
-	var old_family, new_family string
-	for standard_key, cert_standard := range openControl.Certification.Standards {
-
-		standard := openControl.Standards[standard_key]
-		for control_key, _ := range cert_standard.Controls {
-			new_family = standard.Controls[control_key].Family
-			// Write Family Summary
-			if new_family != old_family {
-				readme += fmt.Sprintf(
-					"* [%s](%s)  \n",
-					standard_key,
-					filepath.Join("standards", standard_key+"-"+new_family+".md"),
+func (openControl *OpenControlGitBook) exportStandardsReadMe() string {
+	var oldFamily, newFamily string
+	readme := "## Standards  \n"
+	for standardKey, certStandard := range openControl.Certification.Standards {
+		standard := openControl.Standards[standardKey]
+		for controlKey := range certStandard.Controls {
+			newFamily = standard.Controls[controlKey].Family
+			if newFamily != oldFamily {
+				readme += exportLink(
+					standardKey,
+					filepath.Join("standards", standardKey+"-"+newFamily+".md"),
 				)
 			}
-			readme += fmt.Sprintf(
-				"\t* [%s](%s)  \n",
-				control_key,
-				filepath.Join("standards", standard_key+"-"+control_key+".md"),
+			readme += "\t" + exportLink(
+				controlKey,
+				filepath.Join("standards", standardKey+"-"+controlKey+".md"),
 			)
-			old_family = new_family
+			oldFamily = newFamily
 		}
 	}
+	return readme
 
-	readme += "## Systems  \n"
+}
+
+func (openControl *OpenControlGitBook) exportSystemsReadMe() string {
+	readme := "## Systems  \n"
 	for _, system := range openControl.Systems {
-
-		readme += fmt.Sprintf(
-			"* [%s](%s)  \n",
+		readme += exportLink(
 			system.Name,
 			filepath.Join("standards", system.Key+".md"),
 		)
-
 		for _, component := range system.Components {
-			readme += fmt.Sprintf(
-				"\t* [%s](%s)  \n",
+			readme += "\t" + exportLink(
 				component.Name,
 				filepath.Join("standards", system.Key+"-"+component.Key+".md"),
 			)
 		}
 	}
-	ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(readme), 0700)
-	ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"),  []byte(readme), 0700)
+	return readme
 
 }
 
-func BuildGitbook(opencontrol_dir string, certification_path string, export_path string) {
+func (openControl *OpenControlGitBook) BuildReadMe() {
+	var readme string
+	readme += openControl.exportStandardsReadMe()
+	readme += openControl.exportSystemsReadMe()
+	ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(readme), 0700)
+	ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(readme), 0700)
+
+}
+
+func BuildGitbook(opencontrolDir string, certificationPath string, exportPath string) {
 	openControl := OpenControlGitBook{
-		models.LoadData(opencontrol_dir, certification_path),
-		export_path,
+		models.LoadData(opencontrolDir, certificationPath),
+		exportPath,
 	}
-	if _, err := os.Stat(export_path); os.IsNotExist(err) {
-		os.MkdirAll(export_path, 0700)
+	if _, err := os.Stat(exportPath); os.IsNotExist(err) {
+		os.MkdirAll(exportPath, 0700)
 	}
 
 	openControl.BuildReadMe()

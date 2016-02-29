@@ -18,31 +18,31 @@ func NewSystem() *System {
 	return &System{Components: make(map[string]*Component)}
 }
 
-func (system *System) LoadComponent(component_dir string) {
+func (system *System) LoadComponent(componentDir string) {
 	var component *Component
-	component_data, err := ioutil.ReadFile(filepath.Join(component_dir, "component.yaml"))
+	componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
 	if err != nil {
 		log.Println(err.Error())
 	}
-	err = yaml.Unmarshal(component_data, &component)
+	err = yaml.Unmarshal(componentData, &component)
 	if err != nil {
 		log.Println(err.Error())
 	}
 	if system.Key == "" {
-		component.Key = getKey(component_dir)
+		component.Key = getKey(componentDir)
 	}
-	system.LoadComponents(component_dir)
+	system.LoadComponents(componentDir)
 	system.Components[component.Key] = component
 }
 
-func (system *System) LoadComponents(system_dir string) {
-	components_dir, err := ioutil.ReadDir(system_dir)
+func (system *System) LoadComponents(systemDir string) {
+	componentsDir, err := ioutil.ReadDir(systemDir)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	for _, component_dir := range components_dir {
-		if component_dir.IsDir() {
-			system.LoadComponent(filepath.Join(system_dir, component_dir.Name()))
+	for _, componentDir := range componentsDir {
+		if componentDir.IsDir() {
+			system.LoadComponent(filepath.Join(systemDir, componentDir.Name()))
 		}
 	}
 }

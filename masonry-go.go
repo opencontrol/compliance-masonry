@@ -38,23 +38,23 @@ func main() {
 					Name:  "gitbook",
 					Usage: "Create Gitbook Documentation",
 					Action: func(c *cli.Context) {
-						opencontrol_dir := "opencontrols"
+						opencontrolDir := "opencontrols"
 						certification := c.Args().First()
 						if certification == "" {
 							println("Error: New Missing Certification Argument")
 							println("Usage: masonry-go docs gitbook LATO")
 						} else {
-							certification_path := filepath.Join(
-								opencontrol_dir,
+							certificationPath := filepath.Join(
+								opencontrolDir,
 								"certifications",
 								certification+".yaml",
 							)
-							if _, err := os.Stat(certification_path); os.IsNotExist(err) {
-								println("Error: %s does not exist", certification_path)
+							if _, err := os.Stat(certificationPath); os.IsNotExist(err) {
+								println("Error: %s does not exist", certificationPath)
 							} else {
 								renderers.BuildGitbook(
-									opencontrol_dir,
-									certification_path,
+									opencontrolDir,
+									certificationPath,
 									"exports",
 								)
 								println("New Gitbook Documentation Created")
