@@ -1,0 +1,23 @@
+name: User Account and Authentication (UAA) Server
+documentation_complete: false
+references:
+  - name: Reference
+    path: artifact-uaa-1.png
+    type: Image
+verifications:
+  UAA_Verification_1:
+    name: UAA Verification 1
+    path: http://Verification 1 URL
+    type: URL
+  UAA_Verification_2:
+    name: UAA Verification 2
+    path: artifact-uaa-2.png
+    type: Image
+satisfies:
+  NIST-800-53:
+    AC-2:
+      narrative: Justification in narrative form
+      implementation_status: complete
+    CM-2:
+      narrative: Justification in narrative form
+      implementation_status: complete
