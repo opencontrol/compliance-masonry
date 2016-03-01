@@ -3,6 +3,7 @@ package models
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
@@ -22,7 +23,7 @@ func (system *System) LoadComponent(componentDir string) {
 	var component *Component
 	componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
 	if err != nil {
-		log.Println(err.Error())
+		log.Println("here",err.Error())
 	}
 	err = yaml.Unmarshal(componentData, &component)
 	if err != nil {
@@ -31,7 +32,6 @@ func (system *System) LoadComponent(componentDir string) {
 	if component.Key == "" {
 		component.Key = getKey(componentDir)
 	}
-	system.LoadComponents(componentDir)
 	system.Components[component.Key] = component
 }
 
@@ -42,7 +42,10 @@ func (system *System) LoadComponents(systemDir string) {
 	}
 	for _, componentDir := range componentsDir {
 		if componentDir.IsDir() {
-			system.LoadComponent(filepath.Join(systemDir, componentDir.Name()))
+			componentDir := filepath.Join(systemDir, componentDir.Name())
+			if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
+					system.LoadComponent(componentDir)
+			}
 		}
 	}
 }

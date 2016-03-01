@@ -34,6 +34,7 @@ func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
 	go func() {
 		defer wg.Done()
 		openControl.LoadSystems(filepath.Join(opencontrolDir, "components"))
+		openControl.LoadSystem(".")
 	}()
 	go func() {
 		defer wg.Done()
