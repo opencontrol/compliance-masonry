@@ -3,6 +3,7 @@ package models
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"sync"
 
@@ -49,23 +50,6 @@ func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
 	return openControl
 }
 
-func (openControl *OpenControl) LoadSystem(systemDir string) {
-	system := NewSystem()
-	systemData, err := ioutil.ReadFile(filepath.Join(systemDir, "system.yaml"))
-	if err != nil {
-		log.Println(err.Error())
-	}
-	err = yaml.Unmarshal(systemData, &system)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	if system.Key == "" {
-		system.Key = getKey(systemDir)
-	}
-	system.LoadComponents(systemDir)
-	openControl.Systems[system.Key] = system
-}
-
 func (openControl *OpenControl) LoadSystems(opencontrolsDir string) {
 	systemsDirs, err := ioutil.ReadDir(opencontrolsDir)
 	if err != nil {
@@ -73,22 +57,11 @@ func (openControl *OpenControl) LoadSystems(opencontrolsDir string) {
 	}
 	for _, systemDir := range systemsDirs {
 		if systemDir.IsDir() {
-			openControl.LoadSystem(filepath.Join(opencontrolsDir, systemDir.Name()))
+			if _, err := os.Stat(filepath.Join(opencontrolsDir, "system.yaml")); err == nil {
+				openControl.LoadSystem(filepath.Join(opencontrolsDir, systemDir.Name()))
+			}
 		}
 	}
-}
-
-func (openControl *OpenControl) LoadStandard(standardFile string) {
-	var standard Standard
-	standardData, err := ioutil.ReadFile(standardFile)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	err = yaml.Unmarshal(standardData, &standard)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	openControl.Standards[standard.Key] = &standard
 }
 
 func (openControl *OpenControl) LoadStandards(standardsDir string) {

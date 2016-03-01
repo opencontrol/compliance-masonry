@@ -19,20 +19,23 @@ func NewSystem() *System {
 	return &System{Components: make(map[string]*Component)}
 }
 
-func (system *System) LoadComponent(componentDir string) {
-	var component *Component
-	componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
-	if err != nil {
-		log.Println("here",err.Error())
+func (openControl *OpenControl) LoadSystem(systemDir string) {
+	if _, err := os.Stat(filepath.Join(systemDir, "system.yaml")); err == nil {
+		system := NewSystem()
+		systemData, err := ioutil.ReadFile(filepath.Join(systemDir, "system.yaml"))
+		if err != nil {
+			log.Println(err.Error())
+		}
+		err = yaml.Unmarshal(systemData, &system)
+		if err != nil {
+			log.Println(err.Error())
+		}
+		if system.Key == "" {
+			system.Key = getKey(systemDir)
+		}
+		system.LoadComponents(systemDir)
+		openControl.Systems[system.Key] = system
 	}
-	err = yaml.Unmarshal(componentData, &component)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	if component.Key == "" {
-		component.Key = getKey(componentDir)
-	}
-	system.Components[component.Key] = component
 }
 
 func (system *System) LoadComponents(systemDir string) {
@@ -44,7 +47,7 @@ func (system *System) LoadComponents(systemDir string) {
 		if componentDir.IsDir() {
 			componentDir := filepath.Join(systemDir, componentDir.Name())
 			if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
-					system.LoadComponent(componentDir)
+				system.LoadComponent(componentDir)
 			}
 		}
 	}
