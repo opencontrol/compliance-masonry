@@ -28,7 +28,7 @@ func (system *System) LoadComponent(componentDir string) {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	if system.Key == "" {
+	if component.Key == "" {
 		component.Key = getKey(componentDir)
 	}
 	system.LoadComponents(componentDir)

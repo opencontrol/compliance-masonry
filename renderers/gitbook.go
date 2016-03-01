@@ -35,18 +35,25 @@ func (openControl *OpenControlGitBook) exportStandardsReadMe() string {
 		}
 	}
 	return readme
-
 }
 
 func (openControl *OpenControlGitBook) exportSystemsReadMe() string {
+	var systemReadme string
 	readme := "## Systems  \n"
+	systemsExportPath := filepath.Join(openControl.exportPath, "systems")
+	if _, err := os.Stat(systemsExportPath); os.IsNotExist(err) {
+		os.MkdirAll(systemsExportPath, 0700)
+	}
 	for _, system := range openControl.Systems {
-		systemLink := filepath.Join("sytems", system.Key+".md")
+		systemLink := filepath.Join("systems", system.Key+".md")
+		systemReadme = fmt.Sprintf("# %s  \n", system.Name)
 		readme += exportLink(system.Name, systemLink)
 		for _, component := range system.Components {
-			componentLink := filepath.Join("sytems", system.Key+"-"+component.Key+".md")
-			readme += "\t" + exportLink(component.Name, componentLink)
+			componentPath := system.Key + "-" + component.Key + ".md"
+			systemReadme += exportLink(component.Name, componentPath)
+			readme += "\t" + exportLink(component.Name, filepath.Join("systems", componentPath))
 		}
+		ioutil.WriteFile(filepath.Join(systemsExportPath, system.Key+".md"), []byte(systemReadme), 0700)
 	}
 	return readme
 
@@ -58,7 +65,6 @@ func (openControl *OpenControlGitBook) BuildReadMe() {
 	readme += openControl.exportSystemsReadMe()
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(readme), 0700)
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(readme), 0700)
-
 }
 
 func BuildGitbook(opencontrolDir string, certificationPath string, exportPath string) {
