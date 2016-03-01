@@ -3,7 +3,6 @@ package models
 import (
 	"io/ioutil"
 	"log"
-	"os"
 	"path/filepath"
 	"sync"
 
@@ -57,9 +56,7 @@ func (openControl *OpenControl) LoadSystems(opencontrolsDir string) {
 	}
 	for _, systemDir := range systemsDirs {
 		if systemDir.IsDir() {
-			if _, err := os.Stat(filepath.Join(opencontrolsDir, "system.yaml")); err == nil {
-				openControl.LoadSystem(filepath.Join(opencontrolsDir, systemDir.Name()))
-			}
+			openControl.LoadSystem(filepath.Join(opencontrolsDir, systemDir.Name()))
 		}
 	}
 }

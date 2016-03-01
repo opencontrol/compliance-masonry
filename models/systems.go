@@ -46,9 +46,7 @@ func (system *System) LoadComponents(systemDir string) {
 	for _, componentDir := range componentsDir {
 		if componentDir.IsDir() {
 			componentDir := filepath.Join(systemDir, componentDir.Name())
-			if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
-				system.LoadComponent(componentDir)
-			}
+			system.LoadComponent(componentDir)
 		}
 	}
 }

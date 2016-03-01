@@ -3,6 +3,7 @@ package models
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
@@ -42,17 +43,19 @@ type Component struct {
 }
 
 func (system *System) LoadComponent(componentDir string) {
-	var component *Component
-	componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
-	if err != nil {
-		log.Println("here", err.Error())
+	if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
+		var component *Component
+		componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
+		if err != nil {
+			log.Println("here", err.Error())
+		}
+		err = yaml.Unmarshal(componentData, &component)
+		if err != nil {
+			log.Println(err.Error())
+		}
+		if component.Key == "" {
+			component.Key = getKey(componentDir)
+		}
+		system.Components[component.Key] = component
 	}
-	err = yaml.Unmarshal(componentData, &component)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	if component.Key == "" {
-		component.Key = getKey(componentDir)
-	}
-	system.Components[component.Key] = component
 }
