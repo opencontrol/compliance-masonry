@@ -18,7 +18,7 @@ func exportLink(text string, location string) string {
 	return fmt.Sprintf("* [%s](%s)  \n", text, location)
 }
 
-func (openControl *OpenControlGitBook) exportStandardsReadMe() string {
+func (openControl *OpenControlGitBook) exportStandards() string {
 	var oldFamily, newFamily string
 	readme := "## Standards  \n"
 	for standardKey, certStandard := range openControl.Certification.Standards {
@@ -61,7 +61,7 @@ func (openControl *OpenControlGitBook) exportSystemsReadMe() string {
 
 func (openControl *OpenControlGitBook) BuildReadMe() {
 	var readme string
-	readme += openControl.exportStandardsReadMe()
+	readme += openControl.exportStandards()
 	readme += openControl.exportSystemsReadMe()
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(readme), 0700)
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(readme), 0700)
