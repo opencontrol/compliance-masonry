@@ -33,6 +33,12 @@ func (openControl *OpenControl) LoadSystem(systemDir string) {
 		if system.Key == "" {
 			system.Key = getKey(systemDir)
 		}
+		// If the system exists use the existing system
+		oldSystem := openControl.Systems[system.Key]
+		if oldSystem != nil {
+			system = oldSystem
+			log.Println("System: %s exisits", system.Key)
+		}
 		system.LoadComponents(systemDir)
 		openControl.Systems[system.Key] = system
 	}

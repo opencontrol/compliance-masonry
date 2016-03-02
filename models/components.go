@@ -56,6 +56,9 @@ func (system *System) LoadComponent(componentDir string) {
 		if component.Key == "" {
 			component.Key = getKey(componentDir)
 		}
+		if system.Components[system.Key] != nil {
+			log.Fatalln("Component: %s exisits!", component.Key)
+		}
 		system.Components[component.Key] = component
 	}
 }
