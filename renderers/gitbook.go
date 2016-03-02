@@ -14,6 +14,17 @@ type OpenControlGitBook struct {
 	exportPath string
 }
 
+type SystemGitbook struct {
+	*models.System
+	exportPath string
+}
+
+type ComponentGitbook struct {
+	*models.Component
+	exportPath string
+	systemKey  string
+}
+
 func exportLink(text string, location string) string {
 	return fmt.Sprintf("* [%s](%s)  \n", text, location)
 }
@@ -37,32 +48,46 @@ func (openControl *OpenControlGitBook) exportStandards() string {
 	return readme
 }
 
-func (openControl *OpenControlGitBook) exportSystemsReadMe() string {
-	var systemReadme string
+func (component *ComponentGitbook) exportComponent() (string, string) {
+	var readme, systemReadme string
+	componentPath := component.systemKey + "-" + component.Key + ".md"
+	systemReadme += exportLink(component.Name, componentPath)
+	readme += "\t" + exportLink(component.Name, filepath.Join("systems", componentPath))
+	return readme, systemReadme
+}
+
+func (system *SystemGitbook) exportSystem() string {
+	var readme, systemReadme string
+	systemLink := filepath.Join("systems", system.Key+".md")
+	systemReadme = fmt.Sprintf("# %s  \n", system.Name)
+	readme += exportLink(system.Name, systemLink)
+	for _, component := range system.Components {
+		componentGitbook := ComponentGitbook{component, system.exportPath, system.Key}
+		readmeUpdate, systemReadmeUpdate := componentGitbook.exportComponent()
+		readme += readmeUpdate
+		readme += systemReadmeUpdate
+	}
+	ioutil.WriteFile(filepath.Join(system.exportPath, system.Key+".md"), []byte(systemReadme), 0700)
+	return readme
+}
+
+func (openControl *OpenControlGitBook) exportSystems() string {
 	readme := "## Systems  \n"
 	systemsExportPath := filepath.Join(openControl.exportPath, "systems")
 	if _, err := os.Stat(systemsExportPath); os.IsNotExist(err) {
 		os.MkdirAll(systemsExportPath, 0700)
 	}
 	for _, system := range openControl.Systems {
-		systemLink := filepath.Join("systems", system.Key+".md")
-		systemReadme = fmt.Sprintf("# %s  \n", system.Name)
-		readme += exportLink(system.Name, systemLink)
-		for _, component := range system.Components {
-			componentPath := system.Key + "-" + component.Key + ".md"
-			systemReadme += exportLink(component.Name, componentPath)
-			readme += "\t" + exportLink(component.Name, filepath.Join("systems", componentPath))
-		}
-		ioutil.WriteFile(filepath.Join(systemsExportPath, system.Key+".md"), []byte(systemReadme), 0700)
+		systemGitBook := SystemGitbook{system, systemsExportPath}
+		readme += systemGitBook.exportSystem()
 	}
 	return readme
-
 }
 
 func (openControl *OpenControlGitBook) BuildReadMe() {
 	var readme string
 	readme += openControl.exportStandards()
-	readme += openControl.exportSystemsReadMe()
+	readme += openControl.exportSystems()
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(readme), 0700)
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(readme), 0700)
 }
