@@ -65,7 +65,7 @@ func (system *SystemGitbook) exportSystem() string {
 		componentGitbook := ComponentGitbook{component, system.exportPath, system.Key}
 		readmeUpdate, systemReadmeUpdate := componentGitbook.exportComponent()
 		readme += readmeUpdate
-		readme += systemReadmeUpdate
+		systemReadme += systemReadmeUpdate
 	}
 	ioutil.WriteFile(filepath.Join(system.exportPath, system.Key+".md"), []byte(systemReadme), 0700)
 	return readme
