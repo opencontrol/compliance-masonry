@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/opencontrol/compliance-masonry.svg?branch=master)](https://travis-ci.org/18F/control-masonry)
 [![Code Climate](https://codeclimate.com/github/opencontrol/compliance-masonry/badges/gpa.svg)](https://codeclimate.com/github/opencontrol/compliance-masonry)
 ## About
-Compliance Masonry a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation.
+Compliance Masonry is a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation.
 
 Alpha note: Compliance Masonry is an emerging project. We recognize that in its current state, Compliance Masonry's user experience still needs to mature.
 
