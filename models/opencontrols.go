@@ -10,7 +10,7 @@ import (
 )
 
 type OpenControl struct {
-	Systems       map[string]*System
+	Components    map[string]*Component
 	Standards     map[string]*Standard
 	Certification *Certification
 }
@@ -22,8 +22,8 @@ func getKey(filePath string) string {
 
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
-		Systems:   make(map[string]*System),
-		Standards: make(map[string]*Standard),
+		Components: make(map[string]*Component),
+		Standards:  make(map[string]*Standard),
 	}
 }
 
@@ -33,8 +33,8 @@ func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
 	wg.Add(3)
 	go func() {
 		defer wg.Done()
-		openControl.LoadSystems(filepath.Join(opencontrolDir, "components"))
-		openControl.LoadSystem(".")
+		openControl.LoadComponents(filepath.Join(opencontrolDir, "components"))
+		openControl.LoadComponents(".")
 	}()
 	go func() {
 		defer wg.Done()
@@ -49,14 +49,15 @@ func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
 	return openControl
 }
 
-func (openControl *OpenControl) LoadSystems(opencontrolsDir string) {
-	systemsDirs, err := ioutil.ReadDir(opencontrolsDir)
+func (opencontrol *OpenControl) LoadComponents(directory string) {
+	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	for _, systemDir := range systemsDirs {
-		if systemDir.IsDir() {
-			openControl.LoadSystem(filepath.Join(opencontrolsDir, systemDir.Name()))
+	for _, componentDir := range componentsDir {
+		if componentDir.IsDir() {
+			componentDir := filepath.Join(directory, componentDir.Name())
+			opencontrol.LoadComponent(componentDir)
 		}
 	}
 }

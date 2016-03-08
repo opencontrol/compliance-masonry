@@ -14,15 +14,9 @@ type OpenControlGitBook struct {
 	exportPath string
 }
 
-type SystemGitbook struct {
-	*models.System
-	exportPath string
-}
-
 type ComponentGitbook struct {
 	*models.Component
 	exportPath string
-	systemKey  string
 }
 
 func exportLink(text string, location string) string {
@@ -48,38 +42,23 @@ func (openControl *OpenControlGitBook) exportStandards() string {
 	return readme
 }
 
-func (component *ComponentGitbook) exportComponent() (string, string) {
-	var readme, systemReadme string
-	componentPath := component.systemKey + "-" + component.Key + ".md"
-	systemReadme += exportLink(component.Name, componentPath)
-	readme += "\t" + exportLink(component.Name, filepath.Join("systems", componentPath))
-	return readme, systemReadme
-}
-
-func (system *SystemGitbook) exportSystem() string {
-	var readme, systemReadme string
-	systemLink := filepath.Join("systems", system.Key+".md")
-	systemReadme = fmt.Sprintf("# %s  \n", system.Name)
-	readme += exportLink(system.Name, systemLink)
-	for _, component := range system.Components {
-		componentGitbook := ComponentGitbook{component, system.exportPath, system.Key}
-		readmeUpdate, systemReadmeUpdate := componentGitbook.exportComponent()
-		readme += readmeUpdate
-		systemReadme += systemReadmeUpdate
-	}
-	ioutil.WriteFile(filepath.Join(system.exportPath, system.Key+".md"), []byte(systemReadme), 0700)
+func (component *ComponentGitbook) exportComponent() string {
+	var readme string
+	componentPath := component.Key + ".md"
+	readme += "\t" + exportLink(component.Name, filepath.Join("components", componentPath))
 	return readme
 }
 
-func (openControl *OpenControlGitBook) exportSystems() string {
-	readme := "## Systems  \n"
-	systemsExportPath := filepath.Join(openControl.exportPath, "systems")
-	if _, err := os.Stat(systemsExportPath); os.IsNotExist(err) {
-		os.MkdirAll(systemsExportPath, 0700)
+func (openControl *OpenControlGitBook) exportComponents() string {
+	readme := "## Components  \n"
+	componentsExportPath := filepath.Join(openControl.exportPath, "components")
+	if _, err := os.Stat(componentsExportPath); os.IsNotExist(err) {
+		os.MkdirAll(componentsExportPath, 0700)
 	}
-	for _, system := range openControl.Systems {
-		systemGitBook := SystemGitbook{system, systemsExportPath}
-		readme += systemGitBook.exportSystem()
+
+	for _, component := range openControl.Components {
+		componentsGitBook := ComponentGitbook{component, componentsExportPath}
+		readme += componentsGitBook.exportComponent()
 	}
 	return readme
 }
@@ -87,7 +66,7 @@ func (openControl *OpenControlGitBook) exportSystems() string {
 func (openControl *OpenControlGitBook) BuildReadMe() {
 	var readme string
 	readme += openControl.exportStandards()
-	readme += openControl.exportSystems()
+	readme += openControl.exportComponents()
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(readme), 0700)
 	ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(readme), 0700)
 }
@@ -100,6 +79,5 @@ func BuildGitbook(opencontrolDir string, certificationPath string, exportPath st
 	if _, err := os.Stat(exportPath); os.IsNotExist(err) {
 		os.MkdirAll(exportPath, 0700)
 	}
-
 	openControl.BuildReadMe()
 }

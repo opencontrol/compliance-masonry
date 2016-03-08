@@ -22,7 +22,6 @@ type VerificationReference struct {
 
 type CoveredBy struct {
 	ComponentKey    string `yaml:"component_key" json:"component_key"`
-	SystemKey       string `yaml:"system_key" json:"system_key"`
 	VerificationKey string `yaml:"verification_key" json:"verification_key"`
 }
 
@@ -42,7 +41,7 @@ type Component struct {
 	SchemaVersion float32                 `yaml:"schema_version" json:"schema_version"`
 }
 
-func (system *System) LoadComponent(componentDir string) {
+func (opencontrol *OpenControl) LoadComponent(componentDir string) {
 	if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
 		var component *Component
 		componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
@@ -56,9 +55,9 @@ func (system *System) LoadComponent(componentDir string) {
 		if component.Key == "" {
 			component.Key = getKey(componentDir)
 		}
-		if system.Components[system.Key] != nil {
+		if opencontrol.Components[component.Key] != nil {
 			log.Fatalln("Component: %s exisits!", component.Key)
 		}
-		system.Components[component.Key] = component
+		opencontrol.Components[component.Key] = component
 	}
 }
