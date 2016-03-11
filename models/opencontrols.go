@@ -5,21 +5,23 @@ import (
 	"log"
 	"path/filepath"
 	"sync"
-
-	"gopkg.in/yaml.v2"
 )
 
+// OpenControl struct combines data on of components, standards, and a certification
+// for creating and verifying component documentation.
 type OpenControl struct {
 	Components    map[string]*Component
 	Standards     map[string]*Standard
 	Certification *Certification
 }
 
+// getKey extracts a component key from the filepath
 func getKey(filePath string) string {
 	_, key := filepath.Split(filePath)
 	return key
 }
 
+// NewOpenControl Initalizes an empty OpenControl struct
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
 		Components: make(map[string]*Component),
@@ -27,6 +29,8 @@ func NewOpenControl() *OpenControl {
 	}
 }
 
+// LoadData creates a new instance of OpenControl struct and loads
+// the components, standards, and certification data.
 func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
 	var wg sync.WaitGroup
 	openControl := NewOpenControl()
@@ -49,6 +53,8 @@ func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
 	return openControl
 }
 
+// LoadComponents loads multiple components by searching for components in a
+// given directory
 func (opencontrol *OpenControl) LoadComponents(directory string) {
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
@@ -62,6 +68,8 @@ func (opencontrol *OpenControl) LoadComponents(directory string) {
 	}
 }
 
+// LoadStandards loads multiple standards by searching for components in a
+// given directory
 func (openControl *OpenControl) LoadStandards(standardsDir string) {
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
@@ -70,17 +78,4 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) {
 	for _, standardFile := range standardsFiles {
 		openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
 	}
-}
-
-func (openControl *OpenControl) LoadCertification(certificationFile string) {
-	var certification Certification
-	certificationData, err := ioutil.ReadFile(certificationFile)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	err = yaml.Unmarshal(certificationData, &certification)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	openControl.Certification = &certification
 }
