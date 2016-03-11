@@ -1,9 +1,6 @@
 package models
 
-import (
-	"log"
-	"testing"
-)
+import "testing"
 
 type componentTest struct {
 	componentDir string
@@ -34,7 +31,6 @@ func TestLoadComponent(t *testing.T) {
 
 		openControl := &OpenControl{Components: make(map[string]*Component)}
 		openControl.LoadComponent(example.componentDir)
-		log.Println(openControl)
 		actual := openControl.Components[example.expected.Key]
 
 		if example.expected.Key != actual.Key {
