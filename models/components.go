@@ -52,7 +52,7 @@ type Component struct {
 
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
-func (opencontrol *OpenControl) LoadComponent(componentDir string) {
+func (openControl *OpenControl) LoadComponent(componentDir string) {
 	if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
 		var component *Component
 		componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
@@ -66,9 +66,9 @@ func (opencontrol *OpenControl) LoadComponent(componentDir string) {
 		if component.Key == "" {
 			component.Key = getKey(componentDir)
 		}
-		if opencontrol.Components[component.Key] != nil {
+		if openControl.Components[component.Key] != nil {
 			log.Fatalln("Component: %s exisits!", component.Key)
 		}
-		opencontrol.Components[component.Key] = component
+		openControl.Components[component.Key] = component
 	}
 }

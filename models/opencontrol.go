@@ -31,18 +31,18 @@ func NewOpenControl() *OpenControl {
 
 // LoadData creates a new instance of OpenControl struct and loads
 // the components, standards, and certification data.
-func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
+func LoadData(openControlDir string, certificationPath string) *OpenControl {
 	var wg sync.WaitGroup
 	openControl := NewOpenControl()
 	wg.Add(3)
 	go func() {
 		defer wg.Done()
-		openControl.LoadComponents(filepath.Join(opencontrolDir, "components"))
+		openControl.LoadComponents(filepath.Join(openControlDir, "components"))
 		openControl.LoadComponents(".")
 	}()
 	go func() {
 		defer wg.Done()
-		openControl.LoadStandards(filepath.Join(opencontrolDir, "standards"))
+		openControl.LoadStandards(filepath.Join(openControlDir, "standards"))
 
 	}()
 	go func() {
@@ -55,7 +55,7 @@ func LoadData(opencontrolDir string, certificationPath string) *OpenControl {
 
 // LoadComponents loads multiple components by searching for components in a
 // given directory
-func (opencontrol *OpenControl) LoadComponents(directory string) {
+func (openControl *OpenControl) LoadComponents(directory string) {
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
 		log.Println(err.Error())
@@ -63,7 +63,7 @@ func (opencontrol *OpenControl) LoadComponents(directory string) {
 	for _, componentDir := range componentsDir {
 		if componentDir.IsDir() {
 			componentDir := filepath.Join(directory, componentDir.Name())
-			opencontrol.LoadComponent(componentDir)
+			openControl.LoadComponent(componentDir)
 		}
 	}
 }
