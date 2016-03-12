@@ -10,8 +10,8 @@ import (
 // OpenControl struct combines data on of components, standards, and a certification
 // for creating and verifying component documentation.
 type OpenControl struct {
-	Components     map[string]*Component
-	Standards      map[string]*Standard
+	Components     *Components
+	Standards      *Standards
 	Justifications *Justifications
 	Certification  *Certification
 }
@@ -26,8 +26,8 @@ func getKey(filePath string) string {
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
 		Justifications: NewJustifications(),
-		Components:     make(map[string]*Component),
-		Standards:      make(map[string]*Standard),
+		Components:     NewComponents(),
+		Standards:      NewStandards(),
 	}
 }
 
@@ -64,7 +64,7 @@ func (openControl *OpenControl) LoadComponents(directory string) {
 	for _, componentDir := range componentsDir {
 		if componentDir.IsDir() {
 			componentDir := filepath.Join(directory, componentDir.Name())
-			openControl.LoadComponent(componentDir)
+			go openControl.LoadComponent(componentDir)
 		}
 	}
 }
@@ -77,6 +77,6 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) {
 		log.Println(err.Error())
 	}
 	for _, standardFile := range standardsFiles {
-		openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
+		go openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
 	}
 }
