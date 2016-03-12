@@ -56,7 +56,7 @@ func (openControl *OpenControlGitBook) exportComponents() string {
 		os.MkdirAll(componentsExportPath, 0700)
 	}
 
-	for _, component := range openControl.Components {
+	for _, component := range openControl.Components.GetAll() {
 		componentsGitBook := ComponentGitbook{component, componentsExportPath}
 		readme += componentsGitBook.exportComponent()
 	}

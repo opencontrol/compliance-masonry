@@ -30,10 +30,10 @@ func TestLoadComponent(t *testing.T) {
 	for _, example := range componentTests {
 		openControl := &OpenControl{
 			Justifications: NewJustifications(),
-			Components:     make(map[string]*Component),
+			Components:     NewComponents(),
 		}
 		openControl.LoadComponent(example.componentDir)
-		actual := openControl.Components[example.expected.Key]
+		actual := openControl.Components.Get(example.expected.Key)
 
 		if example.expected.Key != actual.Key {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"gopkg.in/yaml.v2"
 )
@@ -50,6 +51,36 @@ type Component struct {
 	SchemaVersion float32                 `yaml:"schema_version" json:"schema_version"`
 }
 
+// Components struct is a thread-safe structure mapping for components
+type Components struct {
+	mapping map[string]*Component
+	sync.RWMutex
+}
+
+// NewComponents creates an instance of Components struct
+func NewComponents() *Components {
+	return &Components{mapping: make(map[string]*Component)}
+}
+
+// Add adds a new component to the component map
+func (components *Components) Add(component *Component) {
+	components.Lock()
+	components.mapping[component.Key] = component
+	components.Unlock()
+}
+
+// Get retrives a new component from the component map
+func (components *Components) Get(key string) *Component {
+	components.Lock()
+	defer components.Unlock()
+	return components.mapping[key]
+}
+
+// GetAll retrives all the components
+func (components *Components) GetAll() map[string]*Component {
+	return components.mapping
+}
+
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
 func (openControl *OpenControl) LoadComponent(componentDir string) {
@@ -66,10 +97,10 @@ func (openControl *OpenControl) LoadComponent(componentDir string) {
 		if component.Key == "" {
 			component.Key = getKey(componentDir)
 		}
-		if openControl.Components[component.Key] != nil {
+		if openControl.Components.Get(component.Key) != nil {
 			log.Fatalln("Component: %s exisits!", component.Key)
 		}
 		openControl.Justifications.LoadMappings(component)
-		openControl.Components[component.Key] = component
+		openControl.Components.Add(component)
 	}
 }
