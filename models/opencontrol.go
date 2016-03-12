@@ -10,9 +10,10 @@ import (
 // OpenControl struct combines data on of components, standards, and a certification
 // for creating and verifying component documentation.
 type OpenControl struct {
-	Components    map[string]*Component
-	Standards     map[string]*Standard
-	Certification *Certification
+	Components     map[string]*Component
+	Standards      map[string]*Standard
+	Justifications *Justifications
+	Certification  *Certification
 }
 
 // getKey extracts a component key from the filepath
@@ -24,8 +25,9 @@ func getKey(filePath string) string {
 // NewOpenControl Initalizes an empty OpenControl struct
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
-		Components: make(map[string]*Component),
-		Standards:  make(map[string]*Standard),
+		Justifications: NewJustifications(),
+		Components:     make(map[string]*Component),
+		Standards:      make(map[string]*Standard),
 	}
 }
 
@@ -43,7 +45,6 @@ func LoadData(openControlDir string, certificationPath string) *OpenControl {
 	go func() {
 		defer wg.Done()
 		openControl.LoadStandards(filepath.Join(openControlDir, "standards"))
-
 	}()
 	go func() {
 		defer wg.Done()

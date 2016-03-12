@@ -69,6 +69,7 @@ func (openControl *OpenControl) LoadComponent(componentDir string) {
 		if openControl.Components[component.Key] != nil {
 			log.Fatalln("Component: %s exisits!", component.Key)
 		}
+		openControl.Justifications.LoadMappings(component)
 		openControl.Components[component.Key] = component
 	}
 }

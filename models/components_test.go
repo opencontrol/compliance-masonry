@@ -28,8 +28,10 @@ var componentTests = []componentTest{
 
 func TestLoadComponent(t *testing.T) {
 	for _, example := range componentTests {
-
-		openControl := &OpenControl{Components: make(map[string]*Component)}
+		openControl := &OpenControl{
+			Justifications: NewJustifications(),
+			Components:     make(map[string]*Component),
+		}
 		openControl.LoadComponent(example.componentDir)
 		actual := openControl.Components[example.expected.Key]
 
@@ -55,7 +57,5 @@ func TestLoadComponent(t *testing.T) {
 		if len(example.expected.Verifications) != len(actual.Verifications) {
 			t.Errorf("Expected %d, Actual: %d", len(example.expected.Verifications), len(actual.Verifications))
 		}
-
 	}
-
 }
