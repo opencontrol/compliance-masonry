@@ -15,9 +15,9 @@ var standardsTests = []standardsTest{
 
 func TestLoadStandard(t *testing.T) {
 	for _, example := range standardsTests {
-		openControl := &OpenControl{Standards: make(map[string]*Standard)}
+		openControl := &OpenControl{Standards: NewStandards()}
 		openControl.LoadStandard(example.standardsFile)
-		actual := openControl.Standards[example.expected.Key]
+		actual := openControl.Standards.Get(example.expected.Key)
 		if actual.Key != example.expected.Key {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)
 		}

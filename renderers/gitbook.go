@@ -27,7 +27,7 @@ func (openControl *OpenControlGitBook) exportStandards() string {
 	var oldFamily, newFamily string
 	readme := "## Standards  \n"
 	for standardKey, certStandard := range openControl.Certification.Standards {
-		standard := openControl.Standards[standardKey]
+		standard := openControl.Standards.Get(standardKey)
 		for controlKey := range certStandard.Controls {
 			newFamily = standard.Controls[controlKey].Family
 			if newFamily != oldFamily {
