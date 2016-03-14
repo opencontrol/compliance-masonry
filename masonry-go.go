@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/codegangsta/cli"
-	"github.com/geramirez/masonry-go/renderers"
+	"github.com/opencontrol/compliance-masonry-go/renderers"
 )
 
 func main() {

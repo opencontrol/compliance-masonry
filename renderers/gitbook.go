@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/geramirez/masonry-go/models"
+	"github.com/opencontrol/compliance-masonry-go/models"
 )
 
 type OpenControlGitBook struct {
