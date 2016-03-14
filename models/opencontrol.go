@@ -3,6 +3,7 @@ package models
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"sync"
 )
@@ -57,26 +58,40 @@ func LoadData(openControlDir string, certificationPath string) *OpenControl {
 // LoadComponents loads multiple components by searching for components in a
 // given directory
 func (openControl *OpenControl) LoadComponents(directory string) {
+	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
 		log.Println(err.Error())
 	}
 	for _, componentDir := range componentsDir {
-		if componentDir.IsDir() {
-			componentDir := filepath.Join(directory, componentDir.Name())
-			go openControl.LoadComponent(componentDir)
-		}
+		wg.Add(1)
+		go func(componentDir os.FileInfo) {
+			if componentDir.IsDir() {
+				componentDir := filepath.Join(directory, componentDir.Name())
+				openControl.LoadComponent(componentDir)
+			}
+			wg.Done()
+		}(componentDir)
 	}
+	wg.Wait()
+
 }
 
 // LoadStandards loads multiple standards by searching for components in a
 // given directory
 func (openControl *OpenControl) LoadStandards(standardsDir string) {
+	var wg sync.WaitGroup
+
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
 		log.Println(err.Error())
 	}
 	for _, standardFile := range standardsFiles {
-		go openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
+		wg.Add(1)
+		go func(standardFile os.FileInfo) {
+			openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
+			wg.Done()
+		}(standardFile)
 	}
+	wg.Wait()
 }
