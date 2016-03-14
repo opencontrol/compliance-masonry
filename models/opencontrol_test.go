@@ -40,11 +40,11 @@ var loadDataTests = []loadDataTest{
 func TestLoadData(t *testing.T) {
 	for _, example := range loadDataTests {
 		actual := LoadData(example.openControlDir, example.certificationPath)
-		actualComponentNum := len(actual.Components.mapping)
+		actualComponentNum := len(actual.Components.GetAll())
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
-		actualStandardsNum := len(actual.Standards.mapping)
+		actualStandardsNum := len(actual.Standards.GetAll())
 		if actualStandardsNum != example.expectedStandardsNum {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
@@ -71,7 +71,7 @@ func TestLoadComponents(t *testing.T) {
 	for _, example := range loadComponentsTests {
 		openControl := NewOpenControl()
 		openControl.LoadComponents(example.dir)
-		actualComponentNum := len(openControl.Components.mapping)
+		actualComponentNum := len(openControl.Components.GetAll())
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
@@ -91,7 +91,7 @@ func TestLoadStandards(t *testing.T) {
 	for _, example := range loadStandardsTests {
 		openControl := NewOpenControl()
 		openControl.LoadStandards(example.dir)
-		actualStandards := len(openControl.Standards.mapping)
+		actualStandards := len(openControl.Standards.GetAll())
 		if actualStandards != example.expectedStandards {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedStandards, actualStandards)
 		}
