@@ -23,7 +23,7 @@ func getKey(filePath string) string {
 	return key
 }
 
-// NewOpenControl Initalizes an empty OpenControl struct
+// NewOpenControl Initializes an empty OpenControl struct
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
 		Justifications: NewJustifications(),

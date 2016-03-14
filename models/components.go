@@ -25,7 +25,7 @@ type VerificationReference struct {
 	GeneralReference `yaml:",inline"`
 }
 
-// CoveredBy struct is the pointing mechanism for for refering to
+// CoveredBy struct is the pointing mechanism for for referring to
 // VerificationReferences in the documentation.
 type CoveredBy struct {
 	ComponentKey    string `yaml:"component_key" json:"component_key"`

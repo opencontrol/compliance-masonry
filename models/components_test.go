@@ -11,17 +11,17 @@ var componentTests = []componentTest{
 	{"./component_fixtures/EC2", Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
-		References:    []GeneralReference{GeneralReference{}},
-		Verifications: []VerificationReference{VerificationReference{}, VerificationReference{}},
-		Satisfies:     []Satisfies{Satisfies{}, Satisfies{}, Satisfies{}, Satisfies{}},
+		References:    []GeneralReference{{}},
+		Verifications: []VerificationReference{{}, {}},
+		Satisfies:     []Satisfies{{}, {}, {}, {}},
 		SchemaVersion: 2.0,
 	}},
 	{"./component_fixtures/EC2WithKey", Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
-		References:    []GeneralReference{GeneralReference{}},
-		Verifications: []VerificationReference{VerificationReference{}, VerificationReference{}},
-		Satisfies:     []Satisfies{Satisfies{}, Satisfies{}, Satisfies{}, Satisfies{}},
+		References:    []GeneralReference{{}},
+		Verifications: []VerificationReference{{}, {}},
+		Satisfies:     []Satisfies{{}, {}, {}, {}},
 		SchemaVersion: 2.0,
 	}},
 }
@@ -43,7 +43,7 @@ func TestLoadComponent(t *testing.T) {
 		}
 
 		if example.expected.SchemaVersion != actual.SchemaVersion {
-			t.Errorf("Expected %s, Actual: %s", example.expected.SchemaVersion, actual.SchemaVersion)
+			t.Errorf("Expected %f, Actual: %f", example.expected.SchemaVersion, actual.SchemaVersion)
 		}
 
 		if len(example.expected.References) != len(actual.References) {

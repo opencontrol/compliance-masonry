@@ -14,8 +14,8 @@ type justificationsTest struct {
 }
 
 var justificationsTests = []justificationsTest{
-	{[]singleMapping{singleMapping{"s", "c", "1"}, singleMapping{"s", "c", "2"}, singleMapping{"s", "c", "3"}}, 1},
-	{[]singleMapping{singleMapping{"s1", "c", "1"}, singleMapping{"s2", "c", "2"}, singleMapping{"s3", "c", "3"}}, 3},
+	{[]singleMapping{{"s", "c", "1"}, {"s", "c", "2"}, {"s", "c", "3"}}, 1},
+	{[]singleMapping{{"s1", "c", "1"}, {"s2", "c", "2"}, {"s3", "c", "3"}}, 3},
 }
 
 func TestJustificationAdd(t *testing.T) {
