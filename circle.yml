@@ -4,6 +4,4 @@ test:
     - go get github.com/mattn/goveralls
     - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
   override:
-    - go test -v -cover -race -coverprofile=/home/ubuntu/coverage.out
-  post:
-    - /home/ubuntu/bin/goveralls -coverprofile=/home/ubuntu/coverage.out -service=circle-ci -repotoken=$COVERALLS_TOKEN
+    - /home/ubuntu/.go_project/src/github.com/opencontrol/compliance-masonry-go/circleci/coverage.sh
