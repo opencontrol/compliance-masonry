@@ -313,6 +313,11 @@ class Certification:
             'components': self.export_systems(export_dir)
         }
 
+    def get_verification(self, system_key, component_key, verification_key):
+        component = self.systems[system_key][component_key]
+        if component:
+            return component.meta.get('verifications', {}).get(verification_key)
+
     def __getitem__(self, standard_key):
         if self.standards_dict:
             return self.standards_dict[standard_key]

@@ -6,6 +6,8 @@ from src.renderers import certifications_to_gitbook
 
 from masonry.certification_builder import CertificationBuilder
 from masonry.inventory_builder import InventoryBuilder
+from masonry.doc_builder import DocumentBuilder
+
 from src import template_generator
 from src import utils
 
@@ -93,6 +95,11 @@ def docs(export_format, certification, exports_dir, data_dir, output_dir):
                 cert_path, gitbook_output_dir, gitbook_markdown_dir
             )
             click.echo('Gitbook Files Created in `{0}`'.format(output_path))
+        elif export_format == 'docx':
+            docx_output_dir = os.path.join(output_dir, 'docx')
+            utils.create_dir(os.path.join(docx_output_dir))
+            output_path = DocumentBuilder(cert_path).export(docx_output_dir)
+            click.echo('Docx created at `{0}`'.format(output_path))
         else:
             click.echo('{0} format is not supported yet...'.format(export_format))
 
