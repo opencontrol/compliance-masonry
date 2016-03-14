@@ -3,6 +3,7 @@ package models
 import (
 	"io/ioutil"
 	"log"
+	"sort"
 	"sync"
 
 	"gopkg.in/yaml.v2"
@@ -24,6 +25,18 @@ type Standard struct {
 type Standards struct {
 	mapping map[string]*Standard
 	sync.RWMutex
+}
+
+// YieldAll returns a list of sorted certifications
+func (standard Standard) GetSortedData(callback func(string)) {
+	var keys []string
+	for key := range standard.Controls {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	for _, key := range keys {
+		callback(key)
+	}
 }
 
 // NewStandards creates an instance of Components struct

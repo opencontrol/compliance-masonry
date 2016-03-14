@@ -21,8 +21,15 @@ func TestLoadStandard(t *testing.T) {
 		if actual.Key != example.expected.Key {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)
 		}
-		if len(actual.Controls) != example.expectedControls {
-			t.Errorf("Expected %d, Actual: %d", example.expectedControls, len(actual.Controls))
+
+		// Get the length of the control by using the GetSortedData method
+		totalControls := 0
+		actual.GetSortedData(func(_ string) {
+			totalControls++
+		})
+
+		if totalControls != example.expectedControls {
+			t.Errorf("Expected %d, Actual: %d", example.expectedControls, totalControls)
 		}
 	}
 }
