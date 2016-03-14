@@ -33,3 +33,47 @@ func TestLoadStandard(t *testing.T) {
 		}
 	}
 }
+
+type controlOrderTest struct {
+	standard      Standard
+	expectedOrder string
+}
+
+var controlOrderTests = []controlOrderTest{
+	{
+		Standard{
+			Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}},
+		},
+		"123",
+	},
+	{
+		Standard{
+			Controls: map[string]Control{"c": Control{}, "b": Control{}, "a": Control{}},
+		},
+		"abc",
+	},
+	{
+		Standard{
+			Controls: map[string]Control{"1": Control{}, "b": Control{}, "2": Control{}},
+		},
+		"12b",
+	},
+	{
+		Standard{
+			Controls: map[string]Control{"AC-1": Control{}, "AB-2": Control{}, "1.1.1": Control{}, "2.1.1": Control{}},
+		},
+		"1.1.12.1.1AB-2AC-1",
+	},
+}
+
+func TestControlOrder(t *testing.T) {
+	for _, example := range controlOrderTests {
+		actualOrder := ""
+		example.standard.GetSortedData(func(controlKey string) {
+			actualOrder += controlKey
+		})
+		if actualOrder != example.expectedOrder {
+			t.Errorf("Expected %s, Actual: %s", example.expectedOrder, actualOrder)
+		}
+	}
+}

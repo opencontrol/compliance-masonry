@@ -36,3 +36,39 @@ func TestLoadCertification(t *testing.T) {
 		}
 	}
 }
+
+type standardOrderTest struct {
+	certification Certification
+	expectedOrder string
+}
+
+var standardOrderTests = []standardOrderTest{
+	{
+		Certification{Standards: map[string]Standard{
+			"A": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
+			"B": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
+			"C": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
+		}},
+		"A1A2A3B1B2B3C1C2C3",
+	},
+	{
+		Certification{Standards: map[string]Standard{
+			"1":  Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
+			"B":  Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
+			"B2": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
+		}},
+		"111213B1B2B3B21B22B23",
+	},
+}
+
+func TestStandardOrder(t *testing.T) {
+	for _, example := range standardOrderTests {
+		actualOrder := ""
+		example.certification.GetSortedData(func(standardKey string, controlKey string) {
+			actualOrder += standardKey + controlKey
+		})
+		if actualOrder != example.expectedOrder {
+			t.Errorf("Expected %s, Actual: %s", example.expectedOrder, actualOrder)
+		}
+	}
+}

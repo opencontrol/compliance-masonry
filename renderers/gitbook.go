@@ -23,18 +23,34 @@ func exportLink(text string, location string) string {
 	return fmt.Sprintf("* [%s](%s)  \n", text, location)
 }
 
+func createDirectory(directory string) string {
+	if _, err := os.Stat(directory); os.IsNotExist(err) {
+		os.MkdirAll(directory, 0700)
+	}
+	return directory
+}
+
 func (openControl *OpenControlGitBook) exportStandards() string {
-	var oldFamily, newFamily string
-	readme := "## Standards  \n"
+	var oldFamily, newFamily, familyReadMe, standardLink, readme string
+	standardsExportPath := createDirectory(filepath.Join(openControl.exportPath, "standards"))
+	readme = "## Standards  \n"
 	for standardKey, certStandard := range openControl.Certification.Standards {
 		standard := openControl.Standards.Get(standardKey)
 		for controlKey := range certStandard.Controls {
 			newFamily = standard.Controls[controlKey].Family
 			if newFamily != oldFamily {
-				standardLink := filepath.Join("standards", standardKey+"-"+newFamily+".md")
+				if familyReadMe != "" && standardLink != "" {
+					familyExportPath := filepath.Join(standardsExportPath, standardLink)
+					ioutil.WriteFile(familyExportPath, []byte(familyReadMe), 0700)
+				}
+				familyReadMe = fmt.Sprintf("### %s  \n", newFamily)
+				standardLink = filepath.Join(standardKey + "-" + newFamily + ".md")
 				readme += exportLink(standardKey, standardLink)
 			}
 			controlLink := filepath.Join("standards", standardKey+"-"+controlKey+".md")
+			if familyReadMe != "" && standardLink != "" {
+				familyReadMe += exportLink(controlKey, standardLink)
+			}
 			readme += "\t" + exportLink(controlKey, controlLink)
 			oldFamily = newFamily
 		}
@@ -51,11 +67,7 @@ func (component *ComponentGitbook) exportComponent() string {
 
 func (openControl *OpenControlGitBook) exportComponents() string {
 	readme := "## Components  \n"
-	componentsExportPath := filepath.Join(openControl.exportPath, "components")
-	if _, err := os.Stat(componentsExportPath); os.IsNotExist(err) {
-		os.MkdirAll(componentsExportPath, 0700)
-	}
-
+	componentsExportPath := createDirectory(filepath.Join(openControl.exportPath, "components"))
 	for _, component := range openControl.Components.GetAll() {
 		componentsGitBook := ComponentGitbook{component, componentsExportPath}
 		readme += componentsGitBook.exportComponent()
@@ -76,8 +88,7 @@ func BuildGitbook(opencontrolDir string, certificationPath string, exportPath st
 		models.LoadData(opencontrolDir, certificationPath),
 		exportPath,
 	}
-	if _, err := os.Stat(exportPath); os.IsNotExist(err) {
-		os.MkdirAll(exportPath, 0700)
-	}
+	createDirectory(exportPath)
+
 	openControl.BuildReadMe()
 }
