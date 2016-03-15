@@ -69,14 +69,29 @@ func (components *Components) Add(component *Component) {
 	components.Unlock()
 }
 
-// Get retrives a new component from the component map
+// Get retrieves a new component from the component map
 func (components *Components) Get(key string) *Component {
 	components.Lock()
 	defer components.Unlock()
 	return components.mapping[key]
 }
 
-// GetAll retrives all the components
+// CompareAndAdd compares to see if the component exists in the map. If not, it adds the component.
+// This function is thread-safe.
+func (components *Components) CompareAndAdd(component *Component) bool {
+	components.Lock()
+	defer components.Unlock()
+	added := false
+	if _, exists := components.mapping[component.Key]; !exists {
+		components.mapping[component.Key] = component
+		added = true
+	} else {
+		log.Fatalln("Component: %s exisits!", component.Key)
+	}
+	return added
+}
+
+// GetAll retrieves all the components
 func (components *Components) GetAll() map[string]*Component {
 	return components.mapping
 }
@@ -97,10 +112,8 @@ func (openControl *OpenControl) LoadComponent(componentDir string) {
 		if component.Key == "" {
 			component.Key = getKey(componentDir)
 		}
-		if openControl.Components.Get(component.Key) != nil {
-			log.Fatalln("Component: %s exisits!", component.Key)
+		if openControl.Components.CompareAndAdd(component) {
+			openControl.Justifications.LoadMappings(component)
 		}
-		openControl.Justifications.LoadMappings(component)
-		openControl.Components.Add(component)
 	}
 }
