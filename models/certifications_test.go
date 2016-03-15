@@ -10,7 +10,7 @@ type certificationTest struct {
 }
 
 var certificationTests = []certificationTest{
-	{"./opencontrol_fixtures/certifications/LATO.yaml", Certification{Key: "LATO"}, 2, 6},
+	{"../fixtures/opencontrol_fixtures/certifications/LATO.yaml", Certification{Key: "LATO"}, 2, 6},
 }
 
 func TestLoadCertification(t *testing.T) {

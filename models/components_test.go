@@ -8,7 +8,7 @@ type componentTest struct {
 }
 
 var componentTests = []componentTest{
-	{"./component_fixtures/EC2", Component{
+	{"../fixtures/component_fixtures/EC2", Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    []GeneralReference{{}},
@@ -16,7 +16,7 @@ var componentTests = []componentTest{
 		Satisfies:     []Satisfies{{}, {}, {}, {}},
 		SchemaVersion: 2.0,
 	}},
-	{"./component_fixtures/EC2WithKey", Component{
+	{"../fixtures/component_fixtures/EC2WithKey", Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    []GeneralReference{{}},

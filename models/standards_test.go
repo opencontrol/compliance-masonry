@@ -9,8 +9,8 @@ type standardsTest struct {
 }
 
 var standardsTests = []standardsTest{
-	{"./opencontrol_fixtures/standards/NIST-800-53.yaml", Standard{Key: "NIST-800-53"}, 326},
-	{"./opencontrol_fixtures/standards/PCI-DSS-MAY-2015.yaml", Standard{Key: "PCI-DSS-MAY-2015"}, 258},
+	{"../fixtures/opencontrol_fixtures/standards/NIST-800-53.yaml", Standard{Key: "NIST-800-53"}, 326},
+	{"../fixtures/opencontrol_fixtures/standards/PCI-DSS-MAY-2015.yaml", Standard{Key: "PCI-DSS-MAY-2015"}, 258},
 }
 
 func TestLoadStandard(t *testing.T) {

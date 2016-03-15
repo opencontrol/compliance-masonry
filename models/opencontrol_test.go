@@ -34,7 +34,7 @@ type loadDataTest struct {
 }
 
 var loadDataTests = []loadDataTest{
-	{"./opencontrol_fixtures/", "./opencontrol_fixtures/certifications/LATO.yaml", 2, 2, 1, "LATO"},
+	{"../fixtures/opencontrol_fixtures/", "../fixtures/opencontrol_fixtures/certifications/LATO.yaml", 2, 2, 1, "LATO"},
 }
 
 func TestLoadData(t *testing.T) {
@@ -64,7 +64,7 @@ type loadComponentsTest struct {
 }
 
 var loadComponentsTests = []loadComponentsTest{
-	{"./opencontrol_fixtures/components", 1},
+	{"../fixtures/opencontrol_fixtures/components", 1},
 }
 
 func TestLoadComponents(t *testing.T) {
@@ -84,7 +84,7 @@ type loadStandardsTest struct {
 }
 
 var loadStandardsTests = []loadStandardsTest{
-	{"./opencontrol_fixtures/standards", 2},
+	{"../fixtures/opencontrol_fixtures/standards", 2},
 }
 
 func TestLoadStandards(t *testing.T) {
