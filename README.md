@@ -3,4 +3,4 @@
 [![Coverage Status](https://coveralls.io/repos/github/opencontrol/compliance-masonry-go/badge.svg?branch=master)](https://coveralls.io/github/opencontrol/compliance-masonry-go?branch=master)
 [![Circle CI](https://circleci.com/gh/opencontrol/compliance-masonry-go/tree/master.svg?style=svg)](https://circleci.com/gh/opencontrol/compliance-masonry-go/tree/master)
 
-Compliance Masonry in Go. 
+Compliance Masonry in Go.
