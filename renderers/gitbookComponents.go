@@ -15,14 +15,14 @@ func (component *ComponentGitbook) exportComponent() (string, string) {
 	if component.References.Len() > 0 {
 		sort.Sort(component.References)
 		text += "## References  \n"
-		for _, reference := range component.References {
+		for _, reference := range *(component.References) {
 			text += exportLink(reference.Name, reference.Path)
 		}
 	}
 	if component.Verifications.Len() > 0 {
 		sort.Sort(component.Verifications)
 		text += "## Verifications  \n"
-		for _, reference := range component.Verifications {
+		for _, reference := range *(component.Verifications) {
 			text += exportLink(reference.Name, reference.Path)
 		}
 	}

@@ -17,9 +17,9 @@ var componentExportTests = []componentExportTest{
 		models.Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
-			References:    []models.GeneralReference{{}},
-			Verifications: []models.VerificationReference{{}},
-			Satisfies:     []models.Satisfies{{}},
+			References:    &models.GeneralReferences{{}},
+			Verifications: &models.VerificationReferences{{}},
+			Satisfies:     &models.SatisfiesList{{}},
 			SchemaVersion: 2.0,
 		},
 		"EC2.md",

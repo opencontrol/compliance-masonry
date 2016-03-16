@@ -4,22 +4,29 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+
+	"github.com/opencontrol/compliance-masonry-go/models"
 )
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := fmt.Sprintf("%s-%s", control.standardKey, control.controlKey)
 	text := fmt.Sprintf("#%s  \n##%s  \n", key, control.Name)
-	justifications := openControl.Justifications.Get(control.standardKey, control.controlKey)
-	for _, justification := range justifications {
-		component := openControl.Components.Get(justification.Component)
-		verification := component.Verifications.Get(justification.Verification)
-		if verification.Name != "" {
-			text += exportLink(
-				fmt.Sprintf("%s - %s", component.Name, verification.Name),
-				filepath.Join("..", "components", component.Key+".md"),
-			)
+
+	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(justifications models.Verifications) {
+		for _, justification := range justifications {
+			openControl.Components.GetAndApply(justification.Component, func(component *models.Component) {
+				if component != nil {
+					verification := component.Verifications.Get(justification.Verification)
+					if verification.Name != "" {
+						text += exportLink(
+							fmt.Sprintf("%s - %s", component.Name, verification.Name),
+							filepath.Join("..", "components", component.Key+".md"),
+						)
+					}
+				}
+			})
 		}
-	}
+	})
 	return filepath.Join(control.exportPath, key+".md"), text
 }
 

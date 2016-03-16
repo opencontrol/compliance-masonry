@@ -24,9 +24,9 @@ var exportControlTests = []exportControlTest{
 		"../fixtures/opencontrol_fixtures/",
 		"../fixtures/opencontrol_fixtures/certifications/LATO.yaml",
 		"NIST-800-53",
-		"AC-2",
-		"NIST-800-53-AC-2.md",
-		"#NIST-800-53-AC-2  \n##Account Management  \n",
+		"CM-2",
+		"NIST-800-53-CM-2.md",
+		"#NIST-800-53-CM-2  \n##Baseline Configuration  \n* [Amazon Elastic Compute Cloud - EC2 Verification 1](../components/EC2.md)  \n",
 	},
 }
 
@@ -44,11 +44,14 @@ func TestExportControl(t *testing.T) {
 		control := openControl.Standards.Get(example.standardKey).Controls[example.controlKey]
 		actualPath, actualText := openControl.exportControl(&ControlGitbook{&control, dir, example.standardKey, example.controlKey})
 		expectedPath := filepath.Join(dir, example.expectedPath)
+
 		if expectedPath != actualPath {
 			t.Errorf("Expected %s, Actual: %s", example.expectedPath, actualPath)
 		}
+
 		if example.expectedText != actualText {
 			t.Errorf("Expected %s, Actual: %s", example.expectedText, actualText)
 		}
+
 	}
 }
