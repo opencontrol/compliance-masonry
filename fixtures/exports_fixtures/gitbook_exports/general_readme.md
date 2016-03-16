@@ -7,5 +7,5 @@
 	* [2.1](standards/PCI-DSS-MAY-2015-2.1.md)  
 
 ## Components  
-	* [Amazon Elastic Compute Cloud](components/EC2.md)  
-	* [User Account and Authentication (UAA) Server](components/UAA.md)  
+* [Amazon Elastic Compute Cloud](components/EC2.md)  
+* [User Account and Authentication (UAA) Server](components/UAA.md)  

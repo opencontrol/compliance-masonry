@@ -39,7 +39,7 @@ func TestBuildComponentsSummaries(t *testing.T) {
 			models.LoadData(example.opencontrolDir, example.certificationPath),
 			example.exportPath,
 		}
-		actualSummary := openControl.BuildComponentsSummaries()
+		actualSummary := openControl.buildComponentsSummaries()
 		data, err := ioutil.ReadFile(example.expectedSummary)
 		if err != nil {
 			log.Fatal(err)
@@ -67,7 +67,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 			models.LoadData(example.opencontrolDir, example.certificationPath),
 			example.exportPath,
 		}
-		actualSummary, familySummaryMap := openControl.BuildStandardsSummaries()
+		actualSummary, familySummaryMap := openControl.buildStandardsSummaries()
 		// Check the summary
 		data, err := ioutil.ReadFile(example.expectedSummary)
 		if err != nil {

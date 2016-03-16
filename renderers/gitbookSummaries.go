@@ -7,16 +7,16 @@ import (
 )
 
 // BuildComponentsSummaries creates summaries the components for the general summary
-func (openControl *OpenControlGitBook) BuildComponentsSummaries() string {
+func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 	summary := "  \n## Components  \n"
 	for _, component := range openControl.Components.GetAll() {
-		summary += "\t" + exportLink(component.Name, filepath.Join("components", component.Key+".md"))
+		summary += exportLink(component.Name, filepath.Join("components", component.Key+".md"))
 	}
 	return summary
 }
 
 // BuildStandardsSummaries creates summaries the standards for the general summary
-func (openControl *OpenControlGitBook) BuildStandardsSummaries() (string, *map[string]string) {
+func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[string]string) {
 	var oldFamily, newFamily string
 	familySummaryMap := make(map[string]string)
 	summary := "## Standards  \n"
@@ -41,10 +41,10 @@ func (openControl *OpenControlGitBook) exportFamilyReadMap(familySummaryMap *map
 	}
 }
 
-// BuildSummaries creates the general summary
-func (openControl *OpenControlGitBook) BuildSummaries() {
-	standardsSummary, familySummaryMap := openControl.BuildStandardsSummaries()
-	componentsSummary := openControl.BuildComponentsSummaries()
+// buildSummaries creates the general summary
+func (openControl *OpenControlGitBook) buildSummaries() {
+	standardsSummary, familySummaryMap := openControl.buildStandardsSummaries()
+	componentsSummary := openControl.buildComponentsSummaries()
 	openControl.exportFamilyReadMap(familySummaryMap)
 	summary := standardsSummary + componentsSummary
 	go ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(summary), 0700)
