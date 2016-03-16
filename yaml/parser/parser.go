@@ -11,7 +11,7 @@ type Parser struct {}
 
 // ParseV1_0 parses data using the v1.0 schema.
 func (p Parser) ParseV1_0(data []byte) (common.BaseSchema, error) {
-	config := new(v1_0.Config)
+	config := new(v1_0.Schema)
 	parseError := config.Parse(data)
 	return config, parseError
 }

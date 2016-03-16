@@ -5,10 +5,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type Config struct {
-	Schema
-}
-
 // Schema contains the structs for the v1.0 schema
 type Schema struct {
 	common.Base  `yaml:",inline"`
