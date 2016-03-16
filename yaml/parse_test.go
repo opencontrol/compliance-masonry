@@ -1,9 +1,9 @@
 package yaml
 
 import (
-	"testing"
 	"github.com/opencontrol/compliance-masonry-go/yaml/common/mocks"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestBadInputsParse(t *testing.T) {
