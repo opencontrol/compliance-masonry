@@ -6,47 +6,47 @@ import (
 	"path/filepath"
 )
 
-// BuildComponentsSummaries creates summaries the components for the general readme
+// BuildComponentsSummaries creates summaries the components for the general summary
 func (openControl *OpenControlGitBook) BuildComponentsSummaries() string {
-	readme := "  \n## Components  \n"
+	summary := "  \n## Components  \n"
 	for _, component := range openControl.Components.GetAll() {
-		readme += "\t" + exportLink(component.Name, filepath.Join("components", component.Key+".md"))
+		summary += "\t" + exportLink(component.Name, filepath.Join("components", component.Key+".md"))
 	}
-	return readme
+	return summary
 }
 
-// BuildStandardsSummaries creates summaries the standards for the general readme
+// BuildStandardsSummaries creates summaries the standards for the general summary
 func (openControl *OpenControlGitBook) BuildStandardsSummaries() (string, *map[string]string) {
 	var oldFamily, newFamily string
-	familyReadMeMap := make(map[string]string)
-	readme := "## Standards  \n"
+	familySummaryMap := make(map[string]string)
+	summary := "## Standards  \n"
 	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
 		componentLink := standardKey + "-" + controlKey + ".md"
 		controlFamily := openControl.Standards.Get(standardKey).Controls[controlKey].Family
 		newFamily = standardKey + "-" + controlFamily
 		if oldFamily != newFamily {
-			familyReadMeMap[newFamily] = fmt.Sprintf("## %s  \n", newFamily)
-			readme += exportLink(controlKey, filepath.Join("standards", newFamily+".md"))
+			familySummaryMap[newFamily] = fmt.Sprintf("## %s  \n", newFamily)
+			summary += exportLink(controlKey, filepath.Join("standards", newFamily+".md"))
 			oldFamily = newFamily
 		}
-		familyReadMeMap[newFamily] += exportLink(controlKey, componentLink)
-		readme += "\t" + exportLink(controlKey, filepath.Join("standards", componentLink))
+		familySummaryMap[newFamily] += exportLink(controlKey, componentLink)
+		summary += "\t" + exportLink(controlKey, filepath.Join("standards", componentLink))
 	})
-	return readme, &familyReadMeMap
+	return summary, &familySummaryMap
 }
 
-func (openControl *OpenControlGitBook) exportFamilyReadMap(familyReadMeMap *map[string]string) {
-	for family, familyReadMe := range *(familyReadMeMap) {
-		ioutil.WriteFile(filepath.Join(openControl.exportPath, "standards", family+".md"), []byte(familyReadMe), 0700)
+func (openControl *OpenControlGitBook) exportFamilyReadMap(familySummaryMap *map[string]string) {
+	for family, familySummary := range *(familySummaryMap) {
+		ioutil.WriteFile(filepath.Join(openControl.exportPath, "standards", family+".md"), []byte(familySummary), 0700)
 	}
 }
 
-// BuildSummaries creates the general readme
+// BuildSummaries creates the general summary
 func (openControl *OpenControlGitBook) BuildSummaries() {
-	standardsReadMe, familyReadMeMap := openControl.BuildStandardsSummaries()
-	componentsReadMe := openControl.BuildComponentsSummaries()
-	openControl.exportFamilyReadMap(familyReadMeMap)
-	readMe := standardsReadMe + componentsReadMe
-	go ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(readMe), 0700)
-	go ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(readMe), 0700)
+	standardsSummary, familySummaryMap := openControl.BuildStandardsSummaries()
+	componentsSummary := openControl.BuildComponentsSummaries()
+	openControl.exportFamilyReadMap(familySummaryMap)
+	summary := standardsSummary + componentsSummary
+	go ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(summary), 0700)
+	go ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(summary), 0700)
 }
