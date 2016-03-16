@@ -7,12 +7,19 @@ import (
 
 type Schema struct {
 	common.Base `yaml:",inline"`
-	Metadata `yaml:",inline"`
-	Entries []Entry `yaml:",flow"`
+	Meta Metadata `yaml:"metadata"`
+	SystemName string `yaml:"system_name"`
+	Components []string `yaml:",flow"`
+	Dependencies Dependencies `yaml:"dependencies"`
+}
+
+type Dependencies struct {
+	Certification Entry `yaml:"certification"`
+	Systems []Entry `yaml:",flow"`
+	Standards []Entry `yaml:",flow"`
 }
 
 type Metadata struct {
-	Name string `yaml:"name"`
 	Description string `yaml:"description"`
 	Maintainers []string `yaml:",flow"`
 }
