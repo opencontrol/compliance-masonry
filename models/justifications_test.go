@@ -50,6 +50,21 @@ func TestJustificationGet(t *testing.T) {
 	}
 }
 
+func TestJustificationGetAndApply(t *testing.T) {
+	for _, example := range justificationsGetTests {
+		just := NewJustifications()
+		for _, mapping := range example.mappings {
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, mapping.justificationKey)
+		}
+		just.GetAndApply("a", "b", func(actualVerificaitons Verifications) {
+			numberofABs := actualVerificaitons.Len()
+			if example.expectedCount != numberofABs {
+				t.Errorf("Expected %d, Actual: %d", example.expectedCount, numberofABs)
+			}
+		})
+	}
+}
+
 type verificationsLenTest struct {
 	verifications  Verifications
 	expectedLength int

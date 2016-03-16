@@ -58,7 +58,7 @@ func (justifications *Justifications) Add(standardKey string, controlKey string,
 // LoadMappings loads a set of mappings from a component
 func (justifications *Justifications) LoadMappings(component *Component) {
 	var componentKey string
-	for _, satsifies := range component.Satisfies {
+	for _, satsifies := range *(component.Satisfies) {
 		for _, coveredBy := range satsifies.CoveredBy {
 			componentKey = coveredBy.ComponentKey
 			if componentKey == "" {
@@ -80,4 +80,11 @@ func (justifications *Justifications) Get(standardKey string, controlKey string)
 		return nil
 	}
 	return controlJustifications
+}
+
+//GetAndApply get a justification set and apply a generic function
+func (justifications *Justifications) GetAndApply(standardKey string, controlKey string, callback func(justifications Verifications)) {
+	justifications.Lock()
+	callback(justifications.Get(standardKey, controlKey))
+	justifications.Unlock()
 }

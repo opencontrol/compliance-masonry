@@ -24,12 +24,12 @@ type SatisfiesList []Satisfies
 
 // Component struct is an individual component requiring documentation
 type Component struct {
-	Name          string                 `yaml:"name" json:"name"`
-	Key           string                 `yaml:"key" json:"key"`
-	References    GeneralReferences      `yaml:"references" json:"references"`
-	Verifications VerificationReferences `yaml:"verifications" json:"verifications"`
-	Satisfies     SatisfiesList          `yaml:"satisfies" json:"satisfies"`
-	SchemaVersion float32                `yaml:"schema_version" json:"schema_version"`
+	Name          string                  `yaml:"name" json:"name"`
+	Key           string                  `yaml:"key" json:"key"`
+	References    *GeneralReferences      `yaml:"references" json:"references"`
+	Verifications *VerificationReferences `yaml:"verifications" json:"verifications"`
+	Satisfies     *SatisfiesList          `yaml:"satisfies" json:"satisfies"`
+	SchemaVersion float32                 `yaml:"schema_version" json:"schema_version"`
 }
 
 // Components struct is a thread-safe structure mapping for components
@@ -55,6 +55,13 @@ func (components *Components) Get(key string) *Component {
 	components.Lock()
 	defer components.Unlock()
 	return components.mapping[key]
+}
+
+//GetAndApply get a component and apply the
+func (components *Components) GetAndApply(key string, callback func(component *Component)) {
+	components.Lock()
+	callback(components.mapping[key])
+	components.Unlock()
 }
 
 // CompareAndAdd compares to see if the component exists in the map. If not, it adds the component.
@@ -97,4 +104,9 @@ func (openControl *OpenControl) LoadComponent(componentDir string) {
 			openControl.Justifications.LoadMappings(component)
 		}
 	}
+}
+
+// Len retruns the length of a SatisfiesList struct
+func (slice SatisfiesList) Len() int {
+	return len(slice)
 }
