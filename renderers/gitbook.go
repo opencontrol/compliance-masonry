@@ -8,16 +8,22 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/models"
 )
 
+// OpenControlGitBook struct is an extension of models.OpenControl that adds
+// an exportPath
 type OpenControlGitBook struct {
 	*models.OpenControl
 	exportPath string
 }
 
+// ComponentGitbook struct is an extension of models.Component that adds
+// an exportPath
 type ComponentGitbook struct {
 	*models.Component
 	exportPath string
 }
 
+// ControlGitbook struct is an extension of models.Control that adds
+// an exportPath
 type ControlGitbook struct {
 	*models.Control
 	exportPath  string
@@ -36,6 +42,7 @@ func createDirectory(directory string) string {
 	return directory
 }
 
+// BuildGitbook entry point for creating gitbook
 func BuildGitbook(opencontrolDir string, certificationPath string, exportPath string) {
 	openControl := OpenControlGitBook{
 		models.LoadData(opencontrolDir, certificationPath),
@@ -44,6 +51,7 @@ func BuildGitbook(opencontrolDir string, certificationPath string, exportPath st
 	createDirectory(exportPath)
 	createDirectory(filepath.Join(exportPath, "components"))
 	createDirectory(filepath.Join(exportPath, "standards"))
-
-	openControl.BuildSummaries()
+	openControl.buildSummaries()
+	openControl.exportComponents()
+	openControl.exportStandards()
 }
