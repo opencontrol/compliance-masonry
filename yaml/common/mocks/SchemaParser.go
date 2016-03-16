@@ -7,8 +7,8 @@ type SchemaParser struct {
 	mock.Mock
 }
 
-// ParseV1_0 provides a mock function with given fields: data
-func (_m *SchemaParser) ParseV1_0(data []byte) (common.BaseSchema, error) {
+// ParseV1_0_0 provides a mock function with given fields: data
+func (_m *SchemaParser) ParseV1_0_0(data []byte) (common.BaseSchema, error) {
 	ret := _m.Called(data)
 
 	var r0 common.BaseSchema

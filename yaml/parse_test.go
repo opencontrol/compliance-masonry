@@ -20,23 +20,36 @@ func TestBadInputsParse(t *testing.T) {
 	// Malformed yaml - wrong value type
 	data = []byte("schema_version: versionone")
 	_, err = Parse(parser, data)
-	assert.Contains(t, err.Error(), "cannot unmarshal !!str `versionone` into float32")
+	assert.Equal(t, err, ErrCantParseSemver)
+
+	// Non-string version 0.0
+	data = []byte("schema_version: 1.0")
+	_, err = Parse(parser, data)
+	assert.Equal(t, ErrCantParseSemver, err)
 }
 
 func TestParseUnknownVersion(t *testing.T) {
 	parser := new(mocks.SchemaParser)
 	// Unknown version 0.0
-	data := []byte("schema_version: 0.0")
+	data := []byte(`schema_version: "0.0.0"`)
 	_, err := Parse(parser, data)
 	assert.Equal(t, ErrUnknownSchemaVersion, err)
 }
 
-func TestParseV1_0(t *testing.T) {
-	// Test that ParseV1_0 is called
+func TestParseV1_0_0(t *testing.T) {
+	// Test that ParseV1_0_0 is not called when only specifying 1.0 as version not the full 1.0.0
 	parser := new(mocks.SchemaParser)
-	data := []byte("schema_version: 1.0")
+	data := []byte(`schema_version: "1.0"`)
 	mockSchema := new(mocks.BaseSchema)
-	parser.On("ParseV1_0", data).Return(mockSchema, nil)
+	parser.On("ParseV1_0_0", data).Return(mockSchema, nil)
 	_, _ = Parse(parser, data)
-	parser.AssertCalled(t, "ParseV1_0", data)
+	parser.AssertNotCalled(t, "ParseV1_0_0", data)
+
+	// Test that ParseV1_0_0 is called
+	parser = new(mocks.SchemaParser)
+	data = []byte(`schema_version: "1.0.0"`)
+	mockSchema = new(mocks.BaseSchema)
+	parser.On("ParseV1_0_0", data).Return(mockSchema, nil)
+	_, _ = Parse(parser, data)
+	parser.AssertCalled(t, "ParseV1_0_0", data)
 }

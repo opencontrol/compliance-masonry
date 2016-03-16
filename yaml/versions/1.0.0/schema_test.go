@@ -14,7 +14,7 @@ func TestParse(t *testing.T) {
 	}{
 		{
 			data: []byte(`
-schema_version: 1.0
+schema_version: "1.0.0"
 system_name: test-system
 metadata:
   description: "A system to test parsing"
@@ -39,7 +39,7 @@ dependencies:
       protocol: git
 `),
 			expectedSchema: Schema{
-				Base:       common.Base{SchemaVersion: 1.0},
+				Base:       common.Base{SchemaVersion: "1.0.0"},
 				SystemName: "test-system",
 				Meta: Metadata{
 					Description: "A system to test parsing",
