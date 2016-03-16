@@ -2,7 +2,7 @@ package parser
 
 import (
 	"github.com/opencontrol/compliance-masonry-go/yaml/common"
-	v1_0 "github.com/opencontrol/compliance-masonry-go/yaml/v1.0"
+	v1_0 "github.com/opencontrol/compliance-masonry-go/yaml/versions/1.0"
 )
 
 // Parser is the concrete implementation of parsing different schema versions.
