@@ -9,7 +9,7 @@ import (
 )
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
-	key := fmt.Sprintf("%s-%s", control.standardKey, control.controlKey)
+	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("#%s  \n##%s  \n", key, control.Name)
 
 	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(justifications models.Verifications) {

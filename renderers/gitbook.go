@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/opencontrol/compliance-masonry-go/models"
 )
@@ -40,6 +41,10 @@ func createDirectory(directory string) string {
 		os.MkdirAll(directory, 0700)
 	}
 	return directory
+}
+
+func replaceParentheses(text string) string {
+	return strings.Replace(strings.Replace(text, "(", "", -1), ")", "", -1)
 }
 
 // BuildGitbook entry point for creating gitbook
