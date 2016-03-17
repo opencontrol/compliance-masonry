@@ -1,11 +1,16 @@
 package schema
 
 import (
+	"errors"
 	"github.com/opencontrol/compliance-masonry-go/yaml/common"
 	"gopkg.in/yaml.v2"
 )
 
-// Schema contains the structs for the v1.0 schema
+const (
+	ErrMalformedV1_0_0YamlPrefix = "Unable to parse yaml data"
+)
+
+// Schema contains the structs for the v1.0.0 schema
 type Schema struct {
 	common.Base  `yaml:",inline"`
 	Meta         Metadata     `yaml:"metadata"`
@@ -34,11 +39,11 @@ type Entry struct {
 	Revision string `yaml:"revision"`
 }
 
-// Parse will parse using it's own schema. In this case the v1.0 schema.
+// Parse will parse using it's own schema. In this case the v1.0.0 schema.
 func (s *Schema) Parse(data []byte) error {
 	err := yaml.Unmarshal(data, s)
 	if err != nil {
-		return err
+		return errors.New(ErrMalformedV1_0_0YamlPrefix + " - " + err.Error())
 	}
 
 	return nil
