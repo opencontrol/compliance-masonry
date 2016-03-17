@@ -57,7 +57,8 @@ func (components *Components) Get(key string) *Component {
 	return components.mapping[key]
 }
 
-//GetAndApply get a component and apply the
+// GetAndApply get a component and apply the callback function inside while locking
+// components
 func (components *Components) GetAndApply(key string, callback func(component *Component)) {
 	components.Lock()
 	callback(components.mapping[key])

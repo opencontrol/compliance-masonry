@@ -2,7 +2,7 @@ package models
 
 import "sync"
 
-// Verification struct holds data for a specific coponent and verification
+// Verification struct holds data for a specific component and verification
 type Verification struct {
 	Component    string
 	Verification string

@@ -14,14 +14,14 @@ type Certification struct {
 	Standards map[string]Standard `yaml:"standards" json:"standards"`
 }
 
-// YieldAll returns a list of sorted standards
+// GetSortedData returns a list of sorted standards
 func (certification Certification) GetSortedData(callback func(string, string)) {
-	var keys []string
-	for key := range certification.Standards {
-		keys = append(keys, key)
+	var standardNames []string
+	for standardName := range certification.Standards {
+		standardNames = append(standardNames, standardName)
 	}
-	sort.Strings(keys)
-	for _, standardKey := range keys {
+	sort.Strings(standardNames)
+	for _, standardKey := range standardNames {
 		certification.Standards[standardKey].GetSortedData(func(controlKey string) {
 			callback(standardKey, controlKey)
 		})

@@ -17,7 +17,7 @@ type Control struct {
 
 // Standard struct is a collection of security requirements
 type Standard struct {
-	Key      string             `yaml:"name" json:"name"`
+	Name     string             `yaml:"name" json:"name"`
 	Controls map[string]Control `yaml:",inline"`
 }
 
@@ -27,15 +27,15 @@ type Standards struct {
 	sync.RWMutex
 }
 
-// YieldAll returns a list of sorted certifications
+// GetSortedData returns a list of sorted controls
 func (standard Standard) GetSortedData(callback func(string)) {
-	var keys []string
-	for key := range standard.Controls {
-		keys = append(keys, key)
+	var controlNames []string
+	for controlName := range standard.Controls {
+		controlNames = append(controlNames, controlName)
 	}
-	sort.Strings(keys)
-	for _, key := range keys {
-		callback(key)
+	sort.Strings(controlNames)
+	for _, controlName := range controlNames {
+		callback(controlName)
 	}
 }
 
@@ -47,15 +47,15 @@ func NewStandards() *Standards {
 // Add adds a standard to the standards mapping
 func (standards *Standards) Add(standard *Standard) {
 	standards.Lock()
-	standards.mapping[standard.Key] = standard
+	standards.mapping[standard.Name] = standard
 	standards.Unlock()
 }
 
 // Get retrieves a standard
-func (standards *Standards) Get(key string) *Standard {
+func (standards *Standards) Get(standardName string) *Standard {
 	standards.Lock()
 	defer standards.Unlock()
-	return standards.mapping[key]
+	return standards.mapping[standardName]
 }
 
 // GetAll retrieves all the standards

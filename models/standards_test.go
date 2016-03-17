@@ -9,17 +9,17 @@ type standardsTest struct {
 }
 
 var standardsTests = []standardsTest{
-	{"../fixtures/opencontrol_fixtures/standards/NIST-800-53.yaml", Standard{Key: "NIST-800-53"}, 326},
-	{"../fixtures/opencontrol_fixtures/standards/PCI-DSS-MAY-2015.yaml", Standard{Key: "PCI-DSS-MAY-2015"}, 258},
+	{"../fixtures/opencontrol_fixtures/standards/NIST-800-53.yaml", Standard{Name: "NIST-800-53"}, 326},
+	{"../fixtures/opencontrol_fixtures/standards/PCI-DSS-MAY-2015.yaml", Standard{Name: "PCI-DSS-MAY-2015"}, 258},
 }
 
 func TestLoadStandard(t *testing.T) {
 	for _, example := range standardsTests {
 		openControl := &OpenControl{Standards: NewStandards()}
 		openControl.LoadStandard(example.standardsFile)
-		actual := openControl.Standards.Get(example.expected.Key)
-		if actual.Key != example.expected.Key {
-			t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)
+		actual := openControl.Standards.Get(example.expected.Name)
+		if actual.Name != example.expected.Name {
+			t.Errorf("Expected %s, Actual: %s", example.expected.Name, actual.Name)
 		}
 
 		// Get the length of the control by using the GetSortedData method
