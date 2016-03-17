@@ -7,6 +7,8 @@ import (
 )
 
 const (
+	// ErrMalformedV1_0_0YamlPrefix is just the prefix to the error message for when the program is unable to parse
+	// data into the v1.0.0 yaml struct.
 	ErrMalformedV1_0_0YamlPrefix = "Unable to parse yaml data"
 )
 

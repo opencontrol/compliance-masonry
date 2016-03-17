@@ -4,6 +4,7 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/yaml/common/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"github.com/vektra/errors"
 )
 
 func TestBadInputsParse(t *testing.T) {
@@ -16,6 +17,11 @@ func TestBadInputsParse(t *testing.T) {
 	data := []byte("")
 	_, err = Parse(parser, data)
 	assert.Equal(t, ErrNoDataToParse, err)
+
+	// Bad base parse
+	data = []byte("schema_version: @")
+	_, err = Parse(parser, data)
+	assert.Contains(t, err.Error(), ErrMalformedBaseYamlPrefix)
 
 	// Malformed yaml - wrong value type
 	data = []byte("schema_version: versionone")
@@ -52,4 +58,14 @@ func TestParseV1_0_0(t *testing.T) {
 	parser.On("ParseV1_0_0", data).Return(mockSchema, nil)
 	_, _ = Parse(parser, data)
 	parser.AssertCalled(t, "ParseV1_0_0", data)
+
+	// Test that ParseV1_0_0 is called but returns a failure
+	expectedError := errors.New("Can't parse yaml")
+	parser = new(mocks.SchemaParser)
+	data = []byte(`schema_version: "1.0.0"`)
+	mockSchema = new(mocks.BaseSchema)
+	parser.On("ParseV1_0_0", data).Return(mockSchema, expectedError)
+	_, err := Parse(parser, data)
+	parser.AssertCalled(t, "ParseV1_0_0", data)
+	assert.Equal(t, expectedError, err)
 }

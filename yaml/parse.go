@@ -21,6 +21,12 @@ var (
 	SchemaV1_0_0 = semver.Version{1, 0, 0, nil, nil}
 )
 
+const (
+	// ErrMalformedBaseYamlPrefix is just the prefix to the error message for when the program is unable to parse
+	// data into the base yaml struct.
+	ErrMalformedBaseYamlPrefix = "Unable to parse yaml data"
+)
+
 // Parse will try to parse the data and determine which specific version of schema to further parse.
 func Parse(parser common.SchemaParser, data []byte) (common.BaseSchema, error) {
 	if data == nil || len(data) == 0 {
@@ -29,7 +35,7 @@ func Parse(parser common.SchemaParser, data []byte) (common.BaseSchema, error) {
 	base := common.Base{}
 	err := yaml.Unmarshal(data, &base)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(ErrMalformedBaseYamlPrefix + " - " + err.Error())
 	}
 
 	var schema common.BaseSchema
