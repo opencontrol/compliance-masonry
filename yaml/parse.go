@@ -2,14 +2,14 @@ package yaml
 
 import (
 	"errors"
+	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry-go/yaml/common"
 	"gopkg.in/yaml.v2"
-	"github.com/blang/semver"
 )
 
 var (
 	// ErrNoDataToParse represents the case that there is no data to be found to be parsed (either nil or empty).
-	ErrNoDataToParse        = errors.New("No data to parse")
+	ErrNoDataToParse = errors.New("No data to parse")
 	// ErrUnknownSchemaVersion is thrown when the schema version is unknown to the parser.
 	ErrUnknownSchemaVersion = errors.New("Unknown schema version")
 	// ErrCantParseSemver is thrown when the semantic versioning can not be parsed.
@@ -17,6 +17,7 @@ var (
 )
 
 var (
+	// SchemaV1_0_0 is the semantic versioing representation in object form for version 1.0.0
 	SchemaV1_0_0 = semver.Version{1, 0, 0, nil, nil}
 )
 

@@ -6,8 +6,7 @@ import (
 )
 
 // Parser is the concrete implementation of parsing different schema versions.
-type Parser struct {}
-
+type Parser struct{}
 
 // ParseV1_0_0 parses data using the v1.0.0 schema.
 func (p Parser) ParseV1_0_0(data []byte) (common.BaseSchema, error) {
