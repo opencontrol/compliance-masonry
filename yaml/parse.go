@@ -17,7 +17,7 @@ var (
 )
 
 var (
-	// SchemaV1_0_0 is the semantic versioing representation in object form for version 1.0.0
+	// SchemaV1_0_0 is the semantic versioning representation in object form for version 1.0.0
 	SchemaV1_0_0 = semver.Version{1, 0, 0, nil, nil}
 )
 
