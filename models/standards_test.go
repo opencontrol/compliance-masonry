@@ -8,6 +8,11 @@ type standardsTest struct {
 	expectedControls int
 }
 
+type standardTestError struct {
+	standardsFile string
+	expectedError error
+}
+
 var standardsTests = []standardsTest{
 	{"../fixtures/opencontrol_fixtures/standards/NIST-800-53.yaml", Standard{Name: "NIST-800-53"}, 326},
 	{"../fixtures/opencontrol_fixtures/standards/PCI-DSS-MAY-2015.yaml", Standard{Name: "PCI-DSS-MAY-2015"}, 258},
@@ -74,6 +79,21 @@ func TestControlOrder(t *testing.T) {
 		})
 		if actualOrder != example.expectedOrder {
 			t.Errorf("Expected %s, Actual: %s", example.expectedOrder, actualOrder)
+		}
+	}
+}
+
+var standardTestErrors = []standardTestError{
+	{"", ErrReadFile},
+	{"../fixtures/standards_fixtures/BrokenStandard/NIST-800-53.yaml", ErrStandardSchema},
+}
+
+func TestLoadStandardsErrors(t *testing.T) {
+	for _, example := range standardTestErrors {
+		openControl := &OpenControl{}
+		actualError := openControl.LoadStandard(example.standardsFile)
+		if example.expectedError != actualError {
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)
 		}
 	}
 }
