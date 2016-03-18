@@ -6,6 +6,10 @@ type Base struct {
 	SchemaVersion string `yaml:"schema_version"`
 }
 
+func (b Base) GetSchemaVersion() string {
+	return b.SchemaVersion
+}
+
 // SchemaParser is a generic interface that knows how parse different schema_versions.
 type SchemaParser interface {
 	ParseV1_0_0(data []byte) (BaseSchema, error)
@@ -14,4 +18,8 @@ type SchemaParser interface {
 // BaseSchema is an interface that every schema should implement.
 type BaseSchema interface {
 	Parse(data []byte) error
+	GetSchemaVersion() string
+	//GetComponents() ([]string, error)
+	//GetDependencies()
+
 }

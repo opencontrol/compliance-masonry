@@ -3,8 +3,8 @@ package yaml
 import (
 	"github.com/opencontrol/compliance-masonry-go/yaml/common/mocks"
 	"github.com/stretchr/testify/assert"
-	"testing"
 	"github.com/vektra/errors"
+	"testing"
 )
 
 func TestBadInputsParse(t *testing.T) {
