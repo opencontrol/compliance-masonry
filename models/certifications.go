@@ -2,7 +2,6 @@ package models
 
 import (
 	"io/ioutil"
-	"log"
 	"sort"
 
 	"gopkg.in/yaml.v2"
@@ -30,15 +29,16 @@ func (certification Certification) GetSortedData(callback func(string, string)) 
 
 // LoadCertification struct loads certifications into a Certification struct
 // and add it to the main object.
-func (openControl *OpenControl) LoadCertification(certificationFile string) {
+func (openControl *OpenControl) LoadCertification(certificationFile string) error {
 	var certification Certification
 	certificationData, err := ioutil.ReadFile(certificationFile)
 	if err != nil {
-		log.Println(err.Error())
+		return ErrReadFile
 	}
 	err = yaml.Unmarshal(certificationData, &certification)
 	if err != nil {
-		log.Println(err.Error())
+		return ErrCertificationSchema
 	}
 	openControl.Certification = &certification
+	return nil
 }

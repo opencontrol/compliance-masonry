@@ -1,11 +1,24 @@
 package models
 
 import (
+	"errors"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"sync"
+)
+
+var (
+	// ErrReadDir is raised when a directory can not be read
+	ErrReadDir = errors.New("Unable to read the directory")
+	// ErrReadFile is raised when a file can not be read
+	ErrReadFile = errors.New("Unable to read the file")
+	// ErrCertificationSchema is raised a certification cannot be parsed
+	ErrCertificationSchema = errors.New("Unable to parse certification")
+	// ErrControlSchema is raised a control cannot be parsed
+	ErrControlSchema = errors.New("Unable to parse control")
+	// ErrStandardSchema is raised a standard cannot be parsed
+	ErrStandardSchema = errors.New("Unable to parse standard")
 )
 
 // OpenControl struct combines data on of components, standards, and a certification
@@ -57,11 +70,11 @@ func LoadData(openControlDir string, certificationPath string) *OpenControl {
 
 // LoadComponents loads multiple components by searching for components in a
 // given directory
-func (openControl *OpenControl) LoadComponents(directory string) {
+func (openControl *OpenControl) LoadComponents(directory string) error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
-		log.Println(err.Error())
+		return ErrReadDir
 	}
 	for _, componentDir := range componentsDir {
 		wg.Add(1)
@@ -74,17 +87,17 @@ func (openControl *OpenControl) LoadComponents(directory string) {
 		}(componentDir)
 	}
 	wg.Wait()
-
+	return nil
 }
 
 // LoadStandards loads multiple standards by searching for components in a
 // given directory
-func (openControl *OpenControl) LoadStandards(standardsDir string) {
+func (openControl *OpenControl) LoadStandards(standardsDir string) error {
 	var wg sync.WaitGroup
 
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
-		log.Println(err.Error())
+		return ErrReadDir
 	}
 	for _, standardFile := range standardsFiles {
 		wg.Add(1)
@@ -94,4 +107,5 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) {
 		}(standardFile)
 	}
 	wg.Wait()
+	return nil
 }

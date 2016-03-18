@@ -87,16 +87,16 @@ func (components *Components) GetAll() map[string]*Component {
 
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
-func (openControl *OpenControl) LoadComponent(componentDir string) {
+func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
 		var component *Component
 		componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
 		if err != nil {
-			log.Println("here", err.Error())
+			return ErrReadFile
 		}
 		err = yaml.Unmarshal(componentData, &component)
 		if err != nil {
-			log.Println(err.Error())
+			return ErrControlSchema
 		}
 		if component.Key == "" {
 			component.Key = getKey(componentDir)
@@ -105,6 +105,8 @@ func (openControl *OpenControl) LoadComponent(componentDir string) {
 			openControl.Justifications.LoadMappings(component)
 		}
 	}
+	return nil
+
 }
 
 // Len retruns the length of a SatisfiesList struct

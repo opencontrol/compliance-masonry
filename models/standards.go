@@ -2,7 +2,6 @@ package models
 
 import (
 	"io/ioutil"
-	"log"
 	"sort"
 	"sync"
 
@@ -65,15 +64,16 @@ func (standards *Standards) GetAll() map[string]*Standard {
 
 // LoadStandard imports a standard into the Standard struct and adds it to the
 // main object.
-func (openControl *OpenControl) LoadStandard(standardFile string) {
+func (openControl *OpenControl) LoadStandard(standardFile string) error {
 	var standard Standard
 	standardData, err := ioutil.ReadFile(standardFile)
 	if err != nil {
-		log.Println(err.Error())
+		return ErrReadFile
 	}
 	err = yaml.Unmarshal(standardData, &standard)
 	if err != nil {
-		log.Println(err.Error())
+		return ErrStandardSchema
 	}
 	openControl.Standards.Add(&standard)
+	return nil
 }
