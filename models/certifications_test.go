@@ -9,6 +9,16 @@ type certificationTest struct {
 	expectedControls  int
 }
 
+type certificationTestError struct {
+	certificationFile string
+	expectedError     error
+}
+
+type standardOrderTest struct {
+	certification Certification
+	expectedOrder string
+}
+
 var certificationTests = []certificationTest{
 	{"../fixtures/opencontrol_fixtures/certifications/LATO.yaml", Certification{Key: "LATO"}, 2, 6},
 }
@@ -37,9 +47,19 @@ func TestLoadCertification(t *testing.T) {
 	}
 }
 
-type standardOrderTest struct {
-	certification Certification
-	expectedOrder string
+var certificationTestErrors = []certificationTestError{
+	{"../fixtures/opencontrol_fixtures/certifications/", ErrReadFile},
+	{"../fixtures/opencontrol_fixtures/components/EC2/artifact-ec2-1.png", ErrCertificationSchema},
+}
+
+func TestLoadCertificationErrors(t *testing.T) {
+	for _, example := range certificationTestErrors {
+		openControl := &OpenControl{}
+		actualError := openControl.LoadCertification(example.certificationFile)
+		if example.expectedError != actualError {
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)
+		}
+	}
 }
 
 var standardOrderTests = []standardOrderTest{

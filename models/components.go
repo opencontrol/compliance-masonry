@@ -88,25 +88,26 @@ func (components *Components) GetAll() map[string]*Component {
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
 func (openControl *OpenControl) LoadComponent(componentDir string) error {
-	if _, err := os.Stat(filepath.Join(componentDir, "component.yaml")); err == nil {
-		var component *Component
-		componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
-		if err != nil {
-			return ErrReadFile
-		}
-		err = yaml.Unmarshal(componentData, &component)
-		if err != nil {
-			return ErrControlSchema
-		}
-		if component.Key == "" {
-			component.Key = getKey(componentDir)
-		}
-		if openControl.Components.CompareAndAdd(component) {
-			openControl.Justifications.LoadMappings(component)
-		}
+	_, err := os.Stat(filepath.Join(componentDir, "component.yaml"))
+	if err != nil {
+		return ErrComponentFileDNE
+	}
+	var component *Component
+	componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
+	if err != nil {
+		return ErrReadFile
+	}
+	err = yaml.Unmarshal(componentData, &component)
+	if err != nil {
+		return ErrControlSchema
+	}
+	if component.Key == "" {
+		component.Key = getKey(componentDir)
+	}
+	if openControl.Components.CompareAndAdd(component) {
+		openControl.Justifications.LoadMappings(component)
 	}
 	return nil
-
 }
 
 // Len retruns the length of a SatisfiesList struct

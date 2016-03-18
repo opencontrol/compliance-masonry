@@ -1,10 +1,18 @@
 package models
 
-import "testing"
+import (
+	"log"
+	"testing"
+)
 
 type componentTest struct {
 	componentDir string
 	expected     Component
+}
+
+type componentTestError struct {
+	componentDir  string
+	expectedError error
 }
 
 var componentTests = []componentTest{
@@ -65,5 +73,21 @@ func TestLoadComponent(t *testing.T) {
 		// Test Get
 		actualComponent := openControl.Components.Get(example.expected.Key)
 		testSet(example, actualComponent, t)
+	}
+}
+
+var componentTestErrors = []componentTestError{
+	{"", ErrComponentFileDNE},
+	{"../fixtures/component_fixtures/EC2Broken", ErrControlSchema},
+}
+
+func TestLoadComponentErrors(t *testing.T) {
+	for _, example := range componentTestErrors {
+		openControl := &OpenControl{}
+		actualError := openControl.LoadComponent(example.componentDir)
+		log.Println(actualError)
+		if example.expectedError != actualError {
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)
+		}
 	}
 }

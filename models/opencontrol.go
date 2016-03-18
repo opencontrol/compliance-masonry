@@ -19,6 +19,8 @@ var (
 	ErrControlSchema = errors.New("Unable to parse control")
 	// ErrStandardSchema is raised a standard cannot be parsed
 	ErrStandardSchema = errors.New("Unable to parse standard")
+	// ErrComponentFileDNE is raised when a component file does not exists
+	ErrComponentFileDNE = errors.New("Component files does not exist")
 )
 
 // OpenControl struct combines data on of components, standards, and a certification
