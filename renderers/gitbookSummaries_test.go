@@ -25,6 +25,7 @@ type buildStandardsSummariesTest struct {
 }
 
 var buildComponentsSummariesTests = []buildComponentsSummariesTest{
+	// Check that the component summary is correctly exported
 	{
 		"../fixtures/opencontrol_fixtures/",
 		"../fixtures/opencontrol_fixtures/certifications/LATO.yaml",
@@ -45,6 +46,7 @@ func TestBuildComponentsSummaries(t *testing.T) {
 			log.Fatal(err)
 		}
 		expectedSummary := string(data)
+		// Check that the actual and expected summaries are similar
 		if actualSummary != expectedSummary {
 			t.Errorf("Expected: `%s`, Actual: `%s`", expectedSummary, actualSummary)
 		}
@@ -52,6 +54,7 @@ func TestBuildComponentsSummaries(t *testing.T) {
 }
 
 var buildStandardsSummariesTests = []buildStandardsSummariesTest{
+	// Check that a standards summary is correctly exported
 	{
 		"../fixtures/opencontrol_fixtures/",
 		"../fixtures/opencontrol_fixtures/certifications/LATO.yaml",
@@ -74,6 +77,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 			log.Fatal(err)
 		}
 		expectedSummary := string(data)
+		// Check that the actual and expected summaries are similar
 		if actualSummary != expectedSummary {
 			t.Errorf("Expected: `%s`, Actual: `%s`", expectedSummary, actualSummary)
 		}
@@ -84,6 +88,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 				log.Fatal(err)
 			}
 			expectedFamilySummary := string(data)
+			// Check that the actual and expected summaries are similar
 			if familySummary != expectedFamilySummary {
 				t.Errorf("Expected: `%s`, Actual: `%s`", expectedFamilySummary, familySummary)
 			}

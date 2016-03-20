@@ -13,6 +13,7 @@ type componentExportTest struct {
 }
 
 var componentExportTests = []componentExportTest{
+	// Check that a component is correctly exported
 	{
 		models.Component{
 			Name:          "Amazon Elastic Compute Cloud",

@@ -20,6 +20,7 @@ type exportControlTest struct {
 }
 
 var exportControlTests = []exportControlTest{
+	// Check that a control is exported correctly
 	{
 		"../fixtures/opencontrol_fixtures/",
 		"../fixtures/opencontrol_fixtures/certifications/LATO.yaml",
@@ -44,11 +45,11 @@ func TestExportControl(t *testing.T) {
 		control := openControl.Standards.Get(example.standardKey).Controls[example.controlKey]
 		actualPath, actualText := openControl.exportControl(&ControlGitbook{&control, dir, example.standardKey, example.controlKey})
 		expectedPath := filepath.Join(dir, example.expectedPath)
-
+		// Verify the expected export path is the same as the actual export path
 		if expectedPath != actualPath {
 			t.Errorf("Expected %s, Actual: %s", example.expectedPath, actualPath)
 		}
-
+		// Verify the expected text is the same as the actual text
 		if example.expectedText != actualText {
 			t.Errorf("Expected %s, Actual: %s", example.expectedText, actualText)
 		}
