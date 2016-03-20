@@ -20,6 +20,7 @@ type standardOrderTest struct {
 }
 
 var certificationTests = []certificationTest{
+	// Test loading a certification file that has the LATO key, 2 standards, and 6 controls.
 	{"../fixtures/opencontrol_fixtures/certifications/LATO.yaml", Certification{Key: "LATO"}, 2, 6},
 }
 
@@ -28,10 +29,11 @@ func TestLoadCertification(t *testing.T) {
 		openControl := &OpenControl{}
 		openControl.LoadCertification(example.certificationFile)
 		actual := openControl.Certification
+		// Check if loaded certification has the expected key
 		if actual.Key != example.expected.Key {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)
 		}
-
+		// Check if loaded certification has the expected number of standards
 		if len(actual.Standards) != example.expectedStandards {
 			t.Errorf("Expected %d, Actual: %d", example.expectedStandards, len(actual.Standards))
 		}
@@ -40,7 +42,7 @@ func TestLoadCertification(t *testing.T) {
 		actual.GetSortedData(func(_ string, _ string) {
 			totalControls++
 		})
-
+		// Check if loaded certification has the expected number of controls
 		if totalControls != example.expectedControls {
 			t.Errorf("Expected %d, Actual: %d", example.expectedControls, totalControls)
 		}
@@ -48,7 +50,9 @@ func TestLoadCertification(t *testing.T) {
 }
 
 var certificationTestErrors = []certificationTestError{
+	// Test a file that can't be read
 	{"../fixtures/opencontrol_fixtures/certifications/", ErrReadFile},
+	// Test a file that has a broken schema
 	{"../fixtures/opencontrol_fixtures/components/EC2/artifact-ec2-1.png", ErrCertificationSchema},
 }
 
@@ -56,6 +60,7 @@ func TestLoadCertificationErrors(t *testing.T) {
 	for _, example := range certificationTestErrors {
 		openControl := &OpenControl{}
 		actualError := openControl.LoadCertification(example.certificationFile)
+		// Check that the expected error is the actual error returned
 		if example.expectedError != actualError {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)
 		}
@@ -64,6 +69,7 @@ func TestLoadCertificationErrors(t *testing.T) {
 
 var standardOrderTests = []standardOrderTest{
 	{
+		// Check that data is returned in order given letters
 		Certification{Standards: map[string]Standard{
 			"A": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
 			"B": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
@@ -72,6 +78,7 @@ var standardOrderTests = []standardOrderTest{
 		"A1A2A3B1B2B3C1C2C3",
 	},
 	{
+		// Check that data is returned in order given letters and numbers
 		Certification{Standards: map[string]Standard{
 			"1":  Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
 			"B":  Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
@@ -87,6 +94,7 @@ func TestStandardOrder(t *testing.T) {
 		example.certification.GetSortedData(func(standardKey string, controlKey string) {
 			actualOrder += standardKey + controlKey
 		})
+		// Verify that the actual order is the expected order
 		if actualOrder != example.expectedOrder {
 			t.Errorf("Expected %s, Actual: %s", example.expectedOrder, actualOrder)
 		}
