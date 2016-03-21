@@ -6,6 +6,7 @@ import "github.com/opencontrol/compliance-masonry-go/tools/vcs"
 type Entry struct {
 	URL      string `yaml:"url"`
 	Revision string `yaml:"revision"`
+	Path     string `yaml:path"`
 }
 
 type EntryDownloader interface {

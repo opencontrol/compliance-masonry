@@ -2,10 +2,13 @@ package schema
 
 import (
 	"errors"
+	"github.com/go-utils/ufs"
+	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/yaml/common"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 const (
@@ -49,35 +52,65 @@ func (s *Schema) Parse(data []byte) error {
 }
 
 func (s *Schema) GetResources(destination string, downloader common.EntryDownloader) error {
-	tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
-	if err != nil {
-		return err
-	}
-	defer os.RemoveAll(tempResourcesDir)
-
+	// Local
 	// Get Certifications
-	for _, certification := range s.Dependencies.Certifications {
-		err := downloader.DownloadEntry(certification, destination)
+	for _, certification := range s.Certifications {
+		err := ufs.CopyFile(certification,
+			filepath.Join(destination, constants.DefaultCertificationsFolder, filepath.Base(certification)))
 		if err != nil {
 			return err
 		}
 	}
 
 	// Get Standards
-	for _, standard := range s.Dependencies.Standards {
-		err := downloader.DownloadEntry(standard, destination)
+	for _, standard := range s.Standards {
+		err := ufs.CopyFile(standard,
+			filepath.Join(destination, constants.DefaultStandardsFolder, filepath.Base(standard)))
 		if err != nil {
 			return err
 		}
 	}
 
-	// Get Systems
-	for _, system := range s.Dependencies.Systems {
-		err := downloader.DownloadEntry(system, destination)
+	// Get Components
+	for _, component := range s.Components {
+		err := ufs.CopyAll(component,
+			filepath.Join(destination, constants.DefaultComponentsFolder, filepath.Base(component)), nil)
 		if err != nil {
 			return err
 		}
 	}
+	/*
+		// Remote
+		tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
+		if err != nil {
+			return err
+		}
+		defer os.RemoveAll(tempResourcesDir)
+
+		// Get Certifications
+		for _, certification := range s.Dependencies.Certifications {
+			err := downloader.DownloadEntry(certification, destination)
+			if err != nil {
+				return err
+			}
+		}
+
+		// Get Standards
+		for _, standard := range s.Dependencies.Standards {
+			err := downloader.DownloadEntry(standard, destination)
+			if err != nil {
+				return err
+			}
+		}
+
+		// Get Systems
+		for _, system := range s.Dependencies.Systems {
+			err := downloader.DownloadEntry(system, destination)
+			if err != nil {
+				return err
+			}
+		}
+	*/
 
 	return nil
 }
