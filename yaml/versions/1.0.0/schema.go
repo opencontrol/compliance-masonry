@@ -6,8 +6,6 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/yaml/common"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
-	"os"
 	"path/filepath"
 )
 
