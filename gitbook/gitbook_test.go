@@ -22,6 +22,7 @@ type replaceParenthesesTest struct {
 type buildGitbookTest struct {
 	inputDir          string
 	certificationPath string
+	markdownPath      string
 	expectedOutputDir string
 }
 
@@ -63,16 +64,23 @@ var buildGitbookTests = []buildGitbookTest{
 	{
 		"../fixtures/opencontrol_fixtures/",
 		"../fixtures/opencontrol_fixtures/certifications/LATO.yaml",
+		"",
 		"../fixtures/exports_fixtures/complete_export",
+	},
+	// Check that the gitbook is correctly exported given the fixtures with markdowns
+	{
+		"../fixtures/opencontrol_fixtures_with_markdown/",
+		"../fixtures/opencontrol_fixtures_with_markdown/certifications/LATO.yaml",
+		"../fixtures/opencontrol_fixtures_with_markdown/markdowns/",
+		"../fixtures/exports_fixtures/complete_export_with_markdown",
 	},
 }
 
 func TestBuildGitbook(t *testing.T) {
 	for _, example := range buildGitbookTests {
 		tempDir, _ := ioutil.TempDir("", "example")
-
 		defer os.RemoveAll(tempDir)
-		BuildGitbook(example.inputDir, example.certificationPath, tempDir)
+		BuildGitbook(example.inputDir, example.certificationPath, example.markdownPath, tempDir)
 		// Loop through the expected output to verify it matches the actual output
 		matches, _ := filepath.Glob(filepath.Join(example.expectedOutputDir, "*", "*"))
 		for _, expectedfilePath := range matches {

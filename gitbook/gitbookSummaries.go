@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+
+	"github.com/opencontrol/compliance-masonry-go/helpers"
 )
 
 // BuildComponentsSummaries creates summaries the components for the general summary
@@ -20,6 +22,7 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 	var oldFamily, newFamily string
 	familySummaryMap := make(map[string]string)
 	summary := "## Standards  \n"
+
 	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
 		componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
 		controlFamily := openControl.Standards.Get(standardKey).Controls[controlKey].Family
@@ -41,12 +44,19 @@ func (openControl *OpenControlGitBook) exportFamilyReadMap(familySummaryMap *map
 	}
 }
 
+func (openControl *OpenControlGitBook) buildMarkdowns() {
+	if openControl.markdownPath != "" {
+		helpers.CopyDir(openControl.markdownPath, openControl.exportPath)
+	}
+}
+
 // buildSummaries creates the general summary
 func (openControl *OpenControlGitBook) buildSummaries() {
+	openControl.buildMarkdowns()
 	standardsSummary, familySummaryMap := openControl.buildStandardsSummaries()
 	componentsSummary := openControl.buildComponentsSummaries()
 	openControl.exportFamilyReadMap(familySummaryMap)
 	summary := standardsSummary + componentsSummary
-	go ioutil.WriteFile(filepath.Join(openControl.exportPath, "SUMMARY.md"), []byte(summary), 0700)
-	go ioutil.WriteFile(filepath.Join(openControl.exportPath, "README.md"), []byte(summary), 0700)
+	go helpers.AppendOrCreate(filepath.Join(openControl.exportPath, "SUMMARY.md"), summary)
+	go helpers.AppendOrCreate(filepath.Join(openControl.exportPath, "README.md"), summary)
 }
