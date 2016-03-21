@@ -17,29 +17,30 @@ func CreateDirectory(directory string) string {
 }
 
 // AppendToFile adds text to a file
-func AppendToFile(filepath string, text string) {
-	file, err := os.OpenFile(filepath, os.O_APPEND|os.O_WRONLY, 0700)
+func AppendToFile(filePath string, text string) error {
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY, 0700)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer file.Close()
 	if _, err = file.WriteString(text); err != nil {
-		panic(err)
+		return err
 	}
+	return nil
 }
 
 // AppendOrCreate adds text to file if it exists otherwise it creates a new
 // file with the given text
-func AppendOrCreate(filepath string, text string) {
-	if _, err := os.Stat(filepath); err == nil {
-		AppendToFile(filepath, text)
+func AppendOrCreate(filePath string, text string) {
+	if _, err := os.Stat(filePath); err == nil {
+		AppendToFile(filePath, text)
 	} else {
-		ioutil.WriteFile(filepath, []byte(text), 0700)
+		ioutil.WriteFile(filePath, []byte(text), 0700)
 	}
 }
 
 // CopyFile function from https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
-func CopyFile(source string, dest string) (err error) {
+func CopyFile(source string, dest string) error {
 	sourcefile, err := os.Open(source)
 	if err != nil {
 		return err
@@ -57,7 +58,7 @@ func CopyFile(source string, dest string) (err error) {
 			err = os.Chmod(dest, sourceinfo.Mode())
 		}
 	}
-	return
+	return nil
 }
 
 // CopyDir function from https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
