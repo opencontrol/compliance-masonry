@@ -55,6 +55,7 @@ func main() {
 								gitbook.BuildGitbook(
 									opencontrolDir,
 									certificationPath,
+									"markdowns",
 									"exports",
 								)
 								println("New Gitbook Documentation Created")
