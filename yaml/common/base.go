@@ -19,7 +19,5 @@ type SchemaParser interface {
 type BaseSchema interface {
 	Parse(data []byte) error
 	GetSchemaVersion() string
-	//GetComponents() ([]string, error)
-	//GetDependencies()
-
+	GetResources(string, EntryDownloader) error
 }

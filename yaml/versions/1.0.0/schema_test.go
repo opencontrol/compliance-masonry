@@ -16,7 +16,7 @@ func TestParse(t *testing.T) {
 		{
 			data: []byte(`
 schema_version: "1.0.0"
-system_name: test-system
+name: test
 metadata:
   description: "A system to test parsing"
   maintainers:
@@ -25,10 +25,14 @@ components:
   - ./component-1
   - ./component-2
   - ./component-3
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
 dependencies:
-  certification:
-    url: github.com/18F/LATO
-    revision: master
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
   systems:
     - url: github.com/18F/cg-complinace
       revision: master
@@ -37,8 +41,8 @@ dependencies:
       revision: master
 `),
 			expectedSchema: Schema{
-				Base:       common.Base{SchemaVersion: "1.0.0"},
-				SystemName: "test-system",
+				Base: common.Base{SchemaVersion: "1.0.0"},
+				Name: "test",
 				Meta: Metadata{
 					Description: "A system to test parsing",
 					Maintainers: []string{
@@ -50,10 +54,18 @@ dependencies:
 					"./component-2",
 					"./component-3",
 				},
+				Certifications: []string{
+					"./cert-1.yaml",
+				},
+				Standards: []string{
+					"./standard-1.yaml",
+				},
 				Dependencies: Dependencies{
-					Certification: common.Entry{
-						URL:      "github.com/18F/LATO",
-						Revision: "master",
+					Certifications: []common.Entry{
+						common.Entry{
+							URL:      "github.com/18F/LATO",
+							Revision: "master",
+						},
 					},
 					Systems: []common.Entry{
 						common.Entry{

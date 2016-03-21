@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/gitbook"
 	"io/ioutil"
@@ -54,7 +55,17 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) {
-				Get(c.String("dest"), c.String("config"))
+				config := c.String("config")
+				if _, err := os.Stat(config); os.IsNotExist(err) {
+					fmt.Printf("Error: %s does not exist\n", config)
+					os.Exit(1)
+				}
+				configBytes, err := ioutil.ReadFile(config)
+				if err != nil {
+					fmt.Println(err.Error())
+					os.Exit(1)
+				}
+				Get(c.String("dest"), configBytes)
 				println("Compliance Dependencies Installed")
 			},
 		},

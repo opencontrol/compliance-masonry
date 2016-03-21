@@ -1,12 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"github.com/opencontrol/compliance-masonry-go/tools/vcs"
 	"github.com/opencontrol/compliance-masonry-go/yaml"
+	"github.com/opencontrol/compliance-masonry-go/yaml/common"
 	"github.com/opencontrol/compliance-masonry-go/yaml/parser"
-	"io/ioutil"
-	"os"
 )
 
 const (
@@ -14,24 +11,20 @@ const (
 	DefaultConfigYaml  = "opencontrol.yaml"
 )
 
-func Get(destination string, config string) {
-	err := vcs.Clone("github.com/18F/cg-deck", "atdd", destination)
+func Get(destination string, configData []byte) error {
+	// Check the data.
+	if configData == nil || len(configData) == 0 {
+		return yaml.ErrNoDataToParse
+	}
+	// Parse it.
+	configSchema, err := yaml.Parse(parser.Parser{}, configData)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return err
 	}
-	if _, err := os.Stat(config); os.IsNotExist(err) {
-		fmt.Printf("Error: %s does not exist\n", config)
-		os.Exit(1)
-	}
-	configBytes, err := ioutil.ReadFile(config)
+	// Get Resources
+	err = configSchema.GetResources(destination, common.VCSEntryDownloader{})
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return err
 	}
-	configSchema, err := yaml.Parse(parser.Parser{}, configBytes)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	configSchema.GetSchemaVersion()
+	return nil
 }

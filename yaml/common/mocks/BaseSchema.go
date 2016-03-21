@@ -1,5 +1,6 @@
 package mocks
 
+import "github.com/opencontrol/compliance-masonry-go/yaml/common"
 import "github.com/stretchr/testify/mock"
 
 type BaseSchema struct {
@@ -29,6 +30,20 @@ func (_m *BaseSchema) GetSchemaVersion() string {
 		r0 = rf()
 	} else {
 		r0 = ret.Get(0).(string)
+	}
+
+	return r0
+}
+
+// GetResources provides a mock function with given fields: _a0, _a1
+func (_m *BaseSchema) GetResources(_a0 string, _a1 common.EntryDownloader) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, common.EntryDownloader) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
 	}
 
 	return r0
