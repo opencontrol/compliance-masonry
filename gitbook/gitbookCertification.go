@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"sort"
 
 	"github.com/opencontrol/compliance-masonry-go/helpers"
 	"github.com/opencontrol/compliance-masonry-go/models"
@@ -14,7 +13,6 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("#%s  \n##%s  \n", key, control.Name)
 	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications models.Verifications) {
-		sort.Sort(selectJustifications)
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
 				text += fmt.Sprintf("  \n#### %s  \n", component.Name)
@@ -30,8 +28,9 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 				}
 				openControl.Components.GetAndApply(componentKey, func(component *models.Component) {
 					if component != nil {
+						verification := component.Verifications.Get(coveredBy.VerificationKey)
 						text += exportLink(
-							fmt.Sprintf("%s - %s", component.Name, coveredBy.VerificationKey),
+							fmt.Sprintf("%s - %s", component.Name, verification.Name),
 							filepath.Join("..", "components", component.Key+".md"),
 						)
 					}
