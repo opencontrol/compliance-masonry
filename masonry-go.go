@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/gitbook"
+	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"io/ioutil"
 	"log"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 )
 
 func main() {

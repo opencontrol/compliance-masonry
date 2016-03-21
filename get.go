@@ -17,7 +17,7 @@ func Get(destination string, configData []byte) error {
 		return err
 	}
 	// Get Resources
-	err = configSchema.GetResources(destination, common.VCSEntryDownloader{}, )
+	err = configSchema.GetResources(destination, common.VCSEntryDownloader{})
 	if err != nil {
 		return err
 	}

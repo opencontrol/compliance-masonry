@@ -1,9 +1,9 @@
 package fs
 
 import (
-	"os"
 	"fmt"
 	"io/ioutil"
+	"os"
 )
 
 func OpenAndReadFile(file string) ([]byte, error) {

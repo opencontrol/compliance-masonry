@@ -1,8 +1,8 @@
 package common
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/tools/vcs"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry-go/tools/vcs"
 )
 
 // Entry is a generic holder for handling the specific location and revision of a resource.

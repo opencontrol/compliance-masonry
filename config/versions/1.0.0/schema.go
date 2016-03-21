@@ -3,15 +3,15 @@ package schema
 import (
 	"errors"
 	"github.com/go-utils/ufs"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry-go/config"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
-	"github.com/opencontrol/compliance-masonry-go/config"
-	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
 const (
@@ -113,7 +113,7 @@ func (s *Schema) GetResources(destination string, worker common.ConfigWorker) er
 	return nil
 }
 
-func (s *Schema) getResource(destination string,  tempResourcesDir string , worker common.ConfigWorker, entry common.Entry) error {
+func (s *Schema) getResource(destination string, tempResourcesDir string, worker common.ConfigWorker, entry common.Entry) error {
 	tempPath := filepath.Join(tempResourcesDir, constants.DefaultCertificationsFolder, filepath.Base(entry.URL))
 	// Clone repo
 	log.Printf("Attempting to clone %v into %s\n", entry, tempPath)

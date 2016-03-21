@@ -23,6 +23,6 @@ type BaseSchema interface {
 }
 
 type ConfigWorker struct {
-	Parser SchemaParser
+	Parser     SchemaParser
 	Downloader EntryDownloader
 }

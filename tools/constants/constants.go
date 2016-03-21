@@ -4,7 +4,6 @@ const (
 	DefaultStandardsFolder      = "standards"
 	DefaultCertificationsFolder = "certifications"
 	DefaultComponentsFolder     = "components"
-	DefaultDestination = "opencontrols"
-	DefaultConfigYaml  = "opencontrol.yaml"
+	DefaultDestination          = "opencontrols"
+	DefaultConfigYaml           = "opencontrol.yaml"
 )
-
