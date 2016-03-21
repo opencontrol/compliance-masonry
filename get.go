@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
-	"os"
+	"github.com/opencontrol/compliance-masonry-go/tools/vcs"
 	"github.com/opencontrol/compliance-masonry-go/yaml"
 	"github.com/opencontrol/compliance-masonry-go/yaml/parser"
-	"github.com/opencontrol/compliance-masonry-go/tools/vcs"
+	"io/ioutil"
+	"os"
 )
 
 const (
@@ -15,11 +14,7 @@ const (
 	DefaultConfigYaml  = "opencontrol.yaml"
 )
 
-func Get(destination string, config string, verbose bool) {
-	log.SetOutput(ioutil.Discard)
-	if verbose {
-		log.SetOutput(os.Stderr)
-	}
+func Get(destination string, config string) {
 	err := vcs.Clone("github.com/18F/cg-deck", "atdd", "deck")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -34,10 +29,9 @@ func Get(destination string, config string, verbose bool) {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
-	configSchema, err := yaml.Parse(parser.Parser{},configBytes)
+	configSchema, err := yaml.Parse(parser.Parser{}, configBytes)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	configSchema.GetSchemaVersion()
-	//log.Println("in get")
 }

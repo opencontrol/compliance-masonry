@@ -6,12 +6,28 @@ import (
 
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/gitbook"
+	"io/ioutil"
+	"log"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "masonry-go"
 	app.Usage = "Open Control CLI Tool"
+	app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name:  "verbose",
+			Usage: "Indicates whether to run the command with verbosity.",
+		},
+	}
+	app.Before = func(c *cli.Context) error {
+		log.SetOutput(ioutil.Discard)
+		if c.Bool("verbose") {
+			log.SetOutput(os.Stderr)
+			log.Println("Running with verbosity")
+		}
+		return nil
+	}
 	app.Commands = []cli.Command{
 		{
 			Name:    "init",
@@ -36,13 +52,9 @@ func main() {
 					Value: DefaultConfigYaml,
 					Usage: "Location of system yaml",
 				},
-				cli.BoolFlag{
-					Name:  "verbose, v",
-					Usage: "Indicates whether to run the command with verbosity.",
-				},
 			},
 			Action: func(c *cli.Context) {
-				Get(c.String("dest"), c.String("config"), c.Bool("verbose"))
+				Get(c.String("dest"), c.String("config"))
 				println("Compliance Dependencies Installed")
 			},
 		},

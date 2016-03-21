@@ -1,16 +1,16 @@
 package vcs
 
 import (
-	"log"
 	"fmt"
 	"github.com/Masterminds/vcs"
+	"log"
 )
 
 const (
-	repoInitFailed = "Repo initialization failed"
-	repoCloneFailed = "Cloning repo failed"
+	repoInitFailed     = "Repo initialization failed"
+	repoCloneFailed    = "Cloning repo failed"
 	repoCheckoutFailed = "Revision Checkout failed"
-	errorContainer = "[Error: %s Repo: %s Revision: %s Dir: %s Error Details: %s]\n"
+	errorContainer     = "[Error: %s Repo: %s Revision: %s Dir: %s Error Details: %s]\n"
 )
 
 func Clone(url string, revision string, dir string) error {
