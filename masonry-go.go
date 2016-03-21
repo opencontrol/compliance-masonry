@@ -9,6 +9,7 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/gitbook"
 	"io/ioutil"
 	"log"
+	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 )
 
 func main() {
@@ -45,12 +46,12 @@ func main() {
 			Flags: []cli.Flag{
 				cli.StringFlag{
 					Name:  "dest",
-					Value: DefaultDestination,
+					Value: constants.DefaultDestination,
 					Usage: "Location to download the repos.",
 				},
 				cli.StringFlag{
 					Name:  "config",
-					Value: DefaultConfigYaml,
+					Value: constants.DefaultConfigYaml,
 					Usage: "Location of system yaml",
 				},
 			},

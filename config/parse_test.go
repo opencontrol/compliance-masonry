@@ -1,7 +1,7 @@
-package yaml
+package config
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/yaml/common/mocks"
+	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/vektra/errors"
 	"testing"

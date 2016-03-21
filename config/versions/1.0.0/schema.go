@@ -4,9 +4,14 @@ import (
 	"errors"
 	"github.com/go-utils/ufs"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
-	"github.com/opencontrol/compliance-masonry-go/yaml/common"
+	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"gopkg.in/yaml.v2"
+	"io/ioutil"
+	"log"
+	"os"
 	"path/filepath"
+	"github.com/opencontrol/compliance-masonry-go/config"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
 const (
@@ -49,7 +54,7 @@ func (s *Schema) Parse(data []byte) error {
 	return nil
 }
 
-func (s *Schema) GetResources(destination string, downloader common.EntryDownloader) error {
+func (s *Schema) GetResources(destination string, worker common.ConfigWorker) error {
 	// Local
 	// Get Certifications
 	for _, certification := range s.Certifications {
@@ -77,38 +82,53 @@ func (s *Schema) GetResources(destination string, downloader common.EntryDownloa
 			return err
 		}
 	}
-	/*
-		// Remote
-		tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
-		if err != nil {
-			return err
-		}
-		defer os.RemoveAll(tempResourcesDir)
+	// Remote
+	tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
+	if err != nil {
+		return err
+	}
+	defer os.RemoveAll(tempResourcesDir)
 
-		// Get Certifications
-		for _, certification := range s.Dependencies.Certifications {
-			err := downloader.DownloadEntry(certification, destination)
-			if err != nil {
-				return err
-			}
-		}
+	// Get Certifications
+	log.Println("Retrieving dependent certifications")
+	for _, certification := range s.Dependencies.Certifications {
+		tempPath := filepath.Join(tempResourcesDir, constants.DefaultCertificationsFolder, filepath.Base(certification.URL))
+		s.getResource(destination, tempPath, worker, certification)
+	}
 
-		// Get Standards
-		for _, standard := range s.Dependencies.Standards {
-			err := downloader.DownloadEntry(standard, destination)
-			if err != nil {
-				return err
-			}
-		}
+	// Get Standards
+	log.Println("Retrieving dependent standards")
+	for _, standard := range s.Dependencies.Standards {
+		tempPath := filepath.Join(tempResourcesDir, constants.DefaultStandardsFolder, filepath.Base(standard.URL))
+		s.getResource(destination, tempPath, worker, standard)
+	}
 
-		// Get Systems
-		for _, system := range s.Dependencies.Systems {
-			err := downloader.DownloadEntry(system, destination)
-			if err != nil {
-				return err
-			}
-		}
-	*/
+	// Get Systems
+	log.Println("Retrieving dependent systems")
+	for _, system := range s.Dependencies.Systems {
+		tempPath := filepath.Join(tempResourcesDir, constants.DefaultComponentsFolder, filepath.Base(system.URL))
+		s.getResource(destination, tempPath, worker, system)
+	}
 
 	return nil
+}
+
+func (s *Schema) getResource(destination string,  tempResourcesDir string , worker common.ConfigWorker, entry common.Entry) error {
+	tempPath := filepath.Join(tempResourcesDir, constants.DefaultCertificationsFolder, filepath.Base(entry.URL))
+	// Clone repo
+	log.Printf("Attempting to clone %v into %s\n", entry, tempPath)
+	err := worker.Downloader.DownloadEntry(entry, tempPath)
+	if err != nil {
+		return err
+	}
+	// Parse
+	configBytes, err := fs.OpenAndReadFile(filepath.Join(tempPath, entry.GetConfigFile()))
+	if err != nil {
+		return err
+	}
+	schema, err := config.Parse(worker.Parser, configBytes)
+	if err != nil {
+		return err
+	}
+	return schema.GetResources(destination, worker)
 }

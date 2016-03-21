@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/yaml/common"
+	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
