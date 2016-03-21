@@ -27,7 +27,7 @@ var exportControlTests = []exportControlTest{
 		"NIST-800-53",
 		"CM-2",
 		"NIST-800-53-CM-2.md",
-		"#NIST-800-53-CM-2  \n##Baseline Configuration  \n* [Amazon Elastic Compute Cloud - EC2 Verification 1](../components/EC2.md)  \n",
+		"#NIST-800-53-CM-2  \n##Baseline Configuration  \n  \n#### Amazon Elastic Compute Cloud  \nJustification in narrative form  \nCovered By:  \n* [Amazon Elastic Compute Cloud - EC2_Verification_1](../components/EC2.md)  \n",
 	},
 }
 

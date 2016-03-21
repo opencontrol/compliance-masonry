@@ -3,10 +3,9 @@ package models
 import "testing"
 
 type singleMapping struct {
-	standardKey      string
-	controlKey       string
-	componentKey     string
-	justificationKey string
+	standardKey  string
+	controlKey   string
+	componentKey string
 }
 
 type justificationsTest struct {
@@ -26,16 +25,16 @@ type verificationsLessTest struct {
 
 var justificationsAddTests = []justificationsTest{
 	// Check that justifications can be stored
-	{[]singleMapping{{"s1", "c", "1", "just4"}, {"s2", "c", "2", "just5"}, {"s3", "c", "3", "just6"}}, 3},
+	{[]singleMapping{{"s1", "c", "1"}, {"s2", "c", "2"}, {"s3", "c", "3"}}, 3},
 	// Check that justifications with the same standard and control are put into the same slice
-	{[]singleMapping{{"s", "c", "1", "just1"}, {"s", "c", "2", "just2"}, {"s", "c", "3", "just3"}}, 1},
+	{[]singleMapping{{"s", "c", "1"}, {"s", "c", "2"}, {"s", "c", "3"}}, 1},
 }
 
 func TestJustificationAdd(t *testing.T) {
 	for _, example := range justificationsAddTests {
 		just := NewJustifications()
 		for _, mapping := range example.mappings {
-			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, mapping.justificationKey)
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, Satisfies{})
 		}
 		// Check that the expected stored standards are the actual standards
 		if example.expectedCount != len(just.mapping) {
@@ -46,18 +45,18 @@ func TestJustificationAdd(t *testing.T) {
 
 var justificationsGetTests = []justificationsTest{
 	// Check that the number of controls stored is 3
-	{[]singleMapping{{"a", "b", "1", "just1"}, {"a", "b", "2", "just2"}, {"a", "b", "3", "just3"}}, 3},
+	{[]singleMapping{{"a", "b", "1"}, {"a", "b", "2"}, {"a", "b", "3"}}, 3},
 	// Check that the number of controls stored is 2
-	{[]singleMapping{{"a", "b", "1", "just1"}, {"a", "b", "2", "just2"}, {"f", "g", "3", "just3"}}, 2},
+	{[]singleMapping{{"a", "b", "1"}, {"a", "b", "2"}, {"f", "g", "3"}}, 2},
 	// Check that the number of controls stored is 1
-	{[]singleMapping{{"a", "b", "1", "just1"}, {"d", "e", "2", "just2"}, {"f", "g", "3", "just3"}}, 1},
+	{[]singleMapping{{"a", "b", "1"}, {"d", "e", "2"}, {"f", "g", "3"}}, 1},
 }
 
 func TestJustificationGet(t *testing.T) {
 	for _, example := range justificationsGetTests {
 		just := NewJustifications()
 		for _, mapping := range example.mappings {
-			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, mapping.justificationKey)
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, Satisfies{})
 		}
 		numberofABs := len(just.Get("a", "b"))
 		// Check that the number of controls stored is the expected number
@@ -71,7 +70,7 @@ func TestJustificationGetAndApply(t *testing.T) {
 	for _, example := range justificationsGetTests {
 		just := NewJustifications()
 		for _, mapping := range example.mappings {
-			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, mapping.justificationKey)
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, Satisfies{})
 		}
 		just.GetAndApply("a", "b", func(actualVerificaitons Verifications) {
 			numberofABs := actualVerificaitons.Len()
@@ -104,13 +103,13 @@ func TestVerificationsLen(t *testing.T) {
 
 var verificationsLessTests = []verificationsLessTest{
 	// Check that the left verification is less by comparing a number and letter
-	{Verifications{Verification{Component: "1", Verification: "z"}, Verification{Component: "2", Verification: "a"}}, true},
+	{Verifications{Verification{ComponentKey: "1", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "2", SatisfiesData: Satisfies{}}}, true},
 	// Check that the left verification is not less by comparing two letters
-	{Verifications{Verification{Component: "a", Verification: "z"}, Verification{Component: "a", Verification: "a"}}, false},
+	{Verifications{Verification{ComponentKey: "a", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "a", SatisfiesData: Satisfies{}}}, false},
 	// Check that the left verification is not less by comparing the same letter
-	{Verifications{Verification{Component: "a", Verification: "z"}, Verification{Component: "2", Verification: "a"}}, false},
+	{Verifications{Verification{ComponentKey: "a", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "2", SatisfiesData: Satisfies{}}}, false},
 	// Check that the left verification is not less by comparing two numbers
-	{Verifications{Verification{Component: "2", Verification: "z"}, Verification{Component: "1", Verification: "a"}}, false},
+	{Verifications{Verification{ComponentKey: "2", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "1", SatisfiesData: Satisfies{}}}, false},
 	// Check that the left verification is not less by comparing two numbers
 }
 
