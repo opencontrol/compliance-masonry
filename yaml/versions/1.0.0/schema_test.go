@@ -29,15 +29,12 @@ dependencies:
   certification:
     url: github.com/18F/LATO
     revision: master
-    protocol: git
   systems:
     - url: github.com/18F/cg-complinace
       revision: master
-      protocol: git
   standards:
     - url: github.com/18F/NIST-800-53
       revision: master
-      protocol: git
 `),
 			expectedSchema: Schema{
 				Base:       common.Base{SchemaVersion: "1.0.0"},
@@ -54,23 +51,20 @@ dependencies:
 					"./component-3",
 				},
 				Dependencies: Dependencies{
-					Certification: Entry{
+					Certification: common.Entry{
 						URL:      "github.com/18F/LATO",
-						Protocol: "git",
 						Revision: "master",
 					},
-					Systems: []Entry{
-						Entry{
+					Systems: []common.Entry{
+						common.Entry{
 							URL:      "github.com/18F/cg-complinace",
 							Revision: "master",
-							Protocol: "git",
 						},
 					},
-					Standards: []Entry{
-						Entry{
+					Standards: []common.Entry{
+						common.Entry{
 							URL:      "github.com/18F/NIST-800-53",
 							Revision: "master",
-							Protocol: "git",
 						},
 					},
 				},
@@ -94,15 +88,12 @@ dependencies:
 			  certification:
 			    url: github.com/18F/LATO
 			    revision: master
-			    protocol: git
 			  systems:
 			    - url: github.com/18F/cg-complinace
 			      revision: master
-			      protocol: git
 			  standards:
 			    - url: github.com/18F/NIST-800-53
 			      revision: master
-			      protocol: git
 			`),
 			expectedSchema:      Schema{},
 			expectedErrorExists: true,

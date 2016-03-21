@@ -15,7 +15,7 @@ const (
 )
 
 func Get(destination string, config string) {
-	err := vcs.Clone("github.com/18F/cg-deck", "atdd", "deck")
+	err := vcs.Clone("github.com/18F/cg-deck", "atdd", destination)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)

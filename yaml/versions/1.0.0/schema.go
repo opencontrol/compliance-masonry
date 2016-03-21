@@ -23,22 +23,15 @@ type Schema struct {
 
 // Dependencies contains all the dependencies for the system
 type Dependencies struct {
-	Certification Entry   `yaml:"certification"`
-	Systems       []Entry `yaml:",flow"`
-	Standards     []Entry `yaml:",flow"`
+	Certification common.Entry   `yaml:"certification"`
+	Systems       []common.Entry `yaml:",flow"`
+	Standards     []common.Entry `yaml:",flow"`
 }
 
 // Metadata contains metadata about the system.
 type Metadata struct {
 	Description string   `yaml:"description"`
 	Maintainers []string `yaml:",flow"`
-}
-
-// Entry is a generic holder for handling the specific location and revision of a resource.
-type Entry struct {
-	Protocol string `yaml:"protocol"`
-	URL      string `yaml:"url"`
-	Revision string `yaml:"revision"`
 }
 
 // Parse will parse using it's own schema. In this case the v1.0.0 schema.

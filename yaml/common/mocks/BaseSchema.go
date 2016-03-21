@@ -19,3 +19,17 @@ func (_m *BaseSchema) Parse(data []byte) error {
 
 	return r0
 }
+
+// GetSchemaVersion provides a mock function with given fields:
+func (_m *BaseSchema) GetSchemaVersion() string {
+	ret := _m.Called()
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	return r0
+}
