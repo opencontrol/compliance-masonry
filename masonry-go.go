@@ -7,10 +7,12 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/gitbook"
+	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/config/parser"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 	"io/ioutil"
 	"log"
-	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
 func main() {
@@ -63,7 +65,9 @@ func main() {
 					fmt.Println(err)
 					os.Exit(1)
 				}
-				Get(c.String("dest"), configBytes)
+				Get(c.String("dest"),
+					configBytes,
+					&common.ConfigWorker{Downloader: common.VCSEntryDownloader{}, Parser: parser.Parser{}})
 				println("Compliance Dependencies Installed")
 			},
 		},

@@ -54,7 +54,7 @@ func (s *Schema) Parse(data []byte) error {
 	return nil
 }
 
-func (s *Schema) GetResources(destination string, worker common.ConfigWorker) error {
+func (s *Schema) GetResources(destination string, worker *common.ConfigWorker) error {
 	// Local
 	// Get Certifications
 	for _, certification := range s.Certifications {
@@ -113,7 +113,7 @@ func (s *Schema) GetResources(destination string, worker common.ConfigWorker) er
 	return nil
 }
 
-func (s *Schema) getResource(destination string, tempResourcesDir string, worker common.ConfigWorker, entry common.Entry) error {
+func (s *Schema) getResource(destination string, tempResourcesDir string, worker *common.ConfigWorker, entry common.Entry) error {
 	tempPath := filepath.Join(tempResourcesDir, constants.DefaultCertificationsFolder, filepath.Base(entry.URL))
 	// Clone repo
 	log.Printf("Attempting to clone %v into %s\n", entry, tempPath)

@@ -6,7 +6,8 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/config/parser"
 )
 
-func Get(destination string, configData []byte) error {
+// Get will retrieve all of the resources for the schemas and the resources for all the dependent schemas.
+func Get(destination string, configData []byte, worker *common.ConfigWorker) error {
 	// Check the data.
 	if configData == nil || len(configData) == 0 {
 		return config.ErrNoDataToParse
@@ -17,7 +18,6 @@ func Get(destination string, configData []byte) error {
 		return err
 	}
 	// Get Resources
-	worker := common.ConfigWorker{Parser: parser.Parser{}, Downloader: common.VCSEntryDownloader{}}
 	err = configSchema.GetResources(destination, worker)
 	if err != nil {
 		return err
