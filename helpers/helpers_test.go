@@ -107,3 +107,22 @@ func TestCopyDir(t *testing.T) {
 		t.Errorf("Expected text to be copied")
 	}
 }
+
+func TestCopyRecursive(t *testing.T) {
+	tempDir, _ := ioutil.TempDir("", "example")
+	defer os.RemoveAll(tempDir)
+	newTempDir, _ := ioutil.TempDir("", "copy")
+	defer os.RemoveAll(tempDir)
+	newDir := filepath.Join(tempDir, "testdir")
+	CreateDirectory(newDir)
+	filePath := filepath.Join(newDir, "test.txt")
+	text := "test 1 2 3"
+	AppendOrCreate(filePath, text)
+	newFilePath := filepath.Join(newTempDir, "testdir", "test.txt")
+	CopyDir(tempDir, newTempDir)
+	fileText, _ := ioutil.ReadFile(newFilePath)
+	// Check if directory was copied
+	if string(fileText) != text {
+		t.Errorf("Expected text to be copied")
+	}
+}

@@ -31,12 +31,14 @@ func AppendToFile(filePath string, text string) error {
 
 // AppendOrCreate adds text to file if it exists otherwise it creates a new
 // file with the given text
-func AppendOrCreate(filePath string, text string) {
+func AppendOrCreate(filePath string, text string) error {
+	var err error
 	if _, err := os.Stat(filePath); err == nil {
-		AppendToFile(filePath, text)
+		err = AppendToFile(filePath, text)
 	} else {
-		ioutil.WriteFile(filePath, []byte(text), 0700)
+		err = ioutil.WriteFile(filePath, []byte(text), 0700)
 	}
+	return err
 }
 
 // CopyFile function from https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
@@ -52,13 +54,7 @@ func CopyFile(source string, dest string) error {
 	}
 	defer destfile.Close()
 	_, err = io.Copy(destfile, sourcefile)
-	if err == nil {
-		sourceinfo, err := os.Stat(source)
-		if err != nil {
-			err = os.Chmod(dest, sourceinfo.Mode())
-		}
-	}
-	return nil
+	return err
 }
 
 // CopyDir function from https://www.socketloop.com/tutorials/golang-copy-directory-including-sub-directories-files
