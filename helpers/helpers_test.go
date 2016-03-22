@@ -9,6 +9,7 @@ import (
 	"testing"
 )
 
+// Test that the CreateDirectory method works
 func TestCreateDirectory(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "example")
 	defer os.RemoveAll(tempDir)
@@ -27,6 +28,7 @@ func TestCreateDirectory(t *testing.T) {
 
 }
 
+// Test that the AppendToFile method can append to a file
 func TestAppendToFile(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "example")
 	defer os.RemoveAll(tempDir)
@@ -43,6 +45,7 @@ func TestAppendToFile(t *testing.T) {
 	}
 }
 
+// Test that the AppendOrCreate method can append to a file
 func TestAppendOrCreateAppend(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "example")
 	defer os.RemoveAll(tempDir)
@@ -59,6 +62,7 @@ func TestAppendOrCreateAppend(t *testing.T) {
 	}
 }
 
+// Test that the AppendOrCreate method can create a file
 func TestAppendOrCreateCreate(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "example")
 	defer os.RemoveAll(tempDir)
@@ -76,6 +80,7 @@ func TestAppendOrCreateCreate(t *testing.T) {
 	}
 }
 
+// Check that the CopyFile methods works
 func TestCopyFile(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "example")
 	defer os.RemoveAll(tempDir)
@@ -91,6 +96,7 @@ func TestCopyFile(t *testing.T) {
 	}
 }
 
+// Validate that the copy dir function works
 func TestCopyDir(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "example")
 	defer os.RemoveAll(tempDir)
@@ -108,7 +114,8 @@ func TestCopyDir(t *testing.T) {
 	}
 }
 
-func TestCopyRecursive(t *testing.T) {
+// Validate the sub-directories are copied with the CopyDir method
+func TestCopyDirRecursive(t *testing.T) {
 	tempDir, _ := ioutil.TempDir("", "example")
 	defer os.RemoveAll(tempDir)
 	newTempDir, _ := ioutil.TempDir("", "copy")
