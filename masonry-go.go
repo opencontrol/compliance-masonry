@@ -10,6 +10,7 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"io/ioutil"
 	"log"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
 func main() {
@@ -57,13 +58,9 @@ func main() {
 			},
 			Action: func(c *cli.Context) {
 				config := c.String("config")
-				if _, err := os.Stat(config); os.IsNotExist(err) {
-					fmt.Printf("Error: %s does not exist\n", config)
-					os.Exit(1)
-				}
-				configBytes, err := ioutil.ReadFile(config)
+				configBytes, err := fs.OpenAndReadFile(config)
 				if err != nil {
-					fmt.Println(err.Error())
+					fmt.Println(err)
 					os.Exit(1)
 				}
 				Get(c.String("dest"), configBytes)
