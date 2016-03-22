@@ -29,6 +29,12 @@ func TestGetConfigFile(t *testing.T) {
 	}
 }
 
+func TestNewVCSDownloader(t *testing.T) {
+	downloader := NewVCSDownloader()
+	assert.IsType(t, vcsEntryDownloader{}, downloader)
+
+}
+
 func TestVCSDownloadEntry(t *testing.T) {
 	var DownloadEntryTests = []struct {
 		entry Entry
