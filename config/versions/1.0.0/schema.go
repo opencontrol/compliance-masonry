@@ -57,78 +57,91 @@ func (s *Schema) Parse(data []byte) error {
 func (s *Schema) GetResources(destination string, worker *common.ConfigWorker) error {
 	// Local
 	// Get Certifications
-	for _, certification := range s.Certifications {
-		err := ufs.CopyFile(certification,
-			filepath.Join(destination, constants.DefaultCertificationsFolder, filepath.Base(certification)))
-		if err != nil {
-			return err
-		}
-	}
-
-	// Get Standards
-	for _, standard := range s.Standards {
-		err := ufs.CopyFile(standard,
-			filepath.Join(destination, constants.DefaultStandardsFolder, filepath.Base(standard)))
-		if err != nil {
-			return err
-		}
-	}
-
-	// Get Components
-	for _, component := range s.Components {
-		err := ufs.CopyAll(component,
-			filepath.Join(destination, constants.DefaultComponentsFolder, filepath.Base(component)), nil)
-		if err != nil {
-			return err
-		}
-	}
-	// Remote
-	tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
+	log.Println("Retrieving certifications")
+	err := s.getLocalResources(s.Certifications, destination, constants.DefaultCertificationsFolder, false)
 	if err != nil {
 		return err
 	}
-	defer os.RemoveAll(tempResourcesDir)
+	// Get Standards
+	log.Println("Retrieving standards")
+	err = s.getLocalResources(s.Standards, destination, constants.DefaultStandardsFolder, false)
+	if err != nil {
+		return err
+	}
+	// Get Components
+	log.Println("Retrieving components")
+	err = s.getLocalResources(s.Components, destination, constants.DefaultComponentsFolder, true)
+	if err != nil {
+		return err
+	}
 
+	// Remote
 	// Get Certifications
 	log.Println("Retrieving dependent certifications")
-	for _, certification := range s.Dependencies.Certifications {
-		tempPath := filepath.Join(tempResourcesDir, constants.DefaultCertificationsFolder, filepath.Base(certification.URL))
-		s.getResource(destination, tempPath, worker, certification)
+	err = s.getRemoteResources(destination, constants.DefaultCertificationsFolder, worker, s.Dependencies.Certifications)
+	if err != nil {
+		return err
 	}
-
 	// Get Standards
 	log.Println("Retrieving dependent standards")
-	for _, standard := range s.Dependencies.Standards {
-		tempPath := filepath.Join(tempResourcesDir, constants.DefaultStandardsFolder, filepath.Base(standard.URL))
-		s.getResource(destination, tempPath, worker, standard)
+	err = s.getRemoteResources(destination, constants.DefaultStandardsFolder, worker, s.Dependencies.Standards)
+	if err != nil {
+		return err
 	}
-
-	// Get Systems
-	log.Println("Retrieving dependent systems")
-	for _, system := range s.Dependencies.Systems {
-		tempPath := filepath.Join(tempResourcesDir, constants.DefaultComponentsFolder, filepath.Base(system.URL))
-		s.getResource(destination, tempPath, worker, system)
+	// Get Components
+	log.Println("Retrieving dependent components")
+	err = s.getRemoteResources(destination, constants.DefaultComponentsFolder, worker, s.Dependencies.Systems)
+	if err != nil {
+		return err
 	}
 
 	return nil
 }
 
-func (s *Schema) getResource(destination string, tempResourcesDir string, worker *common.ConfigWorker, entry common.Entry) error {
-	tempPath := filepath.Join(tempResourcesDir, constants.DefaultCertificationsFolder, filepath.Base(entry.URL))
-	// Clone repo
-	log.Printf("Attempting to clone %v into %s\n", entry, tempPath)
-	err := worker.Downloader.DownloadEntry(entry, tempPath)
+func (s *Schema) getLocalResources(resources []string, destination string, subfolder string, recursively bool) error {
+	for _, resource := range resources {
+		var err error
+		if recursively {
+			err = ufs.CopyAll(resource,
+				filepath.Join(destination, subfolder, filepath.Base(resource)), nil)
+		} else {
+			err = ufs.CopyFile(resource,
+				filepath.Join(destination, subfolder, filepath.Base(resource)))
+		}
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *Schema) getRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error {
+	tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
 	if err != nil {
 		return err
 	}
-	// Parse
-	configBytes, err := fs.OpenAndReadFile(filepath.Join(tempPath, entry.GetConfigFile()))
-	if err != nil {
+	defer os.RemoveAll(tempResourcesDir)
+	for _, entry := range entries{
+		tempPath := filepath.Join(tempResourcesDir, subfolder, filepath.Base(entry.URL))
+		// Clone repo
+		log.Printf("Attempting to clone %v into %s\n", entry, tempPath)
+		err := worker.Downloader.DownloadEntry(entry, tempPath)
+		if err != nil {
 		return err
-	}
-	schema, err := config.Parse(worker.Parser, configBytes)
-	if err != nil {
+		}
+		// Parse
+		configBytes, err := fs.OpenAndReadFile(filepath.Join(tempPath, entry.GetConfigFile()))
+		if err != nil {
 		return err
+		}
+		schema, err := config.Parse(worker.Parser, configBytes)
+		if err != nil {
+			return err
+		}
+		err = schema.GetResources(destination, worker)
+		if err != nil {
+			return err
+		}
 	}
-	return schema.GetResources(destination, worker)
+	return nil
 }
