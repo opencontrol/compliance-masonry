@@ -4,6 +4,10 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools/mocks"
+	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+"errors"
+	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools"
 )
 
 func TestParse(t *testing.T) {
@@ -41,6 +45,7 @@ dependencies:
       revision: master
 `),
 			expectedSchema: Schema{
+				resourceGetter: tools.VCSAndLocalFSGetter{},
 				Base: common.Base{SchemaVersion: "1.0.0"},
 				Name: "test",
 				Meta: Metadata{
@@ -121,4 +126,106 @@ dependencies:
 		}
 		assert.Equal(t, test.expectedErrorExists, err != nil)
 	}
+}
+
+func TestGetResources(t *testing.T) {
+	dependentStandards := []common.Entry{}
+	dependentCertifications := []common.Entry{}
+	dependentComponents := []common.Entry{}
+	dependencies := Dependencies{Certifications:dependentCertifications, Systems: dependentComponents, Standards: dependentStandards}
+	certifications := []string{}
+	standards := []string{}
+	components := []string{}
+	worker := new(common.ConfigWorker)
+	destination := "."
+
+	// Local Cert error
+	getter := new(mocks.ResourceGetter)
+	expectedError := errors.New("Cert error")
+	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(expectedError)
+
+	s := Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	err := s.GetResources(destination, worker)
+	assert.Equal(t, expectedError, err)
+	getter.AssertExpectations(t)
+
+	// Local standards error
+	getter = new(mocks.ResourceGetter)
+	expectedError = errors.New("Standards error")
+	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(nil)
+	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(expectedError)
+
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	err = s.GetResources(destination, worker)
+	assert.Equal(t, expectedError, err)
+	getter.AssertExpectations(t)
+
+	// Local components error
+	getter = new(mocks.ResourceGetter)
+	expectedError = errors.New("Components error")
+	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(nil)
+	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(nil)
+	getter.On("GetLocalResources", components, destination, constants.DefaultComponentsFolder, true).Return(expectedError)
+
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	err = s.GetResources(destination, worker)
+	assert.Equal(t, expectedError, err)
+	getter.AssertExpectations(t)
+
+	// Remote Certifications error
+	getter = new(mocks.ResourceGetter)
+	expectedError = errors.New("Remote cert error")
+	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(nil)
+	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(nil)
+	getter.On("GetLocalResources", components, destination, constants.DefaultComponentsFolder, true).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(expectedError)
+
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	err = s.GetResources(destination, worker)
+	assert.Equal(t, expectedError, err)
+	getter.AssertExpectations(t)
+
+	// Remote standards error
+	getter = new(mocks.ResourceGetter)
+	expectedError = errors.New("Remote standards error")
+	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(nil)
+	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(nil)
+	getter.On("GetLocalResources", components, destination, constants.DefaultComponentsFolder, true).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(expectedError)
+
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	err = s.GetResources(destination, worker)
+	assert.Equal(t, expectedError, err)
+	getter.AssertExpectations(t)
+
+	// Remote standards error
+	getter = new(mocks.ResourceGetter)
+	expectedError = errors.New("Remote components error")
+	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(nil)
+	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(nil)
+	getter.On("GetLocalResources", components, destination, constants.DefaultComponentsFolder, true).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(expectedError)
+
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	err = s.GetResources(destination, worker)
+	assert.Equal(t, expectedError, err)
+	getter.AssertExpectations(t)
+
+	// no error
+	getter = new(mocks.ResourceGetter)
+	expectedError = nil
+	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(nil)
+	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(nil)
+	getter.On("GetLocalResources", components, destination, constants.DefaultComponentsFolder, true).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
+	getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(nil)
+
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	err = s.GetResources(destination, worker)
+	assert.Equal(t, expectedError, err)
+	getter.AssertExpectations(t)
 }
