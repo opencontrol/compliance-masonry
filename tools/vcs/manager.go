@@ -6,6 +6,10 @@ import (
 	"log"
 )
 
+type VCSManager interface {
+	Clone(url string, revision string, dir string) error
+}
+
 const (
 	repoInitFailed     = "Repo initialization failed"
 	repoCloneFailed    = "Cloning repo failed"
@@ -13,7 +17,9 @@ const (
 	errorContainer     = "[Error: %s Repo: %s Revision: %s Dir: %s Error Details: %s]\n"
 )
 
-func Clone(url string, revision string, dir string) error {
+type Manager struct {}
+
+func (m Manager) Clone(url string, revision string, dir string) error {
 	log.Printf("Initializing repo %s into %s\n", url, dir)
 	repo, err := vcs.NewRepo(url, dir)
 	if err != nil {

@@ -23,11 +23,15 @@ type EntryDownloader interface {
 	DownloadEntry(Entry, string) error
 }
 
-type VCSEntryDownloader struct {
+func NewVCSDownloader() EntryDownloader {
+	return vcsEntryDownloader{vcs.Manager{}}
+}
+type vcsEntryDownloader struct {
+	manager vcs.VCSManager
 }
 
-func (v VCSEntryDownloader) DownloadEntry(entry Entry, destination string) error {
-	err := vcs.Clone(entry.URL, entry.Revision, destination)
+func (v vcsEntryDownloader) DownloadEntry(entry Entry, destination string) error {
+	err := v.manager.Clone(entry.URL, entry.Revision, destination)
 	if err != nil {
 		return err
 	}

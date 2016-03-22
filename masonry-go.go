@@ -68,7 +68,7 @@ func main() {
 				}
 				Get(c.String("dest"),
 					configBytes,
-					&common.ConfigWorker{Downloader: common.VCSEntryDownloader{}, Parser: parser.Parser{}})
+					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}})
 				println("Compliance Dependencies Installed")
 			},
 		},

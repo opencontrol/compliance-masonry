@@ -54,7 +54,8 @@ func TestClone(t *testing.T) {
 		if err != nil {
 			assert.Fail(t, err.Error())
 		}
-		err = Clone(test.url, test.rev, local)
+		m := Manager{}
+		err = m.Clone(test.url, test.rev, local)
 		if test.errorIsNull {
 			assert.Nil(t, err)
 		} else {
