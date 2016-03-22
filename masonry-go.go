@@ -26,6 +26,7 @@ func main() {
 		},
 	}
 	app.Before = func(c *cli.Context) error {
+		// Resets the log to output to nothing
 		log.SetOutput(ioutil.Discard)
 		if c.Bool("verbose") {
 			log.SetOutput(os.Stderr)
