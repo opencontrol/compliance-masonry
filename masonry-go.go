@@ -21,6 +21,7 @@ import (
 
 var markdownPath, opencontrolDir, exportPath string
 
+// NewCLIApp creates a new instances of the CLI
 func NewCLIApp() *cli.App {
 	app := cli.NewApp()
 	app.Name = "masonry-go"
