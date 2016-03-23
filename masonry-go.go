@@ -1,21 +1,28 @@
 package main
 
 import (
+	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"fmt"
+	"io/ioutil"
+	"log"
+
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/opencontrol/compliance-masonry-go/config/parser"
 	"github.com/opencontrol/compliance-masonry-go/gitbook"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/tools/fs"
-	"io/ioutil"
-	"log"
 )
 
-func main() {
+var markdownPath string
+
+func NewCLIApp() *cli.App {
 	app := cli.NewApp()
 	app.Name = "masonry-go"
 	app.Usage = "Open Control CLI Tool"
@@ -40,7 +47,7 @@ func main() {
 			Aliases: []string{"i"},
 			Usage:   "Initialize Open Control documentation repository",
 			Action: func(c *cli.Context) {
-				println("Documentation Initialized")
+				fmt.Println("Documentation Initialized")
 			},
 		},
 		{
@@ -78,38 +85,55 @@ func main() {
 			Usage:   "Create Documentation",
 			Subcommands: []cli.Command{
 				{
-					Name:  "gitbook",
-					Usage: "Create Gitbook Documentation",
+					Name:    "gitbook",
+					Aliases: []string{"g"},
+					Usage:   "Create Gitbook Documentation",
+					Flags: []cli.Flag{
+						cli.StringFlag{
+							Name:        "markdowns, m",
+							Value:       "markdowns",
+							Usage:       "Sets the markdowns directory",
+							Destination: &markdownPath,
+						},
+					},
 					Action: func(c *cli.Context) {
 						opencontrolDir := "opencontrols"
 						certification := c.Args().First()
 						if certification == "" {
-							println("Error: New Missing Certification Argument")
-							println("Usage: masonry-go docs gitbook LATO")
-						} else {
-							certificationPath := filepath.Join(
-								opencontrolDir,
-								"certifications",
-								certification+".yaml",
-							)
-							if _, err := os.Stat(certificationPath); os.IsNotExist(err) {
-								println("Error: %s does not exist", certificationPath)
-							} else {
-								gitbook.BuildGitbook(
-									opencontrolDir,
-									certificationPath,
-									"markdowns",
-									"exports",
-								)
-								println("New Gitbook Documentation Created")
-							}
-
+							fmt.Println("Error: New Missing Certification Argument")
+							fmt.Println("Usage: masonry-go docs gitbook FedRAMP-low")
+							return
 						}
+						certificationDir := filepath.Join(opencontrolDir, "certifications")
+						certificationPath := filepath.Join(certificationDir, certification+".yaml")
+						if _, err := os.Stat(certificationPath); os.IsNotExist(err) {
+							files, err := ioutil.ReadDir(certificationDir)
+							if err != nil {
+								fmt.Println("Error: `opencontrols/certifications` directory does exist")
+								return
+							}
+							fmt.Println(fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", certificationPath))
+							for _, file := range files {
+								fileName := strings.TrimSuffix(file.Name(), filepath.Ext(file.Name()))
+								fmt.Println(fmt.Sprintf("`compliance-masonry-go docs gitbook %s`", fileName))
+							}
+							return
+						}
+						if _, err := os.Stat(markdownPath); os.IsNotExist(err) {
+							markdownPath = ""
+							log.Println("Warning: markdown directory does not exist")
+						}
+						gitbook.BuildGitbook(opencontrolDir, certificationPath, markdownPath, "exports")
+						fmt.Println("New Gitbook Documentation Created")
 					},
 				},
 			},
 		},
 	}
+	return app
+}
 
+func main() {
+	app := NewCLIApp()
 	app.Run(os.Args)
 }

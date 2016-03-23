@@ -2,8 +2,9 @@ package vcs
 
 import (
 	"fmt"
-	"github.com/Masterminds/vcs"
 	"log"
+
+	"github.com/Masterminds/vcs"
 )
 
 // RepoManager is the interface for how to do jobs with VCS
