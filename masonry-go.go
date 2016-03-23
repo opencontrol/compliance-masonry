@@ -5,13 +5,11 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/opencontrol/compliance-masonry-go/config/parser"
-	"github.com/opencontrol/compliance-masonry-go/gitbook"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
@@ -106,33 +104,14 @@ func NewCLIApp() *cli.App {
 						},
 					},
 					Action: func(c *cli.Context) {
-						certification := c.Args().First()
-						if certification == "" {
-							fmt.Println("Error: New Missing Certification Argument")
-							fmt.Println("Usage: masonry-go docs gitbook FedRAMP-low")
-							return
+						config := gitbookConfig{
+							certification:  c.Args().First(),
+							opencontrolDir: opencontrolDir,
+							exportPath:     exportPath,
+							markdownPath:   markdownPath,
 						}
-						certificationDir := filepath.Join(opencontrolDir, "certifications")
-						certificationPath := filepath.Join(certificationDir, certification+".yaml")
-						if _, err := os.Stat(certificationPath); os.IsNotExist(err) {
-							files, err := ioutil.ReadDir(certificationDir)
-							if err != nil {
-								fmt.Println("Error: `opencontrols/certifications` directory does exist")
-								return
-							}
-							fmt.Println(fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", certificationPath))
-							for _, file := range files {
-								fileName := strings.TrimSuffix(file.Name(), filepath.Ext(file.Name()))
-								fmt.Println(fmt.Sprintf("`compliance-masonry-go docs gitbook %s`", fileName))
-							}
-							return
-						}
-						if _, err := os.Stat(markdownPath); os.IsNotExist(err) {
-							markdownPath = ""
-							fmt.Println("Warning: markdown directory does not exist")
-						}
-						gitbook.BuildGitbook(opencontrolDir, certificationPath, markdownPath, exportPath)
-						fmt.Println("New Gitbook Documentation Created")
+						messages := config.makeGitbook()
+						fmt.Println(strings.Join(messages, "\n"))
 					},
 				},
 			},
