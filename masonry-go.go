@@ -3,13 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
-
-	"fmt"
-	"io/ioutil"
-	"log"
 
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
