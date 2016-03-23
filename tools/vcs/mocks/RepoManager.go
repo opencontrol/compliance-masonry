@@ -2,12 +2,12 @@ package mocks
 
 import "github.com/stretchr/testify/mock"
 
-type VCSManager struct {
+type RepoManager struct {
 	mock.Mock
 }
 
 // Clone provides a mock function with given fields: url, revision, dir
-func (_m *VCSManager) Clone(url string, revision string, dir string) error {
+func (_m *RepoManager) Clone(url string, revision string, dir string) error {
 	ret := _m.Called(url, revision, dir)
 
 	var r0 error

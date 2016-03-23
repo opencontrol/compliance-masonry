@@ -1,13 +1,13 @@
 package schema
 
 import (
+	"errors"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/stretchr/testify/assert"
-	"testing"
+	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools"
 	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
-"errors"
-	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestParse(t *testing.T) {
@@ -46,8 +46,8 @@ dependencies:
 `),
 			expectedSchema: Schema{
 				resourceGetter: tools.VCSAndLocalFSGetter{},
-				Base: common.Base{SchemaVersion: "1.0.0"},
-				Name: "test",
+				Base:           common.Base{SchemaVersion: "1.0.0"},
+				Name:           "test",
 				Meta: Metadata{
 					Description: "A system to test parsing",
 					Maintainers: []string{
@@ -132,7 +132,7 @@ func TestGetResources(t *testing.T) {
 	dependentStandards := []common.Entry{}
 	dependentCertifications := []common.Entry{}
 	dependentComponents := []common.Entry{}
-	dependencies := Dependencies{Certifications:dependentCertifications, Systems: dependentComponents, Standards: dependentStandards}
+	dependencies := Dependencies{Certifications: dependentCertifications, Systems: dependentComponents, Standards: dependentStandards}
 	certifications := []string{}
 	standards := []string{}
 	components := []string{}
@@ -144,7 +144,7 @@ func TestGetResources(t *testing.T) {
 	expectedError := errors.New("Cert error")
 	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(expectedError)
 
-	s := Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	s := Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 	err := s.GetResources(destination, worker)
 	assert.Equal(t, expectedError, err)
 	getter.AssertExpectations(t)
@@ -155,7 +155,7 @@ func TestGetResources(t *testing.T) {
 	getter.On("GetLocalResources", certifications, destination, constants.DefaultCertificationsFolder, false).Return(nil)
 	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(expectedError)
 
-	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 	err = s.GetResources(destination, worker)
 	assert.Equal(t, expectedError, err)
 	getter.AssertExpectations(t)
@@ -167,7 +167,7 @@ func TestGetResources(t *testing.T) {
 	getter.On("GetLocalResources", standards, destination, constants.DefaultStandardsFolder, false).Return(nil)
 	getter.On("GetLocalResources", components, destination, constants.DefaultComponentsFolder, true).Return(expectedError)
 
-	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 	err = s.GetResources(destination, worker)
 	assert.Equal(t, expectedError, err)
 	getter.AssertExpectations(t)
@@ -180,7 +180,7 @@ func TestGetResources(t *testing.T) {
 	getter.On("GetLocalResources", components, destination, constants.DefaultComponentsFolder, true).Return(nil)
 	getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(expectedError)
 
-	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 	err = s.GetResources(destination, worker)
 	assert.Equal(t, expectedError, err)
 	getter.AssertExpectations(t)
@@ -194,7 +194,7 @@ func TestGetResources(t *testing.T) {
 	getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
 	getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(expectedError)
 
-	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 	err = s.GetResources(destination, worker)
 	assert.Equal(t, expectedError, err)
 	getter.AssertExpectations(t)
@@ -209,7 +209,7 @@ func TestGetResources(t *testing.T) {
 	getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
 	getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(expectedError)
 
-	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 	err = s.GetResources(destination, worker)
 	assert.Equal(t, expectedError, err)
 	getter.AssertExpectations(t)
@@ -224,7 +224,7 @@ func TestGetResources(t *testing.T) {
 	getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
 	getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(nil)
 
-	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components:components}
+	s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 	err = s.GetResources(destination, worker)
 	assert.Equal(t, expectedError, err)
 	getter.AssertExpectations(t)

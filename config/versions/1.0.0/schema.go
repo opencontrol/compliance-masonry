@@ -3,10 +3,10 @@ package schema
 import (
 	"errors"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"gopkg.in/yaml.v2"
 	"log"
-	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools"
 )
 
 const (
@@ -51,6 +51,9 @@ func (s *Schema) Parse(data []byte) error {
 	return nil
 }
 
+// GetResources will download all the resources that are specified by the v1.0.0 of the schema first by copying the
+// local resources then downloading the remote ones and letting their respective schema version handle
+// how to get their resources.
 func (s *Schema) GetResources(destination string, worker *common.ConfigWorker) error {
 	// Local
 	// Get Certifications

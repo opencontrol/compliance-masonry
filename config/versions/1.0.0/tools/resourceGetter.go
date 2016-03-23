@@ -1,24 +1,26 @@
 package tools
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/go-utils/ufs"
-	"path/filepath"
-	"io/ioutil"
-	"os"
-	"log"
-	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 	"github.com/opencontrol/compliance-masonry-go/config"
+	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
+	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
 )
 
+// ResourceGetter is an interface for how to get and place local and remote resources.
 type ResourceGetter interface {
 	GetLocalResources(resources []string, destination string, subfolder string, recursively bool) error
 	GetRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error
 }
 
+// VCSAndLocalFSGetter is the resource getter that uses VCS for remote resource getting and local file system for local resources.
+type VCSAndLocalFSGetter struct{}
 
-type VCSAndLocalFSGetter struct {}
-
+// GetLocalResources is the implementation that uses the local file system to get local resources.
 func (g VCSAndLocalFSGetter) GetLocalResources(resources []string, destination string, subfolder string, recursively bool) error {
 	for _, resource := range resources {
 		var err error
@@ -36,13 +38,14 @@ func (g VCSAndLocalFSGetter) GetLocalResources(resources []string, destination s
 	return nil
 }
 
+// GetRemoteResources is the implementation that uses VCS to get remote resources.
 func (g VCSAndLocalFSGetter) GetRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error {
 	tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
 	if err != nil {
 		return err
 	}
 	defer os.RemoveAll(tempResourcesDir)
-	for _, entry := range entries{
+	for _, entry := range entries {
 		tempPath := filepath.Join(tempResourcesDir, subfolder, filepath.Base(entry.URL))
 		// Clone repo
 		log.Printf("Attempting to clone %v into %s\n", entry, tempPath)

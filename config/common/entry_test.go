@@ -1,11 +1,11 @@
 package common
 
 import (
+	"errors"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry-go/tools/vcs/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/opencontrol/compliance-masonry-go/tools/vcs/mocks"
-"errors"
 )
 
 func TestGetConfigFile(t *testing.T) {
@@ -38,22 +38,21 @@ func TestNewVCSDownloader(t *testing.T) {
 func TestVCSDownloadEntry(t *testing.T) {
 	var DownloadEntryTests = []struct {
 		entry Entry
-		err error
-	} {
+		err   error
+	}{
 		{
 			// No error returned
-			entry: Entry{URL: "link", Revision:"master"},
-			err: nil,
+			entry: Entry{URL: "link", Revision: "master"},
+			err:   nil,
 		},
 		{
 			// Error returned.
-			entry: Entry{URL: "link", Revision:"master"},
-			err: errors.New("an error"),
+			entry: Entry{URL: "link", Revision: "master"},
+			err:   errors.New("an error"),
 		},
-
 	}
 	for _, test := range DownloadEntryTests {
-		m:=new(mocks.VCSManager)
+		m := new(mocks.RepoManager)
 		m.On("Clone", test.entry.URL, test.entry.Revision, ".").Return(test.err)
 		v := vcsEntryDownloader{m}
 		v.DownloadEntry(test.entry, ".")

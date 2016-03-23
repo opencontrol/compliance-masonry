@@ -6,9 +6,9 @@ import (
 
 	"fmt"
 	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry-go/gitbook"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/opencontrol/compliance-masonry-go/config/parser"
+	"github.com/opencontrol/compliance-masonry-go/gitbook"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 	"io/ioutil"

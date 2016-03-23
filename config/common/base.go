@@ -6,6 +6,7 @@ type Base struct {
 	SchemaVersion string `yaml:"schema_version"`
 }
 
+// GetSchemaVersion is a simple getter function of the schema version.
 func (b Base) GetSchemaVersion() string {
 	return b.SchemaVersion
 }
@@ -22,6 +23,7 @@ type BaseSchema interface {
 	GetResources(string, *ConfigWorker) error
 }
 
+// ConfigWorker is a container of all COMMON things needed to do work on the configs.
 type ConfigWorker struct {
 	Parser     SchemaParser
 	Downloader EntryDownloader

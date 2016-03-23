@@ -12,6 +12,7 @@ type Entry struct {
 	Path     string `yaml:path"`
 }
 
+// GetConfigFile is a getter for the config file name. Will return DefaultConfigYaml value if none has been set.
 func (e Entry) GetConfigFile() string {
 	if e.Path == "" {
 		return constants.DefaultConfigYaml
@@ -19,17 +20,21 @@ func (e Entry) GetConfigFile() string {
 	return e.Path
 }
 
+// EntryDownloader is a generic interface for how to download entries.
 type EntryDownloader interface {
 	DownloadEntry(Entry, string) error
 }
 
+// NewVCSDownloader is a constructor for downloading entries using VCS methods.
 func NewVCSDownloader() EntryDownloader {
 	return vcsEntryDownloader{vcs.Manager{}}
 }
+
 type vcsEntryDownloader struct {
-	manager vcs.VCSManager
+	manager vcs.RepoManager
 }
 
+// DownloadEntry is a implementation for downloading entries using VCS methods.
 func (v vcsEntryDownloader) DownloadEntry(entry Entry, destination string) error {
 	err := v.manager.Clone(entry.URL, entry.Revision, destination)
 	if err != nil {
