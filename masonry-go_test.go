@@ -2,8 +2,12 @@ package main
 
 import (
 	"bufio"
+	"io/ioutil"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -39,12 +43,53 @@ var _ = Describe("Masonry CLI", func() {
 				})
 			})
 
-			Describe("When the CLI is run with the `docs gitbook` command with a certification", func() {
+			Describe("When the CLI is run with the `docs gitbook` command without opencontrols dir", func() {
 				It("should let the user know that there is no opencontrols/certifications directory", func() {
 					output := Masonry("docs", "gitbook", "LATO")
 					Eventually(output.Out.Contents).Should(ContainSubstring("Error: `opencontrols/certifications` directory does exist"))
 				})
 			})
+		})
+
+		Describe("Docs Commands Output", func() {
+
+			var exportTempDir string
+			BeforeEach(func() {
+				exportTempDir, _ = ioutil.TempDir("", "exports")
+
+			})
+
+			Describe("When the CLI is run with the `docs gitbook` command with a certification", func() {
+				It("should create the documentation but warn users that there is no markdown dir", func() {
+					output := Masonry(
+						"docs", "gitbook", "LATO",
+						"-e", exportTempDir,
+						"-o", "./fixtures/opencontrol_fixtures/",
+						"-m", "sdfds").Wait(1 * time.Second)
+					Eventually(output.Out.Contents).Should(ContainSubstring("Warning: markdown directory does not exist"))
+					Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created"))
+					CompareDirs("fixtures/exports_fixtures/complete_export", exportTempDir)
+				})
+			})
+
+			Describe("When the CLI is run with the `docs gitbook` command with a certification", func() {
+				It("should create the documentation without warning the user", func() {
+					exportTempDir, _ := ioutil.TempDir("", "exports")
+					output := Masonry(
+						"docs", "gitbook", "LATO",
+						"-e", exportTempDir,
+						"-o", "./fixtures/opencontrol_fixtures_with_markdown/",
+						"-m", "./fixtures/opencontrol_fixtures_with_markdown/markdowns").Wait(1 * time.Second)
+					Eventually(output.Out.Contents).ShouldNot(ContainSubstring("Warning: markdown directory does not exist"))
+					Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created"))
+					CompareDirs("fixtures/exports_fixtures/complete_export_with_markdown", exportTempDir)
+				})
+			})
+
+			AfterEach(func() {
+				os.RemoveAll(exportTempDir)
+			})
+
 		})
 	})
 })
@@ -61,4 +106,15 @@ func Masonry(args ...string) *Session {
 	session, err := Start(cmd, GinkgoWriter, GinkgoWriter)
 	Expect(err).NotTo(HaveOccurred())
 	return session
+}
+
+func CompareDirs(expectedDir string, actualDir string) {
+	matches, _ := filepath.Glob(filepath.Join(expectedDir, "*"))
+	for _, expectedfilePath := range matches {
+		actualFilePath := strings.Replace(expectedfilePath, expectedDir, actualDir, -1)
+		Expect(actualFilePath).ToNot(Equal(expectedfilePath))
+		expectedData, _ := ioutil.ReadFile(expectedfilePath)
+		actualData, _ := ioutil.ReadFile(actualFilePath)
+		Expect(string(actualData)).To(Equal(string(expectedData)))
+	}
 }

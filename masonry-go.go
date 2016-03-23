@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -20,7 +19,7 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
-var markdownPath string
+var markdownPath, opencontrolDir, exportPath string
 
 func NewCLIApp() *cli.App {
 	app := cli.NewApp()
@@ -90,6 +89,18 @@ func NewCLIApp() *cli.App {
 					Usage:   "Create Gitbook Documentation",
 					Flags: []cli.Flag{
 						cli.StringFlag{
+							Name:        "opencontrols, o",
+							Value:       "opencontrols",
+							Usage:       "Set opencontrols directory",
+							Destination: &opencontrolDir,
+						},
+						cli.StringFlag{
+							Name:        "exports, e",
+							Value:       "exports",
+							Usage:       "Sets the export directory",
+							Destination: &exportPath,
+						},
+						cli.StringFlag{
 							Name:        "markdowns, m",
 							Value:       "markdowns",
 							Usage:       "Sets the markdowns directory",
@@ -97,7 +108,6 @@ func NewCLIApp() *cli.App {
 						},
 					},
 					Action: func(c *cli.Context) {
-						opencontrolDir := "opencontrols"
 						certification := c.Args().First()
 						if certification == "" {
 							fmt.Println("Error: New Missing Certification Argument")
@@ -121,9 +131,9 @@ func NewCLIApp() *cli.App {
 						}
 						if _, err := os.Stat(markdownPath); os.IsNotExist(err) {
 							markdownPath = ""
-							log.Println("Warning: markdown directory does not exist")
+							fmt.Println("Warning: markdown directory does not exist")
 						}
-						gitbook.BuildGitbook(opencontrolDir, certificationPath, markdownPath, "exports")
+						gitbook.BuildGitbook(opencontrolDir, certificationPath, markdownPath, exportPath)
 						fmt.Println("New Gitbook Documentation Created")
 					},
 				},
