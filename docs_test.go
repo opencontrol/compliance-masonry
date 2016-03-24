@@ -24,6 +24,14 @@ var buildGitbookTests = []buildGitbookTest{
 	},
 	{
 		gitbookConfig{
+			opencontrolDir: "",
+			certification:  "LATO",
+			markdownPath:   "",
+		},
+		[]string{"Error: `opencontrols/certifications` directory does exist"},
+	},
+	{
+		gitbookConfig{
 			opencontrolDir: "fixtures/opencontrol_fixtures_with_markdown/",
 			certification:  "LATO",
 			markdownPath:   "fixtures/opencontrol_fixtures_with_markdown/markdowns/",
