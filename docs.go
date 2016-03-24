@@ -39,12 +39,11 @@ func (config *gitbookConfig) makeGitbook() []string {
 		}
 		return messages
 	}
-	if _, err := os.Stat(markdownPath); os.IsNotExist(err) {
+	if _, err := os.Stat(config.markdownPath); os.IsNotExist(err) {
 		markdownPath = ""
 		messages = append(messages, "Warning: markdown directory does not exist")
-
 	}
-	gitbook.BuildGitbook(opencontrolDir, certificationPath, markdownPath, exportPath)
+	gitbook.BuildGitbook(config.opencontrolDir, certificationPath, markdownPath, config.exportPath)
 	messages = append(messages, "New Gitbook Documentation Created")
 	return messages
 }
