@@ -8,9 +8,17 @@ Compliance Masonry is a CLI that allows users to construct certification documen
 # Quick Start with CLI
 
 ### Installing
+1. Install Go
+
+2. Install the tool
 ```bash
 go get github.com/opencontrol/compliance-masonry-go
 ```
+3. Run the CLI
+```
+compliance-masonry-go
+```
+
 
 ### Examples
 Compliance Masonry examples in the wild:
