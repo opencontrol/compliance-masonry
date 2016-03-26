@@ -1,13 +1,17 @@
+from masonry.certification_builder import CertificationBuilder
+from masonry.inventory_builder import InventoryBuilder
+from masonry.gitbook_builder import GitbookBuilder
+from masonry.helpers import template_generator
+from masonry.helpers import utils
+
 import click
 import os
 import logging
+import sys
 
-from src.renderers import certifications_to_gitbook
-
-from masonry.certification_builder import CertificationBuilder
-from masonry.inventory_builder import InventoryBuilder
-from src import template_generator
-from src import utils
+if sys.version_info[0] < 3:
+    reload(sys)  # noqa
+    sys.setdefaultencoding('utf-8')
 
 
 def verify_certification_path(certification, certs_path):
@@ -89,8 +93,8 @@ def docs(export_format, certification, exports_dir, data_dir, output_dir):
             gitbook_output_dir = os.path.join(output_dir, 'gitbook')
             gitbook_markdown_dir = os.path.join(markdown_dir, 'gitbook')
             utils.create_dir(os.path.join(gitbook_output_dir, 'content'))
-            output_path = certifications_to_gitbook.create_gitbook_documentation(
-                cert_path, gitbook_output_dir, gitbook_markdown_dir
+            output_path = GitbookBuilder(certification_yaml_path=cert_path).export(
+                gitbook_output_dir, gitbook_markdown_dir
             )
             click.echo('Gitbook Files Created in `{0}`'.format(output_path))
         else:

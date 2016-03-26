@@ -7,7 +7,7 @@ import pytest
 import tempfile
 
 from click.testing import CliRunner
-from src import cli
+from masonry import cli
 
 
 @pytest.fixture

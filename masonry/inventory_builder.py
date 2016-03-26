@@ -1,9 +1,14 @@
 """ This script uses uses core masonry objects to analyze missing parts of the
 certification """
-import os
-
 from masonry.core import Certification, Standard, Control
-from src import utils
+from masonry.helpers import utils
+
+import os
+import sys
+
+if sys.version_info[0] < 3:
+    reload(sys)  # noqa
+    sys.setdefaultencoding('utf-8')
 
 
 def analyze_attribute(attribute):
@@ -42,7 +47,8 @@ class InventoryStandard(Standard):
     class with InventoryControl as the default storage for control data. This
     class also adds a method to help analyze missing certification gaps """
     def __init__(self, standards_yaml_path=None, standard_dict=None):
-        super().__init__(
+        Standard.__init__(
+            self,
             standards_yaml_path=standards_yaml_path,
             standard_dict=standard_dict,
             control_class=InventoryControl
@@ -59,7 +65,10 @@ class InventoryStandard(Standard):
 class InventoryBuilder(Certification):
     """ InventoryBuilder load certification data and exports a yaml gap analysis """
     def __init__(self, certification_yaml_path):
-        super().__init__(certification_yaml_path, standard_class=InventoryStandard)
+        Certification.__init__(
+            self, certification_yaml_path=certification_yaml_path,
+            standard_class=InventoryStandard
+        )
         self.inventory = {}
         self.systems_inventory = self.inventory_systems()
         self.standard_inventory = self.inventory_standards()
