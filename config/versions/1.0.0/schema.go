@@ -58,19 +58,19 @@ func (s *Schema) GetResources(source string, destination string, worker *common.
 	// Local
 	// Get Certifications
 	log.Println("Retrieving certifications")
-	err := s.resourceGetter.GetLocalResources(source, s.Certifications, destination, constants.DefaultCertificationsFolder, false)
+	err := s.resourceGetter.GetLocalResources(source, s.Certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications)
 	if err != nil {
 		return err
 	}
 	// Get Standards
 	log.Println("Retrieving standards")
-	err = s.resourceGetter.GetLocalResources(source, s.Standards, destination, constants.DefaultStandardsFolder, false)
+	err = s.resourceGetter.GetLocalResources(source, s.Standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards)
 	if err != nil {
 		return err
 	}
 	// Get Components
 	log.Println("Retrieving components")
-	err = s.resourceGetter.GetLocalResources(source, s.Components, destination, constants.DefaultComponentsFolder, true)
+	err = s.resourceGetter.GetLocalResources(source, s.Components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components)
 	if err != nil {
 		return err
 	}

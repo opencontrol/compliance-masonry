@@ -12,3 +12,15 @@ const (
 	// DefaultConfigYaml is the file name for the file to find config details
 	DefaultConfigYaml = "opencontrol.yaml"
 )
+
+// ResourceType is a type to help tell when it should be of only types of resources.
+type ResourceType string
+
+const (
+	// Standards is the placeholder for the resource type of standards
+	Standards ResourceType = "standards"
+	// Certifications is the placeholder for the resource type of certifications
+	Certifications ResourceType = "Certifications"
+	// Components is the placeholder for the resource type of components
+	Components ResourceType = "Components"
+)

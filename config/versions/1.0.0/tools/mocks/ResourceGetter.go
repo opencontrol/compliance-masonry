@@ -3,18 +3,19 @@ package mocks
 import "github.com/stretchr/testify/mock"
 
 import "github.com/opencontrol/compliance-masonry-go/config/common"
+import "github.com/opencontrol/compliance-masonry-go/tools/constants"
 
 type ResourceGetter struct {
 	mock.Mock
 }
 
-// GetLocalResources provides a mock function with given fields: source, resources, destination, subfolder, recursively
-func (_m *ResourceGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool) error {
-	ret := _m.Called(source, resources, destination, subfolder, recursively)
+// GetLocalResources provides a mock function with given fields: source, resources, destination, subfolder, recursively, worker, resourceType
+func (_m *ResourceGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *common.ConfigWorker, resourceType constants.ResourceType) error {
+	ret := _m.Called(source, resources, destination, subfolder, recursively, worker, resourceType)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, []string, string, string, bool) error); ok {
-		r0 = rf(source, resources, destination, subfolder, recursively)
+	if rf, ok := ret.Get(0).(func(string, []string, string, string, bool, *common.ConfigWorker, constants.ResourceType) error); ok {
+		r0 = rf(source, resources, destination, subfolder, recursively, worker, resourceType)
 	} else {
 		r0 = ret.Error(0)
 	}

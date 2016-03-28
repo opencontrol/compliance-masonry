@@ -4,6 +4,7 @@ import (
 	"github.com/go-utils/ufs"
 	"github.com/opencontrol/compliance-masonry-go/config"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 	"io/ioutil"
 	"log"
@@ -13,7 +14,7 @@ import (
 
 // ResourceGetter is an interface for how to get and place local and remote resources.
 type ResourceGetter interface {
-	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool) error
+	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *common.ConfigWorker, resourceType constants.ResourceType) error
 	GetRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error
 }
 
@@ -21,8 +22,11 @@ type ResourceGetter interface {
 type VCSAndLocalFSGetter struct{}
 
 // GetLocalResources is the implementation that uses the local file system to get local resources.
-func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool) error {
+func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *common.ConfigWorker, resourceType constants.ResourceType) error {
 	for _, resource := range resources {
+		if result := worker.ResourceMap.Reserve(string(resourceType), resource); !result.Success {
+			return result.Error
+		}
 		resourceSource := filepath.Join(source, resource)
 		resourceDestination := filepath.Join(destination, subfolder, filepath.Base(resource))
 		log.Printf("Attempting to copy local resource %s into %s\n", resourceSource, resourceDestination)

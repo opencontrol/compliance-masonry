@@ -29,11 +29,7 @@ type BaseSchema interface {
 
 // ConfigWorker is a container of all COMMON things needed to do work on the configs.
 type ConfigWorker struct {
-	Parser     SchemaParser
-	Downloader EntryDownloader
-	resourceMap 	   nestedmap.NestedMap
-}
-
-func (c *ConfigWorker) MarkVisitedResource(resourceType string, resourceId string) {
-
+	Parser      SchemaParser
+	Downloader  EntryDownloader
+	ResourceMap nestedmap.MapSet
 }
