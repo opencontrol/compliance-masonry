@@ -13,7 +13,7 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/config/parser"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/tools/fs"
-	"github.com/opencontrol/compliance-masonry-go/tools/nested_map"
+	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 )
 
 var markdownPath, opencontrolDir, exportPath string
@@ -78,7 +78,7 @@ func NewCLIApp() *cli.App {
 				destination := filepath.Join(wd, c.String("dest"))
 				err = Get(destination,
 					configBytes,
-					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: nestedmap.Init()})
+					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init()})
 				if err != nil {
 					fmt.Println(err)
 					os.Exit(1)

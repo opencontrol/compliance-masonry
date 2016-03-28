@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/tools/nested_map"
+	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 )
 
 // Base is the common struct that all schemas must have.
@@ -31,5 +31,5 @@ type BaseSchema interface {
 type ConfigWorker struct {
 	Parser      SchemaParser
 	Downloader  EntryDownloader
-	ResourceMap nestedmap.MapSet
+	ResourceMap mapset.MapSet
 }

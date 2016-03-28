@@ -1,4 +1,4 @@
-package nestedmap
+package mapset
 
 import (
 	"github.com/stretchr/testify/assert"
