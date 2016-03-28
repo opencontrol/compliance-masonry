@@ -54,23 +54,23 @@ func (s *Schema) Parse(data []byte) error {
 // GetResources will download all the resources that are specified by the v1.0.0 of the schema first by copying the
 // local resources then downloading the remote ones and letting their respective schema version handle
 // how to get their resources.
-func (s *Schema) GetResources(destination string, worker *common.ConfigWorker) error {
+func (s *Schema) GetResources(source string, destination string, worker *common.ConfigWorker) error {
 	// Local
 	// Get Certifications
 	log.Println("Retrieving certifications")
-	err := s.resourceGetter.GetLocalResources(s.Certifications, destination, constants.DefaultCertificationsFolder, false)
+	err := s.resourceGetter.GetLocalResources(source, s.Certifications, destination, constants.DefaultCertificationsFolder, false)
 	if err != nil {
 		return err
 	}
 	// Get Standards
 	log.Println("Retrieving standards")
-	err = s.resourceGetter.GetLocalResources(s.Standards, destination, constants.DefaultStandardsFolder, false)
+	err = s.resourceGetter.GetLocalResources(source, s.Standards, destination, constants.DefaultStandardsFolder, false)
 	if err != nil {
 		return err
 	}
 	// Get Components
 	log.Println("Retrieving components")
-	err = s.resourceGetter.GetLocalResources(s.Components, destination, constants.DefaultComponentsFolder, true)
+	err = s.resourceGetter.GetLocalResources(source, s.Components, destination, constants.DefaultComponentsFolder, true)
 	if err != nil {
 		return err
 	}

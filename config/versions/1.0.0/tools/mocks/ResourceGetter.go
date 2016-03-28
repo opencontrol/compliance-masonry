@@ -8,13 +8,13 @@ type ResourceGetter struct {
 	mock.Mock
 }
 
-// GetLocalResources provides a mock function with given fields: resources, destination, subfolder, recursively
-func (_m *ResourceGetter) GetLocalResources(resources []string, destination string, subfolder string, recursively bool) error {
-	ret := _m.Called(resources, destination, subfolder, recursively)
+// GetLocalResources provides a mock function with given fields: source, resources, destination, subfolder, recursively
+func (_m *ResourceGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool) error {
+	ret := _m.Called(source, resources, destination, subfolder, recursively)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func([]string, string, string, bool) error); ok {
-		r0 = rf(resources, destination, subfolder, recursively)
+	if rf, ok := ret.Get(0).(func(string, []string, string, string, bool) error); ok {
+		r0 = rf(source, resources, destination, subfolder, recursively)
 	} else {
 		r0 = ret.Error(0)
 	}

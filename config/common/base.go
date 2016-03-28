@@ -1,5 +1,9 @@
 package common
 
+import (
+	"github.com/opencontrol/compliance-masonry-go/tools/nested_map"
+)
+
 // Base is the common struct that all schemas must have.
 type Base struct {
 	// SchemaVersion contains the schema version.
@@ -20,11 +24,16 @@ type SchemaParser interface {
 type BaseSchema interface {
 	Parse(data []byte) error
 	GetSchemaVersion() string
-	GetResources(string, *ConfigWorker) error
+	GetResources(string, string, *ConfigWorker) error
 }
 
 // ConfigWorker is a container of all COMMON things needed to do work on the configs.
 type ConfigWorker struct {
 	Parser     SchemaParser
 	Downloader EntryDownloader
+	resourceMap 	   nestedmap.NestedMap
+}
+
+func (c *ConfigWorker) MarkVisitedResource(resourceType string, resourceId string) {
+
 }

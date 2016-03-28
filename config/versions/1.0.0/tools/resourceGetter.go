@@ -13,7 +13,7 @@ import (
 
 // ResourceGetter is an interface for how to get and place local and remote resources.
 type ResourceGetter interface {
-	GetLocalResources(resources []string, destination string, subfolder string, recursively bool) error
+	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool) error
 	GetRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error
 }
 
@@ -21,17 +21,21 @@ type ResourceGetter interface {
 type VCSAndLocalFSGetter struct{}
 
 // GetLocalResources is the implementation that uses the local file system to get local resources.
-func (g VCSAndLocalFSGetter) GetLocalResources(resources []string, destination string, subfolder string, recursively bool) error {
+func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool) error {
 	for _, resource := range resources {
+		resourceSource := filepath.Join(source, resource)
+		resourceDestination := filepath.Join(destination, subfolder, filepath.Base(resource))
+		log.Printf("Attempting to copy local resource %s into %s\n", resourceSource, resourceDestination)
 		var err error
 		if recursively {
-			err = ufs.CopyAll(resource,
-				filepath.Join(destination, subfolder, filepath.Base(resource)), nil)
+			log.Printf("Copying local resource %s reursively into %s\n", resourceSource, resourceDestination)
+			err = ufs.CopyAll(resourceSource, resourceDestination, nil)
 		} else {
-			err = ufs.CopyFile(resource,
-				filepath.Join(destination, subfolder, filepath.Base(resource)))
+			log.Printf("Copying local resource %s reursively into %s\n", resourceSource, resourceDestination)
+			err = ufs.CopyFile(resourceSource, resourceDestination)
 		}
 		if err != nil {
+			log.Printf("Copying local resources %s failed\n", resourceSource)
 			return err
 		}
 	}
@@ -62,7 +66,7 @@ func (g VCSAndLocalFSGetter) GetRemoteResources(destination string, subfolder st
 		if err != nil {
 			return err
 		}
-		err = schema.GetResources(destination, worker)
+		err = schema.GetResources(tempPath, destination, worker)
 		if err != nil {
 			return err
 		}

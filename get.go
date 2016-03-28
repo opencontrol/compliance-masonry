@@ -18,7 +18,7 @@ func Get(destination string, configData []byte, worker *common.ConfigWorker) err
 		return err
 	}
 	// Get Resources
-	err = configSchema.GetResources(destination, worker)
+	err = configSchema.GetResources("", destination, worker)
 	if err != nil {
 		return err
 	}
