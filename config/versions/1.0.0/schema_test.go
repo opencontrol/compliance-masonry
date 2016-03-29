@@ -1,14 +1,16 @@
 package schema
 
 import (
+	"errors"
+	"log"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
-	"github.com/stretchr/testify/assert"
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/config/common/resources"
 	"github.com/opencontrol/compliance-masonry/config/common/resources/mocks"
-"errors"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/stretchr/testify/assert"
 )
 
 var _ = Describe("Schema", func() {
@@ -23,7 +25,7 @@ var _ = Describe("Schema", func() {
 				}
 				assert.Equal(GinkgoT(), expectedErrorExists, err != nil)
 			},
-		Entry("good v1.0.0 data", []byte(`
+			Entry("good v1.0.0 data", []byte(`
 schema_version: "1.0.0"
 name: test
 metadata:
@@ -49,49 +51,49 @@ dependencies:
     - url: github.com/18F/NIST-800-53
       revision: master
 `),
-			Schema{
-			resourceGetter: resources.VCSAndLocalFSGetter{},
-			Base:           common.Base{SchemaVersion: "1.0.0"},
-			Name:           "test",
-			Meta: Metadata{
-				Description: "A system to test parsing",
-				Maintainers: []string{
-					"test@test.com",
-				},
-			},
-			Components: []string{
-				"./component-1",
-				"./component-2",
-				"./component-3",
-			},
-			Certifications: []string{
-				"./cert-1.yaml",
-			},
-			Standards: []string{
-				"./standard-1.yaml",
-			},
-			Dependencies: Dependencies{
-				Certifications: []common.Entry{
-					common.Entry{
-						URL:      "github.com/18F/LATO",
-						Revision: "master",
+				Schema{
+					resourceGetter: resources.VCSAndLocalFSGetter{},
+					Base:           common.Base{SchemaVersion: "1.0.0"},
+					Name:           "test",
+					Meta: Metadata{
+						Description: "A system to test parsing",
+						Maintainers: []string{
+							"test@test.com",
+						},
 					},
-				},
-				Systems: []common.Entry{
-					common.Entry{
-						URL:      "github.com/18F/cg-complinace",
-						Revision: "master",
+					Components: []string{
+						"./component-1",
+						"./component-2",
+						"./component-3",
 					},
-				},
-				Standards: []common.Entry{
-					common.Entry{
-						URL:      "github.com/18F/NIST-800-53",
-						Revision: "master",
+					Certifications: []string{
+						"./cert-1.yaml",
 					},
-				},
-			},
-		},false, ""),
-		Entry("malformed yaml (tabbed over)", []byte(`
+					Standards: []string{
+						"./standard-1.yaml",
+					},
+					Dependencies: Dependencies{
+						Certifications: []common.Entry{
+							common.Entry{
+								URL:      "github.com/18F/LATO",
+								Revision: "master",
+							},
+						},
+						Systems: []common.Entry{
+							common.Entry{
+								URL:      "github.com/18F/cg-complinace",
+								Revision: "master",
+							},
+						},
+						Standards: []common.Entry{
+							common.Entry{
+								URL:      "github.com/18F/NIST-800-53",
+								Revision: "master",
+							},
+						},
+					},
+				}, false, ""),
+			Entry("malformed yaml (tabbed over)", []byte(`
 			schema_version: "1.0.0"
 			system_name: test-system
 			metadata:
@@ -115,18 +117,18 @@ dependencies:
 			`), Schema{}, true, ErrMalformedV1_0_0YamlPrefix))
 	})
 
-	Describe("Getting resources", func(){
+	Describe("Getting resources", func() {
 		var (
-			getter *mocks.ResourceGetter
+			getter                                                           *mocks.ResourceGetter
 			dependentStandards, dependentCertifications, dependentComponents []common.Entry
-			certifications, standards, components []string
-			worker *common.ConfigWorker
-			dependencies Dependencies
-			destination = "."
-			expectedError error
-			s Schema
+			certifications, standards, components                            []string
+			worker                                                           *common.ConfigWorker
+			dependencies                                                     Dependencies
+			destination                                                      = "."
+			expectedError                                                    error
+			s                                                                Schema
 		)
-		BeforeEach(func(){
+		BeforeEach(func() {
 			getter = new(mocks.ResourceGetter)
 			worker = new(common.ConfigWorker)
 			dependencies = Dependencies{Certifications: dependentCertifications, Systems: dependentComponents, Standards: dependentStandards}
@@ -186,4 +188,60 @@ dependencies:
 			getter.AssertExpectations(GinkgoT())
 		})
 	})
+
+	DescribeTable("Testing GetLocalComponents",
+		func(data []byte, expectedComponents []string) {
+			s := Schema{}
+			err := s.Parse(example.data)
+			log.Println(err)
+			actualComponents := s.GetLocalComponents()
+			assert.Equal(GinkgoT(), example.expectedComponents, actualComponents)
+		},
+		Entry("v1.0.0 data with no local components",
+			[]byte(`
+schema_version: "1.0.0"
+system_name: test-system
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+dependencies:
+  certification:
+    url: github.com/18F/LATO
+    revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+	`),
+			[]string{},
+		),
+		Entry("v1.0.0 data with no local components",
+			[]byte(`
+schema_version: "1.0.0"
+system_name: test-system
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+  - ./component-1
+  - ./component-2
+  - ./component-3
+dependencies:
+  certification:
+    url: github.com/18F/LATO
+    revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+	`),
+			[]string{"./component-1", "./component-2", "./component-3"},
+		),
+	)
 })

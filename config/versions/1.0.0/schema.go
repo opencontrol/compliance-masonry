@@ -6,7 +6,6 @@ import (
 	"github.com/opencontrol/compliance-masonry/config/common/resources"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"gopkg.in/yaml.v2"
-	"log"
 )
 
 const (
@@ -96,4 +95,9 @@ func (s *Schema) GetResources(source string, destination string, worker *common.
 	}
 
 	return nil
+}
+
+// GetLocalComponents returns a list of local components
+func (s *Schema) GetLocalComponents() []string {
+	return s.Components
 }

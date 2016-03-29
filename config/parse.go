@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"gopkg.in/yaml.v2"
