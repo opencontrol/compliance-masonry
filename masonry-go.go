@@ -64,8 +64,9 @@ func NewCLIApp() *cli.App {
 				},
 			},
 			Action: func(c *cli.Context) {
+				f := fs.OSUtil{}
 				config := c.String("config")
-				configBytes, err := fs.OpenAndReadFile(config)
+				configBytes, err := f.OpenAndReadFile(config)
 				if err != nil {
 					fmt.Println(err)
 					os.Exit(1)
@@ -78,7 +79,7 @@ func NewCLIApp() *cli.App {
 				destination := filepath.Join(wd, c.String("dest"))
 				err = Get(destination,
 					configBytes,
-					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init()})
+					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init(), FSUtil: f})
 				if err != nil {
 					fmt.Println(err)
 					os.Exit(1)

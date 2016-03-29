@@ -1,12 +1,9 @@
 package tools
 
 import (
-	"github.com/go-utils/ufs"
 	"github.com/opencontrol/compliance-masonry-go/config"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
-	"github.com/opencontrol/compliance-masonry-go/tools/fs"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -33,10 +30,10 @@ func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string
 		var err error
 		if recursively {
 			log.Printf("Copying local resource %s reursively into %s\n", resourceSource, resourceDestination)
-			err = ufs.CopyAll(resourceSource, resourceDestination, nil)
+			err = worker.FSUtil.CopyAll(resourceSource, resourceDestination)
 		} else {
-			log.Printf("Copying local resource %s reursively into %s\n", resourceSource, resourceDestination)
-			err = ufs.CopyFile(resourceSource, resourceDestination)
+			log.Printf("Copying local resource %s into %s\n", resourceSource, resourceDestination)
+			err = worker.FSUtil.Copy(resourceSource, resourceDestination)
 		}
 		if err != nil {
 			log.Printf("Copying local resources %s failed\n", resourceSource)
@@ -48,7 +45,7 @@ func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string
 
 // GetRemoteResources is the implementation that uses VCS to get remote resources.
 func (g VCSAndLocalFSGetter) GetRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error {
-	tempResourcesDir, err := ioutil.TempDir("", "opencontrol-resources")
+	tempResourcesDir, err := worker.FSUtil.TempDir("", "opencontrol-resources")
 	if err != nil {
 		return err
 	}
@@ -62,7 +59,7 @@ func (g VCSAndLocalFSGetter) GetRemoteResources(destination string, subfolder st
 			return err
 		}
 		// Parse
-		configBytes, err := fs.OpenAndReadFile(filepath.Join(tempPath, entry.GetConfigFile()))
+		configBytes, err := worker.FSUtil.OpenAndReadFile(filepath.Join(tempPath, entry.GetConfigFile()))
 		if err != nil {
 			return err
 		}

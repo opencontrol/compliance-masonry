@@ -1,6 +1,7 @@
 package common
 
 import (
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 )
 
@@ -32,4 +33,5 @@ type ConfigWorker struct {
 	Parser      SchemaParser
 	Downloader  EntryDownloader
 	ResourceMap mapset.MapSet
+	FSUtil      fs.Util
 }
