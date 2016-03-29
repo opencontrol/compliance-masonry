@@ -18,7 +18,7 @@ type ResourceType string
 
 const (
 	// Standards is the placeholder for the resource type of standards
-	Standards ResourceType = "standards"
+	Standards ResourceType = "Standards"
 	// Certifications is the placeholder for the resource type of certifications
 	Certifications ResourceType = "Certifications"
 	// Components is the placeholder for the resource type of components
