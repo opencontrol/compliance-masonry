@@ -3,6 +3,8 @@ package inventory
 import (
 	"sync"
 
+	"github.com/opencontrol/compliance-masonry-go/config"
+	"github.com/opencontrol/compliance-masonry-go/config/parser"
 	"github.com/opencontrol/compliance-masonry-go/models"
 )
 
@@ -26,9 +28,36 @@ type ControlInfo struct {
 	Implementations ImplementationMapping
 }
 
+// GetLocalComponents uses the opencontrol.yaml file to get a list of local components
+func GetLocalComponents(configBytes []byte) ([]string, error) {
+	configSchema, err := config.Parse(parser.Parser{}, configBytes)
+	if err != nil {
+		return nil, err
+	}
+	return configSchema.GetLocalComponents(), nil
+}
+
+// LoadLocalComponents loads a set of components given a path
+func (inventory *Inventory) LoadLocalComponents(componentPaths []string) error {
+	for _, componentPath := range componentPaths {
+		err := inventory.LoadComponent(componentPath)
+		return err
+	}
+	return nil
+}
+
 // InitInventory initialize an Inventory struct
-func InitInventory() (*Inventory, error) {
-	return &Inventory{models.NewOpenControl()}, nil
+func InitInventory(configBytes []byte) (*Inventory, error) {
+	inventory := &Inventory{models.NewOpenControl()}
+	components, err := GetLocalComponents(configBytes)
+	if err != nil {
+		return nil, err
+	}
+	err = inventory.LoadLocalComponents(components)
+	if err != nil {
+		return nil, err
+	}
+	return inventory, nil
 }
 
 //InitControlInfo initialize a ControlInfo struct

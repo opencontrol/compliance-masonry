@@ -1,6 +1,11 @@
 package inventory
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/opencontrol/compliance-masonry-go/config"
+	"github.com/opencontrol/compliance-masonry-go/models"
+)
 
 //"github.com/opencontrol/compliance-masonry-go/models"
 
@@ -9,6 +14,17 @@ type getControlInfoTest struct {
 	standard      string
 	control       string
 	controlInfo   *ControlInfo
+}
+
+type inventoryTest struct {
+	configBytes        []byte
+	expectedError      error
+	expectedComponents int
+}
+
+type loadLocalComponentsTest struct {
+	components         []string
+	expectedComponents int
 }
 
 var getControlInfoTests = []getControlInfoTest{
@@ -30,7 +46,7 @@ var getControlInfoTests = []getControlInfoTest{
 
 func TestGetControlInfo(t *testing.T) {
 	for _, example := range getControlInfoTests {
-		inventory, _ := InitInventory()
+		inventory, _ := InitInventory([]byte(`schema_version: "1.0.0"`))
 		inventory.LoadComponents(example.componentsDir)
 		actualInfo := inventory.GetControlInfo(example.standard, example.control)
 		// Check if the documentation exists
@@ -50,10 +66,181 @@ func TestGetControlInfo(t *testing.T) {
 	}
 }
 
+var getLocalComponentsTests = []inventoryTest{
+	{
+		// Check a schema with 0 components
+		[]byte(`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
+dependencies:
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+`), nil, 0,
+	},
+	{
+		// Check a schema with 3 components
+		[]byte(`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+  - ./component-1
+  - ./component-2
+  - ./component-3
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
+dependencies:
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+`), nil, 3,
+	},
+}
+
+func TestGetLocalComponents(t *testing.T) {
+	for _, example := range getLocalComponentsTests {
+		actualComponents, err := GetLocalComponents(example.configBytes)
+		if err != nil {
+			t.Error(err)
+		}
+		if len(actualComponents) != example.expectedComponents {
+			t.Error("The number of actual components and expected components do not match")
+		}
+	}
+}
+
+var loadLocalComponentsTests = []loadLocalComponentsTest{
+	// Test loading one component
+	{[]string{"../fixtures/component_fixtures/EC2"}, 1},
+}
+
+func TestLoadLocalComponents(t *testing.T) {
+	for _, example := range loadLocalComponentsTests {
+		inventory, _ := InitInventory([]byte(`schema_version: "1.0.0"`))
+		err := inventory.LoadLocalComponents(example.components)
+		if err != nil {
+			t.Error(err)
+		}
+		if len(inventory.Components.GetAll()) != example.expectedComponents {
+			t.Error("The number of actual components and expected components do not match")
+		}
+	}
+}
+
+var initInventoryTests = []inventoryTest{
+	{
+		// Check a schema with 0 components
+		[]byte(`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
+dependencies:
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+`), nil, 0,
+	},
+	{
+		// Check a schema with 1 components
+		[]byte(`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+  - ../fixtures/component_fixtures/EC2
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
+dependencies:
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+`), nil, 1,
+	},
+	{
+		// Check example with broken opencontrol.yaml
+		[]byte(`
+schema_versio: "1.0.0"
+`), config.ErrCantParseSemver, 1,
+	},
+	{
+		// With broken component
+		[]byte(`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+  - ../fixtures/component_fixtures/EC2BrokenControl
+`), models.ErrControlSchema, 1,
+	},
+}
+
 func TestInitInventory(t *testing.T) {
-	_, err := InitInventory()
-	if err != nil {
-		t.Error("InitInventory failed")
+	for _, example := range initInventoryTests {
+		inventory, err := InitInventory(example.configBytes)
+		if err != example.expectedError {
+			t.Error("Expected Error", example.expectedError, "But returned", err)
+		}
+		if err == nil {
+			actualComponentNum := len(inventory.Components.GetAll())
+			if actualComponentNum != example.expectedComponents {
+				t.Error("The number of actual components and expected components do not match")
+			}
+		}
 	}
 }
 
