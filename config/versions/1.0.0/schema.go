@@ -3,10 +3,10 @@ package schema
 import (
 	"errors"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"gopkg.in/yaml.v2"
 	"log"
+	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
 )
 
 const (
@@ -24,7 +24,7 @@ type Schema struct {
 	Certifications []string     `yaml:",flow"`
 	Standards      []string     `yaml:",flow"`
 	Dependencies   Dependencies `yaml:"dependencies"`
-	resourceGetter tools.ResourceGetter
+	resourceGetter resources.ResourceGetter
 }
 
 // Dependencies contains all the dependencies for the system
@@ -46,7 +46,7 @@ func (s *Schema) Parse(data []byte) error {
 	if err != nil {
 		return errors.New(ErrMalformedV1_0_0YamlPrefix + " - " + err.Error())
 	}
-	s.resourceGetter = tools.VCSAndLocalFSGetter{}
+	s.resourceGetter = resources.VCSAndLocalFSGetter{}
 
 	return nil
 }

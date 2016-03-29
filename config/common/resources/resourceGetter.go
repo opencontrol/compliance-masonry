@@ -1,4 +1,4 @@
-package tools
+package resources
 
 import (
 	"github.com/opencontrol/compliance-masonry-go/config"

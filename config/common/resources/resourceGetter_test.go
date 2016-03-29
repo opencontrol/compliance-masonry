@@ -1,15 +1,15 @@
-package tools
+package resources
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
-	fsmocks "github.com/opencontrol/compliance-masonry-go/tools/fs/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vektra/errors"
 	"testing"
+	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
+	fsmocks "github.com/opencontrol/compliance-masonry-go/tools/fs/mocks"
 )
 
 func TestGetLocalResources(t *testing.T) {

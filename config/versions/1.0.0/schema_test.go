@@ -3,11 +3,11 @@ package schema
 import (
 	"errors"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools"
-	"github.com/opencontrol/compliance-masonry-go/config/versions/1.0.0/tools/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
+"github.com/opencontrol/compliance-masonry-go/config/common/resources/mocks"
 )
 
 func TestParse(t *testing.T) {
@@ -45,7 +45,7 @@ dependencies:
       revision: master
 `),
 			expectedSchema: Schema{
-				resourceGetter: tools.VCSAndLocalFSGetter{},
+				resourceGetter: resources.VCSAndLocalFSGetter{},
 				Base:           common.Base{SchemaVersion: "1.0.0"},
 				Name:           "test",
 				Meta: Metadata{
