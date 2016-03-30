@@ -77,3 +77,17 @@ func (_m *Util) TempDir(dir string, prefix string) (string, error) {
 
 	return r0, r1
 }
+
+// Mkdirs provides a mock function with given fields: dir
+func (_m *Util) Mkdirs(dir string) error {
+	ret := _m.Called(dir)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string) error); ok {
+		r0 = rf(dir)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}

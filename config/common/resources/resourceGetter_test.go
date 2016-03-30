@@ -1,15 +1,15 @@
 package resources
 
 import (
+	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	fsmocks "github.com/opencontrol/compliance-masonry-go/tools/fs/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vektra/errors"
 	"testing"
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
-	fsmocks "github.com/opencontrol/compliance-masonry-go/tools/fs/mocks"
 )
 
 func TestGetLocalResources(t *testing.T) {
@@ -29,6 +29,7 @@ func TestGetLocalResources(t *testing.T) {
 		"res",
 	}
 	fsUtil := new(fsmocks.Util)
+	fsUtil.On("Mkdirs", mock.AnythingOfType("string")).Return(nil)
 	fsUtil.On("Copy", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(nil)
 	worker.FSUtil = fsUtil
 	err = getter.GetLocalResources("", resources, "dest", "subfolder", false, worker, constants.Standards)
@@ -38,6 +39,7 @@ func TestGetLocalResources(t *testing.T) {
 	resMap = mapset.Init()
 	worker.ResourceMap = resMap
 	fsUtil = new(fsmocks.Util)
+	fsUtil.On("Mkdirs", mock.AnythingOfType("string")).Return(nil)
 	fsUtil.On("CopyAll", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(nil)
 	worker.FSUtil = fsUtil
 	err = getter.GetLocalResources("", resources, "dest", "subfolder", true, worker, constants.Standards)
@@ -47,10 +49,25 @@ func TestGetLocalResources(t *testing.T) {
 	resMap = mapset.Init()
 	worker.ResourceMap = resMap
 	fsUtil = new(fsmocks.Util)
+	fsUtil.On("Mkdirs", mock.AnythingOfType("string")).Return(nil)
 	expectedError := errors.New("single copy error")
 	fsUtil.On("CopyAll", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(expectedError)
 	worker.FSUtil = fsUtil
 	err = getter.GetLocalResources("", resources, "dest", "subfolder", true, worker, constants.Standards)
+	assert.NotNil(t, err)
+	assert.Equal(t, expectedError, err)
+
+	// Try mkdirs failure
+	resMap = mapset.Init()
+	worker.ResourceMap = resMap
+	resources = []string{
+		"res",
+	}
+	expectedError = errors.New("mkdirs error")
+	fsUtil = new(fsmocks.Util)
+	fsUtil.On("Mkdirs", mock.AnythingOfType("string")).Return(expectedError)
+	worker.FSUtil = fsUtil
+	err = getter.GetLocalResources("", resources, "dest", "subfolder", false, worker, constants.Standards)
 	assert.NotNil(t, err)
 	assert.Equal(t, expectedError, err)
 }

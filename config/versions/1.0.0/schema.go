@@ -3,10 +3,10 @@ package schema
 import (
 	"errors"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"gopkg.in/yaml.v2"
 	"log"
-	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
 )
 
 const (

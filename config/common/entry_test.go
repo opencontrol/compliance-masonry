@@ -3,9 +3,9 @@ package common
 import (
 	"errors"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry-go/tools/vcs/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
-"github.com/opencontrol/compliance-masonry-go/tools/vcs/mocks"
 )
 
 func TestGetConfigFile(t *testing.T) {

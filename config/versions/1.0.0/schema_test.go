@@ -3,11 +3,11 @@ package schema
 import (
 	"errors"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
+	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
+	"github.com/opencontrol/compliance-masonry-go/config/common/resources/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
-"github.com/opencontrol/compliance-masonry-go/config/common/resources/mocks"
 )
 
 func TestParse(t *testing.T) {

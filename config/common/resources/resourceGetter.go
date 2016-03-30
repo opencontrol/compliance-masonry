@@ -25,9 +25,15 @@ func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string
 			return result.Error
 		}
 		resourceSource := filepath.Join(source, resource)
-		resourceDestination := filepath.Join(destination, subfolder, filepath.Base(resource))
-		log.Printf("Attempting to copy local resource %s into %s\n", resourceSource, resourceDestination)
+		resourceDestinationFolder := filepath.Join(destination, subfolder)
+		resourceDestination := filepath.Join(resourceDestinationFolder, filepath.Base(resource))
 		var err error
+		log.Printf("Ensuring directory %s exists\n", resourceDestinationFolder)
+		err = worker.FSUtil.Mkdirs(resourceDestinationFolder)
+		if err != nil {
+			return err
+		}
+		log.Printf("Attempting to copy local resource %s into %s\n", resourceSource, resourceDestination)
 		if recursively {
 			log.Printf("Copying local resource %s reursively into %s\n", resourceSource, resourceDestination)
 			err = worker.FSUtil.CopyAll(resourceSource, resourceDestination)
