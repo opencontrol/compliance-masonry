@@ -3,13 +3,72 @@ package main
 import (
 	"io/ioutil"
 	"os"
-	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type buildGitbookTest struct {
 	config           gitbookConfig
 	expectedMessages []string
+}
+
+type buildTemplateTest struct {
+	config           templateConfig
+	expectedMessages []string
+}
+
+var buildTemplateTests = []buildTemplateTest{
+	//Check the template method returns an error message when no template is defined
+	{
+		templateConfig{
+			opencontrolDir: "fixtures/opencontrol_fixtures/",
+			certification:  "LATO",
+			templatePath:   "",
+			exportPath:     "",
+		},
+		[]string{"Error: No Template Supplied"},
+	},
+	//Check the template method returns an error message when no template does not exist
+	{
+		templateConfig{
+			opencontrolDir: "fixtures/opencontrol_fixtures/",
+			certification:  "LATO",
+			templatePath:   "fake",
+			exportPath:     "",
+		},
+		[]string{"Error: Template does not exist"},
+	},
+	// Check the template method returns an error messages when certification doesn't exist
+	{
+		templateConfig{
+			opencontrolDir: "fixtures/opencontrol_fixtures/",
+			certification:  "",
+			templatePath:   "fixtures/template_fixtures/test.docx",
+			exportPath:     "",
+		},
+		[]string{"Error: Missing Certification Argument"},
+	},
+	// Check that template is created when inputs are correct
+	{
+		templateConfig{
+			opencontrolDir: "fixtures/opencontrol_fixtures/",
+			certification:  "LATO",
+			templatePath:   "fixtures/template_fixtures/test.docx",
+			exportPath:     "",
+		},
+		[]string{"Template Created"},
+	},
+}
+
+func TestBuildTemplate(t *testing.T) {
+	for _, example := range buildTemplateTests {
+		tempDir, _ := ioutil.TempDir("", "example")
+		defer os.RemoveAll(tempDir)
+		example.config.exportPath = tempDir
+		actualMessages := example.config.buildTemplate()
+		assert.Equal(t, example.expectedMessages, actualMessages)
+	}
 }
 
 var buildGitbookTests = []buildGitbookTest{
@@ -44,10 +103,7 @@ var buildGitbookTests = []buildGitbookTest{
 			certification:  "LAT",
 			markdownPath:   "fixtures/opencontrol_fixtures_with_markdown/markdowns/",
 		},
-		[]string{
-			"`compliance-masonry-go docs gitbook LATO`",
-			"Error: `fixtures/opencontrol_fixtures_with_markdown/certifications/LAT.yaml` does not exist\nUse one of the following:",
-		},
+		[]string{"Error: `fixtures/opencontrol_fixtures_with_markdown/certifications/LAT.yaml` does not exist\nUse one of the following:", "`LATO`"},
 	},
 	{
 		gitbookConfig{
@@ -55,7 +111,7 @@ var buildGitbookTests = []buildGitbookTest{
 			certification:  "",
 			markdownPath:   "fixtures/opencontrol_fixtures_with_markdown/markdowns/",
 		},
-		[]string{"Error: New Missing Certification Argument", "Usage: masonry-go docs gitbook FedRAMP-low"},
+		[]string{"Error: Missing Certification Argument"},
 	},
 }
 
@@ -65,25 +121,6 @@ func TestMakeGitbook(t *testing.T) {
 		defer os.RemoveAll(tempDir)
 		example.config.exportPath = tempDir
 		actualMessages := example.config.makeGitbook()
-		for _, actualMessage := range actualMessages {
-			if !LookForString(actualMessage, example.expectedMessages) {
-				t.Errorf("Could not find `%s` in the expected messages", actualMessage)
-			}
-		}
-		if len(actualMessages) != len(example.expectedMessages) {
-			t.Errorf("The expected number of messages is %d, but %d messages were returned",
-				len(example.expectedMessages), len(actualMessages),
-			)
-
-		}
+		assert.Equal(t, example.expectedMessages, actualMessages)
 	}
-}
-
-func LookForString(searchString string, stringSlice []string) bool {
-	for _, singeString := range stringSlice {
-		if strings.Compare(singeString, searchString) == 0 {
-			return true
-		}
-	}
-	return false
 }
