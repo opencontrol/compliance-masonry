@@ -11,32 +11,67 @@ import (
 )
 
 type gitbookConfig struct {
-	certification  string
 	opencontrolDir string
+	certification  string
 	exportPath     string
 	markdownPath   string
 }
 
-func (config *gitbookConfig) makeGitbook() []string {
-	var messages []string
-	if config.certification == "" {
-		messages = append(messages, "Error: New Missing Certification Argument")
-		messages = append(messages, "Usage: masonry-go docs gitbook FedRAMP-low")
-		return messages
+type templateConfig struct {
+	opencontrolDir string
+	certification  string
+	templatePath   string
+	exportPath     string
+}
+
+func getCertification(opencontrolDir string, certification string) (string, []string) {
+	var (
+		certificationPath string
+		messages          []string
+	)
+	if certification == "" {
+		messages = append(messages, "Error: Missing Certification Argument")
+		return "", messages
 	}
-	certificationDir := filepath.Join(config.opencontrolDir, "certifications")
-	certificationPath := filepath.Join(certificationDir, config.certification+".yaml")
+	certificationDir := filepath.Join(opencontrolDir, "certifications")
+	certificationPath = filepath.Join(certificationDir, certification+".yaml")
 	if _, err := os.Stat(certificationPath); os.IsNotExist(err) {
 		files, err := ioutil.ReadDir(certificationDir)
 		if err != nil {
 			messages = append(messages, "Error: `opencontrols/certifications` directory does exist")
-			return messages
+			return "", messages
 		}
 		messages = append(messages, fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", certificationPath))
 		for _, file := range files {
 			fileName := strings.TrimSuffix(file.Name(), filepath.Ext(file.Name()))
-			messages = append(messages, fmt.Sprintf("`compliance-masonry-go docs gitbook %s`", fileName))
+			messages = append(messages, fmt.Sprintf("`%s`", fileName))
 		}
+		return "", messages
+	}
+	return certificationPath, messages
+}
+
+func (config *templateConfig) buildTemplate() []string {
+	var messages []string
+	if config.templatePath == "" {
+		messages = append(messages, "Error: No Template Supplied")
+		return messages
+	}
+	if _, err := os.Stat(config.templatePath); os.IsNotExist(err) {
+		messages = append(messages, "Error: Template does not exist")
+		return messages
+	}
+	certificationPath, messages := getCertification(config.opencontrolDir, config.certification)
+	if certificationPath == "" {
+		return messages
+	}
+	messages = append(messages, "Template Created")
+	return messages
+}
+
+func (config *gitbookConfig) makeGitbook() []string {
+	certificationPath, messages := getCertification(config.opencontrolDir, config.certification)
+	if certificationPath == "" {
 		return messages
 	}
 	if _, err := os.Stat(config.markdownPath); os.IsNotExist(err) {

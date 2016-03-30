@@ -16,7 +16,7 @@ import (
 	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 )
 
-var markdownPath, opencontrolDir, exportPath string
+var certification, exportPath, markdownPath, opencontrolDir, templatePath string
 
 // NewCLIApp creates a new instances of the CLI
 func NewCLIApp() *cli.App {
@@ -124,6 +124,47 @@ func NewCLIApp() *cli.App {
 							markdownPath:   markdownPath,
 						}
 						messages := config.makeGitbook()
+						fmt.Println(strings.Join(messages, "\n"))
+					},
+				},
+				{
+					Name:    "docx",
+					Aliases: []string{"d"},
+					Usage:   "Create Docx Documentation using a Template",
+					Flags: []cli.Flag{
+						cli.StringFlag{
+							Name:        "opencontrols, o",
+							Value:       "opencontrols",
+							Usage:       "Set opencontrols directory",
+							Destination: &opencontrolDir,
+						},
+						cli.StringFlag{
+							Name:        "template, t",
+							Value:       "",
+							Usage:       "Set template to build",
+							Destination: &templatePath,
+						},
+						cli.StringFlag{
+							Name:        "certificaiton, c",
+							Value:       "",
+							Usage:       "Set certification",
+							Destination: &certification,
+						},
+						cli.StringFlag{
+							Name:        "export, e",
+							Value:       "export.docx",
+							Usage:       "Sets the export directory",
+							Destination: &exportPath,
+						},
+					},
+					Action: func(c *cli.Context) {
+						config := templateConfig{
+							certification:  certification,
+							opencontrolDir: opencontrolDir,
+							templatePath:   templatePath,
+							exportPath:     exportPath,
+						}
+						messages := config.buildTemplate()
 						fmt.Println(strings.Join(messages, "\n"))
 					},
 				},
