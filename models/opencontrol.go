@@ -56,7 +56,6 @@ func LoadData(openControlDir string, certificationPath string) *OpenControl {
 	go func() {
 		defer wg.Done()
 		openControl.LoadComponents(filepath.Join(openControlDir, "components"))
-		openControl.LoadComponents(".")
 	}()
 	go func() {
 		defer wg.Done()

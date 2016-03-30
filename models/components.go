@@ -75,7 +75,7 @@ func (components *Components) CompareAndAdd(component *Component) bool {
 		components.mapping[component.Key] = component
 		added = true
 	} else {
-		log.Fatalln("Component: %s exisits!", component.Key)
+		log.Fatalf("Component: %s exisits!\n", component.Key)
 	}
 	return added
 }
