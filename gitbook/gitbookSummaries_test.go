@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
 type buildComponentsSummariesTest struct {
@@ -40,6 +41,7 @@ func TestBuildComponentsSummaries(t *testing.T) {
 			models.LoadData(example.opencontrolDir, example.certificationPath),
 			"",
 			example.exportPath,
+			fs.OSUtil{},
 		}
 		actualSummary := openControl.buildComponentsSummaries()
 		data, err := ioutil.ReadFile(example.expectedSummary)
@@ -71,6 +73,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 			models.LoadData(example.opencontrolDir, example.certificationPath),
 			"",
 			example.exportPath,
+			fs.OSUtil{},
 		}
 		actualSummary, familySummaryMap := openControl.buildStandardsSummaries()
 		// Check the summary

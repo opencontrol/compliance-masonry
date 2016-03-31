@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/opencontrol/compliance-masonry-go/helpers"
 	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
 // OpenControlGitBook struct is an extension of models.OpenControl that adds
@@ -15,6 +15,7 @@ type OpenControlGitBook struct {
 	*models.OpenControl
 	markdownPath string
 	exportPath   string
+	FSUtil       fs.Util
 }
 
 // ComponentGitbook struct is an extension of models.Component that adds
@@ -47,10 +48,11 @@ func BuildGitbook(opencontrolDir string, certificationPath string, markdownPath 
 		models.LoadData(opencontrolDir, certificationPath),
 		markdownPath,
 		exportPath,
+		fs.OSUtil{},
 	}
-	helpers.CreateDirectory(exportPath)
-	helpers.CreateDirectory(filepath.Join(exportPath, "components"))
-	helpers.CreateDirectory(filepath.Join(exportPath, "standards"))
+	openControl.FSUtil.Mkdirs(exportPath)
+	openControl.FSUtil.Mkdirs(filepath.Join(exportPath, "components"))
+	openControl.FSUtil.Mkdirs(filepath.Join(exportPath, "standards"))
 	openControl.buildSummaries()
 	openControl.exportComponents()
 	openControl.exportStandards()

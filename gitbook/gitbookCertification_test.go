@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 )
 
 type exportControlTest struct {
@@ -42,6 +43,7 @@ func TestExportControl(t *testing.T) {
 			models.LoadData(example.opencontrolDir, example.certificationPath),
 			"",
 			dir,
+			fs.OSUtil{},
 		}
 		control := openControl.Standards.Get(example.standardKey).Controls[example.controlKey]
 		actualPath, actualText := openControl.exportControl(&ControlGitbook{&control, dir, example.standardKey, example.controlKey})

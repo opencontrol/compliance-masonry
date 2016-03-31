@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/opencontrol/compliance-masonry-go/helpers"
 	"github.com/opencontrol/compliance-masonry-go/models"
 )
 
@@ -42,7 +41,8 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 }
 
 func (openControl *OpenControlGitBook) exportStandards() {
-	standardsExportPath := helpers.CreateDirectory(filepath.Join(openControl.exportPath, "standards"))
+	standardsExportPath := filepath.Join(openControl.exportPath, "standards")
+	openControl.FSUtil.Mkdirs(standardsExportPath)
 	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
 		control := openControl.Standards.Get(standardKey).Controls[controlKey]
 		controlPath, controlText := openControl.exportControl(&ControlGitbook{&control, standardsExportPath, standardKey, controlKey})
