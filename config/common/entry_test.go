@@ -1,61 +1,35 @@
 package common
 
 import (
-	"errors"
+
+	. "github.com/onsi/ginkgo"
+	"github.com/onsi/ginkgo/extensions/table"
+	"github.com/stretchr/testify/assert"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/tools/vcs/mocks"
-	"github.com/stretchr/testify/assert"
-	"testing"
+"errors"
 )
 
-func TestGetConfigFile(t *testing.T) {
-	var ConfigFileTests = []struct {
-		entry        Entry
-		expectedFile string
-	}{
-		{
-			// Return the default
-			entry:        Entry{},
-			expectedFile: constants.DefaultConfigYaml,
+var _ = Describe("Entry", func() {
+	Describe("Retrieving the config file", func(){
+		table.DescribeTable("GetConfigFile", func(e Entry, expectedPath string) {
+			assert.Equal(GinkgoT(), e.GetConfigFile(), expectedPath)
 		},
-		{
-			// Return a custom path.
-			entry:        Entry{Path: "samplepath"},
-			expectedFile: "samplepath",
-		},
-	}
-	for _, test := range ConfigFileTests {
-		assert.Equal(t, test.expectedFile, test.entry.GetConfigFile())
-	}
-}
+			table.Entry("Empty / new base struct to return default", Entry{}, constants.DefaultConfigYaml),
+			table.Entry("overriden config file path", Entry{Path: "samplepath"}, "samplepath"),
+		)
+	})
 
-func TestNewVCSDownloader(t *testing.T) {
-	downloader := NewVCSDownloader()
-	assert.IsType(t, vcsEntryDownloader{}, downloader)
-
-}
-
-func TestVCSDownloadEntry(t *testing.T) {
-	var DownloadEntryTests = []struct {
-		entry Entry
-		err   error
-	}{
-		{
-			// No error returned
-			entry: Entry{URL: "link", Revision: "master"},
-			err:   nil,
+	Describe("Downloading Entry from VCS", func(){
+		table.DescribeTable("DownloadEntry", func(e Entry, err error) {
+			m := new(mocks.RepoManager)
+			m.On("Clone", e.URL, e.Revision, ".").Return(err)
+			v := vcsEntryDownloader{m}
+			v.DownloadEntry(e, ".")
+			m.AssertExpectations(GinkgoT())
 		},
-		{
-			// Error returned.
-			entry: Entry{URL: "link", Revision: "master"},
-			err:   errors.New("an error"),
-		},
-	}
-	for _, test := range DownloadEntryTests {
-		m := new(mocks.RepoManager)
-		m.On("Clone", test.entry.URL, test.entry.Revision, ".").Return(test.err)
-		v := vcsEntryDownloader{m}
-		v.DownloadEntry(test.entry, ".")
-		m.AssertExpectations(t)
-	}
-}
+			table.Entry("No error returned", Entry{}, nil),
+			table.Entry("An error returned", Entry{}, errors.New("an error")),
+		)
+	})
+})

@@ -1,25 +1,19 @@
 package common
 
 import (
+	. "github.com/onsi/ginkgo"
+	"github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
-func TestGetSchemaVersion(t *testing.T) {
-	var SchemaVersionTests = []struct {
-		b               Base
-		expectedVersion string
-	}{
-		{
-			b:               Base{},
-			expectedVersion: "",
+var _ = Describe("Base", func() {
+
+	Describe("Retrieving the schema version", func(){
+		table.DescribeTable("GetSchemaVersion", func(b Base, expectedVersion string) {
+			assert.Equal(GinkgoT(), b.GetSchemaVersion(), expectedVersion)
 		},
-		{
-			b:               Base{SchemaVersion: "1.0.0"},
-			expectedVersion: "1.0.0",
-		},
-	}
-	for _, test := range SchemaVersionTests {
-		assert.Equal(t, test.expectedVersion, test.b.GetSchemaVersion())
-	}
-}
+			table.Entry("Empty / new base struct", Base{}, ""),
+			table.Entry("regular base struct", Base{SchemaVersion: "1.0.0"}, "1.0.0"),
+		)
+	})
+})
