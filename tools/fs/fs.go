@@ -2,10 +2,11 @@ package fs
 
 import (
 	"fmt"
-	"github.com/go-utils/ufs"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/go-utils/ufs"
 )
 
 // Util is an interface for helper file system utilities.
@@ -15,6 +16,7 @@ type Util interface {
 	Copy(source string, destination string) error
 	TempDir(dir string, prefix string) (string, error)
 	Mkdirs(dir string) error
+	AppendOrCreate(filePath string, text string) error
 }
 
 // OSUtil is the struct for dealing with File System Operations on the disk.
@@ -52,4 +54,29 @@ func (fs OSUtil) TempDir(dir string, prefix string) (string, error) {
 // Mkdirs ensures that the directory is created.
 func (fs OSUtil) Mkdirs(dir string) error {
 	return ufs.EnsureDirExists(dir)
+}
+
+// AppendOrCreate adds text to file if it exists otherwise it creates a new
+// file with the given text
+func (fs OSUtil) AppendOrCreate(filePath string, text string) error {
+	var err error
+	if _, err := os.Stat(filePath); err == nil {
+		err = AppendToFile(filePath, text)
+	} else {
+		err = ioutil.WriteFile(filePath, []byte(text), 0700)
+	}
+	return err
+}
+
+// AppendToFile adds text to a file
+func AppendToFile(filePath string, text string) error {
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY, 0700)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	if _, err = file.WriteString(text); err != nil {
+		return err
+	}
+	return nil
 }

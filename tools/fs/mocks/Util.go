@@ -91,3 +91,17 @@ func (_m *Util) Mkdirs(dir string) error {
 
 	return r0
 }
+
+// AppendOrCreate provides a mock function with given fields: filePath, text
+func (_m *Util) AppendOrCreate(filePath string, text string) error {
+	ret := _m.Called(filePath, text)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, string) error); ok {
+		r0 = rf(filePath, text)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
