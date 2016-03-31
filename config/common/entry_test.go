@@ -19,7 +19,12 @@ var _ = Describe("Entry", func() {
 			table.Entry("overriden config file path", Entry{Path: "samplepath"}, "samplepath"),
 		)
 	})
-
+	Describe("Constructing a new VCEntrySDownloader", func() {
+		It("should return a downloader of type VCSEntryDownloader", func() {
+			downloader := NewVCSDownloader()
+			assert.IsType(GinkgoT(), vcsEntryDownloader{}, downloader)
+		})
+	})
 	Describe("Downloading Entry from VCS", func(){
 		table.DescribeTable("DownloadEntry", func(e Entry, err error) {
 			m := new(mocks.RepoManager)
