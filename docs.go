@@ -48,10 +48,6 @@ func buildTemplate(config *docx.Config) []string {
 		messages = append(messages, "Error: Template does not exist")
 		return messages
 	}
-	certificationPath, messages := getCertification(config.OpencontrolDir, config.Certification)
-	if certificationPath == "" {
-		return messages
-	}
 	messages = append(messages, "Template Created")
 	return messages
 }

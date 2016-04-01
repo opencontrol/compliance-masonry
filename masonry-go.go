@@ -147,12 +147,6 @@ func NewCLIApp() *cli.App {
 							Destination: &templatePath,
 						},
 						cli.StringFlag{
-							Name:        "certificaiton, c",
-							Value:       "",
-							Usage:       "Set certification",
-							Destination: &certification,
-						},
-						cli.StringFlag{
 							Name:        "export, e",
 							Value:       "export.docx",
 							Usage:       "Sets the export directory",
@@ -161,7 +155,6 @@ func NewCLIApp() *cli.App {
 					},
 					Action: func(c *cli.Context) {
 						config := &docx.Config{
-							Certification:  certification,
 							OpencontrolDir: opencontrolDir,
 							TemplatePath:   templatePath,
 							ExportPath:     exportPath,

@@ -106,24 +106,12 @@ var _ = Describe("Masonry CLI", func() {
 			})
 		})
 
-		Describe("When the docs docx command is run with an existing template, but no certification", func() {
-			It("should warn the user that the certification does not exist", func() {
-				output := Masonry(
-					"docs", "docx",
-					"-o", "./fixtures/opencontrol_fixtures/",
-					"-t", "./fixtures/template_fixtures/test.docx",
-				)
-				Eventually(output.Out.Contents).Should(ContainSubstring("Error: Missing Certification Argument"))
-			})
-		})
-
 		Describe("When the docs docx command is run with an existing template and certification", func() {
 			It("should run the script", func() {
 				output := Masonry(
 					"docs", "docx",
 					"-o", "./fixtures/opencontrol_fixtures/",
 					"-t", "./fixtures/template_fixtures/test.docx",
-					"-c", "LATO",
 				)
 				Eventually(output.Out.Contents).Should(ContainSubstring("Template Created"))
 			})

@@ -25,7 +25,6 @@ var buildTemplateTests = []buildTemplateTest{
 	{
 		docx.Config{
 			OpencontrolDir: "fixtures/opencontrol_fixtures/",
-			Certification:  "LATO",
 			TemplatePath:   "",
 			ExportPath:     "",
 		},
@@ -35,27 +34,15 @@ var buildTemplateTests = []buildTemplateTest{
 	{
 		docx.Config{
 			OpencontrolDir: "fixtures/opencontrol_fixtures/",
-			Certification:  "LATO",
 			TemplatePath:   "fake",
 			ExportPath:     "",
 		},
 		[]string{"Error: Template does not exist"},
 	},
-	// Check the template method returns an error messages when certification doesn't exist
-	{
-		docx.Config{
-			OpencontrolDir: "fixtures/opencontrol_fixtures/",
-			Certification:  "",
-			TemplatePath:   "fixtures/template_fixtures/test.docx",
-			ExportPath:     "",
-		},
-		[]string{"Error: Missing Certification Argument"},
-	},
 	// Check that template is created when inputs are correct
 	{
 		docx.Config{
 			OpencontrolDir: "fixtures/opencontrol_fixtures/",
-			Certification:  "LATO",
 			TemplatePath:   "fixtures/template_fixtures/test.docx",
 			ExportPath:     "",
 		},
