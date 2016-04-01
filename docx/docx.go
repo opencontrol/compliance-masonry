@@ -2,7 +2,9 @@ package docx
 
 import (
 	"strings"
+	"text/template"
 
+	"github.com/geramirez/doc-template"
 	"github.com/opencontrol/compliance-masonry-go/models"
 )
 
@@ -17,18 +19,20 @@ type Config struct {
 // template path and export path.
 type OpenControlDocx struct {
 	*models.OpenControl
-	templatePath string
-	exportPath   string
 }
 
 //BuildDocx exports a Doxc ssp based on a template
-func (config *Config) BuildDocx() {
-	openControl := OpenControlDocx{
-		models.LoadData("../fixtures/opencontrol_fixtures/", ""),
-		"",
-		"",
+func (config *Config) BuildDocx() error {
+	openControl := OpenControlDocx{models.LoadData("../fixtures/opencontrol_fixtures/", "")}
+	docTemplate, err := docTemp.GetTemplate(config.TemplatePath)
+	if err != nil {
+		return err
 	}
-	openControl.LoadCertification("")
+	funcMap := template.FuncMap{"getControl": openControl.formatControl}
+	docTemplate.AddFunctions(funcMap)
+	docTemplate.Parse()
+	docTemplate.Execute(config.ExportPath, nil)
+	return err
 }
 
 // getControl returns a control formatted for docx

@@ -1,8 +1,12 @@
 package docx
 
 import (
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"testing"
 
+	"github.com/geramirez/doc-template"
 	"github.com/opencontrol/compliance-masonry-go/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -37,11 +41,25 @@ var formatControlTests = []struct {
 func TestFormatControl(t *testing.T) {
 	openControl := OpenControlDocx{
 		models.LoadData("../fixtures/opencontrol_fixtures/", ""),
-		"",
-		"",
 	}
 	for _, example := range formatControlTests {
 		actualData := openControl.formatControl(example.standardControl)
 		assert.Equal(t, example.expectedData, actualData)
 	}
+}
+
+func TestBuildDocx(t *testing.T) {
+	tempDir, _ := ioutil.TempDir("", "example")
+	defer os.RemoveAll(tempDir)
+	exportPath := filepath.Join(tempDir, "test_output.docx")
+	config := Config{
+		OpencontrolDir: "../fixtures/opencontrol_fixtures/",
+		TemplatePath:   "../fixtures/opencontrol_fixtures/test.docx",
+		ExportPath:     exportPath,
+	}
+	config.BuildDocx()
+	expectedDoc, _ := docTemp.GetTemplate("../fixtures/exports_fixtures/output.docx")
+	actualDoc, _ := docTemp.GetTemplate(exportPath)
+	assert.Equal(t, expectedDoc.Document.GetContent(), actualDoc.Document.GetContent())
+
 }

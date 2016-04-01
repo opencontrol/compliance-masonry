@@ -49,6 +49,8 @@ func buildTemplate(config *docx.Config) []string {
 		return messages
 	}
 	messages = append(messages, "Template Created")
+	config.BuildDocx()
+	messages = append(messages, "New Docx Created")
 	return messages
 }
 
