@@ -80,7 +80,14 @@ func TestBuildGitbook(t *testing.T) {
 	for _, example := range buildGitbookTests {
 		tempDir, _ := ioutil.TempDir("", "example")
 		defer os.RemoveAll(tempDir)
-		BuildGitbook(example.inputDir, example.certificationPath, example.markdownPath, tempDir)
+		config := &Config{
+			OpencontrolDir: example.inputDir,
+			Certification:  example.certificationPath,
+			ExportPath:     tempDir,
+			MarkdownPath:   example.markdownPath,
+		}
+
+		config.BuildGitbook()
 		// Loop through the expected output to verify it matches the actual output
 		matches, _ := filepath.Glob(filepath.Join(example.expectedOutputDir, "*", "*"))
 		for _, expectedfilePath := range matches {

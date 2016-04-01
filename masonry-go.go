@@ -11,6 +11,8 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
 	"github.com/opencontrol/compliance-masonry-go/config/parser"
+	"github.com/opencontrol/compliance-masonry-go/docx"
+	"github.com/opencontrol/compliance-masonry-go/gitbook"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
 	"github.com/opencontrol/compliance-masonry-go/tools/fs"
 	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
@@ -117,13 +119,13 @@ func NewCLIApp() *cli.App {
 						},
 					},
 					Action: func(c *cli.Context) {
-						config := gitbookConfig{
-							certification:  c.Args().First(),
-							opencontrolDir: opencontrolDir,
-							exportPath:     exportPath,
-							markdownPath:   markdownPath,
+						config := &gitbook.Config{
+							Certification:  c.Args().First(),
+							OpencontrolDir: opencontrolDir,
+							ExportPath:     exportPath,
+							MarkdownPath:   markdownPath,
 						}
-						messages := config.makeGitbook()
+						messages := makeGitbook(config)
 						fmt.Println(strings.Join(messages, "\n"))
 					},
 				},
@@ -158,13 +160,13 @@ func NewCLIApp() *cli.App {
 						},
 					},
 					Action: func(c *cli.Context) {
-						config := templateConfig{
-							certification:  certification,
-							opencontrolDir: opencontrolDir,
-							templatePath:   templatePath,
-							exportPath:     exportPath,
+						config := &docx.Config{
+							Certification:  certification,
+							OpencontrolDir: opencontrolDir,
+							TemplatePath:   templatePath,
+							ExportPath:     exportPath,
 						}
-						messages := config.buildTemplate()
+						messages := buildTemplate(config)
 						fmt.Println(strings.Join(messages, "\n"))
 					},
 				},

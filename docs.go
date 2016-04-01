@@ -7,22 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/opencontrol/compliance-masonry-go/docx"
 	"github.com/opencontrol/compliance-masonry-go/gitbook"
 )
-
-type gitbookConfig struct {
-	opencontrolDir string
-	certification  string
-	exportPath     string
-	markdownPath   string
-}
-
-type templateConfig struct {
-	opencontrolDir string
-	certification  string
-	templatePath   string
-	exportPath     string
-}
 
 func getCertification(opencontrolDir string, certification string) (string, []string) {
 	var (
@@ -51,17 +38,17 @@ func getCertification(opencontrolDir string, certification string) (string, []st
 	return certificationPath, messages
 }
 
-func (config *templateConfig) buildTemplate() []string {
+func buildTemplate(config *docx.Config) []string {
 	var messages []string
-	if config.templatePath == "" {
+	if config.TemplatePath == "" {
 		messages = append(messages, "Error: No Template Supplied")
 		return messages
 	}
-	if _, err := os.Stat(config.templatePath); os.IsNotExist(err) {
+	if _, err := os.Stat(config.TemplatePath); os.IsNotExist(err) {
 		messages = append(messages, "Error: Template does not exist")
 		return messages
 	}
-	certificationPath, messages := getCertification(config.opencontrolDir, config.certification)
+	certificationPath, messages := getCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
 		return messages
 	}
@@ -69,16 +56,17 @@ func (config *templateConfig) buildTemplate() []string {
 	return messages
 }
 
-func (config *gitbookConfig) makeGitbook() []string {
-	certificationPath, messages := getCertification(config.opencontrolDir, config.certification)
+func makeGitbook(config *gitbook.Config) []string {
+	certificationPath, messages := getCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
 		return messages
 	}
-	if _, err := os.Stat(config.markdownPath); os.IsNotExist(err) {
+	if _, err := os.Stat(config.MarkdownPath); os.IsNotExist(err) {
 		markdownPath = ""
 		messages = append(messages, "Warning: markdown directory does not exist")
 	}
-	gitbook.BuildGitbook(config.opencontrolDir, certificationPath, markdownPath, config.exportPath)
+	config.Certification = certificationPath
+	config.BuildGitbook()
 	messages = append(messages, "New Gitbook Documentation Created")
 	return messages
 }

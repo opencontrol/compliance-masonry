@@ -59,7 +59,7 @@ var _ = Describe("Masonry CLI", func() {
 			})
 		})
 
-		Describe("When the CLI is run with the `docs gitbook` command with a certification", func() {
+		Describe("When the CLI is run with the `docs gitbook` command with a certification and no markdown", func() {
 			It("should create the documentation but warn users that there is no markdown dir", func() {
 				output := Masonry(
 					"docs", "gitbook", "LATO",
