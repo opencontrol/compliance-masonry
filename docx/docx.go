@@ -23,7 +23,7 @@ type OpenControlDocx struct {
 
 //BuildDocx exports a Doxc ssp based on a template
 func (config *Config) BuildDocx() error {
-	openControl := OpenControlDocx{models.LoadData("../fixtures/opencontrol_fixtures/", "")}
+	openControl := OpenControlDocx{models.LoadData(config.OpencontrolDir, "")}
 	docTemplate, err := docTemp.GetTemplate(config.TemplatePath)
 	if err != nil {
 		return err
@@ -32,6 +32,7 @@ func (config *Config) BuildDocx() error {
 	docTemplate.AddFunctions(funcMap)
 	docTemplate.Parse()
 	docTemplate.Execute(config.ExportPath, nil)
+	docTemplate.Document.Close()
 	return err
 }
 
