@@ -1,9 +1,11 @@
 #!/bin/bash
 
+set -e
+
 cov_file=/home/ubuntu/coverage.out
 
 # Get the list of packages.
-pkgs=`go list ./...`
+pkgs=`go list $(/home/ubuntu/.go_workspace/bin/glide novendor)`
 
 echo "mode: count" > $cov_file
 for pkg in $pkgs

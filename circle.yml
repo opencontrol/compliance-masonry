@@ -1,7 +1,12 @@
+dependencies:
+  override:
+    - go get github.com/Masterminds/glide
+    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go && cp -R /home/ubuntu/compliance-masonry-go/* /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go/ && cd /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go
+    - /home/ubuntu/.go_workspace/bin/glide install
 test:
   pre:
     - go get github.com/axw/gocov/gocov
     - go get github.com/mattn/goveralls
     - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
   override:
-    - /home/ubuntu/.go_project/src/github.com/opencontrol/compliance-masonry-go/circleci/coverage.sh
+    - cd /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go && circleci/coverage.sh
