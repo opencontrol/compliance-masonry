@@ -1,65 +1,33 @@
 package vcs
 
 import (
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"os"
-	"testing"
 )
 
-func TestClone(t *testing.T) {
-	var CloneTests = []struct {
-		url         string
-		rev         string
-		errorIsNull bool
-		errorString string
-	}{
-		{
-			// Sane check.
-			url:         "https://github.com/opencontrol/compliance-masonry-go",
-			rev:         "master",
-			errorIsNull: true,
-		},
-		{
-			// Sane check. No revision
-			url:         "https://github.com/opencontrol/compliance-masonry-go",
-			errorIsNull: true,
-		},
-		{
-			// Can't init / detect the repo.
-			url:         "https://myrepo/opencontrol/compliance-masonry-go",
-			rev:         "master",
-			errorIsNull: false,
-			errorString: repoInitFailed,
-		},
-		{
-			// Can't init / detect the repo.
-			url:         "http://user:name@github.com/opencontrol/compliance-masonry-go-blah",
-			rev:         "master",
-			errorIsNull: false,
-			errorString: repoCloneFailed,
-		},
-		{
-			// Get a revision that doesn't exist.
-			url:         "https://github.com/opencontrol/compliance-masonry-go",
-			rev:         "master-ultimate-branch-that-never-exists",
-			errorIsNull: false,
-			errorString: repoCheckoutFailed,
-		},
-	}
-	for _, test := range CloneTests {
+var _ = Describe("Manager", func() {
+	DescribeTable("Clone", func(url, rev string, errorIsNull bool, errorString string) {
 		local, err := ioutil.TempDir("", "go-vcs")
 		if err != nil {
-			assert.Fail(t, err.Error())
+			assert.Fail(GinkgoT(), err.Error())
 		}
 		m := Manager{}
-		err = m.Clone(test.url, test.rev, local)
-		if test.errorIsNull {
-			assert.Nil(t, err)
+		err = m.Clone(url, rev, local)
+		if errorIsNull {
+			assert.Nil(GinkgoT(), err)
 		} else {
-			assert.NotNil(t, err)
-			assert.Contains(t, err.Error(), test.errorString)
+			assert.NotNil(GinkgoT(), err)
+			assert.Contains(GinkgoT(), err.Error(), errorString)
 		}
 		os.RemoveAll(local)
-	}
-}
+	},
+		Entry("sane check", "https://github.com/opencontrol/compliance-masonry-go", "master", true, ""),
+		Entry("sane check no revision", "https://github.com/opencontrol/compliance-masonry-go", "", true, ""),
+		Entry("Can't init / detect the repo", "https://myrepo/opencontrol/compliance-masonry-go", "master", false, repoInitFailed),
+		Entry("Can't clone repo", "http://user:name@github.com/opencontrol/compliance-masonry-go-blah", "master", false, repoCloneFailed),
+		Entry("Get a revision that doesn't exist", "https://github.com/opencontrol/compliance-masonry-go", "master-ultimate-branch-that-never-exists", false, repoCheckoutFailed),
+	)
+})
