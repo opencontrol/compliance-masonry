@@ -5,14 +5,14 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
-	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 	"github.com/opencontrol/compliance-masonry-go/config/common"
-	fsmocks "github.com/opencontrol/compliance-masonry-go/tools/fs/mocks"
+	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
 	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	fsmocks "github.com/opencontrol/compliance-masonry-go/tools/fs/mocks"
+	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vektra/errors"
-	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
 )
 
 var _ = Describe("ResourceGetter", func() {
