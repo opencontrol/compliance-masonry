@@ -46,7 +46,7 @@ var buildTemplateTests = []buildTemplateTest{
 			TemplatePath:   "fixtures/template_fixtures/test.docx",
 			ExportPath:     "",
 		},
-		[]string{"Template Created"},
+		[]string{"New Docx Created"},
 	},
 }
 

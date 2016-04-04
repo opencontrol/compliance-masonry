@@ -92,6 +92,11 @@ var _ = Describe("Masonry CLI", func() {
 
 	Describe("Template Engine Commands", func() {
 
+		var exportTempDir string
+		BeforeEach(func() {
+			exportTempDir, _ = ioutil.TempDir("", "exports")
+		})
+
 		Describe("When the docs docx command is run", func() {
 			It("should warn the user that no template has been supplied", func() {
 				output := Masonry("docs", "docx")
@@ -106,18 +111,35 @@ var _ = Describe("Masonry CLI", func() {
 			})
 		})
 
+		Describe("When the docs docx command is run with a corrupted template", func() {
+			It("should return an error", func() {
+				output := Masonry(
+					"docs", "docx",
+					"-o", "fixtures/opencontrol_fixtures/",
+					"-t", "fixtures/template_fixtures/test_corrupted.docx",
+					"-e", filepath.Join(exportTempDir, "export.docx"),
+				)
+				Eventually(output.Out.Contents).Should(ContainSubstring("Cannot Open File"))
+			})
+		})
+
 		Describe("When the docs docx command is run with an existing template and certification", func() {
 			It("should run the script", func() {
 				output := Masonry(
 					"docs", "docx",
-					"-o", "./fixtures/opencontrol_fixtures/",
-					"-t", "./fixtures/template_fixtures/test.docx",
+					"-o", "fixtures/opencontrol_fixtures/",
+					"-t", "fixtures/template_fixtures/test.docx",
+					"-e", filepath.Join(exportTempDir, "export.docx"),
 				)
-				Eventually(output.Out.Contents).Should(ContainSubstring("Template Created"))
+				Eventually(output.Out.Contents).Should(ContainSubstring("New Docx Created"))
 			})
 		})
-	})
 
+		AfterEach(func() {
+			os.RemoveAll(exportTempDir)
+		})
+
+	})
 })
 
 func Masonry(args ...string) *Session {

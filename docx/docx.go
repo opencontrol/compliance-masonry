@@ -1,6 +1,7 @@
 package docx
 
 import (
+	"fmt"
 	"strings"
 	"text/template"
 
@@ -32,20 +33,39 @@ func (config *Config) BuildDocx() error {
 	docTemplate.AddFunctions(funcMap)
 	docTemplate.Parse()
 	docTemplate.Execute(config.ExportPath, nil)
-	docTemplate.Document.Close()
 	return err
 }
 
 // getControl returns a control formatted for docx
-func (opencontrol *OpenControlDocx) formatControl(standardControl string) string {
-	var output string
+func (openControl *OpenControlDocx) formatControl(standardControl string) string {
+	var text string
 	standardKey, controlKey := splitControl(standardControl)
-	opencontrol.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
+	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
 		for _, justification := range selectJustifications {
-			output += justification.SatisfiesData.Narrative
+			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
+				text = fmt.Sprintf("%s%s  \n", text, component.Name)
+				text = fmt.Sprintf("%s%s  \n", text, justification.SatisfiesData.Narrative)
+			})
+
+			if len(justification.SatisfiesData.CoveredBy) > 0 {
+				text += "Covered By:  \n"
+			}
+
+			for _, coveredBy := range justification.SatisfiesData.CoveredBy {
+				componentKey := coveredBy.ComponentKey
+				if componentKey == "" {
+					componentKey = justification.ComponentKey
+				}
+				openControl.Components.GetAndApply(componentKey, func(component *models.Component) {
+					if component != nil {
+						verification := component.Verifications.Get(coveredBy.VerificationKey)
+						text += fmt.Sprintf("- %s %s  \n", verification.Name, verification.Path)
+					}
+				})
+			}
 		}
 	})
-	return output
+	return text
 }
 
 // splitControl returns a split standard and control given a standard

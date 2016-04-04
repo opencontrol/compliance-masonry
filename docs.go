@@ -48,9 +48,13 @@ func buildTemplate(config *docx.Config) []string {
 		messages = append(messages, "Error: Template does not exist")
 		return messages
 	}
-	messages = append(messages, "Template Created")
-	config.BuildDocx()
-	messages = append(messages, "New Docx Created")
+	err := config.BuildDocx()
+	if err != nil {
+		messages = append(messages, err.Error())
+	} else {
+		messages = append(messages, "New Docx Created")
+	}
+
 	return messages
 }
 

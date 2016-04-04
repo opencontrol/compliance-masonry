@@ -34,8 +34,8 @@ var formatControlTests = []struct {
 	standardControl string
 	expectedData    string
 }{
-	{standardControl: "NIST-800-53@CM-2", expectedData: "Justification in narrative form"},
-	{standardControl: "PCI-DSS-MAY-2015@2.1", expectedData: "Justification in narrative form"},
+	{standardControl: "NIST-800-53@CM-2", expectedData: "Amazon Elastic Compute Cloud  \nJustification in narrative form  \nCovered By:  \n- EC2 Verification 1 http://VerificationURL.com  \n"},
+	{standardControl: "PCI-DSS-MAY-2015@2.1", expectedData: "Amazon Elastic Compute Cloud  \nJustification in narrative form  \n"},
 }
 
 func TestFormatControl(t *testing.T) {
@@ -54,7 +54,7 @@ func TestBuildDocx(t *testing.T) {
 	exportPath := filepath.Join(tempDir, "test_output.docx")
 	config := Config{
 		OpencontrolDir: "../fixtures/opencontrol_fixtures/",
-		TemplatePath:   "../fixtures/opencontrol_fixtures/test.docx",
+		TemplatePath:   "../fixtures/template_fixtures/test.docx",
 		ExportPath:     exportPath,
 	}
 	config.BuildDocx()
