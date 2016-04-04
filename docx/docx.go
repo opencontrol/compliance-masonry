@@ -29,7 +29,7 @@ func (config *Config) BuildDocx() error {
 	if err != nil {
 		return err
 	}
-	funcMap := template.FuncMap{"getControl": openControl.formatControl}
+	funcMap := template.FuncMap{"getControl": openControl.FormatControl}
 	docTemplate.AddFunctions(funcMap)
 	docTemplate.Parse()
 	docTemplate.Execute(config.ExportPath, nil)
@@ -37,9 +37,9 @@ func (config *Config) BuildDocx() error {
 }
 
 // getControl returns a control formatted for docx
-func (openControl *OpenControlDocx) formatControl(standardControl string) string {
+func (openControl *OpenControlDocx) FormatControl(standardControl string) string {
 	var text string
-	standardKey, controlKey := splitControl(standardControl)
+	standardKey, controlKey := SplitControl(standardControl)
 	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
@@ -70,7 +70,7 @@ func (openControl *OpenControlDocx) formatControl(standardControl string) string
 
 // splitControl returns a split standard and control given a standard
 // and control delimited with `@`
-func splitControl(standardControl string) (string, string) {
+func SplitControl(standardControl string) (string, string) {
 	var standard, control string
 	splitString := strings.Split(standardControl, "@")
 	splitStringLen := len(splitString)
