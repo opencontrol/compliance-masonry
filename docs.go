@@ -38,7 +38,7 @@ func getCertification(opencontrolDir string, certification string) (string, []st
 	return certificationPath, messages
 }
 
-func buildTemplate(config *docx.Config) []string {
+func BuildTemplate(config *docx.Config) []string {
 	var messages []string
 	if config.TemplatePath == "" {
 		messages = append(messages, "Error: No Template Supplied")
@@ -57,7 +57,7 @@ func buildTemplate(config *docx.Config) []string {
 	return messages
 }
 
-func makeGitbook(config *gitbook.Config) []string {
+func MakeGitbook(config *gitbook.Config) []string {
 	certificationPath, messages := getCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
 		return messages

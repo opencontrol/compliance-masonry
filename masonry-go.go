@@ -125,7 +125,7 @@ func NewCLIApp() *cli.App {
 							ExportPath:     exportPath,
 							MarkdownPath:   markdownPath,
 						}
-						messages := makeGitbook(config)
+						messages := MakeGitbook(config)
 						fmt.Println(strings.Join(messages, "\n"))
 					},
 				},
@@ -159,7 +159,7 @@ func NewCLIApp() *cli.App {
 							TemplatePath:   templatePath,
 							ExportPath:     exportPath,
 						}
-						messages := buildTemplate(config)
+						messages := BuildTemplate(config)
 						fmt.Println(strings.Join(messages, "\n"))
 					},
 				},
