@@ -19,6 +19,16 @@ go get github.com/opencontrol/compliance-masonry-go
 compliance-masonry-go
 ```
 
+### Development
+This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
+
+```
+# Install glide
+$ go get github.com/Masterminds/glide
+
+# Install dependencies
+$ $GOPATH/bin/glide install
+```
 
 ### Examples
 Compliance Masonry examples in the wild:
