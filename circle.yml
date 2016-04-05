@@ -14,9 +14,7 @@ dependencies:
   override:
     - go version
     - go get github.com/Masterminds/glide
-    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go && cp -R /home/ubuntu/compliance-masonry-go/* /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go/ && cd /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go
-    - pwd && /home/ubuntu/.go_workspace/bin/glide up
-    - pwd && go build
+    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go && cp -R /home/ubuntu/compliance-masonry-go/* /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go/ && cd /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go && && /home/ubuntu/.go_workspace/bin/glide build && go build
 test:
   pre:
     - go get github.com/axw/gocov/gocov
