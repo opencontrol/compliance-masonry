@@ -18,10 +18,9 @@ var _ = Describe("Masonry CLI", func() {
 	Describe("When the CLI is run with no commands", func() {
 		It("should list the available commands", func() {
 			output := Masonry("", "")
-			Eventually(output.Out.Contents).Should(ContainSubstring("init, i	Initialize Open Control documentation repository"))
-			Eventually(output.Out.Contents).Should(ContainSubstring("get, g	Install compliance dependencies"))
-			Eventually(output.Out.Contents).Should(ContainSubstring("docs, d	Create Documentation"))
-			Eventually(output.Out.Contents).Should(ContainSubstring("help, h	Shows a list of commands or help for one command"))
+			Eventually(output.Out.Contents).Should(ContainSubstring("Initialize Open Control documentation repository"))
+			Eventually(output.Out.Contents).Should(ContainSubstring("Install compliance dependencies"))
+			Eventually(output.Out.Contents).Should(ContainSubstring("Create Documentation"))
 		})
 	})
 
@@ -29,9 +28,9 @@ var _ = Describe("Masonry CLI", func() {
 		Describe("When the CLI is run with the docs command", func() {
 			It("should list the available doc commands", func() {
 				output := Masonry("docs", "")
-				Eventually(output.Out.Contents).Should(ContainSubstring("gitbook, g	Create Gitbook Documentation"))
-				Eventually(output.Out.Contents).Should(ContainSubstring("docx, d	Create Docx Documentation using a Template"))
-				Eventually(output.Out.Contents).Should(ContainSubstring("help, h	Shows a list of commands or help for one command"))
+				Eventually(output.Out.Contents).Should(ContainSubstring("Create Gitbook Documentation"))
+				Eventually(output.Out.Contents).Should(ContainSubstring("Create Docx Documentation using a Template"))
+				Eventually(output.Out.Contents).Should(ContainSubstring("Shows a list of commands or help for one command"))
 			})
 		})
 	})
