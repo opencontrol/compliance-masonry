@@ -23,8 +23,9 @@ var certification, exportPath, markdownPath, opencontrolDir, templatePath string
 // NewCLIApp creates a new instances of the CLI
 func NewCLIApp() *cli.App {
 	app := cli.NewApp()
-	app.Name = "masonry-go"
+	app.Name = "Compliance Masonry"
 	app.Usage = "Open Control CLI Tool"
+	app.Version = "0.1.0"
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "verbose",
