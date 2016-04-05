@@ -1,5 +1,5 @@
-hash: 2f0e18fae6eede252dd8f2e1fdfad1acbec23af489e51f7d41812cbdab9dbab4
-updated: 2016-04-04T16:00:55.870870684-04:00
+hash: b20514ce2353b6a2619a0e91c567784b7aac34aafbd58694ee9a27101fee3082
+updated: 2016-04-05T15:33:07.654284337-04:00
 imports:
 - name: github.com/blang/semver
   version: aea32c919a18e5ef4537bbd283ff29594b1b0165
@@ -9,6 +9,10 @@ imports:
   version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
   subpackages:
   - spew
+- name: github.com/geramirez/doc-template
+  version: 9d3f77f131b0430388d7f301d4647facba28e11e
+  subpackages:
+  - docx
 - name: github.com/go-forks/fsnotify
   version: 6b1ef893dc11e0447abda6da20a5203481878dda
 - name: github.com/go-utils/ufs

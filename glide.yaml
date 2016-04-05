@@ -10,3 +10,4 @@ import:
 - package: github.com/vektra/errors
 - package: gopkg.in/fatih/set.v0
 - package: gopkg.in/yaml.v2
+- package: github.com/geramirez/doc-template
