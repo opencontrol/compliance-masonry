@@ -16,6 +16,7 @@ dependencies:
     - go get github.com/Masterminds/glide
     - mkdir -p /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go && cp -R /home/ubuntu/compliance-masonry-go/* /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go/ && cd /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry-go
     - /home/ubuntu/.go_workspace/bin/glide up
+    - go build
 test:
   pre:
     - go get github.com/axw/gocov/gocov
