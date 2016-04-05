@@ -36,7 +36,7 @@ func (config *Config) BuildDocx() error {
 	return err
 }
 
-// getControl returns a control formatted for docx
+// FormatControl returns a control formatted for docx
 func (openControl *OpenControlDocx) FormatControl(standardControl string) string {
 	var text string
 	standardKey, controlKey := SplitControl(standardControl)
@@ -68,7 +68,7 @@ func (openControl *OpenControlDocx) FormatControl(standardControl string) string
 	return text
 }
 
-// splitControl returns a split standard and control given a standard
+// SplitControl returns a split standard and control given a standard
 // and control delimited with `@`
 func SplitControl(standardControl string) (string, string) {
 	var standard, control string

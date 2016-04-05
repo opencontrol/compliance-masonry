@@ -119,7 +119,7 @@ func NewCLIApp() *cli.App {
 						},
 					},
 					Action: func(c *cli.Context) {
-						config := &gitbook.Config{
+						config := gitbook.Config{
 							Certification:  c.Args().First(),
 							OpencontrolDir: opencontrolDir,
 							ExportPath:     exportPath,
@@ -154,7 +154,7 @@ func NewCLIApp() *cli.App {
 						},
 					},
 					Action: func(c *cli.Context) {
-						config := &docx.Config{
+						config := docx.Config{
 							OpencontrolDir: opencontrolDir,
 							TemplatePath:   templatePath,
 							ExportPath:     exportPath,

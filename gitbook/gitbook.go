@@ -51,7 +51,7 @@ func replaceParentheses(text string) string {
 }
 
 // BuildGitbook entry point for creating gitbook
-func (config *Config) BuildGitbook() {
+func (config Config) BuildGitbook() {
 	openControl := OpenControlGitBook{
 		models.LoadData(config.OpencontrolDir, config.Certification),
 		config.MarkdownPath,

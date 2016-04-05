@@ -80,7 +80,7 @@ func TestBuildGitbook(t *testing.T) {
 	for _, example := range buildGitbookTests {
 		tempDir, _ := ioutil.TempDir("", "example")
 		defer os.RemoveAll(tempDir)
-		config := &Config{
+		config := Config{
 			OpencontrolDir: example.inputDir,
 			Certification:  example.certificationPath,
 			ExportPath:     tempDir,
