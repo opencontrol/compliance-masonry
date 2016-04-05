@@ -30,7 +30,6 @@ var _ = Describe("Masonry CLI", func() {
 				output := Masonry("docs", "")
 				Eventually(output.Out.Contents).Should(ContainSubstring("Create Gitbook Documentation"))
 				Eventually(output.Out.Contents).Should(ContainSubstring("Create Docx Documentation using a Template"))
-				Eventually(output.Out.Contents).Should(ContainSubstring("Shows a list of commands or help for one command"))
 			})
 		})
 	})
