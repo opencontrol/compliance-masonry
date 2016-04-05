@@ -42,14 +42,6 @@ func NewCLIApp() *cli.App {
 	}
 	app.Commands = []cli.Command{
 		{
-			Name:    "init",
-			Aliases: []string{"i"},
-			Usage:   "Initialize Open Control documentation repository",
-			Action: func(c *cli.Context) {
-				fmt.Println("Documentation Initialized")
-			},
-		},
-		{
 			Name:    "get",
 			Aliases: []string{"g"},
 			Usage:   "Install compliance dependencies",

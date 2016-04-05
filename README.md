@@ -7,28 +7,90 @@ Compliance Masonry is a CLI that allows users to construct certification documen
 
 # Quick Start with CLI
 
-### Installing
+## Installing
 1. Install Go
 
 2. Install the tool
-```bash
-go get github.com/opencontrol/compliance-masonry-go
-```
+  ```bash
+  go get github.com/opencontrol/compliance-masonry-go
+  ```
 3. Run the CLI
-```
-compliance-masonry-go
-```
+  ```bash
+  compliance-masonry-go
+  ```
 
-### Development
-This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
 
-```
-# Install glide
-$ go get github.com/Masterminds/glide
+## Creating an OpenControl project
+1. Start a fresh directory
+  ```bash
+  mkdir your-project-name && cd your-project-name
+  ```
+2. Create an opencontrol.yaml files
+  ```bash
+  touch opencontrol.yaml
+  ```
+3. Edit the opencontrol.yaml to contain the following data
+  ```yaml
+  schema_version: "1.0.0" # 1.0.0 is the current opencontrol.yaml schema version
+  name: Project_Name # Name of the project
+  metadata:
+    description: "A description of the system"
+    maintainers:
+      - maintainer_email@email.com
+  components: # A list of paths to components written in the opencontrol format for more information view: https://github.com/opencontrol/schemas
+    - ./component-1  
+  certifications: # An optional list of certifications for more information visit: https://github.com/opencontrol/schemas
+    - ./cert-1.yaml
+  standards: # An optional list of standards for more information visit: https://github.com/opencontrol/schemas
+    - ./standard-1.yaml
+  dependencies:
+    certifications: # An optional list of certifications stored remotely
+      - url: github.com/18F/LATO
+        revision: master
+    systems:  # An optional list of repos that contain an opencontrol.yaml stored remotely
+      - url: github.com/18F/cg-complinace
+        revision: master
+    standards:   # An optional list of remote repos containing standards info that contain an opencontrol.yaml
+      - url: github.com/18F/NIST-800-53
+        revision: master
+  ```
+4. Collect dependencies.
+  ```bash
+  compliance-masonry-go get
+  ```
+  The `get` command will retrieve  dependencies needed to compile documentation.
 
-# Install dependencies
-$ $GOPATH/bin/glide install
-```
+
+## Creating Gitbook Documentation
+1. Update dependencies
+  ```bash
+  compliance-masonry-go get
+  ```
+2. Run the gitbook command
+  ```bash
+  compliance-masonry-go docs gitbook LATO
+  # Or
+  compliance-masonry-go docs gitbook FedRAMP-low
+  ```
+
+The `gitbook` command by default will create a folder called `exports` that contains the files needed to create a gitbook. Visit the [gitbook documentation](https://github.com/GitbookIO/gitbook-cli) for more information on creating gitbooks via the cli
+
+## Create Docx template
+1. Create a Word Document template that uses the following template tag format  
+
+  ```txt
+  Documentation for Standard: NIST-800-53 and Control: CM-2 will be rendered below
+  {{ getControl "NIST-800-53@CM-2"}}
+
+  Documentation for Standard: NIST-800-53 and Control: AC-2 will be rendered below
+  {{ getControl "NIST-800-53@AC-2"}}
+  ```
+2. Run the docx command
+  ```bash
+  compliance-masonry-go docs docx -t path/to/template.docx
+  ```
+  Running the `docx` command will by default create a file named `export.docx` in the local directory.
+
 
 ### Examples
 Compliance Masonry examples in the wild:
@@ -44,3 +106,14 @@ Compliance Masonry simplifies the process of certification documentations by pro
 1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
 2. a way for government project to edit existing files and also add new control files for their applications and organizations.
 3. a pipeline for generating clean and standardized certification documentation.
+
+### Development
+This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
+
+```
+# Install glide
+$ go get github.com/Masterminds/glide
+
+# Install dependencies
+$ $GOPATH/bin/glide install
+```
