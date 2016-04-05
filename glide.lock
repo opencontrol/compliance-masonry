@@ -1,5 +1,5 @@
-hash: b20514ce2353b6a2619a0e91c567784b7aac34aafbd58694ee9a27101fee3082
-updated: 2016-04-05T15:33:07.654284337-04:00
+hash: cd8fc1e3ab606d93226d5682a47ee7f1982180445767719df8a297666a753d33
+updated: 2016-04-05T16:20:17.809921496-04:00
 imports:
 - name: github.com/blang/semver
   version: aea32c919a18e5ef4537bbd283ff29594b1b0165
@@ -25,6 +25,10 @@ imports:
   version: 18ce5cfd3a95bbf3f197eb5ff21f0fd0b39b0046
 - name: github.com/Masterminds/vcs
   version: b22ee1673cdd03ef47bb0b422736a7f17ff0648c
+- name: github.com/onsi/ginkgo
+  version: 105b4823ee2cbebc2b5c562d9ac50694ecc2c689
+- name: github.com/onsi/gomega
+  version: 7ce781ea776b2fd506491011353bded2e40c8467
 - name: github.com/pmezard/go-difflib
   version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:
