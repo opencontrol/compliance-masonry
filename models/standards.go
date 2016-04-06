@@ -27,6 +27,7 @@ type Standards struct {
 }
 
 // GetSortedData returns a list of sorted controls
+// TODO: Sort here
 func (standard Standard) GetSortedData(callback func(string)) {
 	var controlNames []string
 	for controlName := range standard.Controls {

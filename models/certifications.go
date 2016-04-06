@@ -5,6 +5,7 @@ import (
 	"sort"
 
 	"gopkg.in/yaml.v2"
+	"vbom.ml/util/sortorder"
 )
 
 // Certification struct is a collection of specific standards and controls
@@ -19,7 +20,7 @@ func (certification Certification) GetSortedData(callback func(string, string)) 
 	for standardName := range certification.Standards {
 		standardNames = append(standardNames, standardName)
 	}
-	sort.Strings(standardNames)
+	sort.Sort(sortorder.Natural(standardNames))
 	for _, standardKey := range standardNames {
 		certification.Standards[standardKey].GetSortedData(func(controlKey string) {
 			callback(standardKey, controlKey)

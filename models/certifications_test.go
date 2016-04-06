@@ -69,13 +69,13 @@ func TestLoadCertificationErrors(t *testing.T) {
 
 var standardOrderTests = []standardOrderTest{
 	{
-		// Check that data is returned in order given letters
+		// These Standards should sort _naturally_ (http://blog.codinghorror.com/sorting-for-humans-natural-sort-order/)
 		Certification{Standards: map[string]Standard{
 			"A": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
-			"B": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
-			"C": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
+			"B": Standard{Controls: map[string]Control{"12": Control{}, "2": Control{}, "1": Control{}}},
+			"C": Standard{Controls: map[string]Control{"2": Control{}, "11": Control{}, "101": Control{}, "1000": Control{}, "100": Control{}, "10": Control{}, "1": Control{}}},
 		}},
-		"A1A2A3B1B2B3C1C2C3",
+		"A1A2A3B1B2B12C1C2C10C11C100C101C1000",
 	},
 	{
 		// Check that data is returned in order given letters and numbers
