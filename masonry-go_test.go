@@ -18,7 +18,6 @@ var _ = Describe("Masonry CLI", func() {
 	Describe("When the CLI is run with no commands", func() {
 		It("should list the available commands", func() {
 			output := Masonry("", "")
-			Eventually(output.Out.Contents).Should(ContainSubstring("Initialize Open Control documentation repository"))
 			Eventually(output.Out.Contents).Should(ContainSubstring("Install compliance dependencies"))
 			Eventually(output.Out.Contents).Should(ContainSubstring("Create Documentation"))
 		})
