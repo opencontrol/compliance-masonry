@@ -29,7 +29,7 @@ Compliance Masonry is a CLI that allows users to construct certification documen
   ```bash
   touch opencontrol.yaml
   ```
-3. Edit the opencontrol.yaml to contain the following data
+3. Edit the opencontrol.yaml to contain the following data  
   ```yaml
   schema_version: "1.0.0" # 1.0.0 is the current opencontrol.yaml schema version
   name: Project_Name # Name of the project
