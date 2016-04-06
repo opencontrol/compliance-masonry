@@ -108,12 +108,27 @@ Compliance Masonry simplifies the process of certification documentations by pro
 3. a pipeline for generating clean and standardized certification documentation.
 
 ### Development
-This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
+This project requires [go1.6](https://github.com/moovweb/gvm) and uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
 
-```
-# Install glide
-$ go get github.com/Masterminds/glide
-
+#### Project setup
+```bash
+# Create directories
+mkdir -p compliance-masonry-go/src/github.com/opencontrol/
+mkdir compliance-masonry-go/bin
+# Clone compliance-masonry-go
+git clone git@github.com:opencontrol/compliance-masonry-go.git compliance-masonry-go/src/github.com/opencontrol/
+# Set $GOPATHs
+export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
+cd src/github.com/opencontrol/compliance-masonry-go
 # Install dependencies
-$ $GOPATH/bin/glide install
+go get github.com/Masterminds/glide
+$GOPATH/bin/glide install
+```
+
+#### Running tests
+```bash
+# Get test dependencies
+go get -t ./...
+# Run tests
+ginkgo
 ```
