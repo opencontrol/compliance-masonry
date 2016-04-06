@@ -30,7 +30,7 @@ Compliance Masonry is a CLI that allows users to construct certification documen
   touch opencontrol.yaml
   ```
 3. Edit the opencontrol.yaml to contain the following data  
-  ```yaml
+   ```yaml
   schema_version: "1.0.0" # 1.0.0 is the current opencontrol.yaml schema version
   name: Project_Name # Name of the project
   metadata:
@@ -54,7 +54,8 @@ Compliance Masonry is a CLI that allows users to construct certification documen
       - url: github.com/18F/NIST-800-53
         revision: master
   ```
-4. Collect dependencies.
+
+4. Collect dependencies
   ```bash
   compliance-masonry-go get
   ```
