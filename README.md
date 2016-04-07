@@ -128,7 +128,7 @@ export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
 cd src/github.com/opencontrol/compliance-masonry-go
 # Install dependencies
 go get github.com/Masterminds/glide
-$GOPATH/bin/glide install
+glide install
 ```
 
 #### Running tests
