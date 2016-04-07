@@ -8,19 +8,18 @@ Compliance Masonry is a CLI that allows users to construct certification documen
 # Quick Start with CLI
 
 ### Installing
-0. Install Go
-0. Install the tool
+1. Install Go
+
+2. Install the tool
 ```bash
 go get github.com/opencontrol/compliance-masonry-go
 ```
-0. Run the CLI
+3. Run the CLI
 ```
 compliance-masonry-go
 ```
 
 ### Development
-First, ensure [$GOPATH is set correctly](https://golang.org/doc/code.html#GOPATH)
-
 This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
 
 ## Creating an OpenControl project
@@ -96,29 +95,7 @@ The `gitbook` command by default will create a folder called `exports` that cont
   Running the `docx` command will by default create a file named `export.docx` in the local directory.
 
 # Install dependencies
-$ cd $GOPATH/src/github.com/opencontrol/compliance-masonry-go
-$ glide install
-```
-
-To install dependencies locally without glide
-```
-$ cd $GOPATH/src/github.com/opencontrol/compliance-masonry-go
-$ go get -t ./...
-```
-
-### Tests
-Install dependencies
-```
-$ go get github.com/onsi/ginkgo/ginkgo
-$ go get github.com/onsi/gomega
-```
-
-Run all tests:
-```
-$ cd $GOPATH/src/github.com/opencontrol/compliance-masonry-go
-$ go test
-$ cd models
-$ go test ./...
+$ $GOPATH/bin/glide install
 ```
 
 ### Examples
