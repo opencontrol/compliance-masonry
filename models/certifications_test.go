@@ -69,7 +69,7 @@ func TestLoadCertificationErrors(t *testing.T) {
 
 var standardOrderTests = []standardOrderTest{
 	{
-		// These Standards should sort _naturally_ (http://blog.codinghorror.com/sorting-for-humans-natural-sort-order/)
+		// Verify Natural sort order
 		Certification{Standards: map[string]Standard{
 			"A": Standard{Controls: map[string]Control{"3": Control{}, "2": Control{}, "1": Control{}}},
 			"B": Standard{Controls: map[string]Control{"12": Control{}, "2": Control{}, "1": Control{}}},

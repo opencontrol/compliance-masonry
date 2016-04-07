@@ -74,6 +74,13 @@ var controlOrderTests = []controlOrderTest{
 		},
 		"1.1.12.1.1AB-2AC-1",
 	},
+	// Verify Natural sort order
+	{
+		Standard{
+			Controls: map[string]Control{"AC-1": Control{}, "AC-12": Control{}, "AC-2 (1)": Control{}, "AC-2 (11)": Control{}, "AC-2 (3)": Control{}, "AC-3 (1)": Control{}},
+		},
+		"AC-1AC-2 (1)AC-2 (3)AC-2 (11)AC-3 (1)AC-12",
+	},
 }
 
 func TestControlOrder(t *testing.T) {
