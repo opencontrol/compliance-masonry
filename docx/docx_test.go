@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/geramirez/doc-template"
+	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry-go/docx"
 	"github.com/opencontrol/compliance-masonry-go/models"
 

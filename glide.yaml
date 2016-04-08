@@ -10,7 +10,9 @@ import:
 - package: github.com/vektra/errors
 - package: gopkg.in/fatih/set.v0
 - package: gopkg.in/yaml.v2
-- package: github.com/geramirez/doc-template
 - package: github.com/onsi/ginkgo
 - package: github.com/onsi/gomega
-- package: vbom.ml/util/sortorder
+- package: vbom.ml/util
+  subpackages:
+  - sortorder
+- package: github.com/opencontrol/doc-template

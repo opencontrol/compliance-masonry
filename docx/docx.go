@@ -5,7 +5,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/geramirez/doc-template"
+	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry-go/models"
 )
 
