@@ -94,8 +94,9 @@ func TestBuildGitbook(t *testing.T) {
 			actualFilePath := strings.Replace(expectedfilePath, example.expectedOutputDir, tempDir, -1)
 			expectedData, _ := ioutil.ReadFile(expectedfilePath)
 			actualData, _ := ioutil.ReadFile(actualFilePath)
+			actualDataString := strings.Replace(string(actualData), "\\", "/", -1)
 			// Verify the expected text is the same as the actual text
-			if string(expectedData) != string(actualData) {
+			if string(expectedData) != actualDataString {
 				t.Errorf("Expected: `%s`,\n Actual: `%s`", string(expectedData), string(actualData))
 			}
 		}

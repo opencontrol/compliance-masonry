@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/opencontrol/compliance-masonry-go/models"
@@ -50,7 +51,7 @@ func TestBuildComponentsSummaries(t *testing.T) {
 		}
 		expectedSummary := string(data)
 		// Check that the actual and expected summaries are similar
-		if actualSummary != expectedSummary {
+		if strings.Replace(actualSummary, "\\", "/", -1) != expectedSummary {
 			t.Errorf("Expected: `%s`, Actual: `%s`", expectedSummary, actualSummary)
 		}
 	}
@@ -83,7 +84,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 		}
 		expectedSummary := string(data)
 		// Check that the actual and expected summaries are similar
-		if actualSummary != expectedSummary {
+		if strings.Replace(actualSummary, "\\", "/", -1) != expectedSummary {
 			t.Errorf("Expected: `%s`, Actual: `%s`", expectedSummary, actualSummary)
 		}
 		// Check individual pages
@@ -94,7 +95,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 			}
 			expectedFamilySummary := string(data)
 			// Check that the actual and expected summaries are similar
-			if familySummary != expectedFamilySummary {
+			if strings.Replace(familySummary, "\\", "/", -1) != expectedFamilySummary {
 				t.Errorf("Expected: `%s`, Actual: `%s`", expectedFamilySummary, familySummary)
 			}
 		}

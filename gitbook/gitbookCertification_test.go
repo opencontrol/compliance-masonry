@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/opencontrol/compliance-masonry-go/models"
@@ -53,7 +54,7 @@ func TestExportControl(t *testing.T) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedPath, actualPath)
 		}
 		// Verify the expected text is the same as the actual text
-		if example.expectedText != actualText {
+		if example.expectedText != strings.Replace(actualText, "\\", "/", -1) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedText, actualText)
 		}
 
