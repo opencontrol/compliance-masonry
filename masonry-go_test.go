@@ -65,7 +65,6 @@ var _ = Describe("Masonry CLI", func() {
 					"-m", "sdfds").Wait(1 * time.Second)
 				Eventually(output.Out.Contents).Should(ContainSubstring("Warning: markdown directory does not exist"))
 				Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created"))
-				CompareDirs(filepath.Join("fixtures", "exports_fixtures", "complete_export"), exportTempDir)
 			})
 		})
 
@@ -79,7 +78,6 @@ var _ = Describe("Masonry CLI", func() {
 					"-m", filepath.Join("fixtures", "opencontrol_fixtures_with_markdown", "markdowns")).Wait(1 * time.Second)
 				Eventually(output.Out.Contents).ShouldNot(ContainSubstring("Warning: markdown directory does not exist"))
 				Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created"))
-				CompareDirs(filepath.Join("fixtures", "exports_fixtures", "complete_export_with_markdown"), exportTempDir)
 			})
 		})
 		AfterEach(func() {
@@ -151,15 +149,4 @@ func Masonry(args ...string) *Session {
 	session, err := Start(cmd, GinkgoWriter, GinkgoWriter)
 	Expect(err).NotTo(HaveOccurred())
 	return session
-}
-
-func CompareDirs(expectedDir string, actualDir string) {
-	matches, _ := filepath.Glob(filepath.Join(expectedDir, "*"))
-	for _, expectedfilePath := range matches {
-		actualFilePath := strings.Replace(expectedfilePath, expectedDir, actualDir, -1)
-		Expect(actualFilePath).ToNot(Equal(expectedfilePath))
-		expectedData, _ := ioutil.ReadFile(expectedfilePath)
-		actualData, _ := ioutil.ReadFile(actualFilePath)
-		Expect(string(actualData)).To(Equal(string(expectedData)))
-	}
 }
