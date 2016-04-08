@@ -61,11 +61,11 @@ var _ = Describe("Masonry CLI", func() {
 				output := Masonry(
 					"docs", "gitbook", "LATO",
 					"-e", exportTempDir,
-					"-o", "./fixtures/opencontrol_fixtures/",
+					"-o", filepath.Join("fixtures", "opencontrol_fixtures"),
 					"-m", "sdfds").Wait(1 * time.Second)
 				Eventually(output.Out.Contents).Should(ContainSubstring("Warning: markdown directory does not exist"))
 				Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created"))
-				CompareDirs("fixtures/exports_fixtures/complete_export", exportTempDir)
+				CompareDirs(filepath.Join("fixtures", "exports_fixtures", "complete_export"), exportTempDir)
 			})
 		})
 
@@ -75,11 +75,11 @@ var _ = Describe("Masonry CLI", func() {
 				output := Masonry(
 					"docs", "gitbook", "LATO",
 					"-e", exportTempDir,
-					"-o", "./fixtures/opencontrol_fixtures_with_markdown/",
-					"-m", "./fixtures/opencontrol_fixtures_with_markdown/markdowns").Wait(1 * time.Second)
+					"-o", filepath.Join("fixtures", "opencontrol_fixtures_with_markdown"),
+					"-m", filepath.Join("fixtures", "opencontrol_fixtures_with_markdown", "markdowns")).Wait(1 * time.Second)
 				Eventually(output.Out.Contents).ShouldNot(ContainSubstring("Warning: markdown directory does not exist"))
 				Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created"))
-				CompareDirs("fixtures/exports_fixtures/complete_export_with_markdown", exportTempDir)
+				CompareDirs(filepath.Join("fixtures", "exports_fixtures", "complete_export_with_markdown"), exportTempDir)
 			})
 		})
 		AfterEach(func() {
@@ -112,8 +112,8 @@ var _ = Describe("Masonry CLI", func() {
 			It("should return an error", func() {
 				output := Masonry(
 					"docs", "docx",
-					"-o", "fixtures/opencontrol_fixtures/",
-					"-t", "fixtures/template_fixtures/test_corrupted.docx",
+					"-o", filepath.Join("fixtures", "opencontrol_fixtures"),
+					"-t", filepath.Join("fixtures", "template_fixtures", "test_corrupted.docx"),
 					"-e", filepath.Join(exportTempDir, "export.docx"),
 				)
 				Eventually(output.Out.Contents).Should(ContainSubstring("Cannot Open File"))
@@ -124,8 +124,8 @@ var _ = Describe("Masonry CLI", func() {
 			It("should run the script", func() {
 				output := Masonry(
 					"docs", "docx",
-					"-o", "fixtures/opencontrol_fixtures/",
-					"-t", "fixtures/template_fixtures/test.docx",
+					"-o", filepath.Join("fixtures", "opencontrol_fixtures"),
+					"-t", filepath.Join("fixtures", "template_fixtures", "test.docx"),
 					"-e", filepath.Join(exportTempDir, "export.docx"),
 				)
 				Eventually(output.Out.Contents).Should(ContainSubstring("New Docx Created"))
