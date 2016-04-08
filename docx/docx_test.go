@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry-go/docx"
 	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/doc-template"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
@@ -28,7 +28,7 @@ var _ = Describe("Docx", func() {
 
 	DescribeTable("FormatControl", func(standardControl string, expectedData string) {
 		openControl := docx.OpenControlDocx{
-			models.LoadData("../fixtures/opencontrol_fixtures/", ""),
+			models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures", "")),
 		}
 		actualData := openControl.FormatControl(standardControl)
 		assert.Equal(GinkgoT(), expectedData, actualData)
@@ -43,12 +43,12 @@ var _ = Describe("Docx", func() {
 		defer os.RemoveAll(tempDir)
 		exportPath := filepath.Join(tempDir, "test_output.docx")
 		config := docx.Config{
-			OpencontrolDir: "../fixtures/opencontrol_fixtures/",
-			TemplatePath:   "../fixtures/template_fixtures/test.docx",
+			OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
+			TemplatePath:   filepath.Join("..", "fixtures", "template_fixtures", "test.docx"),
 			ExportPath:     exportPath,
 		}
 		config.BuildDocx()
-		expectedDoc, _ := docTemp.GetTemplate("../fixtures/exports_fixtures/output.docx")
+		expectedDoc, _ := docTemp.GetTemplate(filepath.Join("..", "fixtures", "exports_fixtures", "output.docx"))
 		actualDoc, _ := docTemp.GetTemplate(exportPath)
 		assert.Equal(GinkgoT(), expectedDoc.Document.GetContent(), actualDoc.Document.GetContent())
 	})
