@@ -1,6 +1,7 @@
 package models
 
 import (
+	"path/filepath"
 	"testing"
 )
 
@@ -49,7 +50,7 @@ func TestGetKey(t *testing.T) {
 
 var loadDataTests = []loadDataTest{
 	// Load a fixtures that has 2 component, 2 standards, and a certification called LATO
-	{"../fixtures/opencontrol_fixtures/", "../fixtures/opencontrol_fixtures/certifications/LATO.yaml", 2, 2, 1, "LATO"},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures"), filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"), 2, 2, 1, "LATO"},
 }
 
 func TestLoadData(t *testing.T) {
@@ -79,7 +80,7 @@ func TestLoadData(t *testing.T) {
 
 var loadComponentsTests = []loadComponentsTest{
 	// Check loading set components that only has one component
-	{"../fixtures/opencontrol_fixtures/components", 1},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "components"), 1},
 }
 
 func TestLoadComponents(t *testing.T) {
@@ -96,7 +97,7 @@ func TestLoadComponents(t *testing.T) {
 
 var loadStandardsTests = []loadStandardsTest{
 	// Load a series of standards file that have 2 standards
-	{"../fixtures/opencontrol_fixtures/standards", 2},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "standards"), 2},
 }
 
 func TestLoadStandards(t *testing.T) {

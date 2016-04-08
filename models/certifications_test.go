@@ -1,6 +1,9 @@
 package models
 
-import "testing"
+import (
+	"path/filepath"
+	"testing"
+)
 
 type certificationTest struct {
 	certificationFile string
@@ -21,7 +24,7 @@ type standardOrderTest struct {
 
 var certificationTests = []certificationTest{
 	// Test loading a certification file that has the LATO key, 2 standards, and 6 controls.
-	{"../fixtures/opencontrol_fixtures/certifications/LATO.yaml", Certification{Key: "LATO"}, 2, 6},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"), Certification{Key: "LATO"}, 2, 6},
 }
 
 func TestLoadCertification(t *testing.T) {
@@ -51,9 +54,9 @@ func TestLoadCertification(t *testing.T) {
 
 var certificationTestErrors = []certificationTestError{
 	// Test a file that can't be read
-	{"../fixtures/opencontrol_fixtures/certifications/", ErrReadFile},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications"), ErrReadFile},
 	// Test a file that has a broken schema
-	{"../fixtures/opencontrol_fixtures/components/EC2/artifact-ec2-1.png", ErrCertificationSchema},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "components", "EC2", "artifact-ec2-1.png"), ErrCertificationSchema},
 }
 
 func TestLoadCertificationErrors(t *testing.T) {

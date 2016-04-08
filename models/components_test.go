@@ -1,6 +1,9 @@
 package models
 
-import "testing"
+import (
+	"path/filepath"
+	"testing"
+)
 
 type componentTest struct {
 	componentDir string
@@ -14,7 +17,7 @@ type componentTestError struct {
 
 var componentTests = []componentTest{
 	// Check that a component with a key loads correctly
-	{"../fixtures/component_fixtures/EC2", Component{
+	{filepath.Join("..", "fixtures", "component_fixtures", "EC2"), Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    &GeneralReferences{{}},
@@ -23,7 +26,7 @@ var componentTests = []componentTest{
 		SchemaVersion: 2.0,
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
-	{"../fixtures/component_fixtures/EC2WithKey", Component{
+	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKey"), Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    &GeneralReferences{{}},
@@ -81,7 +84,7 @@ var componentTestErrors = []componentTestError{
 	// Check loading a component with no file
 	{"", ErrComponentFileDNE},
 	// Check loading a component with a broken schema
-	{"../fixtures/component_fixtures/EC2BrokenControl", ErrControlSchema},
+	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BrokenControl"), ErrControlSchema},
 }
 
 func TestLoadComponentErrors(t *testing.T) {

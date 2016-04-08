@@ -1,6 +1,9 @@
 package models
 
-import "testing"
+import (
+	"path/filepath"
+	"testing"
+)
 
 type standardsTest struct {
 	standardsFile    string
@@ -20,9 +23,9 @@ type controlOrderTest struct {
 
 var standardsTests = []standardsTest{
 	// Check loading a standard that has 326 controls
-	{"../fixtures/opencontrol_fixtures/standards/NIST-800-53.yaml", Standard{Name: "NIST-800-53"}, 326},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "standards", "NIST-800-53.yaml"), Standard{Name: "NIST-800-53"}, 326},
 	// Check loading a standard that has 258 controls
-	{"../fixtures/opencontrol_fixtures/standards/PCI-DSS-MAY-2015.yaml", Standard{Name: "PCI-DSS-MAY-2015"}, 258},
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "standards", "PCI-DSS-MAY-2015.yaml"), Standard{Name: "PCI-DSS-MAY-2015"}, 258},
 }
 
 func TestLoadStandard(t *testing.T) {
@@ -100,7 +103,7 @@ var standardTestErrors = []standardTestError{
 	// Check the error loading a file that doesn't exist
 	{"", ErrReadFile},
 	// Check the error loading a file that has a broken schema
-	{"../fixtures/standards_fixtures/BrokenStandard/NIST-800-53.yaml", ErrStandardSchema},
+	{filepath.Join("..", "fixtures", "standards_fixtures", "BrokenStandard", "NIST-800-53.yaml"), ErrStandardSchema},
 }
 
 func TestLoadStandardsErrors(t *testing.T) {
