@@ -3,6 +3,7 @@ package models
 import "sync"
 
 // Verification struct holds data for a specific component and verification
+// This is an internal data structure that helps map standards and controls to components
 type Verification struct {
 	ComponentKey  string
 	SatisfiesData Satisfies

@@ -23,8 +23,8 @@ var (
 	ErrComponentFileDNE = errors.New("Component files does not exist")
 )
 
-// OpenControl struct combines data on of components, standards, and a certification
-// for creating and verifying component documentation.
+// OpenControl struct combines components, standards, and a certification data
+// For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
 type OpenControl struct {
 	Components     *Components
 	Standards      *Standards
@@ -38,7 +38,7 @@ func getKey(filePath string) string {
 	return key
 }
 
-// NewOpenControl Initializes an empty OpenControl struct
+// NewOpenControl initializes an empty OpenControl struct
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
 		Justifications: NewJustifications(),

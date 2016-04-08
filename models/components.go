@@ -10,19 +10,14 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Satisfies struct contains data demonstrating why a specific component meets
-// a control
-type Satisfies struct {
-	ControlKey  string        `yaml:"control_key" json:"control_key"`
-	StandardKey string        `yaml:"standard_key" json:"standard_key"`
-	Narrative   string        `yaml:"narrative" json:"narrative"`
-	CoveredBy   CoveredByList `yaml:"covered_by" json:"covered_by"`
+// Components struct is a thread-safe structure mapping for components
+type Components struct {
+	mapping map[string]*Component
+	sync.RWMutex
 }
 
-// SatisfiesList is a list of Satisfies
-type SatisfiesList []Satisfies
-
 // Component struct is an individual component requiring documentation
+// Schema info: https://github.com/opencontrol/schemas#component-yaml
 type Component struct {
 	Name          string                  `yaml:"name" json:"name"`
 	Key           string                  `yaml:"key" json:"key"`
@@ -32,10 +27,18 @@ type Component struct {
 	SchemaVersion float32                 `yaml:"schema_version" json:"schema_version"`
 }
 
-// Components struct is a thread-safe structure mapping for components
-type Components struct {
-	mapping map[string]*Component
-	sync.RWMutex
+// SatisfiesList is a list of Satisfies
+type SatisfiesList []Satisfies
+
+// Satisfies struct contains data demonstrating why a specific component meets
+// a control
+// This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
+// https://github.com/opencontrol/schemas#component-yaml
+type Satisfies struct {
+	ControlKey  string        `yaml:"control_key" json:"control_key"`
+	StandardKey string        `yaml:"standard_key" json:"standard_key"`
+	Narrative   string        `yaml:"narrative" json:"narrative"`
+	CoveredBy   CoveredByList `yaml:"covered_by" json:"covered_by"`
 }
 
 // NewComponents creates an instance of Components struct

@@ -9,6 +9,7 @@ import (
 )
 
 // Certification struct is a collection of specific standards and controls
+// Schema info: https://github.com/opencontrol/schemas#certifications
 type Certification struct {
 	Key       string              `yaml:"name" json:"name"`
 	Standards map[string]Standard `yaml:"standards" json:"standards"`

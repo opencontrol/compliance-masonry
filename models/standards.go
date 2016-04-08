@@ -10,12 +10,14 @@ import (
 )
 
 // Control struct stores data on a specific security requirement
+// Schema info: https://github.com/opencontrol/schemas#standards-documentation
 type Control struct {
 	Family string `yaml:"family" json:"family"`
 	Name   string `yaml:"name" json:"name"`
 }
 
 // Standard struct is a collection of security requirements
+// Schema info: https://github.com/opencontrol/schemas#standards-documentation
 type Standard struct {
 	Name     string             `yaml:"name" json:"name"`
 	Controls map[string]Control `yaml:",inline"`
