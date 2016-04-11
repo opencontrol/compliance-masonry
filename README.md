@@ -1,26 +1,24 @@
 # Compliance Masonry
-[![Go Report Card](https://goreportcard.com/badge/github.com/opencontrol/compliance-masonry)](https://goreportcard.com/report/github.com/opencontrol/compliance-masonry)
-[![Coverage Status](https://coveralls.io/repos/github/opencontrol/compliance-masonry/badge.svg?branch=master)](https://coveralls.io/github/opencontrol/compliance-masonry?branch=master)
-[![Circle CI](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master.svg?style=svg)](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/opencontrol/compliance-masonry-go)](https://goreportcard.com/report/github.com/opencontrol/compliance-masonry-go)
+[![Coverage Status](https://coveralls.io/repos/github/opencontrol/compliance-masonry-go/badge.svg?branch=master)](https://coveralls.io/github/opencontrol/compliance-masonry-go?branch=master)
+[![Circle CI](https://circleci.com/gh/opencontrol/compliance-masonry-go/tree/master.svg?style=svg)](https://circleci.com/gh/opencontrol/compliance-masonry-go/tree/master)
 
 Compliance Masonry is a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation.
 
 # Quick Start with CLI
 
-### Installing
+## Installing
 1. Install Go
 
 2. Install the tool
-```bash
-go get github.com/opencontrol/compliance-masonry
-```
+  ```bash
+  go get github.com/opencontrol/compliance-masonry-go
+  ```
 3. Run the CLI
-```
-compliance-masonry
-```
+  ```bash
+  compliance-masonry-go
+  ```
 
-### Development
-This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
 
 ## Creating an OpenControl project
 1. Start a fresh directory
@@ -59,7 +57,7 @@ This project uses [glide](https://github.com/Masterminds/glide) to manage vendor
 
 4. Collect dependencies
   ```bash
-  compliance-masonry get
+  compliance-masonry-go get
   ```
   The `get` command will retrieve  dependencies needed to compile documentation.
 
@@ -67,13 +65,13 @@ This project uses [glide](https://github.com/Masterminds/glide) to manage vendor
 ## Creating Gitbook Documentation
 1. Update dependencies
   ```bash
-  compliance-masonry get
+  compliance-masonry-go get
   ```
 2. Run the gitbook command
   ```bash
-  compliance-masonry docs gitbook LATO
+  compliance-masonry-go docs gitbook LATO
   # Or
-  compliance-masonry docs gitbook FedRAMP-low
+  compliance-masonry-go docs gitbook FedRAMP-low
   ```
 
 The `gitbook` command by default will create a folder called `exports` that contains the files needed to create a gitbook. Visit the [gitbook documentation](https://github.com/GitbookIO/gitbook-cli) for more information on creating gitbooks via the cli
@@ -90,13 +88,10 @@ The `gitbook` command by default will create a folder called `exports` that cont
   ```
 2. Run the docx command
   ```bash
-  compliance-masonry docs docx -t path/to/template.docx
+  compliance-masonry-go docs docx -t path/to/template.docx
   ```
   Running the `docx` command will by default create a file named `export.docx` in the local directory.
 
-# Install dependencies
-$ $GOPATH/bin/glide install
-```
 
 ### Examples
 Compliance Masonry examples in the wild:
@@ -119,13 +114,13 @@ This project requires [go1.6](https://github.com/moovweb/gvm) and uses [glide](h
 #### Project setup
 ```bash
 # Create directories
-mkdir -p compliance-masonry/src/github.com/opencontrol/
-mkdir compliance-masonry/bin
-# Clone compliance-masonry
-git clone git@github.com:opencontrol/compliance-masonry.git compliance-masonry/src/github.com/opencontrol/
+mkdir -p compliance-masonry-go/src/github.com/opencontrol/
+mkdir compliance-masonry-go/bin
+# Clone compliance-masonry-go
+git clone git@github.com:opencontrol/compliance-masonry-go.git compliance-masonry-go/src/github.com/opencontrol/
 # Set $GOPATHs
 export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
-cd src/github.com/opencontrol/compliance-masonry
+cd src/github.com/opencontrol/compliance-masonry-go
 # Install dependencies
 go get github.com/Masterminds/glide
 glide install
