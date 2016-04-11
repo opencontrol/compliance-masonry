@@ -2,6 +2,8 @@ package schema
 
 import (
 	"errors"
+	"log"
+
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/config/common/resources"
 	"github.com/opencontrol/compliance-masonry/tools/constants"

@@ -192,10 +192,11 @@ dependencies:
 	DescribeTable("Testing GetLocalComponents",
 		func(data []byte, expectedComponents []string) {
 			s := Schema{}
-			err := s.Parse(example.data)
-			log.Println(err)
+			err := s.Parse(data)
 			actualComponents := s.GetLocalComponents()
-			assert.Equal(GinkgoT(), example.expectedComponents, actualComponents)
+			log.Println(err)
+			log.Println(actualComponents)
+			assert.Equal(GinkgoT(), expectedComponents, actualComponents)
 		},
 		Entry("v1.0.0 data with no local components",
 			[]byte(`
@@ -215,8 +216,8 @@ dependencies:
   standards:
     - url: github.com/18F/NIST-800-53
       revision: master
-	`),
-			[]string{},
+`),
+			nil,
 		),
 		Entry("v1.0.0 data with no local components",
 			[]byte(`
@@ -240,7 +241,7 @@ dependencies:
   standards:
     - url: github.com/18F/NIST-800-53
       revision: master
-	`),
+`),
 			[]string{"./component-1", "./component-2", "./component-3"},
 		),
 	)

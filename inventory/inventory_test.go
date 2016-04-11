@@ -3,8 +3,8 @@ package inventory
 import (
 	"testing"
 
-	"github.com/opencontrol/compliance-masonry-go/config"
-	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry/config"
+	"github.com/opencontrol/compliance-masonry/models"
 )
 
 //"github.com/opencontrol/compliance-masonry-go/models"

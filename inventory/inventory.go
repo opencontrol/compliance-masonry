@@ -3,9 +3,9 @@ package inventory
 import (
 	"sync"
 
-	"github.com/opencontrol/compliance-masonry-go/config"
-	"github.com/opencontrol/compliance-masonry-go/config/parser"
-	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry/config"
+	"github.com/opencontrol/compliance-masonry/config/parser"
+	"github.com/opencontrol/compliance-masonry/models"
 )
 
 // Inventory struct is an extension of models.OpenControl that adds

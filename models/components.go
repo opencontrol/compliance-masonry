@@ -35,10 +35,11 @@ type SatisfiesList []Satisfies
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey  string        `yaml:"control_key" json:"control_key"`
-	StandardKey string        `yaml:"standard_key" json:"standard_key"`
-	Narrative   string        `yaml:"narrative" json:"narrative"`
-	CoveredBy   CoveredByList `yaml:"covered_by" json:"covered_by"`
+	ControlKey           string        `yaml:"control_key" json:"control_key"`
+	StandardKey          string        `yaml:"standard_key" json:"standard_key"`
+	Narrative            string        `yaml:"narrative" json:"narrative"`
+	ImplementationStatus string        `yaml:"implementation_status" json:"implementation_status"`
+	CoveredBy            CoveredByList `yaml:"covered_by" json:"covered_by"`
 }
 
 // NewComponents creates an instance of Components struct
