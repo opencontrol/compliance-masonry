@@ -1,8 +1,8 @@
 package common
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/tools/fs"
-	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
+	"github.com/opencontrol/compliance-masonry/tools/mapset"
 )
 
 // Base is the common struct that all schemas must have.

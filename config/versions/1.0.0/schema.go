@@ -2,9 +2,9 @@ package schema
 
 import (
 	"errors"
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry/config/common"
+	"github.com/opencontrol/compliance-masonry/config/common/resources"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"gopkg.in/yaml.v2"
 	"log"
 )

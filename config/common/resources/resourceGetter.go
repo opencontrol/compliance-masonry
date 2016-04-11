@@ -1,9 +1,9 @@
 package resources
 
 import (
-	"github.com/opencontrol/compliance-masonry-go/config"
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry/config"
+	"github.com/opencontrol/compliance-masonry/config/common"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"log"
 	"os"
 	"path/filepath"

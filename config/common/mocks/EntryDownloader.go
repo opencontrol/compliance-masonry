@@ -1,6 +1,6 @@
 package mocks
 
-import "github.com/opencontrol/compliance-masonry-go/config/common"
+import "github.com/opencontrol/compliance-masonry/config/common"
 import "github.com/stretchr/testify/mock"
 
 type EntryDownloader struct {

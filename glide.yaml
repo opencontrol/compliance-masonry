@@ -1,4 +1,4 @@
-package: github.com/opencontrol/compliance-masonry-go
+package: github.com/opencontrol/compliance-masonry
 import:
 - package: github.com/Masterminds/vcs
 - package: github.com/blang/semver

@@ -1,15 +1,15 @@
 package resources_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry-go/config/common/resources"
+	. "github.com/opencontrol/compliance-masonry/config/common/resources"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
-	fsmocks "github.com/opencontrol/compliance-masonry-go/tools/fs/mocks"
-	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
+	"github.com/opencontrol/compliance-masonry/config/common"
+	"github.com/opencontrol/compliance-masonry/config/common/mocks"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
+	fsmocks "github.com/opencontrol/compliance-masonry/tools/fs/mocks"
+	"github.com/opencontrol/compliance-masonry/tools/mapset"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vektra/errors"

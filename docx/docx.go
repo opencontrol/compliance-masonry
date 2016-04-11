@@ -6,7 +6,7 @@ import (
 	"text/template"
 
 	"github.com/opencontrol/doc-template"
-	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry/models"
 )
 
 // Config contains data for docx template export configurations

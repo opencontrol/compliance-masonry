@@ -24,10 +24,10 @@ var _ = Describe("Manager", func() {
 		}
 		os.RemoveAll(local)
 	},
-		Entry("sane check", "https://github.com/opencontrol/compliance-masonry-go", "master", true, ""),
-		Entry("sane check no revision", "https://github.com/opencontrol/compliance-masonry-go", "", true, ""),
-		Entry("Can't init / detect the repo", "https://myrepo/opencontrol/compliance-masonry-go", "master", false, repoInitFailed),
-		Entry("Can't clone repo", "http://user:name@github.com/opencontrol/compliance-masonry-go-blah", "master", false, repoCloneFailed),
-		Entry("Get a revision that doesn't exist", "https://github.com/opencontrol/compliance-masonry-go", "master-ultimate-branch-that-never-exists", false, repoCheckoutFailed),
+		Entry("sane check", "https://github.com/opencontrol/compliance-masonry", "master", true, ""),
+		Entry("sane check no revision", "https://github.com/opencontrol/compliance-masonry", "", true, ""),
+		Entry("Can't init / detect the repo", "https://myrepo/opencontrol/compliance-masonry", "master", false, repoInitFailed),
+		Entry("Can't clone repo", "http://user:name@github.com/opencontrol/compliance-masonry-blah", "master", false, repoCloneFailed),
+		Entry("Get a revision that doesn't exist", "https://github.com/opencontrol/compliance-masonry", "master-ultimate-branch-that-never-exists", false, repoCheckoutFailed),
 	)
 })

@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry/models"
 )
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {

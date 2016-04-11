@@ -29,8 +29,8 @@ When adding a new schema version. (in this example we will add v2.0.0
   - Alias the import so that you can easily refer to the particular version.
   ```
   import (
-    v1_0_0 "github.com/opencontrol/compliance-masonry-go/yaml/versions/1.0.0"
-    v2_0_0 "github.com/opencontrol/compliance-masonry-go/yaml/versions/2.0.0"
+    v1_0_0 "github.com/opencontrol/compliance-masonry/yaml/versions/1.0.0"
+    v2_0_0 "github.com/opencontrol/compliance-masonry/yaml/versions/2.0.0"
   )
   ```
   - Now it should call the parse function that your schema version has.

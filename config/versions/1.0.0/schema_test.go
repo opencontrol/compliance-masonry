@@ -4,11 +4,11 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/common/resources"
-	"github.com/opencontrol/compliance-masonry-go/config/common/resources/mocks"
+	"github.com/opencontrol/compliance-masonry/config/common"
+	"github.com/opencontrol/compliance-masonry/config/common/resources"
+	"github.com/opencontrol/compliance-masonry/config/common/resources/mocks"
 "errors"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 var _ = Describe("Schema", func() {

@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/opencontrol/compliance-masonry-go/docx"
-	"github.com/opencontrol/compliance-masonry-go/gitbook"
+	"github.com/opencontrol/compliance-masonry/docx"
+	"github.com/opencontrol/compliance-masonry/gitbook"
 )
 
 func getCertification(opencontrolDir string, certification string) (string, []string) {

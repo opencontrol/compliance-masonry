@@ -3,7 +3,7 @@ package gitbook
 import (
 	"testing"
 
-	"github.com/opencontrol/compliance-masonry-go/models"
+	"github.com/opencontrol/compliance-masonry/models"
 )
 
 type componentExportTest struct {

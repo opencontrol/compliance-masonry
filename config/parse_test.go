@@ -1,11 +1,11 @@
 package config_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry-go/config"
+	. "github.com/opencontrol/compliance-masonry/config"
 
 	. "github.com/onsi/ginkgo"
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/common/mocks"
+	"github.com/opencontrol/compliance-masonry/config/common"
+	"github.com/opencontrol/compliance-masonry/config/common/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/vektra/errors"
 )

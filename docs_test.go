@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	. "github.com/opencontrol/compliance-masonry-go"
-	"github.com/opencontrol/compliance-masonry-go/docx"
-	"github.com/opencontrol/compliance-masonry-go/gitbook"
+	. "github.com/opencontrol/compliance-masonry"
+	"github.com/opencontrol/compliance-masonry/docx"
+	"github.com/opencontrol/compliance-masonry/gitbook"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

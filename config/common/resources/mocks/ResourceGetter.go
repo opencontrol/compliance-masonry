@@ -2,8 +2,8 @@ package mocks
 
 import "github.com/stretchr/testify/mock"
 
-import "github.com/opencontrol/compliance-masonry-go/config/common"
-import "github.com/opencontrol/compliance-masonry-go/tools/constants"
+import "github.com/opencontrol/compliance-masonry/config/common"
+import "github.com/opencontrol/compliance-masonry/tools/constants"
 
 type ResourceGetter struct {
 	mock.Mock

@@ -1,5 +1,5 @@
 version: 1.0.{build}
-clone_folder: c:\gopath\src\github.com\opencontrol\compliance-masonry-go
+clone_folder: c:\gopath\src\github.com\opencontrol\compliance-masonry
 environment:
   GOPATH: c:\gopath
 install:

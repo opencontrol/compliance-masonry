@@ -9,13 +9,13 @@ import (
 	"strings"
 
 	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry-go/config/common"
-	"github.com/opencontrol/compliance-masonry-go/config/parser"
-	"github.com/opencontrol/compliance-masonry-go/docx"
-	"github.com/opencontrol/compliance-masonry-go/gitbook"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
-	"github.com/opencontrol/compliance-masonry-go/tools/fs"
-	"github.com/opencontrol/compliance-masonry-go/tools/mapset"
+	"github.com/opencontrol/compliance-masonry/config/common"
+	"github.com/opencontrol/compliance-masonry/config/parser"
+	"github.com/opencontrol/compliance-masonry/docx"
+	"github.com/opencontrol/compliance-masonry/gitbook"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
+	"github.com/opencontrol/compliance-masonry/tools/mapset"
 )
 
 var certification, exportPath, markdownPath, opencontrolDir, templatePath string

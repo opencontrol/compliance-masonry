@@ -5,8 +5,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
-	"github.com/opencontrol/compliance-masonry-go/tools/constants"
-	"github.com/opencontrol/compliance-masonry-go/tools/vcs/mocks"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/vcs/mocks"
 "errors"
 )
 
