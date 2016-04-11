@@ -1,0 +1,18 @@
+package: github.com/opencontrol/compliance-masonry
+import:
+- package: github.com/Masterminds/vcs
+- package: github.com/blang/semver
+- package: github.com/codegangsta/cli
+- package: github.com/go-utils/ufs
+- package: github.com/stretchr/testify
+  subpackages:
+  - mock
+- package: github.com/vektra/errors
+- package: gopkg.in/fatih/set.v0
+- package: gopkg.in/yaml.v2
+- package: github.com/onsi/ginkgo
+- package: github.com/onsi/gomega
+- package: vbom.ml/util
+  subpackages:
+  - sortorder
+- package: github.com/opencontrol/doc-template

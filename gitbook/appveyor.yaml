@@ -1,0 +1,19 @@
+version: 1.0.{build}
+clone_folder: c:\gopath\src\github.com\opencontrol\compliance-masonry
+environment:
+  GOPATH: c:\gopath
+install:
+- cmd: >-
+    echo %GOPATH%
+
+    go version
+
+    go env
+
+    go get github.com/Masterminds/glide
+
+    %GOPATH%\bin\glide install
+
+    go get github.com/onsi/ginkgo/ginkgo
+build_script:
+- cmd: '%GOPATH%\bin\ginkgo'

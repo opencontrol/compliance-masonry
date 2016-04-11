@@ -1,0 +1,1029 @@
+1.1:
+  family: '1'
+  name: Establish and implement firewall and router configuration standards.
+2.1:
+  family: '2'
+  name: Always change vendor-supplied defaults and remove or disable unnecessary default
+    accounts before installing a system on the network.
+3.1:
+  family: '3'
+  name: Keep cardholder data storage to a minimum by implementing data retention and
+    disposal policies, procedures and processes
+4.1:
+  family: '4'
+  name: Use strong cryptography and security protocols (for example, TLS, IPSEC, SSH,
+    etc.) to safeguard sensitive cardholder data during transmission over open, public
+    networks.
+5.1:
+  family: '5'
+  name: Deploy anti-virus software on all systems commonly affected by malicious software
+    (particularly personal computers and servers).
+6.1:
+  family: '6'
+  name: "Establish a process to identify security vulnerabilities, using reputable\
+    \ outside sources for security vulnerability information, and assign a risk ranking\
+    \ (for example, as \u201Chigh,\u201D \u201Cmedium,\u201D or \u201Clow\u201D) to\
+    \ newly discovered security vulnerabilities."
+1.4:
+  family: '1'
+  name: Install personal firewall software on any mobile and/or employee-owned devices
+    that connect to the Internet when outside the network (for example, laptops used
+    by employees), and which are also used to access the network.
+8.5:
+  family: '8'
+  name: Do not use group, shared, or generic IDs, passwords, or other authentication
+    methods.
+9.9:
+  family: '9'
+  name: Protect devices that capture payment card data via direct physical interaction
+    with the card from tampering and substitution.
+10.1:
+  family: '10'
+  name: Implement audit trails to link all access to system components to each individual
+    user.
+Requirement 11:
+  family: '11'
+  name: Regularly test security systems and processes
+12.1:
+  family: '12'
+  name: Implement an incident response plan. Be prepared to respond immediately to
+    a system breach.
+2.2:
+  family: '2'
+  name: Develop configuration standards for all system components. Assure that these
+    standards address all known security vulnerabilities and are consistent with industry-accepted
+    system hardening standards.
+10.5.4:
+  family: '10'
+  name: Write logs for external-facing technologies onto a secure, centralized, internal
+    log server or media device.
+3.6:
+  family: '3'
+  name: Fully document and implement all key-management processes and procedures for
+    cryptographic keys used for encryption of cardholder data.
+9.7:
+  family: '9'
+  name: Maintain strict control over the storage and accessibility of media.
+4.3:
+  family: '4'
+  name: Ensure that security policies and operational procedures for encrypting transmissions
+    of cardholder data are documented, in use, and known to all affected parties.
+5.4:
+  family: '5'
+  name: Ensure that security policies and operational procedures for protecting systems
+    against malware are documented, in use, and known to all affected parties.
+1.5:
+  family: '1'
+  name: Ensure that security policies and operational procedures for managing firewalls
+    are documented, in use, and known to all affected parties.
+6.6:
+  family: '6'
+  name: For public-facing web applications, address new threats and vulnerabilities
+    on an ongoing basis and ensure these applications are protected against known
+    attacks.
+7.2:
+  family: '7'
+  name: "Establish an access control system for systems components that restricts\
+    \ access based on a user\u2019s need to know, and is set to \u201Cdeny all\u201D\
+    \ unless specifically allowed."
+9.9.1:
+  family: '9'
+  name: Maintain an up-to-date list of devices.
+6.4.1:
+  family: '6'
+  name: Separate development/test environments from production environments, and enforce
+    the separation with access controls.
+6.5.5:
+  family: '6'
+  name: Improper error handling
+8.3:
+  family: '8'
+  name: Incorporate two-factor authentication for remote network access originating
+    from outside the network by personnel (including users and administrators) and
+    all third parties, (including vendor access for support or maintenance).
+10.2:
+  family: '10'
+  name: Implement automated audit trails for all system components to reconstruct
+    the following events.
+9.2:
+  family: '9'
+  name: Develop procedures to easily distinguish between onsite personnel and visitors.
+12.3.1:
+  family: '12'
+  name: Explicit approval by authorized parties
+10.4.2:
+  family: '10'
+  name: Time data is protected.
+10.3:
+  family: '10'
+  name: Record at least the following audit trail entries for all system components
+    for each event.
+2.5:
+  family: '2'
+  name: Ensure that security policies and operational procedures for managing vendor
+    defaults and other security parameters are documented, in use, and known to all
+    affected parties.
+11.1:
+  family: '11'
+  name: Implement processes to test for the presence of wireless access points (802.11),
+    and detect and identify all authorized and unauthorized wireless access points
+    on a quarterly basis.
+12.8.2:
+  family: '12'
+  name: "Maintain a written agreement that includes an acknowledgement that the service\
+    \ providers are responsible for the security of cardholder data the service providers\
+    \ possess or otherwise store, process or transmit on behalf of the customer, or\
+    \ to the extent that they could impact the security of the customer\u2019s cardholder\
+    \ data environment."
+12.2:
+  family: '12'
+  name: Implement a risk-assessment process.
+11.2:
+  family: '11'
+  name: Run internal and external network vulnerability scans at least quarterly and
+    after any significant change in the network (such as new system component installations,
+    changes in network topology, firewall rule modifications, product upgrades).
+10.2.5:
+  family: '10'
+  name: "Use of and changes to identification and authentication mechanisms\u2014\
+    including but not limited to creation of new accounts and elevation of privileges\u2014\
+    and all changes, additions, or deletions to accounts with root or administrative\
+    \ privileges"
+12.6.1:
+  family: '12'
+  name: Educate personnel upon hire and at least annually.
+3.5:
+  family: '3'
+  name: Document and implement procedures to protect keys used to secure stored cardholder
+    data against disclosure and misuse.
+A.1.2:
+  family: A
+  name: "Restrict each entity\u2019s access and privileges to its own cardholder data\
+    \ environment only."
+12.7:
+  family: '12'
+  name: Screen potential personnel prior to hire to minimize the risk of attacks from
+    internal sources. (Examples of background checks include previous employment history,
+    criminal record, credit history, and reference checks.)
+1.2.2:
+  family: '1'
+  name: Secure and synchronize router configuration files.
+7.1.1:
+  family: '7'
+  name: Define access needs for each role.
+3.5.1:
+  family: '3'
+  name: Restrict access to cryptographic keys to the fewest number of custodians necessary.
+12.3.2:
+  family: '12'
+  name: Authentication for use of the technology
+9.1.3:
+  family: '9'
+  name: Restrict physical access to wireless access points, gateways, handheld devices,
+    networking/communications hardware, and telecommunication lines.
+9.4.1:
+  family: '9'
+  name: Visitors are authorized before entering, and escorted at all times within,
+    areas where cardholder data is processed or maintained.
+6.3.1:
+  family: '6'
+  name: Remove development, test and/or custom application accounts, user IDs, and
+    passwords before applications become active or are released to customers.
+9.7.1:
+  family: '9'
+  name: Properly maintain inventory logs of all media and conduct media inventories
+    at least annually.
+1.1.3:
+  family: '1'
+  name: Current diagram that shows all cardholder data flows across systems and networks
+1.1.2:
+  family: '1'
+  name: Current network diagram that identifies all connections between the cardholder
+    data environment and other networks, including any wireless networks
+12.3.7:
+  family: '12'
+  name: List of company-approved products
+12.3.5:
+  family: '12'
+  name: Acceptable uses of the technology
+3.6.1:
+  family: '3'
+  name: Generation of strong cryptographic keys
+6.5.7:
+  family: '6'
+  name: Cross-site scripting (XSS)
+8.2.5:
+  family: '8'
+  name: Do not allow an individual to submit a new password/phrase that is the same
+    as any of the last four passwords/phrases he or she has used.
+6.4.3:
+  family: '6'
+  name: Production data (live PANs) are not used for testing or development
+3.6.3:
+  family: '3'
+  name: Secure cryptographic key storage
+3.5.2:
+  family: '3'
+  name: Store secret and private keys used to encrypt/decrypt cardholder data in one
+    (or more) of the following forms at all times
+8.2.1:
+  family: '8'
+  name: Using strong cryptography, render all authentication credentials (such as
+    passwords/phrases) unreadable during transmission and storage on all system components.
+6.4.2:
+  family: '6'
+  name: Separation of duties between development/test and production environments
+7.1.2:
+  family: '7'
+  name: Restrict access to privileged user IDs to least privileges necessary to perform
+    job responsibilities.
+6.5.10:
+  family: '6'
+  name: Broken authentication and session management
+9.3:
+  family: '9'
+  name: Control physical access for onsite personnel to sensitive areas.
+8.2.3:
+  family: '8'
+  name: Passwords/phrases must meet the following(Require a minimum length of at least
+    seven characters.Contain both numeric and alphabetic characters.)
+10.3.3:
+  family: '10'
+  name: Date and time
+10.3.6:
+  family: '10'
+  name: Identity or name of affected data, system component, or resource.
+10.5.1:
+  family: '10'
+  name: Limit viewing of audit trails to those with a job-related need.
+12.8.4:
+  family: '12'
+  name: "Maintain a program to monitor service providers\u2019 PCI DSS compliance\
+    \ status at least annually."
+5.1.2:
+  family: '5'
+  name: For systems considered to be not commonly affected by malicious software,
+    perform periodic evaluations to identify and evaluate evolving malware threats
+    in order to confirm whether such systems continue to not require anti-virus software.
+6.4.5.4:
+  family: '6'
+  name: Back-out procedures.
+10.5.2:
+  family: '10'
+  name: Protect audit trail files from unauthorized modifications.
+Requirement A.1:
+  family: A.1
+  name: Shared hosting providers must protect the cardholder data environment
+1.3.8:
+  family: '1'
+  name: Do not disclose private IP addresses and routing information to unauthorized
+    parties.
+2.3:
+  family: '2'
+  name: Encrypt all non-console administrative access using strong cryptography. Use
+    technologies such as SSH, VPN, or TLS for web-based management and other non-console
+    administrative access.
+A.1:
+  family: A
+  name: "Protect each entity\u2019s (that is, merchant, service provider, or other\
+    \ entity) hosted environment and data, per A.1.1 through A.1.4"
+9.9.2:
+  family: '9'
+  name: Periodically inspect device surfaces to detect tampering (for example, addition
+    of card skimmers to devices), or substitution (for example, by checking the serial
+    number or other device characteristics to verify it has not been swapped with
+    a fraudulent device).
+9.5:
+  family: '9'
+  name: Physically secure all media.
+12.6.2:
+  family: '12'
+  name: Require personnel to acknowledge at least annually that they have read and
+    understood the security policy and procedures.
+8.6:
+  family: '8'
+  name: Where other authentication mechanisms are used (for example, physical or logical
+    security tokens, smart cards, certificates, etc.), use of these mechanisms must
+    be assigned .
+3.3:
+  family: '3'
+  name: Mask PAN when displayed (the first six and last four digits are the maximum
+    number of digits to be displayed), such that only personnel with a legitimate
+    business need can see the full PAN.
+12.8.1:
+  family: '12'
+  name: Maintain a list of service providers.
+2.2.3:
+  family: '2'
+  name: "Implement additional security features for any required services, protocols,\
+    \ or daemons that are considered to be insecure\u2014for example, use secured\
+    \ technologies such as SSH, S-FTP, TLS, or IPSec VPN to protect insecure services\
+    \ such as NetBIOS, file-sharing, Telnet, FTP, etc."
+12.8.5:
+  family: '12'
+  name: Maintain information about which PCI DSS requirements are managed by each
+    service provider, and which are managed by the entity.
+3.2.2:
+  family: '3'
+  name: Do not store the card verification code or value (three-digit or four-digit
+    number printed on the front or back of a payment card used to verify card-not-present
+    transactions) after authorization.
+Requirement 6:
+  family: '6'
+  name: Develop and maintain secure systems and applications
+8.1.6:
+  family: '8'
+  name: Limit repeated access attempts by locking out the user ID after not more than
+    six attempts.
+9.4.2:
+  family: '9'
+  name: Visitors are identified and given a badge or other identification that expires
+    and that visibly distinguishes the visitors from onsite personnel.
+Requirement 1:
+  family: '1'
+  name: Install and maintain a firewall configuration to protect cardholder data
+12.5.1:
+  family: '12'
+  name: Establish, document, and distribute security policies and procedures.
+10.4.3:
+  family: '10'
+  name: Time settings are received from industry-accepted time sources.
+3.6.6:
+  family: '3'
+  name: If manual clear-text cryptographic key-management operations are used, these
+    operations must be managed using split knowledge and dual control.
+9.1.2:
+  family: '9'
+  name: Implement physical and/or logical controls to restrict access to publicly
+    accessible network jacks.
+11.5:
+  family: '11'
+  name: Deploy a change-detection mechanism (for example, file-integrity monitoring
+    tools) to alert personnel to unauthorized modification (including changes, additions,
+    and deletions) of critical system files, configuration files, or content files;
+    and configure the software to perform critical file comparisons at least weekly.
+9.6.2:
+  family: '9'
+  name: Send the media by secured courier or other delivery method that can be accurately
+    tracked.
+7.1.3:
+  family: '7'
+  name: "Assign access based on individual personnel\u2019s job classification and\
+    \ function."
+12.5.5:
+  family: '12'
+  name: Monitor and control all access to data.
+2.1.1:
+  family: '2'
+  name: For wireless environments connected to the cardholder data environment or
+    transmitting cardholder data, change ALL wireless vendor defaults at installation,
+    including but not limited to default wireless encryption keys, passwords, and
+    SNMP community strings.
+1.2.3:
+  family: '1'
+  name: Install perimeter firewalls between all wireless networks and the cardholder
+    data environment, and configure these firewalls to deny or, if traffic is necessary
+    for business purposes, permit only authorized traffic between the wireless environment
+    and the cardholder data environment.
+8.7:
+  family: '8'
+  name: All access to any database containing cardholder data (including access by
+    applications, administrators, and all other users) is restricted .
+2.2.2:
+  family: '2'
+  name: Enable only necessary services, protocols, daemons, etc., as required for
+    the function of the system.
+1.1.7:
+  family: '1'
+  name: Requirement to review firewall and router rule sets at least every six months
+12.5:
+  family: '12'
+  name: Assign to an individual or team the following information security management
+    responsibilities.
+8.1.3:
+  family: '8'
+  name: Immediately revoke access for any terminated users.
+10.6.1:
+  family: '10'
+  name: Review the following at least daily (-All security events. -Logs of all system
+    components that store, process, or transmit CHD and/or SAD.-Logs of all critical
+    system components.-Logs of all servers and system components that perform security
+    functions (for example, firewalls, intrusion-detection systems/intrusion-prevention
+    systems (IDS/IPS), authentication servers, e-commerce redirection servers, etc.)
+6.3:
+  family: '6'
+  name: Develop internal and external software applications (including web-based administrative
+    access to applications) securely.
+6.2:
+  family: '6'
+  name: Ensure that all system components and software are protected from known vulnerabilities
+    by installing applicable vendor-supplied security patches. Install critical security
+    patches within one month of release.
+10.2.7:
+  family: '10'
+  name: Creation and deletion of system-level objects
+9.5.1:
+  family: '9'
+  name: "Store media backups in a secure location, preferably an off-site facility,\
+    \ such as an alternate or backup site, or a commercial storage facility. Review\
+    \ the location\u2019s security at least annually."
+Requirement 5:
+  family: '5'
+  name: Use and regularly update anti-virus software or programs
+8.5.1:
+  family: '8'
+  name: Additional requirement for service providers only. Service providers with
+    remote access to customer premises (for example, for support of POS systems or
+    servers) must use a unique authentication credential (such as a password/phrase)
+    for each customer.
+1.3.2:
+  family: '1'
+  name: Limit inbound Internet traffic to IP addresses within the DMZ.
+10.3.1:
+  family: '10'
+  name: User identification
+8.1.7:
+  family: '8'
+  name: Set the lockout duration to a minimum of 30 minutes or until an administrator
+    enables the user ID.
+7.3:
+  family: '7'
+  name: Ensure that security policies and operational procedures for restricting access
+    to cardholder data are documented, in use, and known to all affected parties.
+12.3.3:
+  family: '12'
+  name: A list of all such devices and personnel with access
+12.5.2:
+  family: '12'
+  name: Monitor and analyze security alerts and information, and distribute to appropriate
+    personnel.
+A.1.4:
+  family: A
+  name: Enable processes to provide for timely forensic investigation in the event
+    of a compromise to any hosted merchant or service provider.
+9.6:
+  family: '9'
+  name: Maintain strict control over the internal or external distribution of any
+    kind of media.
+5.1.1:
+  family: '5'
+  name: Ensure that anti-virus programs are capable of detecting, removing, and protecting
+    against all known types of malicious software.
+12.10.3:
+  family: '12'
+  name: Designate specific personnel to be available on a 24/7 basis to respond to
+    alerts.
+8.2.4:
+  family: '8'
+  name: Change user passwords/passphrases at least once every 90 days.
+12.10.1:
+  family: '12'
+  name: Create the incident response plan to be implemented in the event of system
+    breach. Ensure the plan addresses the following.
+12.3.4:
+  family: '12'
+  name: A method to accurately and readily determine owner, contact information, and
+    purpose (for example, labeling, coding, and/or inventorying of devices)
+A.1.1:
+  family: A
+  name: "Ensure that each entity only runs processes that have access to that entity\u2019\
+    s cardholder data environment."
+Requirement 8:
+  family: '8'
+  name: Assign a unique ID to each person with computer access
+10.5.5:
+  family: '10'
+  name: Use file-integrity monitoring or change-detection software on logs to ensure
+    that existing log data cannot be changed without generating alerts (although new
+    data being added should not cause an alert).
+6.5.4:
+  family: '6'
+  name: Insecure communications
+9.4.4:
+  family: '9'
+  name: A visitor log is used to maintain a physical audit trail of visitor activity
+    to the facility as well as computer rooms and data centers where cardholder data
+    is stored or transmitted.
+2.6:
+  family: '2'
+  name: "Shared hosting providers must protect each entity\u2019s hosted environment\
+    \ and cardholder data. These providers must meet specific requirements as detailed\
+    \ in Appendix A."
+3.6.5:
+  family: '3'
+  name: Retirement or replacement (for example, archiving, destruction, and/or revocation)
+    of keys as deemed necessary when the integrity of the key has been weakened (for
+    example, departure of an employee with knowledge of a clear-text key component),
+    or keys are suspected of being compromised.
+1.1.4:
+  family: '1'
+  name: Requirements for a firewall at each Internet connection and between any demilitarized
+    zone (DMZ) and the internal network zone
+name: PCI-DSS-MAY-2015
+9.6.3:
+  family: '9'
+  name: Ensure management approves any and all media that is moved from a secured
+    area (including when media is distributed to individuals).
+3.6.4:
+  family: '3'
+  name: Cryptographic key changes for keys that have reached the end of their cryptoperiod
+    (for example, after a defined period of time has passed and/or after a certain
+    amount of cipher-text has been produced by a given key), as defined by the associated
+    application vendor or key owner, and based on industry best practices and guidelines
+    (for example, NIST Special Publication 800-57).
+7.2.1:
+  family: '7'
+  name: Coverage of all system components
+8.8:
+  family: '8'
+  name: Ensure that security policies and operational procedures for identification
+    and authentication are documented, in use, and known to all affected parties.
+10.5:
+  family: '10'
+  name: Secure audit trails so they cannot be altered.
+Requirement 9:
+  family: '9'
+  name: Restrict physical access to cardholder data
+1.3:
+  family: '1'
+  name: Prohibit direct public access between the Internet and any system component
+    in the cardholder data environment.
+6.5.6:
+  family: '6'
+  name: "All \u201Chigh risk\u201D vulnerabilities identified in the vulnerability\
+    \ identification process (as defined in PCI DSS Requirement 6.1)."
+1.2.1:
+  family: '1'
+  name: Restrict inbound and outbound traffic to that which is necessary for the cardholder
+    data environment, and specifically deny all other traffic.
+3.5.3:
+  family: '3'
+  name: Store cryptographic keys in the fewest possible locations.
+Requirement 3:
+  family: '3'
+  name: Protect stored cardholder data
+11.3.2:
+  family: '11'
+  name: Perform internal penetration testing at least annually and after any significant
+    infrastructure or application upgrade or modification (such as an operating system
+    upgrade, a sub-network added to the environment, or a web server added to the
+    environment).
+9.8:
+  family: '9'
+  name: Destroy media when it is no longer needed for business or legal reasons .
+11.2.1:
+  family: '11'
+  name: "Perform quarterly internal vulnerability scans and rescans as needed, until\
+    \ all \u201Chigh-risk\u201D vulnerabilities (as identified in Requirement 6.1)\
+    \ are resolved. Scans must be performed by qualified personnel."
+3.6.8:
+  family: '3'
+  name: Requirement for cryptographic key custodians to formally acknowledge that
+    they understand and accept their key-custodian responsibilities.
+10.8:
+  family: '10'
+  name: Ensure that security policies and operational procedures for monitoring all
+    access to network resources and cardholder data are documented, in use, and known
+    to all affected parties.
+8.2.2:
+  family: '8'
+  name: "Verify user identity before modifying any authentication credential\u2014\
+    for example, performing password resets, provisioning new tokens, or generating\
+    \ new keys."
+8.1.2:
+  family: '8'
+  name: Control addition, deletion, and modification of user IDs, credentials, and
+    other identifier objects.
+11.3.4:
+  family: '11'
+  name: If segmentation is used to isolate the CDE from other networks, perform penetration
+    tests at least annually and after any changes to segmentation controls/methods
+    to verify that the segmentation methods are operational and effective, and isolate
+    all out-of-scope systems from systems in the CDE.
+1.3.5:
+  family: '1'
+  name: Do not allow unauthorized outbound traffic from the cardholder data environment
+    to the Internet.
+11.3:
+  family: '11'
+  name: Implement a methodology for penetration testing.
+7.1:
+  family: '7'
+  name: Limit access to system components and cardholder data to only those individuals
+    whose job requires such access.
+10.2.2:
+  family: '10'
+  name: All actions taken by any individual with root or administrative privileges
+8.1.8:
+  family: '8'
+  name: If a session has been idle for more than 15 minutes, require the user to re-authenticate
+    to re-activate the terminal or session.
+1.1.6:
+  family: '1'
+  name: Documentation and business justification for use of all services, protocols,
+    and ports allowed, including documentation of security features implemented for
+    those protocols considered to be insecure.
+8.1.4:
+  family: '8'
+  name: Remove/disable inactive user accounts within 90 days.
+10.3.5:
+  family: '10'
+  name: Origination of event
+7.2.2:
+  family: '7'
+  name: Assignment of privileges to individuals based on job classification and function.
+8.1:
+  family: '8'
+  name: Define and implement policies and procedures to ensure proper user identification
+    management for non-consumer users and administrators on all system components.
+12.3.8:
+  family: '12'
+  name: Automatic disconnect of sessions for remote-access technologies after a specific
+    period of inactivity
+6.4.5:
+  family: '6'
+  name: Change control procedures for the implementation of security patches and software
+    modifications.
+6.4.4:
+  family: '6'
+  name: Removal of test data and accounts before production systems become active
+A.1.3:
+  family: A
+  name: "Ensure logging and audit trails are enabled and unique to each entity\u2019\
+    s cardholder data environment and consistent with PCI DSS Requirement 10."
+1.3.3:
+  family: '1'
+  name: Do not allow any direct connections inbound or outbound for traffic between
+    the Internet and the cardholder data environment.
+12.3:
+  family: '12'
+  name: Develop usage policies for critical technologies and define proper use of
+    these technologies.
+10.7:
+  family: '10'
+  name: Retain audit trail history for at least one year, with a minimum of three
+    months immediately available for analysis (for example, online, archived, or restorable
+    from backup).
+9.1:
+  family: '9'
+  name: Ensure that security policies and operational procedures for restricting physical
+    access to cardholder data are documented, in use, and known to all affected parties.
+6.3.2:
+  family: '6'
+  name: Review custom code prior to release to production or customers in order to
+    identify any potential coding vulnerability (using either manual or automated
+    processes)
+2.4:
+  family: '2'
+  name: Maintain an inventory of system components that are in scope for PCI DSS.
+11.1.2:
+  family: '11'
+  name: Implement incident response procedures in the event unauthorized wireless
+    access points are detected.
+12.1.1:
+  family: '12'
+  name: Review the security policy at least annually and update the policy when the
+    environment changes.
+10.6:
+  family: '10'
+  name: Review logs and security events for all system components to identify anomalies
+    or suspicious activity.
+6.5.1:
+  family: '6'
+  name: Injection flaws, particularly SQL injection. Also consider OS Command Injection,
+    LDAP and XPath injection flaws as well as other injection flaws.
+3.2.3:
+  family: '3'
+  name: Do not store the personal identification number (PIN) or the encrypted PIN
+    block after authorization.
+3.4:
+  family: '3'
+  name: Render PAN unreadable anywhere it is stored (including on portable digital
+    media, backup media, and in logs).
+11.5.1:
+  family: '11'
+  name: Implement a process to respond to any alerts generated by the change-detection
+    solution.
+Requirement 4:
+  family: '4'
+  name: Encrypt transmission of cardholder data across open, public networks
+2.2.1:
+  family: '2'
+  name: Implement only one primary function per server to prevent functions that require
+    different security levels from co-existing on the same server. (For example, web
+    servers, database servers, and DNS should be implemented on separate servers.)
+9.4.3:
+  family: '9'
+  name: Visitors are asked to surrender the badge or identification before leaving
+    the facility or at the date of expiration.
+11.6:
+  family: '11'
+  name: Ensure that security policies and operational procedures for security monitoring
+    and testing are documented, in use, and known to all affected parties.
+3.4.1:
+  family: '3'
+  name: If disk encryption is used (rather than file- or column-level database encryption),
+    logical access must be managed separately and independently of native operating
+    system authentication and access control mechanisms (for example, by not using
+    local user account databases or general network login credentials). Decryption
+    keys must not be associated with user accounts.
+8.2.6:
+  family: '8'
+  name: Set passwords/phrases for first-time use and upon reset to a unique value
+    for each user, and change immediately after the first use.
+6.5.9:
+  family: '6'
+  name: Cross-site request forgery (CSRF)
+6.4.5.3:
+  family: '6'
+  name: Functionality testing to verify that the change does not adversely impact
+    the security of the system.
+7.1.4:
+  family: '7'
+  name: Require documented approval by authorized parties specifying required privileges.
+10.2.4:
+  family: '10'
+  name: Invalid logical access attempts
+12.6:
+  family: '12'
+  name: Implement a formal security awareness program to make all personnel aware
+    of the importance of cardholder data security.
+1.1.1:
+  family: '1'
+  name: A formal process for approving and testing all network connections and changes
+    to the firewall and router configurations
+1.1.5:
+  family: '1'
+  name: Description of groups, roles, and responsibilities for management of network
+    components
+Requirement 2:
+  family: '2'
+  name: Do not use vendor-supplied defaults for system passwords and other security
+    parameters
+9.8.2:
+  family: '9'
+  name: Render cardholder data on electronic media unrecoverable so that cardholder
+    data cannot be reconstructed.
+1.3.7:
+  family: '1'
+  name: Place system components that store cardholder data (such as a database) in
+    an internal network zone, segregated from the DMZ and other untrusted networks.
+3.6.2:
+  family: '3'
+  name: Secure cryptographic key distribution
+11.3.1:
+  family: '11'
+  name: Perform external penetration testing at least annually and after any significant
+    infrastructure or application upgrade or modification (such as an operating system
+    upgrade, a sub-network added to the environment, or a web server added to the
+    environment).
+12.10.5:
+  family: '12'
+  name: Include alerts from security monitoring systems, including but not limited
+    to intrusion-detection, intrusion-prevention, firewalls, and file-integrity monitoring
+    systems.
+2.2.4:
+  family: '2'
+  name: Configure system security parameters to prevent misuse.
+1.3.6:
+  family: '1'
+  name: "Implement stateful inspection, also known as dynamic packet filtering. (That\
+    \ is, only \u201Cestablished\u201D connections are allowed into the network.)"
+6.4:
+  family: '6'
+  name: Follow change control processes and procedures for all changes to system components.
+6.4.5.2:
+  family: '6'
+  name: Documented change approval by authorized parties.
+10.6.3:
+  family: '10'
+  name: Follow up exceptions and anomalies identified during the review process.
+12.3.9:
+  family: '12'
+  name: Activation of remote-access technologies for vendors and business partners
+    only when needed by vendors and business partners, with immediate deactivation
+    after use
+11.2.2:
+  family: '11'
+  name: Perform quarterly external vulnerability scans, via an Approved Scanning Vendor
+    (ASV) approved by the Payment Card Industry Security Standards Council (PCI SSC).
+    Perform rescans as needed, until passing scans are achieved.
+12.3.6:
+  family: '12'
+  name: Acceptable network locations for the technologies
+1.2:
+  family: '1'
+  name: Build firewall and router configurations that restrict connections between
+    untrusted networks and any system components in the cardholder data environment.
+10.2.3:
+  family: '10'
+  name: Access to all audit trails
+12.10.6:
+  family: '12'
+  name: Develop a process to modify and evolve the incident response plan according
+    to lessons learned and to incorporate industry developments.
+6.5.8:
+  family: '6'
+  name: Improper access control (such as insecure direct object references, failure
+    to restrict URL access, directory traversal, and failure to restrict user access
+    to functions).
+7.2.3:
+  family: '7'
+  name: "Default \u201Cdeny-all\u201D setting."
+8.1.5:
+  family: '8'
+  name: Manage IDs used by vendors to access, support, or maintain system components
+    via remote access .
+8.1.1:
+  family: '8'
+  name: Assign all users a unique ID before allowing them to access system components
+    or cardholder data.
+8.4:
+  family: '8'
+  name: Document and communicate authentication policies and procedures to all users.
+12.10.2:
+  family: '12'
+  name: Test the plan at least annually.
+10.3.4:
+  family: '10'
+  name: Success or failure indication
+Requirement 12:
+  family: '12'
+  name: Maintain a policy that addresses information security for all personnel
+1.3.1:
+  family: '1'
+  name: Implement a DMZ to limit inbound traffic to only system components that provide
+    authorized publicly accessible services, protocols, and ports.
+11.1.1:
+  family: '11'
+  name: Maintain an inventory of authorized wireless access points including a documented
+    business justification.
+9.4:
+  family: '9'
+  name: Implement procedures to identify and authorize visitors.
+Requirement 7:
+  family: '7'
+  name: Restrict access to cardholder data by business need to know
+5.3:
+  family: '5'
+  name: Ensure that anti-virus mechanisms are actively running and cannot be disabled
+    or altered by users, unless specifically authorized by management on a case-by-case
+    basis for a limited time period.
+9.9.3:
+  family: '9'
+  name: Provide training for personnel to be aware of attempted tampering or replacement
+    of devices.
+3.2:
+  family: '3'
+  name: Do not store sensitive authentication data after authorization (even if encrypted).
+    If sensitive authentication data is received, render all data unrecoverable upon
+    completion of the authorization process.
+11.3.3:
+  family: '11'
+  name: Exploitable vulnerabilities found during penetration testing are corrected
+    and testing is repeated to verify the corrections.
+6.5:
+  family: '6'
+  name: Address common coding vulnerabilities in software-development processes.
+3.6.7:
+  family: '3'
+  name: Prevention of unauthorized substitution of cryptographic keys.
+10.3.2:
+  family: '10'
+  name: Type of event
+12.10.4:
+  family: '12'
+  name: Provide appropriate training to staff with security breach response responsibilities.
+9.8.1:
+  family: '9'
+  name: Shred, incinerate, or pulp hard-copy materials so that cardholder data cannot
+    be reconstructed. Secure storage containers used for materials that are to be
+    destroyed.
+10.4:
+  family: '10'
+  name: Using time-synchronization technology, synchronize all critical system clocks
+    and times and ensure that the following is implemented for acquiring, distributing,
+    and storing time.
+2.2.5:
+  family: '2'
+  name: Remove all unnecessary functionality, such as scripts, drivers, features,
+    subsystems, file systems, and unnecessary web servers.
+12.8.3:
+  family: '12'
+  name: Ensure there is an established process for engaging service providers including
+    proper due diligence prior to engagement.
+6.4.5.1:
+  family: '6'
+  name: Documentation of impact.
+10.4.1:
+  family: '10'
+  name: Critical systems have the correct and consistent time.
+3.7:
+  family: '3'
+  name: Ensure that security policies and operational procedures for protecting stored
+    cardholder data are documented, in use, and known to all affected parties.
+4.2:
+  family: '4'
+  name: Never send unprotected PANs by end-user messaging technologies (for example,
+    e-mail, instant messaging, SMS, chat, etc.).
+6.5.3:
+  family: '6'
+  name: Insecure cryptographic storage
+9.1.1:
+  family: '9'
+  name: Use video cameras and/or access control mechanisms to monitor individual physical
+    access to sensitive areas. Review collected data and correlate with other entries.
+    Store for at least three months, unless otherwise restricted by law.
+10.2.1:
+  family: '10'
+  name: All individual user accesses to cardholder data
+12.3.10:
+  family: '12'
+  name: For personnel accessing cardholder data via remote-access technologies, prohibit
+    the copying, moving, and storage of cardholder data onto local hard drives and
+    removable electronic media, unless explicitly authorized for a defined business
+    need. Where there is an authorized business need, the usage policies must require
+    the data be protected in accordance with all applicable PCI DSS Requirements.
+Requirement 10:
+  family: '10'
+  name: Track and monitor all access to network resources and cardholder data
+11.4:
+  family: '11'
+  name: Use intrusion-detection and/or intrusion-prevention techniques to detect and/or
+    prevent intrusions into the network. Monitor all traffic at the perimeter of the
+    cardholder data environment as well as at critical points in the cardholder data
+    environment, and alert personnel to suspected compromises.Keep all intrusion-detection
+    and prevention engines, baselines, and signatures up to date.
+10.5.3:
+  family: '10'
+  name: Promptly back up audit trail files to a centralized log server or media that
+    is difficult to alter.
+10.6.2:
+  family: '10'
+  name: "Review logs of all other system components periodically based on the organization\u2019\
+    s policies and risk management strategy, as determined by the organization\u2019\
+    s annual risk assessment."
+5.2:
+  family: '5'
+  name: Ensure that all anti-virus mechanisms are maintained .
+12.4:
+  family: '12'
+  name: Ensure that the security policy and procedures clearly define information
+    security responsibilities for all personnel.
+3.2.1:
+  family: '3'
+  name: Do not store the full contents of any track (from the magnetic stripe located
+    on the back of a card, equivalent data contained on a chip, or elsewhere) after
+    authorization. This data is alternatively called full track, track, track 1, track
+    2, and magnetic-stripe data.
+1.3.4:
+  family: '1'
+  name: Implement anti-spoofing measures to detect and block forged source IP addresses
+    from entering the network.
+4.1.1:
+  family: '4'
+  name: Ensure wireless networks transmitting cardholder data or connected to the
+    cardholder data environment, use industry best practices (for example, IEEE 802.11i)
+    to implement strong encryption for authentication and transmission.
+6.5.2:
+  family: '6'
+  name: Buffer overflows
+12.9:
+  family: '12'
+  name: "Additional requirement for service providers only. Service providers acknowledge\
+    \ in writing to customers that they are responsible for the security of cardholder\
+    \ data the service provider possesses or otherwise stores, processes, or transmits\
+    \ on behalf of the customer, or to the extent that they could impact the security\
+    \ of the customer\u2019s cardholder data environment."
+12.5.4:
+  family: '12'
+  name: Administer user accounts, including additions, deletions, and modifications.
+10.2.6:
+  family: '10'
+  name: Initialization, stopping, or pausing of the audit logs
+12.5.3:
+  family: '12'
+  name: Establish, document, and distribute security incident response and escalation
+    procedures to ensure timely and effective handling of all situations.
+11.2.3:
+  family: '11'
+  name: Perform internal and external scans, and rescans as needed, after any significant
+    change. Scans must be performed by qualified personnel.
+8.2:
+  family: '8'
+  name: In addition to assigning a unique ID, ensure proper user-authentication management
+    for non-consumer users and administrators on all system components by employing
+    at least one of the following methods to authenticate all users.
+6.7:
+  family: '6'
+  name: Ensure that security policies and operational procedures for developing and
+    maintaining secure systems and applications are documented, in use, and known
+    to all affected parties.
+9.6.1:
+  family: '9'
+  name: Classify media so the sensitivity of the data can be determined.
+12.8:
+  family: '12'
+  name: Maintain and implement policies and procedures to manage service providers
+    with whom cardholder data is shared, or that could affect the security of cardholder
+    data.
