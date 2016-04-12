@@ -8,6 +8,61 @@ We encourage you to read this project's CONTRIBUTING policy (you are here), its 
 
 If you have any questions or want to read more, check out the [18F Open Source Policy GitHub repository]( https://github.com/18f/open-source-policy), or just [shoot us an email](mailto:18f@gsa.gov).
 
+## Development
+
+This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
+
+### Project setup
+
+1. Follow the [general setup steps](README.md#quick-start).
+1. Run
+
+    ```bash
+    cd $GOPATH/src/github.com/opencontrol/compliance-masonry/
+    # Build
+    go build
+
+    # (Optional) Update Dependencies
+    # Install Glide first
+    go get github.com/Masterminds/glide
+    glide up -s
+    ```
+
+### Running tests
+
+```bash
+# Get test dependencies
+go get -t ./...
+# Run tests
+ginkgo
+```
+
+### Creating Binaries
+
+#### One Time Setup for Uploading Binaries
+
+1. Install [goxc](go get github.com/laher/goxc)
+
+    ```bash
+    go get github.com/laher/goxc
+    ```
+
+1. [Get a GitHub API token](https://github.com/settings/tokens/new). The token should have write access to repos.
+1. Add a .goxc.local.json file with a github api key
+
+    ```bash
+    goxc -wlc default publish-github -apikey=123456789012
+    ```
+
+#### Compiling and Uploading Binaries
+
+1. Set version number in `.goxc.json` file
+1. Run goxc
+
+    ```bash
+    goxc
+    ```
+
 ## Public domain
 
 This project is in the public domain within the United States, and
