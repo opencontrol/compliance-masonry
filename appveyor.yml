@@ -16,4 +16,7 @@ install:
 
     go get github.com/onsi/ginkgo/ginkgo
 build_script:
-- cmd: '%GOPATH%\bin\ginkgo'
+- cmd: >-
+    go build
+
+    FOR /F %A IN ('glide novendor') DO go test %~A
