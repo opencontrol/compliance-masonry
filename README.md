@@ -58,7 +58,7 @@ Compliance Masonry is a CLI that allows users to construct certification documen
         - url: github.com/18F/LATO
           revision: master
       systems:  # An optional list of repos that contain an opencontrol.yaml stored remotely
-        - url: github.com/18F/cg-complinace
+        - url: github.com/18F/cg-compliance
           revision: master
       standards:   # An optional list of remote repos containing standards info that contain an opencontrol.yaml
         - url: github.com/18F/NIST-800-53
