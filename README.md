@@ -122,13 +122,15 @@ git clone git@github.com:opencontrol/compliance-masonry.git compliance-masonry/s
 # Set $GOPATHs
 cd compliance-masonry
 export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
-cd compliance-masonry/src/github.com/opencontrol/compliance-masonry
-# Install dependencies
-go get github.com/Masterminds/glide
-glide install -s
-# Update dependencies
-glide up -s
+
+cd src/github.com/opencontrol/compliance-masonry
+# Build
 go build
+
+# (Optional) Update Dependencies
+# Install Glide first
+go get github.com/Masterminds/glide
+glide up -s
 ```
 
 #### Running tests
