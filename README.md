@@ -120,6 +120,7 @@ mkdir compliance-masonry/bin
 # Clone compliance-masonry
 git clone git@github.com:opencontrol/compliance-masonry.git compliance-masonry/src/github.com/opencontrol/compliance-masonry
 # Set $GOPATHs
+cd compliance-masonry
 export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
 cd compliance-masonry/src/github.com/opencontrol/compliance-masonry
 # Install dependencies
