@@ -5,7 +5,10 @@
 
 Compliance Masonry is a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation.
 
+![screen shot 2016-04-12 at 12 22 02 pm](https://cloud.githubusercontent.com/assets/4596845/14469165/5d27495c-00b1-11e6-9d28-327938463adf.png)
+
 # Quick Start with CLI
+
 
 ## Installing
 1. Install Go
