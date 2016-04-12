@@ -5,13 +5,13 @@
 [![Circle CI](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master.svg?style=svg)](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master)
 [![Build status](https://ci.appveyor.com/api/projects/status/jjjo83ewacbwnthy/branch/master?svg=true)](https://ci.appveyor.com/project/opencontrol/compliance-masonry/branch/master)
 
-Compliance Masonry is a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation.
+Compliance Masonry is a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation. If you are interested in working on the code, see [our developer documentation](CONTRIBUTING.md#development).
 
 ![screen shot 2016-04-12 at 12 22 02 pm](https://cloud.githubusercontent.com/assets/4596845/14469165/5d27495c-00b1-11e6-9d28-327938463adf.png)
 
-## Quick start with the CLI
+## Quick start
 
-1. Install Go
+1. Install Go 1.6, and ensure your `GOPATH` is set. Using [gvm](https://github.com/moovweb/gvm) is recommended.
 1. Install the tool
 
     ```bash
@@ -130,64 +130,3 @@ Compliance Masonry simplifies the process of certification documentations by pro
 1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
 1. a way for government project to edit existing files and also add new control files for their applications and organizations.
 1. a pipeline for generating clean and standardized certification documentation.
-
-## Development
-
-This project requires [go1.6](https://github.com/moovweb/gvm) and uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
-
-### Project setup
-
-```bash
-# Create directories
-mkdir -p compliance-masonry/src/github.com/opencontrol/compliance-masonry
-mkdir compliance-masonry/bin
-# Clone compliance-masonry
-git clone git@github.com:opencontrol/compliance-masonry.git compliance-masonry/src/github.com/opencontrol/compliance-masonry
-# Set $GOPATHs
-cd compliance-masonry
-export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
-
-cd src/github.com/opencontrol/compliance-masonry
-# Build
-go build
-
-# (Optional) Update Dependencies
-# Install Glide first
-go get github.com/Masterminds/glide
-glide up -s
-```
-
-### Running tests
-
-```bash
-# Get test dependencies
-go get -t ./...
-# Run tests
-ginkgo
-```
-
-### Creating Binaries
-
-#### One Time Setup for Uploading Binaries
-
-1. Install [goxc](go get github.com/laher/goxc)
-
-    ```bash
-    go get github.com/laher/goxc
-    ```
-
-1. [Get a GitHub API token](https://github.com/settings/tokens/new). The token should have write access to repos.
-1. Add a .goxc.local.json file with a github api key
-
-    ```bash
-    goxc -wlc default publish-github -apikey=123456789012
-    ```
-
-#### Compiling and Uploading Binaries
-
-1. Set version number in `.goxc.json` file
-1. Run goxc
-
-    ```bash
-    goxc
-    ```
