@@ -135,22 +135,22 @@ go get -t ./...
 ginkgo
 ```
 
-### Uploading Binaries
+### Creating Binaries
+#### One Time Setup for Uploading Binaries
 0. Install [goxc](go get github.com/laher/goxc)
 
   ```bash
   go get github.com/laher/goxc
   ```
 
-0. Set version number in `.goxc.json` file
 0. Get an github API token from https://github.com/settings/tokens. The token should have write access to repos.
 0. Add a .goxc.local.json file with a github api key
 
   ```bash
   goxc -wlc default publish-github -apikey=123456789012
-   echo ".goxc.local.json" >> .gitignore
   ```
-
+#### Compiling and Uploading Binaries
+0. Set version number in `.goxc.json` file
 0. Run goxc
 
   ```bash
