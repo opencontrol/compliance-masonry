@@ -1,5 +1,5 @@
 hash: 8a157da656555be743bc6e482a66ed6b816aae3e375dba951658e860f0452fb8
-updated: 2016-04-12T09:26:16.179717814-04:00
+updated: 2016-04-12T09:30:01.349838667-04:00
 imports:
 - name: github.com/blang/semver
   version: aea32c919a18e5ef4537bbd283ff29594b1b0165
