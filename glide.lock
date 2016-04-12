@@ -1,5 +1,5 @@
-hash: 46859853f7b71f7a9d41c40608d591e0d13e919c12875ec8f2f1c92b4406217b
-updated: 2016-04-08T12:39:39.427578193-04:00
+hash: 8a157da656555be743bc6e482a66ed6b816aae3e375dba951658e860f0452fb8
+updated: 2016-04-12T09:26:16.179717814-04:00
 imports:
 - name: github.com/blang/semver
   version: aea32c919a18e5ef4537bbd283ff29594b1b0165
@@ -22,7 +22,7 @@ imports:
 - name: github.com/Masterminds/vcs
   version: b22ee1673cdd03ef47bb0b422736a7f17ff0648c
 - name: github.com/onsi/ginkgo
-  version: 105b4823ee2cbebc2b5c562d9ac50694ecc2c689
+  version: 2c2e9bb47b4e44067024f29339588cac8b34dd12
 - name: github.com/onsi/gomega
   version: 7ce781ea776b2fd506491011353bded2e40c8467
 - name: github.com/opencontrol/doc-template
@@ -36,7 +36,7 @@ imports:
 - name: github.com/stretchr/objx
   version: cbeaeb16a013161a98496fad62933b1d21786672
 - name: github.com/stretchr/testify
-  version: 6fe211e493929a8aac0469b93f28b1d0688a9a3a
+  version: 0744955171b0b6e1871ff9d7366abc2b7a7fcec0
   subpackages:
   - mock
   - assert
