@@ -1,0 +1,15 @@
+{
+	"Tasks": [
+		"default",
+		"publish-github"
+	],
+	"BuildConstraints": "linux,windows,darwin",
+	"PackageVersion": "1.0.0",
+	"TaskSettings": {
+		"publish-github": {
+			"owner": "opencontrol",
+			"repository": "compliance-masonry"
+		}
+	},
+	"ConfigVersion": "0.9"
+}

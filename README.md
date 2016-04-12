@@ -87,6 +87,7 @@ The `gitbook` command by default will create a folder called `exports` that cont
   {{ getControl "NIST-800-53@AC-2"}}
   ```
 2. Run the docx command
+
   ```bash
   compliance-masonry docs docx -t path/to/template.docx
   ```
@@ -133,3 +134,25 @@ go get -t ./...
 # Run tests
 ginkgo
 ```
+
+### Creating Binaries
+#### One Time Setup for Uploading Binaries
+0. Install [goxc](go get github.com/laher/goxc)
+
+  ```bash
+  go get github.com/laher/goxc
+  ```
+
+0. Get an github API token from https://github.com/settings/tokens. The token should have write access to repos.
+0. Add a .goxc.local.json file with a github api key
+
+  ```bash
+  goxc -wlc default publish-github -apikey=123456789012
+  ```
+#### Compiling and Uploading Binaries
+0. Set version number in `.goxc.json` file
+0. Run goxc
+
+  ```bash
+  goxc
+  ```
