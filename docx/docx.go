@@ -5,8 +5,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/doc-template"
 )
 
 // Config contains data for docx template export configurations
@@ -29,11 +29,22 @@ func (config *Config) BuildDocx() error {
 	if err != nil {
 		return err
 	}
-	funcMap := template.FuncMap{"getControl": openControl.FormatControl}
+	funcMap := template.FuncMap{
+		"getControl":        openControl.FormatControl,
+		"getJustifications": openControl.GetJustifications,
+		"getComponent":      openControl.Components.Get,
+	}
 	docTemplate.AddFunctions(funcMap)
 	docTemplate.Parse()
 	docTemplate.Execute(config.ExportPath, nil)
 	return err
+}
+
+// GetJustifications returns a control formatted for docx
+func (openControl *OpenControlDocx) GetJustifications(standardControl string) models.Verifications {
+	standardKey, controlKey := SplitControl(standardControl)
+	justifications := openControl.Justifications.Get(standardKey, controlKey)
+	return justifications
 }
 
 // FormatControl returns a control formatted for docx
