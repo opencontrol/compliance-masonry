@@ -2,6 +2,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/opencontrol/compliance-masonry)](https://goreportcard.com/report/github.com/opencontrol/compliance-masonry)
 [![Coverage Status](https://coveralls.io/repos/github/opencontrol/compliance-masonry/badge.svg?branch=master)](https://coveralls.io/github/opencontrol/compliance-masonry?branch=master)
 [![Circle CI](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master.svg?style=svg)](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/jjjo83ewacbwnthy/branch/master?svg=true)](https://ci.appveyor.com/project/opencontrol/compliance-masonry/branch/master)
 
 Compliance Masonry is a CLI that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation.
 
@@ -122,13 +123,15 @@ git clone git@github.com:opencontrol/compliance-masonry.git compliance-masonry/s
 # Set $GOPATHs
 cd compliance-masonry
 export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
-cd compliance-masonry/src/github.com/opencontrol/compliance-masonry
-# Install dependencies
-go get github.com/Masterminds/glide
-glide install -s
-# Update dependencies
-glide up -s
+
+cd src/github.com/opencontrol/compliance-masonry
+# Build
 go build
+
+# (Optional) Update Dependencies
+# Install Glide first
+go get github.com/Masterminds/glide
+glide up -s
 ```
 
 #### Running tests
