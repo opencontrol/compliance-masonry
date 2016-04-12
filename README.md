@@ -115,18 +115,19 @@ This project requires [go1.6](https://github.com/moovweb/gvm) and uses [glide](h
 #### Project setup
 ```bash
 # Create directories
-mkdir -p compliance-masonry/src/github.com/opencontrol/
+mkdir -p compliance-masonry/src/github.com/opencontrol/compliance-masonry
 mkdir compliance-masonry/bin
 # Clone compliance-masonry
-git clone git@github.com:opencontrol/compliance-masonry.git compliance-masonry/src/github.com/opencontrol/
+git clone git@github.com:opencontrol/compliance-masonry.git compliance-masonry/src/github.com/opencontrol/compliance-masonry
 # Set $GOPATHs
 export GOPATH=`pwd` && export PATH=$PATH:$GOPATH/bin
-cd src/github.com/opencontrol/compliance-masonry
+cd compliance-masonry/src/github.com/opencontrol/compliance-masonry
 # Install dependencies
 go get github.com/Masterminds/glide
 glide install -s
 # Update dependencies
 glide up -s
+go build
 ```
 
 #### Running tests
