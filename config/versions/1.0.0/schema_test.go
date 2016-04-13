@@ -245,4 +245,63 @@ dependencies:
 			[]string{"./component-1", "./component-2", "./component-3"},
 		),
 	)
+
+	//TODO NEW TESTS HERE
+	DescribeTable("Testing GetRequiredComponents",
+		func(data []byte, expectedComponents []string) {
+			s := Schema{}
+			err := s.Parse(data)
+			actualComponents := s.GetRequiredComponents()
+			log.Println(err)
+			log.Println(actualComponents)
+			assert.Equal(GinkgoT(), expectedComponents, actualComponents)
+		},
+		Entry("v1.0.0 data with no required components",
+			[]byte(`
+ schema_version: "1.0.0"
+ system_name: test-system
+ metadata:
+   description: "A system to test parsing"
+   maintainers:
+     - test@test.com
+ dependencies:
+   certification:
+     url: github.com/18F/LATO
+     revision: master
+   systems:
+     - url: github.com/18F/cg-complinace
+       revision: master
+   standards:
+     - url: github.com/18F/NIST-800-53
+       revision: master
+ `),
+			nil,
+		),
+		Entry("v1.0.0 data with required components",
+			[]byte(`
+ schema_version: "1.0.0"
+ system_name: test-system
+ metadata:
+   description: "A system to test parsing"
+   maintainers:
+     - test@test.com
+ required_components:
+   - component-1
+   - component-2
+   - component-3
+ dependencies:
+   certification:
+     url: github.com/18F/LATO
+     revision: master
+   systems:
+     - url: github.com/18F/cg-complinace
+       revision: master
+   standards:
+     - url: github.com/18F/NIST-800-53
+       revision: master
+ `),
+			[]string{"component-1", "component-2", "component-3"},
+		),
+	)
+	//TODO NEW TESTS END HERE
 })

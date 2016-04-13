@@ -20,11 +20,17 @@ type inventoryTest struct {
 	configBytes        []byte
 	expectedError      error
 	expectedComponents int
+	expectedRequiredComponents int
 }
 
 type loadLocalComponentsTest struct {
 	components         []string
 	expectedComponents int
+}
+
+type loadRequiredComponentsTest struct {
+	controls						[]string
+	expectedComponents		int
 }
 
 var getControlInfoTests = []getControlInfoTest{
@@ -77,6 +83,7 @@ metadata:
   maintainers:
     - test@test.com
 components:
+required_controls:
 certifications:
   - ./cert-1.yaml
 standards:
@@ -91,7 +98,7 @@ dependencies:
   standards:
     - url: github.com/18F/NIST-800-53
       revision: master
-`), nil, 0,
+`), nil, 0, 0,
 	},
 	{
 		// Check a schema with 3 components
@@ -106,6 +113,7 @@ components:
   - ./component-1
   - ./component-2
   - ./component-3
+required_controls:
 certifications:
   - ./cert-1.yaml
 standards:
@@ -120,7 +128,7 @@ dependencies:
   standards:
     - url: github.com/18F/NIST-800-53
       revision: master
-`), nil, 3,
+`), nil, 3, 0,
 	},
 }
 
@@ -154,7 +162,8 @@ func TestLoadLocalComponents(t *testing.T) {
 	}
 }
 
-var initInventoryTests = []inventoryTest{
+//TODO: start new tests here
+var getRequiredComponentsTests = []inventoryTest{
 	{
 		// Check a schema with 0 components
 		[]byte(`
@@ -165,6 +174,7 @@ metadata:
   maintainers:
     - test@test.com
 components:
+required_components:
 certifications:
   - ./cert-1.yaml
 standards:
@@ -179,7 +189,83 @@ dependencies:
   standards:
     - url: github.com/18F/NIST-800-53
       revision: master
-`), nil, 0,
+`), nil, 0, 0,
+	},
+	{
+		// Check a schema with 3 components
+		[]byte(`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+  - ./component-1
+  - ./component-2
+  - ./component-3
+required_components:
+  - component-1
+  - component-2
+  - component-3
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
+dependencies:
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+`), nil, 0, 3,
+	},
+}
+
+func TestGetRequiredComponents(t *testing.T) {
+	for _, example := range getRequiredComponentsTests {
+		actualComponents, err := GetRequiredComponents(example.configBytes)
+		if err != nil {
+			t.Error(err)
+		}
+		if len(actualComponents) != example.expectedRequiredComponents {
+			t.Error("The number of actual required components and expected required components do not match")
+		}
+	}
+}
+//TODO: end new tests here
+
+var initInventoryTests = []inventoryTest{
+	{
+		// Check a schema with 0 components
+		[]byte(`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+required_controls:
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
+dependencies:
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+`), nil, 0, 0,
 	},
 	{
 		// Check a schema with 1 components
@@ -192,6 +278,7 @@ metadata:
     - test@test.com
 components:
   - ../fixtures/component_fixtures/EC2
+required_controls:
 certifications:
   - ./cert-1.yaml
 standards:
@@ -206,13 +293,13 @@ dependencies:
   standards:
     - url: github.com/18F/NIST-800-53
       revision: master
-`), nil, 1,
+`), nil, 1, 0,
 	},
 	{
 		// Check example with broken opencontrol.yaml
 		[]byte(`
 schema_versio: "1.0.0"
-`), config.ErrCantParseSemver, 1,
+`), config.ErrCantParseSemver, 1, 0,
 	},
 	{
 		// With broken component
@@ -225,7 +312,7 @@ metadata:
     - test@test.com
 components:
   - ../fixtures/component_fixtures/EC2BrokenControl
-`), models.ErrControlSchema, 1,
+`), models.ErrControlSchema, 1, 0,
 	},
 }
 

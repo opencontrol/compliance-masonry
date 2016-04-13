@@ -37,6 +37,15 @@ func GetLocalComponents(configBytes []byte) ([]string, error) {
 	return configSchema.GetLocalComponents(), nil
 }
 
+// GetRequiredComponents uses the opencontrol.yaml file to get a list of required controls
+func GetRequiredComponents(configBytes []byte) ([]string, error) {
+	configSchema, err := config.Parse(parser.Parser{}, configBytes)
+	if err != nil {
+		return nil, err
+	}
+	return configSchema.GetRequiredComponents(), nil
+}
+
 // LoadLocalComponents loads a set of components given a path
 func (inventory *Inventory) LoadLocalComponents(componentPaths []string) error {
 	for _, componentPath := range componentPaths {
