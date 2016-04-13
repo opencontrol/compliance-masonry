@@ -2,7 +2,7 @@
 
 set -e
 
-cov_file=/home/ubuntu/coverage.out
+cov_file=/home/ubuntu/coverage.txt
 
 # Get the list of packages.
 pkgs=`go list $(/home/ubuntu/.go_workspace/bin/glide novendor)`
@@ -20,4 +20,4 @@ done
 
 go tool cover -func $cov_file
 
-/home/ubuntu/.go_workspace/bin/goveralls -coverprofile=$cov_file -service=circle-ci -repotoken=$COVERALLS_TOKEN
+mv $cov_file . && bash <(curl -s https://codecov.io/bash)
