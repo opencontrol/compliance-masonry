@@ -34,7 +34,7 @@ This project uses [glide](https://github.com/Masterminds/glide) to manage vendor
 # Get test dependencies
 go get -t ./...
 # Run tests
-ginkgo
+go test $(glide nv)
 ```
 
 ### Creating Binaries
