@@ -24,7 +24,7 @@ var componentExportTests = []componentExportTest{
 			SchemaVersion: 2.0,
 		},
 		"EC2.md",
-		"# Amazon Elastic Compute Cloud  \n## References  \n* []()  \n## Verifications  \n* []()  \n",
+		"# Amazon Elastic Compute Cloud\n## References\n* []()\n## Verifications\n* []()\n",
 	},
 }
 

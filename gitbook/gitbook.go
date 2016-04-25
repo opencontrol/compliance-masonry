@@ -43,7 +43,7 @@ type ControlGitbook struct {
 }
 
 func exportLink(text string, location string) string {
-	return fmt.Sprintf("* [%s](%s)  \n", text, location)
+	return fmt.Sprintf("* [%s](%s)\n", text, location)
 }
 
 func replaceParentheses(text string) string {

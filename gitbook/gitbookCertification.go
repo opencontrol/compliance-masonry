@@ -10,15 +10,15 @@ import (
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
-	text := fmt.Sprintf("#%s  \n##%s  \n", key, control.Name)
+	text := fmt.Sprintf("#%s\n##%s\n", key, control.Name)
 	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications models.Verifications) {
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
-				text = fmt.Sprintf("%s  \n#### %s  \n", text, component.Name)
-				text = fmt.Sprintf("%s%s  \n", text, justification.SatisfiesData.Narrative)
+				text = fmt.Sprintf("%s\n#### %s\n", text, component.Name)
+				text = fmt.Sprintf("%s%s\n", text, justification.SatisfiesData.Narrative)
 			})
 			if len(justification.SatisfiesData.CoveredBy) > 0 {
-				text += "Covered By:  \n"
+				text += "Covered By:\n"
 			}
 			for _, coveredBy := range justification.SatisfiesData.CoveredBy {
 				componentKey := coveredBy.ComponentKey

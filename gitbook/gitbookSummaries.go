@@ -8,7 +8,7 @@ import (
 
 // BuildComponentsSummaries creates summaries the components for the general summary
 func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
-	summary := "  \n## Components  \n"
+	summary := "\n## Components\n"
 	for _, component := range openControl.Components.GetAll() {
 		summary += exportLink(component.Name, filepath.Join("components", component.Key+".md"))
 	}
@@ -19,7 +19,7 @@ func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[string]string) {
 	var oldFamily, newFamily string
 	familySummaryMap := make(map[string]string)
-	summary := "## Standards  \n"
+	summary := "## Standards\n"
 
 	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
 		componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
@@ -29,7 +29,7 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 		newFamily = standardKey + "-" + controlFamily
 		// create control family headings
 		if oldFamily != newFamily {
-			familySummaryMap[newFamily] = fmt.Sprintf("## %s  \n", newFamily)
+			familySummaryMap[newFamily] = fmt.Sprintf("## %s\n", newFamily)
 			summary += exportLink(controlKey, filepath.Join("standards", newFamily+".md"))
 			oldFamily = newFamily
 		}

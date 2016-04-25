@@ -28,9 +28,9 @@ type buildGitbookTest struct {
 
 var exportLinkTests = []exportLinkTest{
 	// Check that text and location create the correct output
-	{"test text", "location", "* [test text](location)  \n"},
+	{"test text", "location", "* [test text](location)\n"},
 	// Check that an emtpy text and location create the correct output
-	{"", "", "* []()  \n"},
+	{"", "", "* []()\n"},
 }
 
 func TestExportLink(t *testing.T) {
