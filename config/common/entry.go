@@ -9,7 +9,7 @@ import (
 type Entry struct {
 	URL      string `yaml:"url"`
 	Revision string `yaml:"revision"`
-	Path     string `yaml:path"`
+	Path     string `yaml:"path"`
 }
 
 // GetConfigFile is a getter for the config file name. Will return DefaultConfigYaml value if none has been set.

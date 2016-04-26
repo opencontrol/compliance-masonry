@@ -28,7 +28,7 @@ var _ = Describe("Docx", func() {
 
 	DescribeTable("FormatControl", func(standardControl string, expectedData string) {
 		openControl := docx.OpenControlDocx{
-			models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
 		}
 		actualData := openControl.FormatControl(standardControl)
 		assert.Equal(GinkgoT(), expectedData, actualData)
