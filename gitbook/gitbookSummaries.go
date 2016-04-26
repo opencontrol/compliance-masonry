@@ -30,7 +30,7 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 		// create control family headings
 		if oldFamily != newFamily {
 			familySummaryMap[newFamily] = fmt.Sprintf("## %s\n", newFamily)
-			summary += exportLink(controlKey, filepath.Join("standards", newFamily+".md"))
+			summary += exportLink(controlFamily, filepath.Join("standards", newFamily+".md"))
 			oldFamily = newFamily
 		}
 		controlFullName := fmt.Sprintf("%s: %s", controlKey, controlName)
