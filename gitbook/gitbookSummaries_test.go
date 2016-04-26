@@ -85,18 +85,19 @@ func TestBuildStandardsSummaries(t *testing.T) {
 		expectedSummary := string(data)
 		// Check that the actual and expected summaries are similar
 		if strings.Replace(actualSummary, "\\", "/", -1) != expectedSummary {
-			t.Errorf("Expected: `%s`, Actual: `%s`", expectedSummary, actualSummary)
+			t.Errorf("Expected (%s):\n`%s`\n\nActual:\n`%s`", example.expectedSummary, expectedSummary, actualSummary)
 		}
 		// Check individual pages
 		for family, familySummary := range *(familySummaryMap) {
-			data, err := ioutil.ReadFile(filepath.Join(example.expectedStandardsSummaries, family+".md"))
+			expectedFamilySummaryFile := filepath.Join(example.expectedStandardsSummaries, family+".md")
+			data, err := ioutil.ReadFile(expectedFamilySummaryFile)
 			if err != nil {
 				log.Fatal(err)
 			}
 			expectedFamilySummary := string(data)
 			// Check that the actual and expected summaries are similar
 			if strings.Replace(familySummary, "\\", "/", -1) != expectedFamilySummary {
-				t.Errorf("Expected: `%s`, Actual: `%s`", expectedFamilySummary, familySummary)
+				t.Errorf("Expected (%s):\n`%s`\n\nActual:\n`%s`", expectedFamilySummaryFile, expectedFamilySummary, familySummary)
 			}
 		}
 

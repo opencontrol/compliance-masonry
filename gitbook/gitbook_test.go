@@ -28,9 +28,9 @@ type buildGitbookTest struct {
 
 var exportLinkTests = []exportLinkTest{
 	// Check that text and location create the correct output
-	{"test text", "location", "* [test text](location)  \n"},
+	{"test text", "location", "* [test text](location)\n"},
 	// Check that an emtpy text and location create the correct output
-	{"", "", "* []()  \n"},
+	{"", "", "* []()\n"},
 }
 
 func TestExportLink(t *testing.T) {
@@ -97,7 +97,7 @@ func TestBuildGitbook(t *testing.T) {
 			actualDataString := strings.Replace(string(actualData), "\\", "/", -1)
 			// Verify the expected text is the same as the actual text
 			if string(expectedData) != actualDataString {
-				t.Errorf("Expected: `%s`,\n Actual: `%s`", string(expectedData), string(actualData))
+				t.Errorf("Expected (%s):\n`%s`\nActual:\n`%s`", expectedfilePath, string(expectedData), string(actualData))
 			}
 		}
 	}
