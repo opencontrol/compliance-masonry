@@ -23,15 +23,19 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 
 	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
 		componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
-		controlFamily := openControl.Standards.Get(standardKey).Controls[controlKey].Family
+		control := openControl.Standards.Get(standardKey).Controls[controlKey]
+		controlFamily := control.Family
+		controlName := control.Name
 		newFamily = standardKey + "-" + controlFamily
+		// create control family headings
 		if oldFamily != newFamily {
 			familySummaryMap[newFamily] = fmt.Sprintf("## %s  \n", newFamily)
 			summary += exportLink(controlKey, filepath.Join("standards", newFamily+".md"))
 			oldFamily = newFamily
 		}
-		familySummaryMap[newFamily] += exportLink(controlKey, componentLink)
-		summary += "\t" + exportLink(controlKey, filepath.Join("standards", componentLink))
+		controlFullName := fmt.Sprintf("%s: %s", controlKey, controlName)
+		familySummaryMap[newFamily] += exportLink(controlFullName, componentLink)
+		summary += "\t" + exportLink(controlFullName, filepath.Join("standards", componentLink))
 	})
 	return summary, &familySummaryMap
 }
