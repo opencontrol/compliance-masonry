@@ -4,7 +4,7 @@
 		"publish-github"
 	],
 	"BuildConstraints": "linux,windows,darwin",
-	"PackageVersion": "1.0.0",
+	"PackageVersion": "1.0.1",
 	"TaskSettings": {
 		"publish-github": {
 			"owner": "opencontrol",
