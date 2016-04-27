@@ -1,11 +1,10 @@
 {
-	"Tasks": [
-		"default",
-		"publish-github"
-	],
 	"BuildConstraints": "linux,windows,darwin",
 	"PackageVersion": "1.0.1",
 	"TaskSettings": {
+		"go-test": {
+			"i": true
+		},
 		"publish-github": {
 			"owner": "opencontrol",
 			"repository": "compliance-masonry"
