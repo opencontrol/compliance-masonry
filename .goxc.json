@@ -3,6 +3,9 @@
 		"default",
 		"publish-github"
 	],
+	"TasksExclude": [
+		"go-test"
+	],
 	"BuildConstraints": "linux,windows,darwin",
 	"PackageVersion": "1.0.1",
 	"TaskSettings": {
