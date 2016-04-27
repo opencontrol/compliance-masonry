@@ -1,10 +1,23 @@
 {
-	"Tasks": [
-		"default",
-		"publish-github"
-	],
 	"BuildConstraints": "linux,windows,darwin",
 	"PackageVersion": "1.0.1",
+	"MainDirsExclude": "./vendor",
+	"TasksExclude": [
+		"go-test",
+		"go-vet"
+	],
+	"Tasks": [
+		"go-install",
+		"xc",
+		"codesign",
+		"copy-resources",
+		"archive-zip",
+		"archive-tar-gz",
+		"deb",
+		"deb-dev",
+		"rmbin",
+		"downloads-page"
+	],
 	"TaskSettings": {
 		"publish-github": {
 			"owner": "opencontrol",
