@@ -25,7 +25,7 @@ This project uses [glide](https://github.com/Masterminds/glide) to manage vendor
     # (Optional) Update Dependencies
     # Install Glide first
     go get github.com/Masterminds/glide
-    glide up -s
+    glide up -s --all-dependencies --update-vendored
     ```
 
 ### Running tests
