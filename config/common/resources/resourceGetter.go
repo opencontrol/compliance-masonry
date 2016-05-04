@@ -1,12 +1,13 @@
 package resources
 
 import (
-	"github.com/opencontrol/compliance-masonry/config"
-	"github.com/opencontrol/compliance-masonry/config/common"
-	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/opencontrol/compliance-masonry/config"
+	"github.com/opencontrol/compliance-masonry/config/common"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 // ResourceGetter is an interface for how to get and place local and remote resources.

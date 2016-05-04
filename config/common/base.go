@@ -26,6 +26,8 @@ type BaseSchema interface {
 	Parse(data []byte) error
 	GetSchemaVersion() string
 	GetResources(string, string, *ConfigWorker) error
+	GetLocalComponents() []string
+	GetRequiredComponents() []string
 }
 
 // ConfigWorker is a container of all COMMON things needed to do work on the configs.

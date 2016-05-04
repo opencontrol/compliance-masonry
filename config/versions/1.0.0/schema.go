@@ -2,11 +2,12 @@ package schema
 
 import (
 	"errors"
+	"log"
+
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/config/common/resources"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"gopkg.in/yaml.v2"
-	"log"
 )
 
 const (
@@ -25,6 +26,7 @@ type Schema struct {
 	Standards      []string     `yaml:",flow"`
 	Dependencies   Dependencies `yaml:"dependencies"`
 	resourceGetter resources.ResourceGetter
+	RequiredComponents []string `yaml:"required_components"`
 }
 
 // Dependencies contains all the dependencies for the system
@@ -96,4 +98,14 @@ func (s *Schema) GetResources(source string, destination string, worker *common.
 	}
 
 	return nil
+}
+
+// GetLocalComponents returns a list of local components
+func (s *Schema) GetLocalComponents() []string {
+	return s.Components
+}
+
+// GetRequiredComponents returns a list of required controls
+func (s *Schema) GetRequiredComponents() []string {
+	return s.RequiredComponents
 }
