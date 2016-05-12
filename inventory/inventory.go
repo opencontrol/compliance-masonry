@@ -23,7 +23,7 @@ func (c standardAndControl) String() string {
 	return c.standard + "@" + c.control
 }
 
-func (c standardAndControl) EqualToSatifiedControl(other models.Satisfies) bool {
+func (c standardAndControl) EqualToSatisfiedControl(other models.Satisfies) bool {
 	return c.standard == other.StandardKey && c.control == other.ControlKey
 }
 
@@ -63,7 +63,7 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	for _, masterControl := range i.masterControlList {
 		found := false
 		for _, actualControl := range i.actualSatifiedControls {
-			if masterControl.EqualToSatifiedControl(actualControl) {
+			if masterControl.EqualToSatisfiedControl(actualControl) {
 				found = true
 				break
 			}
@@ -77,7 +77,7 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	for _, actualControl := range i.actualSatifiedControls {
 		found := false
 		for _, masterControl := range i.masterControlList {
-			if masterControl.EqualToSatifiedControl(actualControl) {
+			if masterControl.EqualToSatisfiedControl(actualControl) {
 				found = true
 				break
 			}
