@@ -186,10 +186,6 @@ func NewCLIApp() *cli.App {
 				for _, missingControl := range inventory.MissingControlList {
 					fmt.Println(missingControl.String())
 				}
-				fmt.Printf("\nNumber of extra controls: %d\n", len(inventory.ExtraControlList))
-				for _, extraControl := range inventory.ExtraControlList {
-					fmt.Println(extraControl.StandardKey + "@" + extraControl.ControlKey)
-				}
 			},
 		},
 	}

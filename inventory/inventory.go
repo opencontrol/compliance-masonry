@@ -11,7 +11,6 @@ type Inventory struct {
 	masterControlList      []standardAndControl
 	actualSatifiedControls []models.Satisfies
 	MissingControlList     []standardAndControl
-	ExtraControlList       []models.Satisfies
 }
 
 type standardAndControl struct {
@@ -70,20 +69,6 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 		}
 		if !found {
 			i.MissingControlList = append(i.MissingControlList, masterControl)
-		}
-	}
-
-	// Extra controls
-	for _, actualControl := range i.actualSatifiedControls {
-		found := false
-		for _, masterControl := range i.masterControlList {
-			if masterControl.EqualToSatisfiedControl(actualControl) {
-				found = true
-				break
-			}
-		}
-		if !found {
-			i.ExtraControlList = append(i.ExtraControlList, actualControl)
 		}
 	}
 	return i, nil
