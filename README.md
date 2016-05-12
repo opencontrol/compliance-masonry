@@ -111,6 +111,18 @@ The `gitbook` command by default will create a folder called `exports` that cont
 
 Running the `docx` command will by default create a file named `export.docx` in the local directory.
 
+## Gap Analysis
+
+1. Once you collect the dependencies via the `get` command, run:
+
+    ```bash
+    $ compliance-masonry diff
+    Number of missing controls: 3
+    AT-4
+    AU-12
+    ...
+    ```
+
 ## Examples
 
 Compliance Masonry examples in the wild:

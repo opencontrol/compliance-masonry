@@ -16,6 +16,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
+	"github.com/opencontrol/compliance-masonry/inventory"
 )
 
 var certification, exportPath, markdownPath, opencontrolDir, templatePath string
@@ -156,6 +157,23 @@ func NewCLIApp() *cli.App {
 						fmt.Println(strings.Join(messages, "\n"))
 					},
 				},
+			},
+		},
+		{
+			Name:    "diff",
+			Aliases: []string{"d"},
+			Usage:   "Compute Gap Analysis",
+			Action: func(c *cli.Context) {
+				config := inventory.Config{
+					Certification:  c.Args().First(),
+					OpencontrolDir: opencontrolDir,
+				}
+				i := inventory.Inventory{}
+				missingControls := i.ComputeGapAnalysis(config)
+				fmt.Printf("Number of missing controls: %d\n", len(missingControls))
+				for _, missingControl := range(missingControls) {
+					fmt.Println(missingControl)
+				}
 			},
 		},
 	}
