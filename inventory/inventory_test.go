@@ -18,7 +18,7 @@ var _ = Describe("Inventory", func() {
 				assert.Equal(GinkgoT(), 0, len(missingControls))
 			})
 		})
-		Context("When there controls specified in the certification but no controls have been documented", func()) {
+		Context("When there controls specified in the certification but no controls have been documented", func() {
 			It("should return the full list of controls", func() {
 				i := Inventory{}
 				config := Config{
@@ -28,6 +28,6 @@ var _ = Describe("Inventory", func() {
 				missingControls := i.ComputeGapAnalysis(config)
 				assert.Equal(GinkgoT(), 0, len(missingControls))
 			})
-		}
+		})
 	})
 })
