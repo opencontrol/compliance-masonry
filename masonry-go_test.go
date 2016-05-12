@@ -51,7 +51,7 @@ var _ = Describe("Masonry CLI", func() {
 			Describe("When the CLI is run with the `docs gitbook` command without opencontrols dir", func() {
 				It("should let the user know that there is no opencontrols/certifications directory", func() {
 					output := Masonry("docs", "gitbook", "LATO")
-					Eventually(output.Out.Contents).Should(ContainSubstring("Error: `opencontrols/certifications` directory does exist"))
+					Eventually(output.Out.Contents).Should(ContainSubstring("Error: `" + filepath.Join("opencontrols", "certifications") + "` directory does exist"))
 				})
 			})
 		})
