@@ -13,10 +13,10 @@ import (
 	"github.com/opencontrol/compliance-masonry/config/parser"
 	"github.com/opencontrol/compliance-masonry/docx"
 	"github.com/opencontrol/compliance-masonry/gitbook"
+	"github.com/opencontrol/compliance-masonry/inventory"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
-	"github.com/opencontrol/compliance-masonry/inventory"
 )
 
 var certification, exportPath, markdownPath, opencontrolDir, templatePath string
@@ -163,6 +163,14 @@ func NewCLIApp() *cli.App {
 			Name:    "diff",
 			Aliases: []string{"d"},
 			Usage:   "Compute Gap Analysis",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:        "opencontrols, o",
+					Value:       "opencontrols",
+					Usage:       "Set opencontrols directory",
+					Destination: &opencontrolDir,
+				},
+			},
 			Action: func(c *cli.Context) {
 				config := inventory.Config{
 					Certification:  c.Args().First(),
@@ -175,11 +183,11 @@ func NewCLIApp() *cli.App {
 				}
 
 				fmt.Printf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))
-				for _, missingControl := range(inventory.MissingControlList) {
+				for _, missingControl := range inventory.MissingControlList {
 					fmt.Println(missingControl.String())
 				}
 				fmt.Printf("\nNumber of extra controls: %d\n", len(inventory.ExtraControlList))
-				for _, extraControl := range(inventory.ExtraControlList) {
+				for _, extraControl := range inventory.ExtraControlList {
 					fmt.Println(extraControl.StandardKey + "@" + extraControl.ControlKey)
 				}
 			},

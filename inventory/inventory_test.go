@@ -5,8 +5,8 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"os"
+	"path/filepath"
 )
 
 var _ = Describe("Inventory", func() {
@@ -15,24 +15,46 @@ var _ = Describe("Inventory", func() {
 			workingDir string
 		)
 		BeforeEach(func() {
-			workingDir,_ = os.Getwd()
+			workingDir, _ = os.Getwd()
 		})
-		Context("When there are no controls in certification", func(){
-			It("should return an empty slice", func() {
-				config := Config{}
-				i, _ := ComputeGapAnalysis(config)
-				assert.Equal(GinkgoT(), 0, len(i.MissingControlList))
+		Describe("bad inputs", func() {
+			Context("When no certification is specified", func() {
+				It("should return an empty slice and an error", func() {
+					config := Config{}
+					i, err := ComputeGapAnalysis(config)
+					assert.Equal(GinkgoT(), []string{"Error: Missing Certification Argument"}, err)
+					assert.Equal(GinkgoT(), 0, len(i.MissingControlList))
+				})
+			})
+			Context("When bad / no folder location is given", func() {
+				It("should return an empty slice and an error", func() {
+					config := Config{Certification: "LATO"}
+					i, err := ComputeGapAnalysis(config)
+					assert.Equal(GinkgoT(), []string{"Error: `certifications` directory does exist"}, err)
+					assert.Equal(GinkgoT(), 0, len(i.MissingControlList))
+				})
 			})
 		})
 		Context("When there controls specified in the certification but no controls have been documented", func() {
 			It("should return the full list of controls", func() {
 				config := Config{
 					OpencontrolDir: filepath.Join(workingDir, "..", "fixtures", "opencontrol_fixtures"),
-					Certification: "LATO",
+					Certification:  "LATO",
 				}
-				_, err := ComputeGapAnalysis(config)
+				i, err := ComputeGapAnalysis(config)
 				assert.Nil(GinkgoT(), err)
-				//assert.NotEqual(GinkgoT(), 0, len(missingControls))
+				assert.Equal(GinkgoT(), 2, len(i.MissingControlList))
+			})
+		})
+		Context("When there controls specified in the certification and we have documented them", func() {
+			It("should return no missing controls", func() {
+				config := Config{
+					OpencontrolDir: filepath.Join(workingDir, "..", "fixtures", "opencontrol_fixtures_complete"),
+					Certification:  "LATO",
+				}
+				i, err := ComputeGapAnalysis(config)
+				assert.Nil(GinkgoT(), err)
+				assert.Equal(GinkgoT(), 0, len(i.MissingControlList))
 			})
 		})
 	})

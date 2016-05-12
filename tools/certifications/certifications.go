@@ -1,10 +1,10 @@
 package certifications
 
 import (
-	"path/filepath"
-	"os"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -22,7 +22,7 @@ func GetCertification(opencontrolDir string, certification string) (string, []st
 	if _, err := os.Stat(certificationPath); os.IsNotExist(err) {
 		files, err := ioutil.ReadDir(certificationDir)
 		if err != nil {
-			messages = append(messages, "Error: `"+ certificationDir+"` directory does exist")
+			messages = append(messages, "Error: `"+certificationDir+"` directory does exist")
 			return "", messages
 		}
 		messages = append(messages, fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", certificationPath))

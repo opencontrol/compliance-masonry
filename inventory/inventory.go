@@ -5,32 +5,38 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
 )
 
+// Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
 	*models.OpenControl
-	masterControlList []standardAndControl
+	masterControlList      []standardAndControl
 	actualSatifiedControls []models.Satisfies
-	MissingControlList[]standardAndControl
-	ExtraControlList []models.Satisfies
+	MissingControlList     []standardAndControl
+	ExtraControlList       []models.Satisfies
 }
 
 type standardAndControl struct {
-	control  models.Control
+	control  string
 	standard string
 }
 
-func(c standardAndControl) String() string {
-	return c.standard + "@" + c.control.Name
+func (c standardAndControl) String() string {
+	return c.standard + "@" + c.control
 }
 
 func (c standardAndControl) EqualToSatifiedControl(other models.Satisfies) bool {
-	return c.standard == other.StandardKey && c.control.Name == other.ControlKey
+	return c.standard == other.StandardKey && c.control == other.ControlKey
 }
 
+// Config contains the settings for how to compute the gap analysis
 type Config struct {
-	Certification string
+	Certification  string
 	OpencontrolDir string
 }
 
+// ComputeGapAnalysis will compute the gap analysis and return the inventory of the controls for the
+// opencontrol workspace if successful. Otherwise, it will return a list of error messages.
+// TODO: fix the error return to return of type error. This was used because existing code returned that type
+// TODO: e.g. GetCertification
 func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	certificationPath, messages := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
@@ -42,14 +48,14 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	}
 	// Master Controls
 	for certification, standard := range i.Certification.Standards {
-		for _, control:= range standard.Controls {
-			i.masterControlList = append(i.masterControlList, standardAndControl{standard: certification, control:control})
+		for control, _ := range standard.Controls {
+			i.masterControlList = append(i.masterControlList, standardAndControl{standard: certification, control: control})
 		}
 	}
 	// Actual Controls
 	for _, components := range i.Components.GetAll() {
-		for _, satifiedComponent := range *components.Satisfies {
-			i.actualSatifiedControls = append(i.actualSatifiedControls, satifiedComponent)
+		for _, satisfiedComponent := range *components.Satisfies {
+			i.actualSatifiedControls = append(i.actualSatifiedControls, satisfiedComponent)
 		}
 	}
 
@@ -59,8 +65,8 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 		for _, actualControl := range i.actualSatifiedControls {
 			if masterControl.EqualToSatifiedControl(actualControl) {
 				found = true
+				break
 			}
-			break
 		}
 		if !found {
 			i.MissingControlList = append(i.MissingControlList, masterControl)
@@ -73,8 +79,8 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 		for _, masterControl := range i.masterControlList {
 			if masterControl.EqualToSatifiedControl(actualControl) {
 				found = true
+				break
 			}
-			break
 		}
 		if !found {
 			i.ExtraControlList = append(i.ExtraControlList, actualControl)
