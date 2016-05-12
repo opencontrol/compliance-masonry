@@ -3,11 +3,27 @@ package inventory
 import (
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
-	"fmt"
 )
 
 type Inventory struct {
 	*models.OpenControl
+	masterControlList []standardAndControl
+	actualSatifiedControls []models.Satisfies
+	MissingControlList[]standardAndControl
+	ExtraControlList []models.Satisfies
+}
+
+type standardAndControl struct {
+	control  models.Control
+	standard string
+}
+
+func(c standardAndControl) String() string {
+	return c.standard + "@" + c.control.Name
+}
+
+func (c standardAndControl) EqualToSatifiedControl(other models.Satisfies) bool {
+	return c.standard == other.StandardKey && c.control.Name == other.ControlKey
 }
 
 type Config struct {
@@ -15,26 +31,54 @@ type Config struct {
 	OpencontrolDir string
 }
 
-func ComputeGapAnalysis(config Config) ([]interface{}, []string) {
+func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	certificationPath, messages := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
-		return nil, messages
+		return Inventory{}, messages
 	}
-	i := Inventory{models.LoadData(config.OpencontrolDir, certificationPath)}
+	i := Inventory{OpenControl: models.LoadData(config.OpencontrolDir, certificationPath)}
 	if i.Certification == nil || i.Components == nil {
-		return nil, []string{"Unable to load data in " + config.OpencontrolDir + " for certification " + config.Certification}
+		return Inventory{}, []string{"Unable to load data in " + config.OpencontrolDir + " for certification " + config.Certification}
 	}
 	// Master Controls
-	for k1, v1 := range i.Certification.Standards {
-		for k2, v2 := range v1.Controls {
-			fmt.Println(k1 + " --- " + k2 + " --- " + v2.Name)
+	for certification, standard := range i.Certification.Standards {
+		for _, control:= range standard.Controls {
+			i.masterControlList = append(i.masterControlList, standardAndControl{standard: certification, control:control})
 		}
 	}
 	// Actual Controls
-	for _, v1 := range i.Components.GetAll() {
-		for _, v2 := range *v1.Satisfies {
-			fmt.Println(" +++ " + v2.ControlKey)
+	for _, components := range i.Components.GetAll() {
+		for _, satifiedComponent := range *components.Satisfies {
+			i.actualSatifiedControls = append(i.actualSatifiedControls, satifiedComponent)
 		}
 	}
-	return nil, nil
+
+	// Missing controls
+	for _, masterControl := range i.masterControlList {
+		found := false
+		for _, actualControl := range i.actualSatifiedControls {
+			if masterControl.EqualToSatifiedControl(actualControl) {
+				found = true
+			}
+			break
+		}
+		if !found {
+			i.MissingControlList = append(i.MissingControlList, masterControl)
+		}
+	}
+
+	// Extra controls
+	for _, actualControl := range i.actualSatifiedControls {
+		found := false
+		for _, masterControl := range i.masterControlList {
+			if masterControl.EqualToSatifiedControl(actualControl) {
+				found = true
+			}
+			break
+		}
+		if !found {
+			i.ExtraControlList = append(i.ExtraControlList, actualControl)
+		}
+	}
+	return i, nil
 }

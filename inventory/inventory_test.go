@@ -20,8 +20,8 @@ var _ = Describe("Inventory", func() {
 		Context("When there are no controls in certification", func(){
 			It("should return an empty slice", func() {
 				config := Config{}
-				missingControls, _ := ComputeGapAnalysis(config)
-				assert.Equal(GinkgoT(), 0, len(missingControls))
+				i, _ := ComputeGapAnalysis(config)
+				assert.Equal(GinkgoT(), 0, len(i.MissingControlList))
 			})
 		})
 		Context("When there controls specified in the certification but no controls have been documented", func() {

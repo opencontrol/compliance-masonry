@@ -168,14 +168,19 @@ func NewCLIApp() *cli.App {
 					Certification:  c.Args().First(),
 					OpencontrolDir: opencontrolDir,
 				}
-				missingControls, err := inventory.ComputeGapAnalysis(config)
+				inventory, err := inventory.ComputeGapAnalysis(config)
 				if err != nil && len(err) > 0 {
 					fmt.Println(strings.Join(err, "\n"))
 					os.Exit(1)
 				}
-				fmt.Printf("Number of missing controls: %d\n", len(missingControls))
-				for _, missingControl := range(missingControls) {
-					fmt.Println(missingControl)
+
+				fmt.Printf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))
+				for _, missingControl := range(inventory.MissingControlList) {
+					fmt.Println(missingControl.String())
+				}
+				fmt.Printf("\nNumber of extra controls: %d\n", len(inventory.ExtraControlList))
+				for _, extraControl := range(inventory.ExtraControlList) {
+					fmt.Println(extraControl.StandardKey + "@" + extraControl.ControlKey)
 				}
 			},
 		},
