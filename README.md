@@ -113,14 +113,19 @@ Running the `docx` command will by default create a file named `export.docx` in 
 
 ## Gap Analysis
 
-1. Once you collect the dependencies via the `get` command, run:
+Use Gap Analysis to determine the difference between how many controls you have documented versus the total controls for a given certification. This should be used continually as you work to indicate your compliance progress.
+
+1. Given you have an `opencontrol.yaml` for your project and you have already collected your dependencies via the `compliance-masonry get` command, run `compliance-masonry diff <the-certification>`:
 
     ```bash
-    $ compliance-masonry diff
-    Number of missing controls: 3
-    AT-4
-    AU-12
-    ...
+    # Example
+    $ compliance-masonry diff FedRAMP-moderate
+    Number of missing controls: 5
+    NIST-800-53@CP-7 (1)
+    NIST-800-53@PS-2
+    NIST-800-53@PS-3 (3)
+    NIST-800-53@MP-5
+    NIST-800-53@PS-7
     ```
 
 ## Examples
