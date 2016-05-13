@@ -8,22 +8,15 @@ import (
 // Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
 	*models.OpenControl
-	masterControlList      []standardAndControl
-	actualSatifiedControls []models.Satisfies
-	MissingControlList     []standardAndControl
+	masterControlList       map[string]models.Control
+	actualSatisfiedControls map[string]models.Satisfies
+	MissingControlList      map[string]models.Control
 }
 
-type standardAndControl struct {
-	control  string
-	standard string
-}
-
-func (c standardAndControl) String() string {
-	return c.standard + "@" + c.control
-}
-
-func (c standardAndControl) EqualToSatisfiedControl(other models.Satisfies) bool {
-	return c.standard == other.StandardKey && c.control == other.ControlKey
+// standardAndControlString makes a string from the standard and the control.
+// This is helpful for functions that want to create unique keys consistently.
+func standardAndControlString(standard string, control string) string {
+	return standard + "@" + control
 }
 
 // Config contains the settings for how to compute the gap analysis
@@ -41,34 +34,38 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	if certificationPath == "" {
 		return Inventory{}, messages
 	}
-	i := Inventory{OpenControl: models.LoadData(config.OpencontrolDir, certificationPath)}
+	i := Inventory{
+		OpenControl:             models.LoadData(config.OpencontrolDir, certificationPath),
+		masterControlList:       make(map[string]models.Control),
+		actualSatisfiedControls: make(map[string]models.Satisfies),
+		MissingControlList:      make(map[string]models.Control),
+	}
 	if i.Certification == nil || i.Components == nil {
 		return Inventory{}, []string{"Unable to load data in " + config.OpencontrolDir + " for certification " + config.Certification}
 	}
 	// Master Controls
-	for certification, standard := range i.Certification.Standards {
-		for control, _ := range standard.Controls {
-			i.masterControlList = append(i.masterControlList, standardAndControl{standard: certification, control: control})
+	for standardKey, standard := range i.Certification.Standards {
+		for controlKey, control := range standard.Controls {
+			key := standardAndControlString(standardKey, controlKey)
+			if _, exists := i.masterControlList[key]; !exists {
+				i.masterControlList[key] = control
+			}
 		}
 	}
 	// Actual Controls
 	for _, components := range i.Components.GetAll() {
 		for _, satisfiedComponent := range *components.Satisfies {
-			i.actualSatifiedControls = append(i.actualSatifiedControls, satisfiedComponent)
+			key := standardAndControlString(satisfiedComponent.StandardKey, satisfiedComponent.ControlKey)
+			if _, exists := i.actualSatisfiedControls[key]; !exists {
+				i.actualSatisfiedControls[key] = satisfiedComponent
+			}
 		}
 	}
 
 	// Missing controls
-	for _, masterControl := range i.masterControlList {
-		found := false
-		for _, actualControl := range i.actualSatifiedControls {
-			if masterControl.EqualToSatisfiedControl(actualControl) {
-				found = true
-				break
-			}
-		}
-		if !found {
-			i.MissingControlList = append(i.MissingControlList, masterControl)
+	for standardAndControlKey, control := range i.masterControlList {
+		if _, exists := i.actualSatisfiedControls[standardAndControlKey]; !exists {
+			i.MissingControlList[standardAndControlKey] = control
 		}
 	}
 	return i, nil

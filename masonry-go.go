@@ -183,8 +183,8 @@ func NewCLIApp() *cli.App {
 				}
 
 				fmt.Printf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))
-				for _, missingControl := range inventory.MissingControlList {
-					fmt.Println(missingControl.String())
+				for standardAndControl, _ := range inventory.MissingControlList {
+					fmt.Println(standardAndControl)
 				}
 			},
 		},
