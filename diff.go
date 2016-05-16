@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/inventory"
+	"github.com/tg/gosortmap"
 	"strings"
 )
 
 const (
-	diffCommandName    = "diff"
-	diffCommandUsage   = "Compute Gap Analysis"
+	diffCommandName  = "diff"
+	diffCommandUsage = "Compute Gap Analysis"
 )
 
 var (
-	diffCommandAliases = []string{"d"}
-	diffCommandFlags []cli.Flag = []cli.Flag{
+	diffCommandAliases            = []string{"d"}
+	diffCommandFlags   []cli.Flag = []cli.Flag{
 		cli.StringFlag{
 			Name:        "opencontrols, o",
 			Value:       "opencontrols",
@@ -42,8 +43,8 @@ func diffCommandAction(c *cli.Context) error {
 	}
 
 	c.App.Writer.Write([]byte(fmt.Sprintf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))))
-	for standardAndControl, _ := range inventory.MissingControlList {
-		c.App.Writer.Write([]byte(standardAndControl))
+	for _, standardAndControl := range sortmap.ByKey(inventory.MissingControlList) {
+		c.App.Writer.Write([]byte(fmt.Sprintf("%s\n", standardAndControl.Key)))
 	}
 	return nil
 }
