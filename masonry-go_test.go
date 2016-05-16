@@ -140,13 +140,13 @@ var _ = Describe("Masonry CLI", func() {
 		Describe("When the diff command is run", func() {
 			It("should let the user know that they have not described a certification and show how to use the command", func() {
 				output := Masonry("diff")
-				Eventually(output.Out.Contents).Should(ContainSubstring("Error: Missing Certification Argument"))
+				Eventually(output.Err.Contents).Should(ContainSubstring("Error: Missing Certification Argument"))
 			})
 		})
 		Describe("When the CLI is run with the `diff` command without opencontrols dir", func() {
 			It("should let the user know that there is no opencontrols/certifications directory", func() {
 				output := Masonry("diff", "LATO")
-				Eventually(output.Out.Contents).Should(ContainSubstring("Error: `" + filepath.Join("opencontrols", "certifications") + "` directory does exist"))
+				Eventually(output.Err.Contents).Should(ContainSubstring("Error: `" + filepath.Join("opencontrols", "certifications") + "` directory does exist"))
 			})
 		})
 		Describe("When the CLI is run with the `diff` command with a certification", func() {
