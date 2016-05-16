@@ -7,6 +7,7 @@ import (
 	"runtime"
 	"strings"
 	"testing"
+	"time"
 )
 
 var boolFlagTests = []struct {
@@ -18,13 +19,12 @@ var boolFlagTests = []struct {
 }
 
 func TestBoolFlagHelpOutput(t *testing.T) {
-
 	for _, test := range boolFlagTests {
 		flag := BoolFlag{Name: test.name}
 		output := flag.String()
 
 		if output != test.expected {
-			t.Errorf("%s does not match %s", output, test.expected)
+			t.Errorf("%q does not match %q", output, test.expected)
 		}
 	}
 }
@@ -35,21 +35,21 @@ var stringFlagTests = []struct {
 	value    string
 	expected string
 }{
-	{"help", "", "", "--help \t"},
-	{"h", "", "", "-h \t"},
-	{"h", "", "", "-h \t"},
-	{"test", "", "Something", "--test \"Something\"\t"},
-	{"config,c", "Load configuration from `FILE`", "", "--config FILE, -c FILE \tLoad configuration from FILE"},
+	{"foo", "", "", "--foo value\t"},
+	{"f", "", "", "-f value\t"},
+	{"f", "The total `foo` desired", "all", "-f foo\tThe total foo desired (default: \"all\")"},
+	{"test", "", "Something", "--test value\t(default: \"Something\")"},
+	{"config,c", "Load configuration from `FILE`", "", "--config FILE, -c FILE\tLoad configuration from FILE"},
+	{"config,c", "Load configuration from `CONFIG`", "config.json", "--config CONFIG, -c CONFIG\tLoad configuration from CONFIG (default: \"config.json\")"},
 }
 
 func TestStringFlagHelpOutput(t *testing.T) {
-
 	for _, test := range stringFlagTests {
 		flag := StringFlag{Name: test.name, Usage: test.usage, Value: test.value}
 		output := flag.String()
 
 		if output != test.expected {
-			t.Errorf("%s does not match %s", output, test.expected)
+			t.Errorf("%q does not match %q", output, test.expected)
 		}
 	}
 }
@@ -76,30 +76,29 @@ var stringSliceFlagTests = []struct {
 	value    *StringSlice
 	expected string
 }{
-	{"help", func() *StringSlice {
+	{"foo", func() *StringSlice {
 		s := &StringSlice{}
 		s.Set("")
 		return s
-	}(), "--help [--help option --help option]\t"},
-	{"h", func() *StringSlice {
+	}(), "--foo value\t"},
+	{"f", func() *StringSlice {
 		s := &StringSlice{}
 		s.Set("")
 		return s
-	}(), "-h [-h option -h option]\t"},
-	{"h", func() *StringSlice {
+	}(), "-f value\t"},
+	{"f", func() *StringSlice {
 		s := &StringSlice{}
-		s.Set("")
+		s.Set("Lipstick")
 		return s
-	}(), "-h [-h option -h option]\t"},
+	}(), "-f value\t(default: \"Lipstick\")"},
 	{"test", func() *StringSlice {
 		s := &StringSlice{}
 		s.Set("Something")
 		return s
-	}(), "--test [--test option --test option]\t"},
+	}(), "--test value\t(default: \"Something\")"},
 }
 
 func TestStringSliceFlagHelpOutput(t *testing.T) {
-
 	for _, test := range stringSliceFlagTests {
 		flag := StringSliceFlag{Name: test.name, Value: test.value}
 		output := flag.String()
@@ -131,14 +130,13 @@ var intFlagTests = []struct {
 	name     string
 	expected string
 }{
-	{"help", "--help \"0\"\t"},
-	{"h", "-h \"0\"\t"},
+	{"hats", "--hats value\t(default: 9)"},
+	{"H", "-H value\t(default: 9)"},
 }
 
 func TestIntFlagHelpOutput(t *testing.T) {
-
 	for _, test := range intFlagTests {
-		flag := IntFlag{Name: test.name}
+		flag := IntFlag{Name: test.name, Value: 9}
 		output := flag.String()
 
 		if output != test.expected {
@@ -168,18 +166,17 @@ var durationFlagTests = []struct {
 	name     string
 	expected string
 }{
-	{"help", "--help \"0\"\t"},
-	{"h", "-h \"0\"\t"},
+	{"hooting", "--hooting value\t(default: 1s)"},
+	{"H", "-H value\t(default: 1s)"},
 }
 
 func TestDurationFlagHelpOutput(t *testing.T) {
-
 	for _, test := range durationFlagTests {
-		flag := DurationFlag{Name: test.name}
+		flag := DurationFlag{Name: test.name, Value: 1 * time.Second}
 		output := flag.String()
 
 		if output != test.expected {
-			t.Errorf("%s does not match %s", output, test.expected)
+			t.Errorf("%q does not match %q", output, test.expected)
 		}
 	}
 }
@@ -206,18 +203,17 @@ var intSliceFlagTests = []struct {
 	value    *IntSlice
 	expected string
 }{
-	{"help", &IntSlice{}, "--help [--help option --help option]\t"},
-	{"h", &IntSlice{}, "-h [-h option -h option]\t"},
-	{"h", &IntSlice{}, "-h [-h option -h option]\t"},
-	{"test", func() *IntSlice {
+	{"heads", &IntSlice{}, "--heads value\t"},
+	{"H", &IntSlice{}, "-H value\t"},
+	{"H, heads", func() *IntSlice {
 		i := &IntSlice{}
 		i.Set("9")
+		i.Set("3")
 		return i
-	}(), "--test [--test option --test option]\t"},
+	}(), "-H value, --heads value\t(default: 9, 3)"},
 }
 
 func TestIntSliceFlagHelpOutput(t *testing.T) {
-
 	for _, test := range intSliceFlagTests {
 		flag := IntSliceFlag{Name: test.name, Value: test.value}
 		output := flag.String()
@@ -249,18 +245,17 @@ var float64FlagTests = []struct {
 	name     string
 	expected string
 }{
-	{"help", "--help \"0\"\t"},
-	{"h", "-h \"0\"\t"},
+	{"hooting", "--hooting value\t(default: 0.1)"},
+	{"H", "-H value\t(default: 0.1)"},
 }
 
 func TestFloat64FlagHelpOutput(t *testing.T) {
-
 	for _, test := range float64FlagTests {
-		flag := Float64Flag{Name: test.name}
+		flag := Float64Flag{Name: test.name, Value: float64(0.1)}
 		output := flag.String()
 
 		if output != test.expected {
-			t.Errorf("%s does not match %s", output, test.expected)
+			t.Errorf("%q does not match %q", output, test.expected)
 		}
 	}
 }
@@ -287,12 +282,11 @@ var genericFlagTests = []struct {
 	value    Generic
 	expected string
 }{
-	{"test", &Parser{"abc", "def"}, "--test \"abc,def\"\ttest flag"},
-	{"t", &Parser{"abc", "def"}, "-t \"abc,def\"\ttest flag"},
+	{"toads", &Parser{"abc", "def"}, "--toads value\ttest flag (default: abc,def)"},
+	{"t", &Parser{"abc", "def"}, "-t value\ttest flag (default: abc,def)"},
 }
 
 func TestGenericFlagHelpOutput(t *testing.T) {
-
 	for _, test := range genericFlagTests {
 		flag := GenericFlag{Name: test.name, Value: test.value, Usage: "test flag"}
 		output := flag.String()
@@ -325,13 +319,14 @@ func TestParseMultiString(t *testing.T) {
 		Flags: []Flag{
 			StringFlag{Name: "serve, s"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.String("serve") != "10" {
 				t.Errorf("main name not set")
 			}
 			if ctx.String("s") != "10" {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}).Run([]string{"run", "-s", "10"})
 }
@@ -345,10 +340,11 @@ func TestParseDestinationString(t *testing.T) {
 				Destination: &dest,
 			},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if dest != "10" {
 				t.Errorf("expected destination String 10")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "--dest", "10"})
@@ -361,13 +357,14 @@ func TestParseMultiStringFromEnv(t *testing.T) {
 		Flags: []Flag{
 			StringFlag{Name: "count, c", EnvVar: "APP_COUNT"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.String("count") != "20" {
 				t.Errorf("main name not set")
 			}
 			if ctx.String("c") != "20" {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}).Run([]string{"run"})
 }
@@ -379,13 +376,14 @@ func TestParseMultiStringFromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			StringFlag{Name: "count, c", EnvVar: "COMPAT_COUNT,APP_COUNT"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.String("count") != "20" {
 				t.Errorf("main name not set")
 			}
 			if ctx.String("c") != "20" {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}).Run([]string{"run"})
 }
@@ -395,13 +393,14 @@ func TestParseMultiStringSlice(t *testing.T) {
 		Flags: []Flag{
 			StringSliceFlag{Name: "serve, s", Value: &StringSlice{}},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.StringSlice("serve"), []string{"10", "20"}) {
 				t.Errorf("main name not set")
 			}
 			if !reflect.DeepEqual(ctx.StringSlice("s"), []string{"10", "20"}) {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}).Run([]string{"run", "-s", "10", "-s", "20"})
 }
@@ -414,13 +413,14 @@ func TestParseMultiStringSliceFromEnv(t *testing.T) {
 		Flags: []Flag{
 			StringSliceFlag{Name: "intervals, i", Value: &StringSlice{}, EnvVar: "APP_INTERVALS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.StringSlice("intervals"), []string{"20", "30", "40"}) {
 				t.Errorf("main name not set from env")
 			}
 			if !reflect.DeepEqual(ctx.StringSlice("i"), []string{"20", "30", "40"}) {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}).Run([]string{"run"})
 }
@@ -433,13 +433,14 @@ func TestParseMultiStringSliceFromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			StringSliceFlag{Name: "intervals, i", Value: &StringSlice{}, EnvVar: "COMPAT_INTERVALS,APP_INTERVALS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.StringSlice("intervals"), []string{"20", "30", "40"}) {
 				t.Errorf("main name not set from env")
 			}
 			if !reflect.DeepEqual(ctx.StringSlice("i"), []string{"20", "30", "40"}) {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}).Run([]string{"run"})
 }
@@ -449,13 +450,14 @@ func TestParseMultiInt(t *testing.T) {
 		Flags: []Flag{
 			IntFlag{Name: "serve, s"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Int("serve") != 10 {
 				t.Errorf("main name not set")
 			}
 			if ctx.Int("s") != 10 {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "-s", "10"})
@@ -470,10 +472,11 @@ func TestParseDestinationInt(t *testing.T) {
 				Destination: &dest,
 			},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if dest != 10 {
 				t.Errorf("expected destination Int 10")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "--dest", "10"})
@@ -486,13 +489,14 @@ func TestParseMultiIntFromEnv(t *testing.T) {
 		Flags: []Flag{
 			IntFlag{Name: "timeout, t", EnvVar: "APP_TIMEOUT_SECONDS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Int("timeout") != 10 {
 				t.Errorf("main name not set")
 			}
 			if ctx.Int("t") != 10 {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -505,13 +509,14 @@ func TestParseMultiIntFromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			IntFlag{Name: "timeout, t", EnvVar: "COMPAT_TIMEOUT_SECONDS,APP_TIMEOUT_SECONDS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Int("timeout") != 10 {
 				t.Errorf("main name not set")
 			}
 			if ctx.Int("t") != 10 {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -522,13 +527,14 @@ func TestParseMultiIntSlice(t *testing.T) {
 		Flags: []Flag{
 			IntSliceFlag{Name: "serve, s", Value: &IntSlice{}},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.IntSlice("serve"), []int{10, 20}) {
 				t.Errorf("main name not set")
 			}
 			if !reflect.DeepEqual(ctx.IntSlice("s"), []int{10, 20}) {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}).Run([]string{"run", "-s", "10", "-s", "20"})
 }
@@ -541,13 +547,14 @@ func TestParseMultiIntSliceFromEnv(t *testing.T) {
 		Flags: []Flag{
 			IntSliceFlag{Name: "intervals, i", Value: &IntSlice{}, EnvVar: "APP_INTERVALS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.IntSlice("intervals"), []int{20, 30, 40}) {
 				t.Errorf("main name not set from env")
 			}
 			if !reflect.DeepEqual(ctx.IntSlice("i"), []int{20, 30, 40}) {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}).Run([]string{"run"})
 }
@@ -560,13 +567,14 @@ func TestParseMultiIntSliceFromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			IntSliceFlag{Name: "intervals, i", Value: &IntSlice{}, EnvVar: "COMPAT_INTERVALS,APP_INTERVALS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.IntSlice("intervals"), []int{20, 30, 40}) {
 				t.Errorf("main name not set from env")
 			}
 			if !reflect.DeepEqual(ctx.IntSlice("i"), []int{20, 30, 40}) {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}).Run([]string{"run"})
 }
@@ -576,13 +584,14 @@ func TestParseMultiFloat64(t *testing.T) {
 		Flags: []Flag{
 			Float64Flag{Name: "serve, s"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Float64("serve") != 10.2 {
 				t.Errorf("main name not set")
 			}
 			if ctx.Float64("s") != 10.2 {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "-s", "10.2"})
@@ -597,10 +606,11 @@ func TestParseDestinationFloat64(t *testing.T) {
 				Destination: &dest,
 			},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if dest != 10.2 {
 				t.Errorf("expected destination Float64 10.2")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "--dest", "10.2"})
@@ -613,13 +623,14 @@ func TestParseMultiFloat64FromEnv(t *testing.T) {
 		Flags: []Flag{
 			Float64Flag{Name: "timeout, t", EnvVar: "APP_TIMEOUT_SECONDS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Float64("timeout") != 15.5 {
 				t.Errorf("main name not set")
 			}
 			if ctx.Float64("t") != 15.5 {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -632,13 +643,14 @@ func TestParseMultiFloat64FromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			Float64Flag{Name: "timeout, t", EnvVar: "COMPAT_TIMEOUT_SECONDS,APP_TIMEOUT_SECONDS"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Float64("timeout") != 15.5 {
 				t.Errorf("main name not set")
 			}
 			if ctx.Float64("t") != 15.5 {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -649,13 +661,14 @@ func TestParseMultiBool(t *testing.T) {
 		Flags: []Flag{
 			BoolFlag{Name: "serve, s"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Bool("serve") != true {
 				t.Errorf("main name not set")
 			}
 			if ctx.Bool("s") != true {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "--serve"})
@@ -670,10 +683,11 @@ func TestParseDestinationBool(t *testing.T) {
 				Destination: &dest,
 			},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if dest != true {
 				t.Errorf("expected destination Bool true")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "--dest"})
@@ -686,13 +700,14 @@ func TestParseMultiBoolFromEnv(t *testing.T) {
 		Flags: []Flag{
 			BoolFlag{Name: "debug, d", EnvVar: "APP_DEBUG"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Bool("debug") != true {
 				t.Errorf("main name not set from env")
 			}
 			if ctx.Bool("d") != true {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -705,13 +720,14 @@ func TestParseMultiBoolFromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			BoolFlag{Name: "debug, d", EnvVar: "COMPAT_DEBUG,APP_DEBUG"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.Bool("debug") != true {
 				t.Errorf("main name not set from env")
 			}
 			if ctx.Bool("d") != true {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -722,13 +738,14 @@ func TestParseMultiBoolT(t *testing.T) {
 		Flags: []Flag{
 			BoolTFlag{Name: "serve, s"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.BoolT("serve") != true {
 				t.Errorf("main name not set")
 			}
 			if ctx.BoolT("s") != true {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "--serve"})
@@ -743,10 +760,11 @@ func TestParseDestinationBoolT(t *testing.T) {
 				Destination: &dest,
 			},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if dest != true {
 				t.Errorf("expected destination BoolT true")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "--dest"})
@@ -759,13 +777,14 @@ func TestParseMultiBoolTFromEnv(t *testing.T) {
 		Flags: []Flag{
 			BoolTFlag{Name: "debug, d", EnvVar: "APP_DEBUG"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.BoolT("debug") != false {
 				t.Errorf("main name not set from env")
 			}
 			if ctx.BoolT("d") != false {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -778,13 +797,14 @@ func TestParseMultiBoolTFromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			BoolTFlag{Name: "debug, d", EnvVar: "COMPAT_DEBUG,APP_DEBUG"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if ctx.BoolT("debug") != false {
 				t.Errorf("main name not set from env")
 			}
 			if ctx.BoolT("d") != false {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -813,13 +833,14 @@ func TestParseGeneric(t *testing.T) {
 		Flags: []Flag{
 			GenericFlag{Name: "serve, s", Value: &Parser{}},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.Generic("serve"), &Parser{"10", "20"}) {
 				t.Errorf("main name not set")
 			}
 			if !reflect.DeepEqual(ctx.Generic("s"), &Parser{"10", "20"}) {
 				t.Errorf("short name not set")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run", "-s", "10,20"})
@@ -832,13 +853,14 @@ func TestParseGenericFromEnv(t *testing.T) {
 		Flags: []Flag{
 			GenericFlag{Name: "serve, s", Value: &Parser{}, EnvVar: "APP_SERVE"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.Generic("serve"), &Parser{"20", "30"}) {
 				t.Errorf("main name not set from env")
 			}
 			if !reflect.DeepEqual(ctx.Generic("s"), &Parser{"20", "30"}) {
 				t.Errorf("short name not set from env")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
@@ -851,10 +873,11 @@ func TestParseGenericFromEnvCascade(t *testing.T) {
 		Flags: []Flag{
 			GenericFlag{Name: "foos", Value: &Parser{}, EnvVar: "COMPAT_FOO,APP_FOO"},
 		},
-		Action: func(ctx *Context) {
+		Action: func(ctx *Context) error {
 			if !reflect.DeepEqual(ctx.Generic("foos"), &Parser{"99", "2000"}) {
 				t.Errorf("value not set from env")
 			}
+			return nil
 		},
 	}
 	a.Run([]string{"run"})
