@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -13,7 +12,6 @@ import (
 	"github.com/opencontrol/compliance-masonry/config/parser"
 	"github.com/opencontrol/compliance-masonry/docx"
 	"github.com/opencontrol/compliance-masonry/gitbook"
-	"github.com/opencontrol/compliance-masonry/inventory"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
@@ -159,35 +157,7 @@ func NewCLIApp() *cli.App {
 				},
 			},
 		},
-		{
-			Name:    "diff",
-			Aliases: []string{"d"},
-			Usage:   "Compute Gap Analysis",
-			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name:        "opencontrols, o",
-					Value:       "opencontrols",
-					Usage:       "Set opencontrols directory",
-					Destination: &opencontrolDir,
-				},
-			},
-			Action: func(c *cli.Context) {
-				config := inventory.Config{
-					Certification:  c.Args().First(),
-					OpencontrolDir: opencontrolDir,
-				}
-				inventory, err := inventory.ComputeGapAnalysis(config)
-				if err != nil && len(err) > 0 {
-					app.Writer.Write([]byte(strings.Join(err, "\n")))
-					os.Exit(1)
-				}
-
-				app.Writer.Write([]byte(fmt.Sprintf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))))
-				for standardAndControl, _ := range inventory.MissingControlList {
-					app.Writer.Write([]byte(standardAndControl))
-				}
-			},
-		},
+		diffCommand,
 	}
 	return app
 }
