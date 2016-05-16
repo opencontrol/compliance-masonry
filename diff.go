@@ -14,8 +14,8 @@ const (
 )
 
 var (
-	diffCommandAliases            = []string{"d"}
-	diffCommandFlags   []cli.Flag = []cli.Flag{
+	diffCommandAliases = []string{"d"}
+	diffCommandFlags   = []cli.Flag{
 		cli.StringFlag{
 			Name:        "opencontrols, o",
 			Value:       "opencontrols",
