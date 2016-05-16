@@ -13,6 +13,39 @@ type Inventory struct {
 	MissingControlList      map[string]models.Control
 }
 
+// retrieveMasterControlsList will gather the list of controls needed for a given certification.
+func (i *Inventory) retrieveMasterControlsList() {
+	for standardKey, standard := range i.Certification.Standards {
+		for controlKey, control := range standard.Controls {
+			key := standardAndControlString(standardKey, controlKey)
+			if _, exists := i.masterControlList[key]; !exists {
+				i.masterControlList[key] = control
+			}
+		}
+	}
+}
+
+// findDocumentedControls will find the list of all documented controls found within the workspace.
+func (i *Inventory) findDocumentedControls() {
+	for _, components := range i.Components.GetAll() {
+		for _, satisfiedComponent := range *components.Satisfies {
+			key := standardAndControlString(satisfiedComponent.StandardKey, satisfiedComponent.ControlKey)
+			if _, exists := i.actualSatisfiedControls[key]; !exists {
+				i.actualSatisfiedControls[key] = satisfiedComponent
+			}
+		}
+	}
+}
+
+// calculateNonDocumentedControls will compute the diff between the master list of controls and the documented controls.
+func (i *Inventory) calculateNonDocumentedControls() {
+	for standardAndControlKey, control := range i.masterControlList {
+		if _, exists := i.actualSatisfiedControls[standardAndControlKey]; !exists {
+			i.MissingControlList[standardAndControlKey] = control
+		}
+	}
+}
+
 // standardAndControlString makes a string from the standard and the control.
 // This is helpful for functions that want to create unique keys consistently.
 func standardAndControlString(standard string, control string) string {
@@ -30,6 +63,7 @@ type Config struct {
 // TODO: fix the error return to return of type error. This was used because existing code returned that type
 // TODO: e.g. GetCertification
 func ComputeGapAnalysis(config Config) (Inventory, []string) {
+	// Initialize inventory with certification
 	certificationPath, messages := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
 		return Inventory{}, messages
@@ -43,30 +77,13 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	if i.Certification == nil || i.Components == nil {
 		return Inventory{}, []string{"Unable to load data in " + config.OpencontrolDir + " for certification " + config.Certification}
 	}
-	// Master Controls
-	for standardKey, standard := range i.Certification.Standards {
-		for controlKey, control := range standard.Controls {
-			key := standardAndControlString(standardKey, controlKey)
-			if _, exists := i.masterControlList[key]; !exists {
-				i.masterControlList[key] = control
-			}
-		}
-	}
-	// Actual Controls
-	for _, components := range i.Components.GetAll() {
-		for _, satisfiedComponent := range *components.Satisfies {
-			key := standardAndControlString(satisfiedComponent.StandardKey, satisfiedComponent.ControlKey)
-			if _, exists := i.actualSatisfiedControls[key]; !exists {
-				i.actualSatisfiedControls[key] = satisfiedComponent
-			}
-		}
-	}
 
-	// Missing controls
-	for standardAndControlKey, control := range i.masterControlList {
-		if _, exists := i.actualSatisfiedControls[standardAndControlKey]; !exists {
-			i.MissingControlList[standardAndControlKey] = control
-		}
-	}
+	// Gather list of all controls for certification
+	i.retrieveMasterControlsList()
+	// Find the documented controls.
+	i.findDocumentedControls()
+	// Calculate the Missing controls / Non documented
+	i.calculateNonDocumentedControls()
+
 	return i, nil
 }
