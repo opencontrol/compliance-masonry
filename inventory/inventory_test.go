@@ -35,8 +35,8 @@ var _ = Describe("Inventory", func() {
 				})
 			})
 		})
-		Context("When there controls specified in the certification but no controls have been documented", func() {
-			It("should return the full list of controls", func() {
+		Context("When there are controls specified in the certification but some controls have been documented", func() {
+			It("should return a subset of the full list of controls", func() {
 				config := Config{
 					OpencontrolDir: filepath.Join(workingDir, "..", "fixtures", "opencontrol_fixtures"),
 					Certification:  "LATO",
@@ -46,7 +46,7 @@ var _ = Describe("Inventory", func() {
 				assert.Equal(GinkgoT(), 2, len(i.MissingControlList))
 			})
 		})
-		Context("When there controls specified in the certification and we have documented them", func() {
+		Context("When there are controls specified in the certification and we have documented them", func() {
 			It("should return no missing controls", func() {
 				config := Config{
 					OpencontrolDir: filepath.Join(workingDir, "..", "fixtures", "opencontrol_fixtures_complete"),
