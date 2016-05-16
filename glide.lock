@@ -1,53 +1,55 @@
-hash: 8a157da656555be743bc6e482a66ed6b816aae3e375dba951658e860f0452fb8
-updated: 2016-05-16T13:59:11.161540211-04:00
+hash: eb1a71be81e235149b3dff3f6b0b3209ccfb8d548ae21525047659a50e71996d
+updated: 2016-05-16T16:02:07.72780014-04:00
 imports:
 - name: github.com/blang/semver
-  version: aea32c919a18e5ef4537bbd283ff29594b1b0165
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/codegangsta/cli
-  version: 3a52a3b8124e194986964c547054f0a7b8f56892
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/davecgh/go-spew
-  version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
+  version: ""
   subpackages:
   - spew
 - name: github.com/go-forks/fsnotify
-  version: 6b1ef893dc11e0447abda6da20a5203481878dda
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/go-utils/ufs
-  version: 3f2140988c4e1ab09dc4637142bd9077cea577fb
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/go-utils/ugo
-  version: ffc2267bb34560e62bfdbc5f56f775fc509e177f
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/go-utils/uslice
-  version: 7f8c3df848991b2e38824a7bda55bda1339b651e
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/go-utils/ustr
-  version: 18ce5cfd3a95bbf3f197eb5ff21f0fd0b39b0046
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/Masterminds/vcs
-  version: 7af28b64c5ec41b1558f5514fd938379822c237c
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/onsi/ginkgo
-  version: 5437a97bf824dec14e58d68c56ee36e772670c2e
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/onsi/gomega
-  version: 815512bce8c889153a13104c9d9b2416153c1e02
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: github.com/opencontrol/doc-template
-  version: 88997261e3057776e761bb1460d6a53ae240a782
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
   subpackages:
   - docx
 - name: github.com/pmezard/go-difflib
-  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  version: ""
   subpackages:
   - difflib
 - name: github.com/stretchr/objx
-  version: cbeaeb16a013161a98496fad62933b1d21786672
+  version: ""
 - name: github.com/stretchr/testify
-  version: 6cb3b85ef5a0efef77caef88363ec4d4b5c0976d
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
   subpackages:
   - mock
   - assert
+- name: github.com/tg/gosortmap
+  version: 9e9c6c22cdeb75203f2b1ee5f7eb8d5d7832e7b0
 - name: github.com/vektra/errors
-  version: c64d83aba85aa4392895aadeefabbd24e89f3580
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: gopkg.in/fatih/set.v0
-  version: 27c40922c40b43fe04554d8223a402af3ea333f3
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: gopkg.in/yaml.v2
-  version: a83829b6f1293c91addabc89d0571c246397bbf4
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
 - name: vbom.ml/util
-  version: db5cfe13f5cc80a4990d98e2e1b0707a4d1a5394
+  version: b17d7cf0d3c53b299c3257d5056f4e03adf864e5
   subpackages:
   - sortorder
 devImports: []
