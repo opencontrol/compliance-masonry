@@ -111,6 +111,23 @@ The `gitbook` command by default will create a folder called `exports` that cont
 
 Running the `docx` command will by default create a file named `export.docx` in the local directory.
 
+## Gap Analysis
+
+Use Gap Analysis to determine the difference between how many controls you have documented versus the total controls for a given certification. This should be used continually as you work to indicate your compliance progress.
+
+Given you have an `opencontrol.yaml` for your project and you have already collected your dependencies via the `compliance-masonry get` command, run `compliance-masonry diff <the-certification>`:
+
+    ```bash
+    # Example
+    $ compliance-masonry diff FedRAMP-moderate
+    Number of missing controls: 5
+    NIST-800-53@CP-7 (1)
+    NIST-800-53@PS-2
+    NIST-800-53@PS-3 (3)
+    NIST-800-53@MP-5
+    NIST-800-53@PS-7
+    ```
+
 ## Examples
 
 Compliance Masonry examples in the wild:

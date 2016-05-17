@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -63,12 +62,12 @@ func NewCLIApp() *cli.App {
 				config := c.String("config")
 				configBytes, err := f.OpenAndReadFile(config)
 				if err != nil {
-					fmt.Println(err)
+					app.Writer.Write([]byte(err.Error()))
 					os.Exit(1)
 				}
 				wd, err := os.Getwd()
 				if err != nil {
-					fmt.Println(err)
+					app.Writer.Write([]byte(err.Error()))
 					os.Exit(1)
 				}
 				destination := filepath.Join(wd, c.String("dest"))
@@ -76,10 +75,10 @@ func NewCLIApp() *cli.App {
 					configBytes,
 					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init(), FSUtil: f})
 				if err != nil {
-					fmt.Println(err)
+					app.Writer.Write([]byte(err.Error()))
 					os.Exit(1)
 				}
-				println("Compliance Dependencies Installed")
+				app.Writer.Write([]byte("Compliance Dependencies Installed"))
 			},
 		},
 		{
@@ -119,7 +118,7 @@ func NewCLIApp() *cli.App {
 							MarkdownPath:   markdownPath,
 						}
 						messages := MakeGitbook(config)
-						fmt.Println(strings.Join(messages, "\n"))
+						app.Writer.Write([]byte(strings.Join(messages, "\n")))
 					},
 				},
 				{
@@ -153,11 +152,12 @@ func NewCLIApp() *cli.App {
 							ExportPath:     exportPath,
 						}
 						messages := BuildTemplate(config)
-						fmt.Println(strings.Join(messages, "\n"))
+						app.Writer.Write([]byte(strings.Join(messages, "\n")))
 					},
 				},
 			},
 		},
+		diffCommand,
 	}
 	return app
 }

@@ -78,7 +78,7 @@ var _ = Describe("Doc Tests", func() {
 				Certification:  "LATO",
 				MarkdownPath:   "",
 			},
-			[]string{"Error: `opencontrols/certifications` directory does exist"},
+			[]string{"Error: `certifications` directory does exist"},
 		),
 
 		Entry(

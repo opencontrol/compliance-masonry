@@ -51,7 +51,7 @@ var _ = Describe("Masonry CLI", func() {
 			Describe("When the CLI is run with the `docs gitbook` command without opencontrols dir", func() {
 				It("should let the user know that there is no opencontrols/certifications directory", func() {
 					output := Masonry("docs", "gitbook", "LATO")
-					Eventually(output.Out.Contents).Should(ContainSubstring("Error: `opencontrols/certifications` directory does exist"))
+					Eventually(output.Out.Contents).Should(ContainSubstring("Error: `" + filepath.Join("opencontrols", "certifications") + "` directory does exist"))
 				})
 			})
 		})
@@ -134,6 +134,29 @@ var _ = Describe("Masonry CLI", func() {
 			os.RemoveAll(exportTempDir)
 		})
 
+	})
+
+	Describe("Diff Commands", func() {
+		Describe("When the diff command is run", func() {
+			It("should let the user know that they have not described a certification and show how to use the command", func() {
+				output := Masonry("diff")
+				Eventually(output.Err.Contents).Should(ContainSubstring("Error: Missing Certification Argument"))
+			})
+		})
+		Describe("When the CLI is run with the `diff` command without opencontrols dir", func() {
+			It("should let the user know that there is no opencontrols/certifications directory", func() {
+				output := Masonry("diff", "LATO")
+				Eventually(output.Err.Contents).Should(ContainSubstring("Error: `" + filepath.Join("opencontrols", "certifications") + "` directory does exist"))
+			})
+		})
+		Describe("When the CLI is run with the `diff` command with a certification", func() {
+			It("should print the number of missing controls", func() {
+				output := Masonry(
+					"diff", "LATO",
+					"-o", filepath.Join("fixtures", "opencontrol_fixtures")).Wait(1 * time.Second)
+				Eventually(output.Out.Contents).Should(ContainSubstring("Number of missing controls:"))
+			})
+		})
 	})
 })
 
