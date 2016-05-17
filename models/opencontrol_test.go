@@ -51,6 +51,8 @@ func TestGetKey(t *testing.T) {
 var loadDataTests = []loadDataTest{
 	// Load a fixtures that has 2 component, 2 standards, and a certification called LATO
 	{filepath.Join("..", "fixtures", "opencontrol_fixtures"), filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"), 2, 2, 1, "LATO"},
+	// Load a fixtures that has 2 component, 2 standards, and a certification called LATO
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures_complete"), filepath.Join("..", "fixtures", "opencontrol_fixtures_complete", "certifications", "LATO.yaml"), 2, 2, 1, "LATO"},
 }
 
 func TestLoadData(t *testing.T) {
