@@ -1,5 +1,7 @@
 package constants
 
+import "github.com/opencontrol/compliance-masonry/tools/schema_tools"
+
 const (
 	// DefaultStandardsFolder is the folder where to store standards.
 	DefaultStandardsFolder = "standards"
@@ -23,4 +25,12 @@ const (
 	Certifications ResourceType = "Certifications"
 	// Components is the placeholder for the resource type of components
 	Components ResourceType = "Components"
+)
+
+
+var DefaultFloat32Value float32
+
+const (
+	MinComponentYAMLVersion float32 = 3.0
+	MaxComponentYAMLVersion float32 = schema_tools.SchemaVersionNotNeeded
 )

@@ -8,6 +8,8 @@ import (
 	"sync"
 
 	"gopkg.in/yaml.v2"
+	"github.com/opencontrol/compliance-masonry/tools/schema_tools"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 // Components struct is a thread-safe structure mapping for components
@@ -35,10 +37,16 @@ type SatisfiesList []Satisfies
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey  string        `yaml:"control_key" json:"control_key"`
-	StandardKey string        `yaml:"standard_key" json:"standard_key"`
-	Narrative   string        `yaml:"narrative" json:"narrative"`
-	CoveredBy   CoveredByList `yaml:"covered_by" json:"covered_by"`
+	ControlKey  string             `yaml:"control_key" json:"control_key"`
+	StandardKey string             `yaml:"standard_key" json:"standard_key"`
+	Narrative   []NarrativeSection `yaml:"narrative" json:"narrative"`
+	CoveredBy   CoveredByList      `yaml:"covered_by" json:"covered_by"`
+}
+
+// NarrativeSection contains the key and text for a particular narrative section.
+type NarrativeSection struct {
+	Key  string `yaml:"key,omitempty" json:"key,omitempty"`
+	Text string `yaml:"text" json:"text"`
 }
 
 // NewComponents creates an instance of Components struct
@@ -91,19 +99,28 @@ func (components *Components) GetAll() map[string]*Component {
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
 func (openControl *OpenControl) LoadComponent(componentDir string) error {
-	_, err := os.Stat(filepath.Join(componentDir, "component.yaml"))
+	fileName := filepath.Join(componentDir, "component.yaml")
+	_, err := os.Stat(fileName)
 	if err != nil {
 		return ErrComponentFileDNE
 	}
 	var component *Component
-	componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
+	componentData, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		return ErrReadFile
 	}
 	err = yaml.Unmarshal(componentData, &component)
+	// Check the component version to give a better error before the generic "ErrControlSchema"
+	if component != nil && component.SchemaVersion != constants.DefaultFloat32Value {
+		versionErr := schema_tools.VerifyVersion(fileName, "component", component.SchemaVersion, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)
+		if versionErr != nil {
+			return versionErr
+		}
+	}
 	if err != nil {
 		return ErrControlSchema
 	}
+
 	if component.Key == "" {
 		component.Key = getKey(componentDir)
 	}
