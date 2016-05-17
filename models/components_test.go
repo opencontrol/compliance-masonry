@@ -17,23 +17,29 @@ type componentTestError struct {
 
 var componentTests = []componentTest{
 	// Check that a component with a key loads correctly
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2"), Component{
-		Name:          "Amazon Elastic Compute Cloud",
-		Key:           "EC2",
-		References:    &GeneralReferences{{}},
-		Verifications: &VerificationReferences{{}, {}},
-		Satisfies:     &SatisfiesList{{}, {}, {}, {}},
-		SchemaVersion: 2.0,
-	}},
+	{
+		filepath.Join("..", "fixtures", "component_fixtures", "EC2"),
+		Component{
+			Name:          "Amazon Elastic Compute Cloud",
+			Key:           "EC2",
+			References:    &GeneralReferences{{}},
+			Verifications: &VerificationReferences{{}, {}},
+			Satisfies:     &SatisfiesList{{}, {}, {}, {}},
+			SchemaVersion: 2.0,
+		},
+	},
 	// Check that a component with no key, uses the key of its directory and loads correctly
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKey"), Component{
-		Name:          "Amazon Elastic Compute Cloud",
-		Key:           "EC2",
-		References:    &GeneralReferences{{}},
-		Verifications: &VerificationReferences{{}, {}},
-		Satisfies:     &SatisfiesList{{}, {}, {}, {}},
-		SchemaVersion: 2.0,
-	}},
+	{
+		filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKey"),
+		Component{
+			Name:          "Amazon Elastic Compute Cloud",
+			Key:           "EC2",
+			References:    &GeneralReferences{{}},
+			Verifications: &VerificationReferences{{}, {}},
+			Satisfies:     &SatisfiesList{{}, {}, {}, {}},
+			SchemaVersion: 2.0,
+		},
+	},
 }
 
 func testSet(example componentTest, actual *Component, t *testing.T) {
