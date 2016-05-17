@@ -4,7 +4,7 @@ import "fmt"
 
 type IncompatibleSchemaError struct {
 	file                string
-	fileType string
+	fileType            string
 	actualSchemaVersion float32
 	minSchemaVersion    float32
 	maxSchemaVersion    float32
@@ -30,7 +30,7 @@ func NewIncompatibleSchemaError(file string, fileType string, actualSchemaVersio
 	minSchemaVersion float32, maxSchemaVersion float32) IncompatibleSchemaError {
 	return IncompatibleSchemaError{
 		file:                file,
-		fileType: fileType,
+		fileType:            fileType,
 		actualSchemaVersion: actualSchemaVersion,
 		minSchemaVersion:    minSchemaVersion,
 		maxSchemaVersion:    maxSchemaVersion,
