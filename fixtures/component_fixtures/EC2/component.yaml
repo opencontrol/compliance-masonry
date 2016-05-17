@@ -12,7 +12,11 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
-  narrative: Justification in narrative form
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for CM-2"
+    - key: "b"
+      text: "Justification in narrative form B for CM-2"
   standard_key: NIST-800-53
 - control_key: 1.1
   covered_by:
@@ -21,19 +25,28 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
-  narrative: Justification in narrative form
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for 1.1"
+    - key: "b"
+      text: "Justification in narrative form B for 1.1"
   standard_key: PCI-DSS-MAY-2015
 - control_key: 1.1.1
   covered_by: []
   implementation_status: partial
-  narrative: Justification in narrative form
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for 1.1.1"
+    - key: "b"
+      text: "Justification in narrative form B for 1.1.1"
   standard_key: PCI-DSS-MAY-2015
 - control_key: 2.1
   covered_by: []
   implementation_status: partial
-  narrative: Justification in narrative form
+  narrative:
+    - text: "Justification in narrative form for 2.1"
   standard_key: PCI-DSS-MAY-2015
-schema_version: 2.0
+schema_version: 3.0
 verifications:
 - key: EC2_Verification_2
   name: EC2 Governor 2
