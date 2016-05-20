@@ -2,11 +2,10 @@ package docx
 
 import (
 	"fmt"
-	"strings"
 	"text/template"
 
-	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/doc-template"
 )
 
 // Config contains data for docx template export configurations
@@ -29,59 +28,62 @@ func (config *Config) BuildDocx() error {
 	if err != nil {
 		return err
 	}
-	funcMap := template.FuncMap{"getControl": openControl.FormatControl}
+	funcMap := template.FuncMap{
+		"getAllControlSections": openControl.FormatControl,
+		"getControlSection":     openControl.FormatControlSection,
+	}
 	docTemplate.AddFunctions(funcMap)
 	docTemplate.Parse()
 	docTemplate.Execute(config.ExportPath, nil)
 	return err
 }
 
-// FormatControl returns a control formatted for docx
-func (openControl *OpenControlDocx) FormatControl(standardControl string) string {
+func (openControl *OpenControlDocx) FormatControlSection(standardKey string, controlKey string, sectionKey string) string {
 	var text string
-	standardKey, controlKey := SplitControl(standardControl)
 	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
-				text = fmt.Sprintf("%s%s  \n", text, component.Name)
-				text = fmt.Sprintf("%s%s  \n", text, justification.SatisfiesData.Narrative)
-			})
 
-			if len(justification.SatisfiesData.CoveredBy) > 0 {
-				text += "Covered By:  \n"
-			}
-
-			for _, coveredBy := range justification.SatisfiesData.CoveredBy {
-				componentKey := coveredBy.ComponentKey
-				if componentKey == "" {
-					componentKey = justification.ComponentKey
-				}
-				openControl.Components.GetAndApply(componentKey, func(component *models.Component) {
-					if component != nil {
-						verification := component.Verifications.Get(coveredBy.VerificationKey)
-						text += fmt.Sprintf("- %s %s  \n", verification.Name, verification.Path)
+				// Print out the narrative(s)
+				found := false
+				var narrativeText string
+				for _, section := range justification.SatisfiesData.Narrative {
+					// If section header exists, let's print it's corresponding text and not the header itself.
+					if section.Key == sectionKey {
+						narrativeText = fmt.Sprintf("%s%s\n", narrativeText, section.Text)
+						found = true
 					}
-				})
-			}
+				}
+				// If we actually had a section, let's get the component and add the narrative
+				if found {
+					// Print out the component name.
+					text = fmt.Sprintf("%s%s\n%s", text, component.Name, narrativeText)
+				}
+			})
 		}
 	})
 	return text
 }
 
-// SplitControl returns a split standard and control given a standard
-// and control delimited with `@`
-func SplitControl(standardControl string) (string, string) {
-	var standard, control string
-	splitString := strings.Split(standardControl, "@")
-	splitStringLen := len(splitString)
-	switch {
-	case splitStringLen >= 2:
-		standard = splitString[0]
-		control = splitString[1]
-
-	case splitStringLen == 1:
-		standard = splitString[0]
-	}
-	return standard, control
-
+// FormatControl returns a control formatted for docx
+func (openControl *OpenControlDocx) FormatControl(standardKey string, controlKey string) string {
+	var text string
+	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
+		for _, justification := range selectJustifications {
+			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
+				// Print out the component name.
+				text = fmt.Sprintf("%s%s\n", text, component.Name)
+				// Print out the narrative(s)
+				for _, section := range justification.SatisfiesData.Narrative {
+					// If section header exists, let's print it. Key could be empty, in that case
+					// just print the text for the section.
+					if section.Key != "" {
+						text = fmt.Sprintf("%s%s:\n", text, section.Key)
+					}
+					text = fmt.Sprintf("%s%s\n", text, section.Text)
+				}
+			})
+		}
+	})
+	return text
 }
