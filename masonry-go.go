@@ -10,6 +10,7 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/config/parser"
+	"github.com/opencontrol/compliance-masonry/docs"
 	"github.com/opencontrol/compliance-masonry/docx"
 	"github.com/opencontrol/compliance-masonry/gitbook"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
@@ -117,7 +118,7 @@ func NewCLIApp() *cli.App {
 							ExportPath:     exportPath,
 							MarkdownPath:   markdownPath,
 						}
-						messages := MakeGitbook(config)
+						messages := docs.MakeGitbook(config)
 						app.Writer.Write([]byte(strings.Join(messages, "\n")))
 					},
 				},
@@ -151,7 +152,7 @@ func NewCLIApp() *cli.App {
 							TemplatePath:   templatePath,
 							ExportPath:     exportPath,
 						}
-						messages := BuildTemplate(config)
+						messages := docs.BuildTemplate(config)
 						app.Writer.Write([]byte(strings.Join(messages, "\n")))
 					},
 				},
