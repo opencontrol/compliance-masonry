@@ -1,4 +1,4 @@
-package main_test
+package docs_test
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	. "github.com/opencontrol/compliance-masonry"
+	. "github.com/opencontrol/compliance-masonry/docs"
 	"github.com/opencontrol/compliance-masonry/docx"
 	"github.com/opencontrol/compliance-masonry/gitbook"
 
@@ -26,7 +26,7 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check the template method returns an error message when no template is defined",
 			docx.Config{
-				OpencontrolDir: filepath.Join("fixtures", "opencontrol_fixtures"),
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
 				TemplatePath:   "",
 				ExportPath:     "",
 			},
@@ -36,7 +36,7 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check the template method returns an error message when no template does not exist",
 			docx.Config{
-				OpencontrolDir: filepath.Join("fixtures", "opencontrol_fixtures"),
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
 				TemplatePath:   "fake",
 				ExportPath:     "",
 			},
@@ -46,8 +46,8 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check that template is created when inputs are correct",
 			docx.Config{
-				OpencontrolDir: filepath.Join("fixtures", "opencontrol_fixtures"),
-				TemplatePath:   filepath.Join("fixtures", "template_fixtures", "test.docx"),
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
+				TemplatePath:   filepath.Join("..", "fixtures", "template_fixtures", "test.docx"),
 				ExportPath:     "",
 			},
 			[]string{"New Docx Created"},
@@ -64,7 +64,7 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check that the gitbook is correctly exported given the fixtures",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("fixtures", "opencontrol_fixtures"),
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
 				Certification:  "LATO",
 				MarkdownPath:   "",
 			},
@@ -84,9 +84,9 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check that gitbook is created with markdowns",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("fixtures", "opencontrol_fixtures_with_markdown"),
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown"),
 				Certification:  "LATO",
-				MarkdownPath:   filepath.Join("fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
+				MarkdownPath:   filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
 			},
 			[]string{"New Gitbook Documentation Created"},
 		),
@@ -94,19 +94,19 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check that thre is an error returned when the certification does not exist",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("fixtures", "opencontrol_fixtures_with_markdown"),
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown"),
 				Certification:  "LAT",
-				MarkdownPath:   filepath.Join("fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
+				MarkdownPath:   filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
 			},
-			[]string{fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", filepath.Join("fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LAT.yaml")), "`LATO`"},
+			[]string{fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LAT.yaml")), "`LATO`"},
 		),
 
 		Entry(
 			"Check that error is returned when certification argument is not present",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("fixtures", "opencontrol_fixtures_with_markdown"),
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown"),
 				Certification:  "",
-				MarkdownPath:   filepath.Join("fixtures", "opencontrol_fixtures_with_markdown", "markdowns/"),
+				MarkdownPath:   filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns/"),
 			},
 			[]string{"Error: Missing Certification Argument"},
 		),
