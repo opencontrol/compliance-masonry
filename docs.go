@@ -33,7 +33,6 @@ func MakeGitbook(config gitbook.Config) []string {
 		return messages
 	}
 	if _, err := os.Stat(config.MarkdownPath); os.IsNotExist(err) {
-		markdownPath = ""
 		messages = append(messages, "Warning: markdown directory does not exist")
 	}
 	config.Certification = certificationPath
