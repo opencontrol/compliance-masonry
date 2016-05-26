@@ -8,7 +8,7 @@ func VerifyVersion(file string, fileType string, version, minVersion, maxVersion
 		return nil
 	} else if version >= minVersion && maxVersion == constants.VersionNotNeeded {
 		return nil
-	} else if minVersion == constants.VersionNotNeeded && version <= constants.VersionNotNeeded {
+	} else if minVersion == constants.VersionNotNeeded && version <= maxVersion {
 		return nil
 	} else if version >= minVersion && version <= maxVersion {
 		return nil
