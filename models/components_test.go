@@ -20,6 +20,43 @@ type componentTestError struct {
 	expectedError error
 }
 
+var regularSatisfiesList = SatisfiesList{
+	{
+		Narrative: []NarrativeSection{
+			NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
+			NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
+		},
+	},
+	{
+		Narrative: []NarrativeSection{
+			NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1"},
+			NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
+		},
+		Parameters: []Section{
+			Section{Key: "a", Text: "Parameter A for 1.1"},
+			Section{Key: "b", Text: "Parameter B for 1.1"},
+		},
+		ResponsibleRole: "1.1 Staff",
+	},
+	{
+		Narrative: []NarrativeSection{
+			NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
+			NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
+		},
+		Parameters: []Section{
+			Section{Key: "a", Text: "Parameter A for 1.1.1"},
+			Section{Key: "b", Text: "Parameter B for 1.1.1"},
+		},
+		ResponsibleRole: "1.1.1 Staff",
+	},
+	{
+		Narrative: []NarrativeSection{
+			NarrativeSection{Text: "Justification in narrative form for 2.1"},
+		},
+		ResponsibleRole: "2.1 Staff",
+	},
+}
+
 var componentTests = []componentTest{
 	// Check that a component without a key loads correctly, uses the key of its directory and loads correctly
 	{
@@ -29,31 +66,7 @@ var componentTests = []componentTest{
 			Key:           "EC2",
 			References:    &GeneralReferences{{}},
 			Verifications: &VerificationReferences{{}, {}},
-			Satisfies: &SatisfiesList{
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
-						NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
-					},
-				},
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1"},
-						NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
-					},
-				},
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
-						NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
-					},
-				},
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Text: "Justification in narrative form for 2.1"},
-					},
-				},
-			},
+			Satisfies:     &regularSatisfiesList,
 			SchemaVersion: semver.MustParse("3.0.0"),
 		},
 	},
@@ -65,31 +78,7 @@ var componentTests = []componentTest{
 			Key:           "EC2",
 			References:    &GeneralReferences{{}},
 			Verifications: &VerificationReferences{{}, {}},
-			Satisfies: &SatisfiesList{
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
-						NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
-					},
-				},
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1"},
-						NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
-					},
-				},
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
-						NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
-					},
-				},
-				{
-					Narrative: []NarrativeSection{
-						NarrativeSection{Text: "Justification in narrative form for 2.1"},
-					},
-				},
-			},
+			Satisfies:     &regularSatisfiesList,
 			SchemaVersion: semver.MustParse("3.0.0"),
 		},
 	},
@@ -105,10 +94,12 @@ func testSet(example componentTest, actual *Component, t *testing.T) {
 	// Check that the schema version was loaded
 	assert.Equal(t, example.expected.SchemaVersion, actual.SchemaVersion)
 
-	// Check that the narrative equals
+	// Check that the narrative, responsible role, and parameters equals
 	if assert.Equal(t, example.expected.Satisfies.Len(), actual.Satisfies.Len()) {
 		for idx, _ := range *actual.Satisfies {
 			assert.Equal(t, (*example.expected.Satisfies)[idx].Narrative, (*actual.Satisfies)[idx].Narrative)
+			assert.Equal(t, (*example.expected.Satisfies)[idx].ResponsibleRole, (*actual.Satisfies)[idx].ResponsibleRole)
+			assert.Equal(t, (*example.expected.Satisfies)[idx].Parameters, (*actual.Satisfies)[idx].Parameters)
 		}
 	}
 
