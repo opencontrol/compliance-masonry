@@ -17,6 +17,30 @@ import (
 )
 
 var _ = Describe("Docx", func() {
+	DescribeTable("FormatParameter", func(standard string, control string, expectedData string, sectionKeys ...string) {
+		openControl := docx.OpenControlDocx{
+			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+		}
+		actualData := openControl.FormatParameter(standard, control, sectionKeys...)
+		assert.Equal(GinkgoT(), expectedData, actualData)
+	},
+		Entry("openControl.FormatParameter(NIST-800-53@CM-2)", "NIST-800-53", "CM-2", "", "a"),
+		Entry("openControl.FormatParameter(PCI-DSS-MAY-2015@2.1)", "PCI-DSS-MAY-2015", "1.1", "Amazon Elastic Compute Cloud:\nParameter A for 1.1\n", "a"),
+		Entry("openControl.FormatParameter(BogusControl@Nothing)", "BogusControl", "Nothing", "", "a"),
+	)
+
+	DescribeTable("FormatResponsibleRoles", func(standard string, control string, expectedData string) {
+		openControl := docx.OpenControlDocx{
+			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+		}
+		actualData := openControl.FormatResponsibleRoles(standard, control)
+		assert.Equal(GinkgoT(), expectedData, actualData)
+	},
+		Entry("openControl.FormatResponsibleRoles(NIST-800-53@CM-2)", "NIST-800-53", "CM-2", ""),
+		Entry("openControl.FormatResponsibleRoles(PCI-DSS-MAY-2015@2.1)", "PCI-DSS-MAY-2015", "2.1", "Amazon Elastic Compute Cloud: 2.1 Staff\n"),
+		Entry("openControl.FormatResponsibleRoles(BogusControl@Nothing)", "BogusControl", "Nothing", ""),
+	)
+
 	DescribeTable("FormatControl", func(standard string, control string, expectedData string, sectionKeys ...string) {
 		openControl := docx.OpenControlDocx{
 			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
