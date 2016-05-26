@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"github.com/opencontrol/compliance-masonry/tools/schema_tools"
+	"github.com/opencontrol/compliance-masonry/tools/version"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"
@@ -147,9 +147,9 @@ var componentTestErrors = []componentTestError{
 	// Check loading a component with a broken schema
 	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BrokenControl"), ErrControlSchema},
 	//Check loading an older schema without a key.
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0"), schema_tools.NewIncompatibleSchemaError(filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0", "component.yaml"), "component", 2.0, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)},
+	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0"), version.NewIncompatibleVersionError(filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0", "component.yaml"), "component", 2.0, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)},
 	//Check loading an older schema with a key.
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0"), schema_tools.NewIncompatibleSchemaError(filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0", "component.yaml"), "component", 2.0, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)},
+	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0"), version.NewIncompatibleVersionError(filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0", "component.yaml"), "component", 2.0, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)},
 }
 
 func TestLoadComponentErrors(t *testing.T) {

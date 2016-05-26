@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"github.com/opencontrol/compliance-masonry/tools/schema_tools"
+	"github.com/opencontrol/compliance-masonry/tools/version"
 	"gopkg.in/yaml.v2"
 )
 
@@ -32,8 +32,8 @@ type Component struct {
 // VerifySchemaCompatibility will check that the current component schema version is
 // compatible with the current masonry toolchain.
 func (c *Component) VerifySchemaCompatibility(fileName string) error {
-	if  c != nil && c.SchemaVersion != constants.DefaultFloat32Value {
-		return schema_tools.VerifyVersion(fileName, "component", c.SchemaVersion, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)
+	if c != nil && c.SchemaVersion != constants.DefaultFloat32Value {
+		return version.VerifyVersion(fileName, "component", c.SchemaVersion, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)
 	}
 	return nil
 }

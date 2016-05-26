@@ -1,7 +1,5 @@
 package constants
 
-import "github.com/opencontrol/compliance-masonry/tools/schema_tools"
-
 const (
 	// DefaultStandardsFolder is the folder where to store standards.
 	DefaultStandardsFolder = "standards"
@@ -27,9 +25,19 @@ const (
 	Components ResourceType = "Components"
 )
 
-var DefaultFloat32Value float32
+// DefaultFloat32Value is the exported constant value for the default float32 value for an uninitialized float32
+// variable.
+const (
+	DefaultFloat32Value float32 = iota
+)
 
 const (
+	// VersionNotNeeded is a place holder to indicate that the schema version does not need to be specified.
+	VersionNotNeeded float32 = -18.0
+	// MinComponentYAMLVersion is the minimum schema version for the component
+	// YAML supported by this masonry toolchain.
 	MinComponentYAMLVersion float32 = 3.0
-	MaxComponentYAMLVersion float32 = schema_tools.SchemaVersionNotNeeded
+	// MaxComponentYAMLVersion is the minimum schema version for the component
+	// YAML supported by this masonry toolchain.
+	MaxComponentYAMLVersion float32 = VersionNotNeeded
 )
