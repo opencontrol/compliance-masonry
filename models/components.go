@@ -29,6 +29,15 @@ type Component struct {
 	SchemaVersion float32                 `yaml:"schema_version" json:"schema_version"`
 }
 
+// VerifySchemaCompatibility will check that the current component schema version is
+// compatible with the current masonry toolchain.
+func (c *Component) VerifySchemaCompatibility(fileName string) error {
+	if  c != nil && c.SchemaVersion != constants.DefaultFloat32Value {
+		return schema_tools.VerifyVersion(fileName, "component", c.SchemaVersion, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)
+	}
+	return nil
+}
+
 // SatisfiesList is a list of Satisfies
 type SatisfiesList []Satisfies
 
@@ -111,12 +120,11 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	}
 	err = yaml.Unmarshal(componentData, &component)
 	// Check the component version to give a better error before the generic "ErrControlSchema"
-	if component != nil && component.SchemaVersion != constants.DefaultFloat32Value {
-		versionErr := schema_tools.VerifyVersion(fileName, "component", component.SchemaVersion, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)
-		if versionErr != nil {
-			return versionErr
-		}
+	if versionErr := component.VerifySchemaCompatibility(fileName); versionErr != nil {
+		return versionErr
 	}
+
+	// If no specific errors were found, but a general error was found, return that.
 	if err != nil {
 		return ErrControlSchema
 	}
