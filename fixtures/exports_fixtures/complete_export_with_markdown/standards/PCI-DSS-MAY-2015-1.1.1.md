@@ -3,6 +3,8 @@
 
 #### Amazon Elastic Compute Cloud
 
+##### Responsible Role: 1.1.1 Staff
+
 ##### a
 Justification in narrative form A for 1.1.1
 

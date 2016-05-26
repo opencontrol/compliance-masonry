@@ -2,4 +2,11 @@
 ##A formal process for approving and testing all network connections and changes to the firewall and router configurations
 
 #### Amazon Elastic Compute Cloud
-No information available for component
+
+##### Responsible Role: 1.1.1 Staff
+
+##### a
+Justification in narrative form A for 1.1.1
+
+##### b
+Justification in narrative form B for 1.1.1
