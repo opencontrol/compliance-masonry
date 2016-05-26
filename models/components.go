@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"sync"
 
-	"gopkg.in/yaml.v2"
-	"github.com/opencontrol/compliance-masonry/tools/schema_tools"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/schema_tools"
+	"gopkg.in/yaml.v2"
 )
 
 // Components struct is a thread-safe structure mapping for components

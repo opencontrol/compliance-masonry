@@ -27,7 +27,6 @@ const (
 	Components ResourceType = "Components"
 )
 
-
 var DefaultFloat32Value float32
 
 const (

@@ -1,11 +1,11 @@
 package models
 
 import (
+	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/schema_tools"
+	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"
-	"github.com/stretchr/testify/assert"
-	"github.com/opencontrol/compliance-masonry/tools/schema_tools"
-	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 type componentTest struct {
@@ -27,7 +27,7 @@ var componentTests = []componentTest{
 			Key:           "EC2",
 			References:    &GeneralReferences{{}},
 			Verifications: &VerificationReferences{{}, {}},
-			Satisfies:     &SatisfiesList{
+			Satisfies: &SatisfiesList{
 				{
 					Narrative: []NarrativeSection{
 						NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
@@ -63,7 +63,7 @@ var componentTests = []componentTest{
 			Key:           "EC2",
 			References:    &GeneralReferences{{}},
 			Verifications: &VerificationReferences{{}, {}},
-			Satisfies:     &SatisfiesList{
+			Satisfies: &SatisfiesList{
 				{
 					Narrative: []NarrativeSection{
 						NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
@@ -105,7 +105,7 @@ func testSet(example componentTest, actual *Component, t *testing.T) {
 
 	// Check that the narrative equals
 	if assert.Equal(t, example.expected.Satisfies.Len(), actual.Satisfies.Len()) {
-		for idx, _ := range (*actual.Satisfies) {
+		for idx, _ := range *actual.Satisfies {
 			assert.Equal(t, (*example.expected.Satisfies)[idx].Narrative, (*actual.Satisfies)[idx].Narrative)
 		}
 	}
