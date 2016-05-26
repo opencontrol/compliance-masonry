@@ -18,6 +18,32 @@ satisfies:
     - key: "b"
       text: "Justification in narrative form B for CM-2"
   standard_key: NIST-800-53
+- control_key: AC-2
+  covered_by:
+  - verification_key: EC2_Verification_1
+  - component_key: UAA
+    system_key: CloudFoundry
+    verification_key: UAA_Verification_1
+  implementation_status: partial
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for AC-2"
+    - key: "b"
+      text: "Justification in narrative form B for AC-2"
+  standard_key: NIST-800-53
+- control_key: AC-6
+  covered_by:
+  - verification_key: EC2_Verification_1
+  - component_key: UAA
+    system_key: CloudFoundry
+    verification_key: UAA_Verification_1
+  implementation_status: partial
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for AC-6"
+    - key: "b"
+      text: "Justification in narrative form B for AC-6"
+  standard_key: NIST-800-53
 - control_key: 1.1
   covered_by:
   - verification_key: EC2_Verification_1
@@ -25,17 +51,17 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for 1.1"
+    - key: "b"
+      text: "Justification in narrative form B for 1.1"
   parameters:
     - key: "a"
       text: "Parameter A for 1.1"
     - key: "b"
       text: "Parameter B for 1.1"
   responsible_role: "1.1 Staff"
-  narrative:
-    - key: "a"
-      text: "Justification in narrative form A for 1.1"
-    - key: "b"
-      text: "Justification in narrative form B for 1.1"
   standard_key: PCI-DSS-MAY-2015
 - control_key: 1.1.1
   covered_by: []
@@ -45,20 +71,14 @@ satisfies:
       text: "Justification in narrative form A for 1.1.1"
     - key: "b"
       text: "Justification in narrative form B for 1.1.1"
-  parameters:
-    - key: "a"
-      text: "Parameter A for 1.1.1"
-    - key: "b"
-      text: "Parameter B for 1.1.1"
-  responsible_role: "1.1.1 Staff"
   standard_key: PCI-DSS-MAY-2015
 - control_key: 2.1
   covered_by: []
   implementation_status: partial
   narrative:
     - text: "Justification in narrative form for 2.1"
-  responsible_role: "2.1 Staff"
   standard_key: PCI-DSS-MAY-2015
+  responsible_role: "2.1 Staff"
 schema_version: 3.0.0
 verifications:
 - key: EC2_Verification_2
