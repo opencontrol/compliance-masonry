@@ -41,3 +41,9 @@ const (
 	// YAML supported by this masonry toolchain.
 	MaxComponentYAMLVersion float32 = VersionNotNeeded
 )
+
+const (
+	// WarningNoInformationFound is a warning to indicate that no information was found. Typically this will be
+	// used when a template is being filled in and there is no information found for a particular section.
+	WarningNoInformationFound = "No information found"
+)
