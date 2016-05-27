@@ -6,15 +6,26 @@ import (
 	"path/filepath"
 
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("#%s\n##%s\n", key, control.Name)
 	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications models.Verifications) {
+		// In the case that no information was found period for the standard and control
+		if len(selectJustifications) == 0 {
+			errorText := fmt.Sprintf(constants.WarningUnknownStandardAndControlf, control.standardKey, control.controlKey)
+			text = fmt.Sprintf("%s%s\n", text, errorText)
+			return
+		}
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
 				text = fmt.Sprintf("%s\n#### %s\n", text, component.Name)
+				if len(justification.SatisfiesData.Narrative) == 0 {
+					text = fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
+					return
+				}
 				for _, narrative := range justification.SatisfiesData.Narrative {
 					if narrative.Key != "" {
 						text = fmt.Sprintf("%s\n##### %s\n", text, narrative.Key)
