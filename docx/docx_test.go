@@ -11,6 +11,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,6 +25,7 @@ var _ = Describe("Docx", func() {
 	},
 		Entry("openControl.FormatControl(NIST-800-53@CM-2)", "NIST-800-53", "CM-2", "Amazon Elastic Compute Cloud\na:\nJustification in narrative form A for CM-2\nb:\nJustification in narrative form B for CM-2\n"),
 		Entry("openControl.FormatControl(PCI-DSS-MAY-2015@2.1)", "PCI-DSS-MAY-2015", "2.1", "Amazon Elastic Compute Cloud\nJustification in narrative form for 2.1\n"),
+		Entry("openControl.FormatControl(PCI-DSS-MAY-2015@1.1.1)", "PCI-DSS-MAY-2015", "1.1.1", "Amazon Elastic Compute Cloud\n"+constants.WarningNoInformationFound+"\n"),
 		Entry("openControl.FormatControl(BogusControl@Nothing)", "BogusControl", "Nothing", ""),
 	)
 
@@ -37,8 +39,9 @@ var _ = Describe("Docx", func() {
 		Entry(`openControl.FormatControlSection(NIST-800-53,CM-2,a) - Regular case that should return one section from a loaded component.`,
 			"NIST-800-53", "CM-2", "a", "Amazon Elastic Compute Cloud\nJustification in narrative form A for CM-2\n"),
 		Entry(`openControl.FormatControlSection(PCI-DSS-MAY-2015,2.1,X)
-			- Regular case that should return not section nor header from a loaded component because the section does not exist`,
-			"PCI-DSS-MAY-2015", "2.1", "X", ""),
+			- Regular case that should return not section nor header from a loaded component
+			 because the section does not exist. Instead provide a warning that nothing exists`,
+			"PCI-DSS-MAY-2015", "2.1", "X", "Amazon Elastic Compute Cloud\n"+constants.WarningNoInformationFound+"\n"),
 		Entry("openControl.FormatControlSection(BogusControl,Nothing,'')", "BogusControl", "Nothing", "", ""),
 	)
 

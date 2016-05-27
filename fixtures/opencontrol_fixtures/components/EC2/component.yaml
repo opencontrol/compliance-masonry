@@ -34,11 +34,6 @@ satisfies:
 - control_key: 1.1.1
   covered_by: []
   implementation_status: partial
-  narrative:
-    - key: "a"
-      text: "Justification in narrative form A for 1.1.1"
-    - key: "b"
-      text: "Justification in narrative form B for 1.1.1"
   standard_key: PCI-DSS-MAY-2015
 - control_key: 2.1
   covered_by: []
