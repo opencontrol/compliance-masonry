@@ -40,7 +40,7 @@ var _ = Describe("Docx", func() {
 	)
 
 	Describe("BuildDoc Tests", func() {
-		It("load the template and build the final docx", func() {
+		It("loads the template and build the final docx", func() {
 			tempDir, _ := ioutil.TempDir("", "example")
 			defer os.RemoveAll(tempDir)
 			exportPath := filepath.Join(tempDir, "test_output.docx")
