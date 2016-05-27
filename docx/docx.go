@@ -33,7 +33,7 @@ func (config *Config) BuildDocx() error {
 	}
 	funcMap := template.FuncMap{
 		"getAllControlSections": openControl.FormatControl,
-		"getControlSection":     openControl.FormatControlSection,
+		"getControlSection":     openControl.FormatControl,
 	}
 	docTemplate.AddFunctions(funcMap)
 	docTemplate.Parse()
@@ -92,31 +92,22 @@ func getComponentControlText(justification models.Verification, component *model
 	}
 
 	if !foundText {
-		text = fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationFound)
+		text = fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
 	}
 
 	return text
 }
 
-func (openControl *OpenControlDocx) FormatControlSection(standardKey string, controlKey string, sectionKey string) string {
-	var text string
-	sectionSet := createSectionsSet(sectionKey)
-	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
-		for _, justification := range selectJustifications {
-			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
-				// Get the Component Text for the specified section
-				text = fmt.Sprintf("%s%s", text, getComponentControlText(justification, component, sectionSet))
-			})
-		}
-	})
-	return text
-}
-
 // FormatControl returns a control formatted for docx
-func (openControl *OpenControlDocx) FormatControl(standardKey string, controlKey string) string {
-	sectionSet := createSectionsSet()
+func (openControl *OpenControlDocx) FormatControl(standardKey string, controlKey string, sectionKeys ...string) string {
+	sectionSet := createSectionsSet(sectionKeys...)
 	var text string
 	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
+		// In the case that no information was found period for the standard and control
+		if len(selectJustifications) == 0 {
+			text = fmt.Sprintf(constants.WarningUnknownStandardAndControlf, standardKey, controlKey)
+			return
+		}
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
 				// Get the Component Text

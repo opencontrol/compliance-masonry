@@ -9,6 +9,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/doc-template"
 
+	"fmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
@@ -16,33 +17,26 @@ import (
 )
 
 var _ = Describe("Docx", func() {
-	DescribeTable("FormatControl", func(standard string, control string, expectedData string) {
+	DescribeTable("FormatControl", func(standard string, control string, expectedData string, sectionKeys ...string) {
 		openControl := docx.OpenControlDocx{
 			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
 		}
-		actualData := openControl.FormatControl(standard, control)
+		actualData := openControl.FormatControl(standard, control, sectionKeys...)
 		assert.Equal(GinkgoT(), expectedData, actualData)
 	},
+		// Get All Control Data
 		Entry("openControl.FormatControl(NIST-800-53@CM-2)", "NIST-800-53", "CM-2", "Amazon Elastic Compute Cloud\na:\nJustification in narrative form A for CM-2\nb:\nJustification in narrative form B for CM-2\n"),
 		Entry("openControl.FormatControl(PCI-DSS-MAY-2015@2.1)", "PCI-DSS-MAY-2015", "2.1", "Amazon Elastic Compute Cloud\nJustification in narrative form for 2.1\n"),
-		Entry("openControl.FormatControl(PCI-DSS-MAY-2015@1.1.1)", "PCI-DSS-MAY-2015", "1.1.1", "Amazon Elastic Compute Cloud\n"+constants.WarningNoInformationFound+"\n"),
-		Entry("openControl.FormatControl(BogusControl@Nothing)", "BogusControl", "Nothing", ""),
-	)
-
-	DescribeTable("FormatControlSection", func(standard string, control string, section string, expectedData string) {
-		openControl := docx.OpenControlDocx{
-			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
-		}
-		actualData := openControl.FormatControlSection(standard, control, section)
-		assert.Equal(GinkgoT(), expectedData, actualData)
-	},
-		Entry(`openControl.FormatControlSection(NIST-800-53,CM-2,a) - Regular case that should return one section from a loaded component.`,
-			"NIST-800-53", "CM-2", "a", "Amazon Elastic Compute Cloud\nJustification in narrative form A for CM-2\n"),
-		Entry(`openControl.FormatControlSection(PCI-DSS-MAY-2015,2.1,X)
+		Entry("openControl.FormatControl(PCI-DSS-MAY-2015@1.1.1)", "PCI-DSS-MAY-2015", "1.1.1", "Amazon Elastic Compute Cloud\n"+constants.WarningNoInformationAvailable+"\n"),
+		Entry("openControl.FormatControl(BogusStandard@NothingControl)", "BogusStandard", "NothingControl", fmt.Sprintf(constants.WarningUnknownStandardAndControlf, "BogusStandard", "NothingControl")),
+		// Get Specific Control Data
+		Entry(`openControl.FormatControl(NIST-800-53,CM-2,a) - Regular case that should return one section from a loaded component.`,
+			"NIST-800-53", "CM-2", "Amazon Elastic Compute Cloud\nJustification in narrative form A for CM-2\n", "a"),
+		Entry(`openControl.FormatControl(PCI-DSS-MAY-2015,2.1,X)
 			- Regular case that should return not section nor header from a loaded component
 			 because the section does not exist. Instead provide a warning that nothing exists`,
-			"PCI-DSS-MAY-2015", "2.1", "X", "Amazon Elastic Compute Cloud\n"+constants.WarningNoInformationFound+"\n"),
-		Entry("openControl.FormatControlSection(BogusControl,Nothing,'')", "BogusControl", "Nothing", "", ""),
+			"PCI-DSS-MAY-2015", "2.1", "Amazon Elastic Compute Cloud\n"+constants.WarningNoInformationAvailable+"\n", "X"),
+		Entry("openControl.FormatControl(BogusStandard,NothingControl,'')", "BogusStandard", "NothingControl", fmt.Sprintf(constants.WarningUnknownStandardAndControlf, "BogusStandard", "NothingControl")),
 	)
 
 	Describe("BuildDoc Tests", func() {

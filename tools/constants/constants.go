@@ -43,7 +43,13 @@ const (
 )
 
 const (
-	// WarningNoInformationFound is a warning to indicate that no information was found. Typically this will be
+	// WarningNoInformationAvailable is a warning to indicate that no information was found. Typically this will be
 	// used when a template is being filled in and there is no information found for a particular section.
-	WarningNoInformationFound = "No information found"
+	WarningNoInformationAvailable = "No information available for component"
+
+	// WarningUnknownStandardAndControlf is a string with two string specifiers to allow for injecting both
+	// the standard and the control into the final string. This is a warning that is used for when the given
+	// standard and control return no information at all. Which implies no component in the whole system has
+	// addressed this combination of standard and control.
+	WarningUnknownStandardAndControlf = "No information found for the combination of standard %s and control %s"
 )
