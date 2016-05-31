@@ -72,7 +72,7 @@ satisfies:
   narrative:
     - text: "Justification in narrative form for 2.1"
   standard_key: PCI-DSS-MAY-2015
-schema_version: 3.0
+schema_version: 3.0.0
 verifications:
 - key: EC2_Verification_2
   name: EC2 Governor 2

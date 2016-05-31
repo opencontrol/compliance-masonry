@@ -2,6 +2,7 @@ package version
 
 import (
 	"fmt"
+	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
@@ -10,31 +11,31 @@ import (
 type IncompatibleVersionError struct {
 	file          string
 	fileType      string
-	actualVersion float32
-	minVersion    float32
-	maxVersion    float32
+	actualVersion semver.Version
+	minVersion    semver.Version
+	maxVersion    semver.Version
 }
 
 // Error returns the string representation of the IncompatibleVersionError and satisfies the `error` interface.
 func (e IncompatibleVersionError) Error() string {
 	advice := ""
-	if e.minVersion != constants.VersionNotNeeded {
-		advice += fmt.Sprintf(" Min Version supported: %.2f", e.minVersion)
+	if e.minVersion.NE(constants.VersionNotNeeded) {
+		advice += fmt.Sprintf(" Min Version supported: %s", e.minVersion.String())
 	}
-	if e.maxVersion != constants.VersionNotNeeded {
-		advice += fmt.Sprintf(" Max Version supported: %.2f", e.maxVersion)
+	if e.maxVersion.NE(constants.VersionNotNeeded) {
+		advice += fmt.Sprintf(" Max Version supported: %s", e.maxVersion.String())
 	}
-	return fmt.Sprintf("File: [%s] uses version %.2f. Filetype: [%s], %s",
+	return fmt.Sprintf("File: [%s] uses version %s. Filetype: [%s], %s",
 		e.file,
-		e.actualVersion,
+		e.actualVersion.String(),
 		e.fileType,
 		advice,
 	)
 }
 
 // NewIncompatibleVersionError is a constructor for the IncompatibleVersionError
-func NewIncompatibleVersionError(file string, fileType string, actualVersion float32,
-	minVersion float32, maxVersion float32) IncompatibleVersionError {
+func NewIncompatibleVersionError(file string, fileType string, actualVersion,
+	minVersion, maxVersion semver.Version) IncompatibleVersionError {
 	return IncompatibleVersionError{
 		file:          file,
 		fileType:      fileType,

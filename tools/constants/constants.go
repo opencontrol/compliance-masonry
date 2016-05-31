@@ -1,5 +1,7 @@
 package constants
 
+import "github.com/blang/semver"
+
 const (
 	// DefaultStandardsFolder is the folder where to store standards.
 	DefaultStandardsFolder = "standards"
@@ -32,14 +34,19 @@ const (
 )
 
 const (
+	ErrVersionNotInSemverFormatf = "Version %v is not in semver format"
+	ErrMissingVersion            = "Schema Version can not be found."
+)
+
+var (
 	// VersionNotNeeded is a place holder to indicate that the schema version does not need to be specified.
-	VersionNotNeeded float32 = -18.0
+	VersionNotNeeded semver.Version = semver.MustParse("0.0.0-NotNeeded")
 	// MinComponentYAMLVersion is the minimum schema version for the component
 	// YAML supported by this masonry toolchain.
-	MinComponentYAMLVersion float32 = 3.0
+	MinComponentYAMLVersion semver.Version = semver.MustParse("3.0.0")
 	// MaxComponentYAMLVersion is the minimum schema version for the component
 	// YAML supported by this masonry toolchain.
-	MaxComponentYAMLVersion float32 = VersionNotNeeded
+	MaxComponentYAMLVersion semver.Version = VersionNotNeeded
 )
 
 const (

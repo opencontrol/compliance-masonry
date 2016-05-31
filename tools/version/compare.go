@@ -1,16 +1,19 @@
 package version
 
-import "github.com/opencontrol/compliance-masonry/tools/constants"
+import (
+	"github.com/blang/semver"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
+)
 
 // VerifyVersion will check if the version is compatible. If not, it will return a IncompatibleVersionError.
-func VerifyVersion(file string, fileType string, version, minVersion, maxVersion float32) error {
-	if minVersion == constants.VersionNotNeeded && maxVersion == constants.VersionNotNeeded {
+func VerifyVersion(file string, fileType string, version, minVersion, maxVersion semver.Version) error {
+	if minVersion.EQ(constants.VersionNotNeeded) && maxVersion.EQ(constants.VersionNotNeeded) {
 		return nil
-	} else if version >= minVersion && maxVersion == constants.VersionNotNeeded {
+	} else if version.GTE(minVersion) && maxVersion.EQ(constants.VersionNotNeeded) {
 		return nil
-	} else if minVersion == constants.VersionNotNeeded && version <= maxVersion {
+	} else if minVersion.EQ(constants.VersionNotNeeded) && version.LTE(maxVersion) {
 		return nil
-	} else if version >= minVersion && version <= maxVersion {
+	} else if version.GTE(minVersion) && version.LTE(maxVersion) {
 		return nil
 	}
 	return NewIncompatibleVersionError(file, fileType, version, minVersion, maxVersion)
