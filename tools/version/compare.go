@@ -5,16 +5,32 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
+// Requirements is a set of version requirements needed for a given file with some helper information.
+type Requirements struct {
+	file       string
+	fileType   string
+	version    semver.Version
+	minVersion semver.Version
+	maxVersion semver.Version
+}
+
+// NewRequirements will create a new set of version requirements for a file.
+func NewRequirements(file string, fileType string, version semver.Version,
+	minVersion semver.Version, maxVersion semver.Version) Requirements {
+	return Requirements{file: file, fileType: fileType, version: version,
+		minVersion: minVersion, maxVersion: maxVersion}
+}
+
 // VerifyVersion will check if the version is compatible. If not, it will return a IncompatibleVersionError.
-func VerifyVersion(file string, fileType string, version, minVersion, maxVersion semver.Version) error {
-	if minVersion.EQ(constants.VersionNotNeeded) && maxVersion.EQ(constants.VersionNotNeeded) {
+func (r Requirements) VerifyVersion() error {
+	if r.minVersion.EQ(constants.VersionNotNeeded) && r.maxVersion.EQ(constants.VersionNotNeeded) {
 		return nil
-	} else if version.GTE(minVersion) && maxVersion.EQ(constants.VersionNotNeeded) {
+	} else if r.version.GTE(r.minVersion) && r.maxVersion.EQ(constants.VersionNotNeeded) {
 		return nil
-	} else if minVersion.EQ(constants.VersionNotNeeded) && version.LTE(maxVersion) {
+	} else if r.minVersion.EQ(constants.VersionNotNeeded) && r.version.LTE(r.maxVersion) {
 		return nil
-	} else if version.GTE(minVersion) && version.LTE(maxVersion) {
+	} else if r.version.GTE(r.minVersion) && r.version.LTE(r.maxVersion) {
 		return nil
 	}
-	return NewIncompatibleVersionError(file, fileType, version, minVersion, maxVersion)
+	return NewIncompatibleVersionError(r)
 }

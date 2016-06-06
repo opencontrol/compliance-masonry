@@ -110,7 +110,9 @@ func (c *Component) UnmarshalYAML(unmarshal func(v interface{}) error) error {
 // compatible with the current masonry toolchain.
 func (c *Component) VerifySchemaCompatibility(fileName string) error {
 	if c != nil {
-		return version.VerifyVersion(fileName, "component", c.SchemaVersion, constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)
+		requirements := version.NewRequirements(fileName, "component", c.SchemaVersion,
+			constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)
+		return requirements.VerifyVersion()
 	}
 	return nil
 }

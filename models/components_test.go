@@ -149,9 +149,9 @@ var componentTestErrors = []componentTestError{
 	// Check loading a component with a broken schema
 	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BrokenControl"), ErrControlSchema},
 	//Check loading an older schema without a key.
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0"), version.NewIncompatibleVersionError(filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0", "component.yaml"), "component", semver.MustParse("2.0.0"), constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)},
+	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0"), version.NewIncompatibleVersionError(version.NewRequirements(filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0", "component.yaml"), "component", semver.MustParse("2.0.0"), constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion))},
 	//Check loading an older schema with a key.
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0"), version.NewIncompatibleVersionError(filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0", "component.yaml"), "component", semver.MustParse("2.0.0"), constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion)},
+	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0"), version.NewIncompatibleVersionError(version.NewRequirements(filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0", "component.yaml"), "component", semver.MustParse("2.0.0"), constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion))},
 	// Check for versions not in semver format.
 	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion_NotSemver"), componentLoadError{fmt.Sprintf(constants.ErrVersionNotInSemverFormatf, 3)}},
 	// Check for version that can't be parsed from string to semver
