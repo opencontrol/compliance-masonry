@@ -34,7 +34,7 @@ func TestJustificationAdd(t *testing.T) {
 	for _, example := range justificationsAddTests {
 		just := NewJustifications()
 		for _, mapping := range example.mappings {
-			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, Satisfies{})
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, nil)
 		}
 		// Check that the expected stored standards are the actual standards
 		if example.expectedCount != len(just.mapping) {
@@ -56,7 +56,7 @@ func TestJustificationGet(t *testing.T) {
 	for _, example := range justificationsGetTests {
 		just := NewJustifications()
 		for _, mapping := range example.mappings {
-			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, Satisfies{})
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, nil)
 		}
 		numberofABs := len(just.Get("a", "b"))
 		// Check that the number of controls stored is the expected number
@@ -70,7 +70,7 @@ func TestJustificationGetAndApply(t *testing.T) {
 	for _, example := range justificationsGetTests {
 		just := NewJustifications()
 		for _, mapping := range example.mappings {
-			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, Satisfies{})
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, nil)
 		}
 		just.GetAndApply("a", "b", func(actualVerificaitons Verifications) {
 			numberofABs := actualVerificaitons.Len()
@@ -103,13 +103,13 @@ func TestVerificationsLen(t *testing.T) {
 
 var verificationsLessTests = []verificationsLessTest{
 	// Check that the left verification is less by comparing a number and letter
-	{Verifications{Verification{ComponentKey: "1", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "2", SatisfiesData: Satisfies{}}}, true},
+	{Verifications{Verification{ComponentKey: "1", SatisfiesData: nil}, Verification{ComponentKey: "2", SatisfiesData: nil}}, true},
 	// Check that the left verification is not less by comparing two letters
-	{Verifications{Verification{ComponentKey: "a", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "a", SatisfiesData: Satisfies{}}}, false},
+	{Verifications{Verification{ComponentKey: "a", SatisfiesData: nil}, Verification{ComponentKey: "a", SatisfiesData: nil}}, false},
 	// Check that the left verification is not less by comparing the same letter
-	{Verifications{Verification{ComponentKey: "a", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "2", SatisfiesData: Satisfies{}}}, false},
+	{Verifications{Verification{ComponentKey: "a", SatisfiesData: nil}, Verification{ComponentKey: "2", SatisfiesData: nil}}, false},
 	// Check that the left verification is not less by comparing two numbers
-	{Verifications{Verification{ComponentKey: "2", SatisfiesData: Satisfies{}}, Verification{ComponentKey: "1", SatisfiesData: Satisfies{}}}, false},
+	{Verifications{Verification{ComponentKey: "2", SatisfiesData: nil}, Verification{ComponentKey: "1", SatisfiesData: nil}}, false},
 	// Check that the left verification is not less by comparing two numbers
 }
 
