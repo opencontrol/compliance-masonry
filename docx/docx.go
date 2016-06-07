@@ -9,6 +9,7 @@ import (
 	"github.com/opencontrol/doc-template"
 
 	"gopkg.in/fatih/set.v0"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
 
 // Config contains data for docx template export configurations
@@ -51,11 +52,11 @@ func createSectionsSet(sections ...string) *set.Set {
 }
 
 // getComponentControlText will get the appropriate control text that is formatted for the word document.
-func getComponentControlText(justification models.Verification, component *models.Component, specifiedSections *set.Set) string {
+func getComponentControlText(justification models.Verification, component base.Component, specifiedSections *set.Set) string {
 	var text string
 
 	// Add the component name.
-	text = fmt.Sprintf("%s%s\n", text, component.Name)
+	text = fmt.Sprintf("%s%s\n", text, component.GetName())
 
 	// Determine if we want to get all of the sections or just one. If we specify exact sections, that means we do
 	// not want all and if we do not specify sections, it means we want all sections.
@@ -65,16 +66,16 @@ func getComponentControlText(justification models.Verification, component *model
 	foundText := false
 
 	// Print out the narrative(s)
-	for _, section := range justification.SatisfiesData.Narrative {
+	for _, section := range justification.SatisfiesData.GetNarratives() {
 		if allSections {
 			// If we want to print out all the sections...
 
 			// If section header exists, let's print it. Key could be empty, in that case
 			// just print the text for the section.
-			if section.Key != "" {
-				text = fmt.Sprintf("%s%s:\n", text, section.Key)
+			if section.GetKey() != "" {
+				text = fmt.Sprintf("%s%s:\n", text, section.GetKey())
 			}
-			text = fmt.Sprintf("%s%s\n", text, section.Text)
+			text = fmt.Sprintf("%s%s\n", text, section.GetText())
 
 			// Automatically assume foundText is true as long as the length of
 			// justification.SatisfiesData.Narrative is > 0, which is implied if we reach here.
@@ -84,8 +85,8 @@ func getComponentControlText(justification models.Verification, component *model
 			// If we only want certain section(s)...
 
 			// If section header exists, let's print it's corresponding text and not the header itself.
-			if specifiedSections.Has(section.Key) {
-				text = fmt.Sprintf("%s%s\n", text, section.Text)
+			if specifiedSections.Has(section.GetKey()) {
+				text = fmt.Sprintf("%s%s\n", text, section.GetText())
 				foundText = true
 			}
 		}
@@ -109,7 +110,7 @@ func (openControl *OpenControlDocx) FormatControl(standardKey string, controlKey
 			return
 		}
 		for _, justification := range selectJustifications {
-			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
+			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
 				// Get the Component Text
 				text = fmt.Sprintf("%s%s", text, getComponentControlText(justification, component, sectionSet))
 			})

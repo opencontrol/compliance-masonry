@@ -9,23 +9,23 @@ import (
 
 func (component *ComponentGitbook) exportComponent() (string, string) {
 	var text string
-	componentPath := component.Key + ".md"
-	text = fmt.Sprintf("# %s\n", component.Name)
+	componentPath := component.GetKey() + ".md"
+	text = fmt.Sprintf("# %s\n", component.GetName())
 	// Sort Components and Verifications
-	if component.References != nil {
-		if component.References.Len() > 0 {
-			sort.Sort(component.References)
+	if component.GetReferences() != nil {
+		if component.GetReferences().Len() > 0 {
+			sort.Sort(component.GetReferences())
 			text += "## References\n"
-			for _, reference := range *(component.References) {
+			for _, reference := range (component.GetReferences()) {
 				text += exportLink(reference.Name, reference.Path)
 			}
 		}
 	}
-	if component.Verifications != nil {
-		if component.Verifications.Len() > 0 {
-			sort.Sort(component.Verifications)
+	if component.GetVerifications() != nil {
+		if component.GetVerifications().Len() > 0 {
+			sort.Sort(component.GetVerifications())
 			text += "## Verifications\n"
-			for _, reference := range *(component.Verifications) {
+			for _, reference := range (component.GetVerifications()) {
 				text += exportLink(reference.Name, reference.Path)
 			}
 		}

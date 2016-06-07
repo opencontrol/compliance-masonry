@@ -2,6 +2,10 @@ package models
 
 import (
 	"errors"
+	"github.com/opencontrol/compliance-masonry/models/components"
+	"github.com/opencontrol/compliance-masonry/models/components/versions"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -15,18 +19,14 @@ var (
 	ErrReadFile = errors.New("Unable to read the file")
 	// ErrCertificationSchema is raised a certification cannot be parsed
 	ErrCertificationSchema = errors.New("Unable to parse certification")
-	// ErrControlSchema is raised a control cannot be parsed
-	ErrControlSchema = errors.New("Unable to parse control")
 	// ErrStandardSchema is raised a standard cannot be parsed
 	ErrStandardSchema = errors.New("Unable to parse standard")
-	// ErrComponentFileDNE is raised when a component file does not exists
-	ErrComponentFileDNE = errors.New("Component files does not exist")
 )
 
 // OpenControl struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
 type OpenControl struct {
-	Components     *Components
+	Components     *components.Components
 	Standards      *Standards
 	Justifications *Justifications
 	Certification  *Certification
@@ -42,7 +42,7 @@ func getKey(filePath string) string {
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
 		Justifications: NewJustifications(),
-		Components:     NewComponents(),
+		Components:     components.NewComponents(),
 		Standards:      NewStandards(),
 	}
 }
@@ -108,5 +108,32 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) error {
 		}(standardFile)
 	}
 	wg.Wait()
+	return nil
+}
+
+// LoadComponent imports components into a Component struct and adds it to the
+// Components map.
+func (openControl *OpenControl) LoadComponent(componentDir string) error {
+	fileName := filepath.Join(componentDir, "component.yaml")
+	_, err := os.Stat(fileName)
+	if err != nil {
+		return constants.ErrComponentFileDNE
+	}
+	var component base.Component
+	componentData, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return ErrReadFile
+	}
+	component, err = versions.ParseComponent(componentData)
+	if err != nil {
+		return err
+	}
+
+	if component.GetKey() == "" {
+		component.SetKey(getKey(componentDir))
+	}
+	if openControl.Components.CompareAndAdd(component) {
+		openControl.Justifications.LoadMappings(component)
+	}
 	return nil
 }

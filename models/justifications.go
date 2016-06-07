@@ -1,12 +1,15 @@
 package models
 
-import "sync"
+import (
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"sync"
+)
 
 // Verification struct holds data for a specific component and verification
 // This is an internal data structure that helps map standards and controls to components
 type Verification struct {
 	ComponentKey  string
-	SatisfiesData Satisfies
+	SatisfiesData base.Satisfies
 }
 
 // Verifications is a slice of type Verifications
@@ -39,7 +42,7 @@ func NewJustifications() *Justifications {
 }
 
 // Add methods adds a new mapping to the justification while locking
-func (justifications *Justifications) Add(standardKey string, controlKey string, componentKey string, satisfies Satisfies) {
+func (justifications *Justifications) Add(standardKey string, controlKey string, componentKey string, satisfies base.Satisfies) {
 	justifications.Lock()
 	newVerification := Verification{componentKey, satisfies}
 	_, standardKeyExists := justifications.mapping[standardKey]
@@ -57,13 +60,13 @@ func (justifications *Justifications) Add(standardKey string, controlKey string,
 }
 
 // LoadMappings loads a set of mappings from a component
-func (justifications *Justifications) LoadMappings(component *Component) {
-	for _, satisfies := range *(component.Satisfies) {
-		justifications.Add(satisfies.StandardKey, satisfies.ControlKey, component.Key, satisfies)
+func (justifications *Justifications) LoadMappings(component base.Component) {
+	for _, satisfies := range component.GetAllSatisfies() {
+		justifications.Add(satisfies.GetStandardKey(), satisfies.GetControlKey(), component.GetKey(), satisfies)
 	}
 }
 
-// Get retrives justifications for a specific stnadard and control
+// Get retrieves justifications for a specific stnadard and control
 func (justifications *Justifications) Get(standardKey string, controlKey string) Verifications {
 	_, standardKeyExists := justifications.mapping[standardKey]
 	if !standardKeyExists {

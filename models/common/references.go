@@ -1,4 +1,4 @@
-package models
+package common
 
 // GeneralReference struct contains data for the name and path of a
 // compliance reference.
