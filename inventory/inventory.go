@@ -30,7 +30,7 @@ func (i *Inventory) retrieveMasterControlsList() {
 func (i *Inventory) findDocumentedControls() {
 	for _, components := range i.Components.GetAll() {
 		for _, satisfiedComponent := range components.GetAllSatisfies() {
-			key := standardAndControlString(satisfiedComponent.GetStandardKey(), satisfiedComponent.GetStandardKey())
+			key := standardAndControlString(satisfiedComponent.GetStandardKey(), satisfiedComponent.GetControlKey())
 			if _, exists := i.actualSatisfiedControls[key]; !exists {
 				i.actualSatisfiedControls[key] = satisfiedComponent
 			}
