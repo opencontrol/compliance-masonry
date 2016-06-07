@@ -2,13 +2,14 @@ package models
 
 import (
 	"errors"
+	"github.com/opencontrol/compliance-masonry/models/components"
+	"github.com/opencontrol/compliance-masonry/models/components/versions"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
-	"github.com/opencontrol/compliance-masonry/models/components"
-	"github.com/opencontrol/compliance-masonry/models/components/versions"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
 
 var (
@@ -18,12 +19,8 @@ var (
 	ErrReadFile = errors.New("Unable to read the file")
 	// ErrCertificationSchema is raised a certification cannot be parsed
 	ErrCertificationSchema = errors.New("Unable to parse certification")
-	// ErrControlSchema is raised a control cannot be parsed
-	ErrControlSchema = errors.New("Unable to parse control")
 	// ErrStandardSchema is raised a standard cannot be parsed
 	ErrStandardSchema = errors.New("Unable to parse standard")
-	// ErrComponentFileDNE is raised when a component file does not exists
-	ErrComponentFileDNE = errors.New("Component files does not exist")
 )
 
 // OpenControl struct combines components, standards, and a certification data
@@ -120,7 +117,7 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	fileName := filepath.Join(componentDir, "component.yaml")
 	_, err := os.Stat(fileName)
 	if err != nil {
-		return ErrComponentFileDNE
+		return constants.ErrComponentFileDNE
 	}
 	var component base.Component
 	componentData, err := ioutil.ReadFile(fileName)
@@ -131,28 +128,6 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	if err != nil {
 		return err
 	}
-
-	/*
-	err = yaml.Unmarshal(componentData, &component)
-	// If we have a user friendly error via componentLoadError return it.
-	if err != nil {
-		switch errValue := err.(type) {
-		// If we a user friendly error, let's return it now.
-		case componentLoadError:
-			return errValue
-		}
-	}
-	// If we don't have a user friendly error yet...
-	// Check the component version to give a better error before the generic "ErrControlSchema"
-	if versionErr := component.VerifySchemaCompatibility(fileName); versionErr != nil {
-		return versionErr
-	}
-
-	// If no specific errors were found, but a general error was found, return that.
-	if err != nil {
-		return ErrControlSchema
-	}
-	*/
 
 	if component.GetKey() == "" {
 		component.SetKey(getKey(componentDir))

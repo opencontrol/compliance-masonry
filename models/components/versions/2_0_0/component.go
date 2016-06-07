@@ -1,7 +1,6 @@
 package component
 
 import (
-	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
@@ -9,12 +8,11 @@ import (
 // Component struct is an individual component requiring documentation
 // Schema info: https://github.com/opencontrol/schemas#component-yaml
 type Component struct {
-	Name          string                  `yaml:"name" json:"name"`
-	Key           string                  `yaml:"key" json:"key"`
-	References    *common.GeneralReferences      `yaml:"references" json:"references"`
-	Verifications *common.VerificationReferences `yaml:"verifications" json:"verifications"`
-	Satisfies     []Satisfies          `yaml:"satisfies" json:"satisfies"`
-	SchemaVersion semver.Version          `yaml:"schema_version" json:"schema_version"`
+	Name          string                        `yaml:"name" json:"name"`
+	Key           string                        `yaml:"key" json:"key"`
+	References    common.GeneralReferences      `yaml:"references" json:"references"`
+	Verifications common.VerificationReferences `yaml:"verifications" json:"verifications"`
+	Satisfies     []Satisfies                   `yaml:"satisfies" json:"satisfies"`
 }
 
 func (c Component) GetName() string {
@@ -29,11 +27,11 @@ func (c *Component) SetKey(key string) {
 	c.Key = key
 }
 
-func (c Component) GetVerifications() *common.VerificationReferences {
+func (c Component) GetVerifications() common.VerificationReferences {
 	return c.Verifications
 }
 
-func (c Component) GetReferences() *common.GeneralReferences {
+func (c Component) GetReferences() common.GeneralReferences {
 	return c.References
 }
 
@@ -51,17 +49,17 @@ func (c Component) GetAllSatisfies() []base.Satisfies {
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey  string             `yaml:"control_key" json:"control_key"`
-	StandardKey string             `yaml:"standard_key" json:"standard_key"`
-	Narrative   Narrative `yaml:"narrative" json:"narrative"`
-	CoveredBy   common.CoveredByList      `yaml:"covered_by" json:"covered_by"`
+	ControlKey  string               `yaml:"control_key" json:"control_key"`
+	StandardKey string               `yaml:"standard_key" json:"standard_key"`
+	Narrative   Narrative            `yaml:"narrative" json:"narrative"`
+	CoveredBy   common.CoveredByList `yaml:"covered_by" json:"covered_by"`
 }
 
-func (s Satisfies)GetControlKey() string {
+func (s Satisfies) GetControlKey() string {
 	return s.ControlKey
 }
 
-func (s Satisfies)GetStandardKey() string {
+func (s Satisfies) GetStandardKey() string {
 	return s.StandardKey
 }
 

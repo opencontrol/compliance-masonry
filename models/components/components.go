@@ -1,11 +1,10 @@
 package components
 
 import (
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 	"log"
 	"sync"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
-
 
 // Components struct is a thread-safe structure mapping for components
 type Components struct {
@@ -59,5 +58,3 @@ func (components *Components) CompareAndAdd(component base.Component) bool {
 func (components *Components) GetAll() map[string]base.Component {
 	return components.mapping
 }
-
-

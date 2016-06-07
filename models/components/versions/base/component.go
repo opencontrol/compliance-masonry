@@ -1,10 +1,10 @@
 package base
 
 import (
-	"github.com/blang/semver"
 	"fmt"
-	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 type Component interface {
@@ -12,8 +12,8 @@ type Component interface {
 	GetKey() string
 	SetKey(string)
 	GetAllSatisfies() []Satisfies
-	GetVerifications() *common.VerificationReferences
-	GetReferences() *common.GeneralReferences
+	GetVerifications() common.VerificationReferences
+	GetReferences() common.GeneralReferences
 }
 
 type Satisfies interface {
@@ -99,7 +99,6 @@ func (c *Base) UnmarshalYAML(unmarshal func(v interface{}) error) error {
 	c.SchemaVersion = ver
 	return err
 }
-
 
 type componentLoadError struct {
 	message string

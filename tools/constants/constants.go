@@ -1,6 +1,8 @@
 package constants
 
-import "github.com/blang/semver"
+import (
+	"errors"
+)
 
 const (
 	// DefaultStandardsFolder is the folder where to store standards.
@@ -27,26 +29,9 @@ const (
 	Components ResourceType = "Components"
 )
 
-// DefaultFloat32Value is the exported constant value for the default float32 value for an uninitialized float32
-// variable.
-const (
-	DefaultFloat32Value float32 = iota
-)
-
 const (
 	ErrVersionNotInSemverFormatf = "Version %v is not in semver format"
 	ErrMissingVersion            = "Schema Version can not be found."
-)
-
-var (
-	// VersionNotNeeded is a place holder to indicate that the schema version does not need to be specified.
-	VersionNotNeeded semver.Version = semver.MustParse("0.0.0-NotNeeded")
-	// MinComponentYAMLVersion is the minimum schema version for the component
-	// YAML supported by this masonry toolchain.
-	MinComponentYAMLVersion semver.Version = semver.MustParse("3.0.0")
-	// MaxComponentYAMLVersion is the minimum schema version for the component
-	// YAML supported by this masonry toolchain.
-	MaxComponentYAMLVersion semver.Version = VersionNotNeeded
 )
 
 const (
@@ -59,4 +44,14 @@ const (
 	// standard and control return no information at all. Which implies no component in the whole system has
 	// addressed this combination of standard and control.
 	WarningUnknownStandardAndControlf = "No information found for the combination of standard %s and control %s"
+)
+
+var (
+	// ErrComponentFileDNE is raised when a component file does not exists
+	ErrComponentFileDNE = errors.New("Component files does not exist")
+)
+
+const (
+	// ErrComponentSchemaParsef is a formatted string for reporting which version schema to check.
+	ErrComponentSchemaParsef = "Unable to parse component. Please check component.yaml schema for version %s"
 )

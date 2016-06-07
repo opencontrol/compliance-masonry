@@ -1,4 +1,4 @@
-package components_test
+package versions_test
 
 import (
 	"github.com/opencontrol/compliance-masonry/models/common"
@@ -8,11 +8,14 @@ import (
 	"path/filepath"
 	"testing"
 
+	"errors"
+	"fmt"
+	"github.com/blang/semver"
+	"github.com/opencontrol/compliance-masonry/config"
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"github.com/opencontrol/compliance-masonry/models/components"
-	"errors"
 )
 
 type componentV3Test struct {
@@ -52,34 +55,29 @@ var regularV3Satisfies []v3.Satisfies = []v3.Satisfies{
 }
 
 var componentV3Tests = []componentV3Test{
-	/*
-		Version 3.0.0
-	 */
 	// Check that a component without a key loads correctly, uses the key of its directory and loads correctly
 	{
-		filepath.Join("..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2"),
+		filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2"),
 		v3.Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
 			References:    common.GeneralReferences{{}},
 			Verifications: common.VerificationReferences{{}, {}},
-			Satisfies: regularV3Satisfies,
+			Satisfies:     regularV3Satisfies,
 		},
 	},
 	// Check that a component with a key
 	{
-		filepath.Join("..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2WithKey"),
+		filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2WithKey"),
 		v3.Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
 			References:    common.GeneralReferences{{}},
 			Verifications: common.VerificationReferences{{}, {}},
-			Satisfies: regularV3Satisfies,
+			Satisfies:     regularV3Satisfies,
 		},
 	},
 }
-
-
 
 type componentV2Test struct {
 	componentDir string
@@ -104,60 +102,56 @@ var regularV2Satisfies []v2.Satisfies = []v2.Satisfies{
 var componentV2Tests = []componentV2Test{
 	// Check that a component without a key loads correctly, uses the key of its directory and loads correctly
 	{
-		filepath.Join("..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2"),
+		filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2"),
 		v2.Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
 			References:    common.GeneralReferences{{}},
 			Verifications: common.VerificationReferences{{}, {}},
-			Satisfies: regularV2Satisfies,
-			//SchemaVersion: semver.MustParse("3.0.0"),
+			Satisfies:     regularV2Satisfies,
 		},
 	},
 	// Check that a component with a key
 	{
-		filepath.Join("..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2WithKey"),
+		filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2WithKey"),
 		v2.Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
 			References:    common.GeneralReferences{{}},
 			Verifications: common.VerificationReferences{{}, {}},
-			Satisfies: regularV2Satisfies,
-			//SchemaVersion: semver.MustParse("3.0.0"),
+			Satisfies:     regularV2Satisfies,
 		},
 	},
 }
 
-func testSet(example componentV3Test, actual base.Component, t *testing.T) {
+func testSet(example base.Component, actual base.Component, t *testing.T) {
 	// Check that the key was loaded
-	assert.Equal(t, example.expected.Key, actual.GetKey())
+	assert.Equal(t, example.GetKey(), actual.GetKey())
 
 	// Check that the name was loaded
-	assert.Equal(t, example.expected.Name, actual.GetName())
-
-	// Check that the schema version was loaded
-	//assert.Equal(t, example.expected.SchemaVersion, actual.SchemaVersion)
+	assert.Equal(t, example.GetName(), actual.GetName())
 
 	// Check that the narrative equals
-	if assert.Equal(t, len(example.expected.Satisfies), len(actual.GetAllSatisfies())) {
+	if assert.Equal(t, len(example.GetAllSatisfies()), len(actual.GetAllSatisfies())) {
 		for i, satisfies := range actual.GetAllSatisfies() {
 			for idx, narrative := range satisfies.GetNarratives() {
-				assert.Equal(t, (example.expected.Satisfies)[i].Narrative[idx], narrative)
+				assert.Equal(t, (example.GetAllSatisfies())[i].GetNarratives()[idx].GetKey(), narrative.GetKey())
+				assert.Equal(t, (example.GetAllSatisfies())[i].GetNarratives()[idx].GetText(), narrative.GetText())
 			}
 		}
 	}
 
 	// Check that the references were loaded
-	assert.Equal(t, example.expected.References.Len(), actual.GetReferences().Len())
+	assert.Equal(t, example.GetReferences().Len(), actual.GetReferences().Len())
 
 	// Check that the satisfies data were loaded
-	assert.Equal(t, len(example.expected.Satisfies), len(actual.GetAllSatisfies()))
+	assert.Equal(t, len(example.GetAllSatisfies()), len(actual.GetAllSatisfies()))
 
 	// Check that the verifications were loaded
-	assert.Equal(t, example.expected.GetVerifications().Len(), actual.GetVerifications().Len())
+	assert.Equal(t, example.GetVerifications().Len(), actual.GetVerifications().Len())
 }
 
-func loadValidComponent(path string, t *testing.T) *models.OpenControl {
+func loadValidAndTestComponent(path string, t *testing.T, example base.Component) {
 	openControl := &models.OpenControl{
 		Justifications: models.NewJustifications(),
 		Components:     components.NewComponents(),
@@ -166,20 +160,25 @@ func loadValidComponent(path string, t *testing.T) *models.OpenControl {
 	if !assert.Nil(t, err) {
 		t.Errorf("Expected reading component found in %s to be successful", path)
 	}
-	return openControl
+
+	// Check the test set with the GetAndApply function
+	openControl.Components.GetAndApply(example.GetKey(), func(actual base.Component) {
+		testSet(example, actual, t)
+	})
+	// Check the test set with the simple Get function
+	actualComponent := openControl.Components.Get(example.GetKey())
+	testSet(example, actualComponent, t)
+
 }
 
 func TestLoadComponent(t *testing.T) {
+	// Test Version 3.0.0
 	for _, example := range componentV3Tests {
-
-		openControl := loadValidComponent(example.componentDir, t)
-		// Check the test set with the GetAndApply function
-		openControl.Components.GetAndApply(example.expected.Key, func(actual base.Component) {
-			testSet(example, actual, t)
-		})
-		// Check the test set with the simple Get function
-		actualComponent := openControl.Components.Get(example.expected.Key)
-		testSet(example, actualComponent, t)
+		loadValidAndTestComponent(example.componentDir, t, &example.expected)
+	}
+	// Test Version 2.0.0
+	for _, example := range componentV2Tests {
+		loadValidAndTestComponent(example.componentDir, t, &example.expected)
 	}
 }
 
@@ -187,17 +186,17 @@ var componentTestErrors = []componentTestError{
 	// Check loading a component with no file
 	{"", constants.ErrComponentFileDNE},
 	// Check loading a component with a broken schema
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), errors.New(constants.ErrMissingVersion)},
-	//Check loading an older schema without a key.
-	//{filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0"), version.NewIncompatibleVersionError(version.NewRequirements(filepath.Join("..", "fixtures", "component_fixtures", "EC2BadVersion2_0", "component.yaml"), "component", semver.MustParse("2.0.0"), constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion))},
-	//Check loading an older schema with a key.
-	//{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0"), version.NewIncompatibleVersionError(version.NewRequirements(filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKeyBadVersion2_0", "component.yaml"), "component", semver.MustParse("2.0.0"), constants.MinComponentYAMLVersion, constants.MaxComponentYAMLVersion))},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), errors.New(constants.ErrMissingVersion)},
 	// Check for versions not in semver format for all versions > 2.0.0.
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2BadVersion_NotSemver"), errors.New(constants.ErrMissingVersion)},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2BadVersion_NotSemver"), errors.New(constants.ErrMissingVersion)},
 	// Check for version that can't be parsed from string to semver
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2BadVersion_BadVersionString"), errors.New(constants.ErrMissingVersion)},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BadVersion_BadVersionString"), errors.New(constants.ErrMissingVersion)},
 	// Check for version because it's missing
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2BadVersion_Missing"), errors.New(constants.ErrMissingVersion)},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BadVersion_Missing"), errors.New(constants.ErrMissingVersion)},
+	// Check for version that is unsupported
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"), config.ErrUnknownSchemaVersion},
+	// Check for the case when someone says they are using a certain version but it actually is not.
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion"), fmt.Errorf(constants.ErrComponentSchemaParsef, semver.MustParse("3.0.0"))},
 }
 
 func TestLoadComponentErrors(t *testing.T) {
@@ -208,5 +207,3 @@ func TestLoadComponentErrors(t *testing.T) {
 		assert.Equal(t, example.expectedError, actualError)
 	}
 }
-
-
