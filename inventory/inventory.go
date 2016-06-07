@@ -3,13 +3,14 @@ package inventory
 import (
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
 
 // Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
 	*models.OpenControl
 	masterControlList       map[string]models.Control
-	actualSatisfiedControls map[string]models.Satisfies
+	actualSatisfiedControls map[string]base.Satisfies
 	MissingControlList      map[string]models.Control
 }
 
@@ -28,8 +29,8 @@ func (i *Inventory) retrieveMasterControlsList() {
 // findDocumentedControls will find the list of all documented controls found within the workspace.
 func (i *Inventory) findDocumentedControls() {
 	for _, components := range i.Components.GetAll() {
-		for _, satisfiedComponent := range *components.Satisfies {
-			key := standardAndControlString(satisfiedComponent.StandardKey, satisfiedComponent.ControlKey)
+		for _, satisfiedComponent := range components.GetAllSatisfies() {
+			key := standardAndControlString(satisfiedComponent.GetStandardKey(), satisfiedComponent.GetStandardKey())
 			if _, exists := i.actualSatisfiedControls[key]; !exists {
 				i.actualSatisfiedControls[key] = satisfiedComponent
 			}
@@ -71,7 +72,7 @@ func ComputeGapAnalysis(config Config) (Inventory, []string) {
 	i := Inventory{
 		OpenControl:             models.LoadData(config.OpencontrolDir, certificationPath),
 		masterControlList:       make(map[string]models.Control),
-		actualSatisfiedControls: make(map[string]models.Satisfies),
+		actualSatisfiedControls: make(map[string]base.Satisfies),
 		MissingControlList:      make(map[string]models.Control),
 	}
 	if i.Certification == nil || i.Components == nil {

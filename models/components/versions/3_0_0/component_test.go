@@ -1,4 +1,4 @@
-package models
+package component
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"
+	"github.com/opencontrol/compliance-masonry/models"
 )
 
 type componentTest struct {
@@ -27,8 +28,8 @@ var componentTests = []componentTest{
 		Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
-			References:    &GeneralReferences{{}},
-			Verifications: &VerificationReferences{{}, {}},
+			References:    &models.GeneralReferences{{}},
+			Verifications: &models.VerificationReferences{{}, {}},
 			Satisfies: &SatisfiesList{
 				{
 					Narrative: []NarrativeSection{
@@ -63,8 +64,8 @@ var componentTests = []componentTest{
 		Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
-			References:    &GeneralReferences{{}},
-			Verifications: &VerificationReferences{{}, {}},
+			References:    &models.GeneralReferences{{}},
+			Verifications: &models.VerificationReferences{{}, {}},
 			Satisfies: &SatisfiesList{
 				{
 					Narrative: []NarrativeSection{
