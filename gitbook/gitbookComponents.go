@@ -16,7 +16,7 @@ func (component *ComponentGitbook) exportComponent() (string, string) {
 		if component.GetReferences().Len() > 0 {
 			sort.Sort(component.GetReferences())
 			text += "## References\n"
-			for _, reference := range *(component.GetReferences()) {
+			for _, reference := range (component.GetReferences()) {
 				text += exportLink(reference.Name, reference.Path)
 			}
 		}
@@ -25,7 +25,7 @@ func (component *ComponentGitbook) exportComponent() (string, string) {
 		if component.GetVerifications().Len() > 0 {
 			sort.Sort(component.GetVerifications())
 			text += "## Verifications\n"
-			for _, reference := range *(component.GetVerifications()) {
+			for _, reference := range (component.GetVerifications()) {
 				text += exportLink(reference.Name, reference.Path)
 			}
 		}
