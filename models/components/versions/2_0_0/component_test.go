@@ -21,6 +21,7 @@ func TestComponentGetterAndSetter(t *testing.T) {
 	assert.Equal(t, "FooKey", component.GetKey())
 	assert.Equal(t, &common.GeneralReferences{{}}, component.GetReferences())
 	assert.Equal(t, &common.VerificationReferences{{}, {}}, component.GetVerifications())
+	assert.Equal(t, float32(2.0), component.GetVersion())
 	testSatisfies := []Satisfies{{}, {}, {}, {}}
 	assert.Equal(t, len(testSatisfies), len(component.GetAllSatisfies()))
 	for idx, satisfies := range component.GetAllSatisfies() {
