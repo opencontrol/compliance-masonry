@@ -1,16 +1,22 @@
-package models
+package versions_test
 
 import (
 	"path/filepath"
 	"testing"
+	v2 "github.com/opencontrol/compliance-masonry/models/components/versions/2_0_0"
 	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 	"github.com/stretchr/testify/assert"
+	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/models/components"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/config"
+	"fmt"
 )
 
-type componentTest struct {
+type componentV2Test struct {
 	componentDir string
-	expected     Component
+	expected     v2.Component
 }
 
 type componentTestError struct {
@@ -18,23 +24,23 @@ type componentTestError struct {
 	expectedError error
 }
 
-var componentTests = []componentTest{
+var componentTests = []componentV2Test{
 	// Check that a component with a key loads correctly
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2"), Component{
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2"), v2.Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
 		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     []Satisfies{{}, {}, {}, {}},
+		Satisfies:     []v2.Satisfies{{}, {}, {}, {}},
 		SchemaVersion: 2.0,
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKey"), Component{
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2WithKey"), v2.Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
 		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     []Satisfies{{}, {}, {}, {}},
+		Satisfies:     []v2.Satisfies{{}, {}, {}, {}},
 		SchemaVersion: 2.0,
 	}},
 }
@@ -67,13 +73,13 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 }
 
 func loadValidAndTestComponent(path string, t *testing.T, example base.Component) {
-	openControl := OpenControl{
-		Justifications: NewJustifications(),
-		Components:     NewComponents(),
+	openControl := models.OpenControl{
+		Justifications: models.NewJustifications(),
+		Components:     components.NewComponents(),
 	}
 	err := openControl.LoadComponent(path)
 	if !assert.Nil(t, err) {
-		t.Errorf("Expected reading component found in %s to be successful", path)
+		t.Fatalf("Expected reading component found in %s to be successful", path)
 	}
 
 	// Check the test set with the GetAndApply function
@@ -94,43 +100,22 @@ func TestLoadComponent(t *testing.T) {
 
 var componentTestErrors = []componentTestError{
 	// Check loading a component with no file
-	{"", ErrComponentFileDNE},
+	{"", constants.ErrComponentFileDNE},
 	// Check loading a component with a broken schema
-	{filepath.Join("..", "fixtures", "component_fixtures", "EC2BrokenControl"), ErrControlSchema},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), constants.ErrMissingVersion},
+	// Check for version that is unsupported
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"), config.ErrUnknownSchemaVersion},
+	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"), fmt.Errorf(constants.ErrComponentSchemaParsef, 2.0)},
 }
 
 func TestLoadComponentErrors(t *testing.T) {
 	for _, example := range componentTestErrors {
-		openControl := &OpenControl{}
+		openControl := &models.OpenControl{}
 		actualError := openControl.LoadComponent(example.componentDir)
 		// Check that the expected error is the actual error
-		if example.expectedError != actualError {
+		if !assert.Equal(t, example.expectedError, actualError) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)
 		}
-	}
-}
-
-func TestComponentGetterAndSetter(t *testing.T) {
-	component := Component{
-		Name:          "Amazon Elastic Compute Cloud",
-		Key:           "EC2",
-		References:    common.GeneralReferences{{}},
-		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     []Satisfies{{}, {}, {}, {}},
-		SchemaVersion: 2.0,
-	}
-	assert.Equal(t, "EC2", component.GetKey())
-	assert.Equal(t, "Amazon Elastic Compute Cloud", component.GetName())
-	component.SetKey("FooKey")
-	assert.Equal(t, "FooKey", component.GetKey())
-	assert.Equal(t, &common.GeneralReferences{{}}, component.GetReferences())
-	assert.Equal(t, &common.VerificationReferences{{}, {}}, component.GetVerifications())
-	testSatisfies := []Satisfies{{}, {}, {}, {}}
-	assert.Equal(t, len(testSatisfies), len(component.GetAllSatisfies()))
-	for idx, satisfies := range component.GetAllSatisfies() {
-		assert.Equal(t, satisfies.GetControlKey(), testSatisfies[idx].GetControlKey())
-		assert.Equal(t, satisfies.GetStandardKey(), testSatisfies[idx].GetStandardKey())
-		assert.Equal(t, satisfies.GetNarrative(), testSatisfies[idx].GetNarrative())
-		assert.Equal(t, satisfies.GetCoveredBy(), testSatisfies[idx].GetCoveredBy())
 	}
 }

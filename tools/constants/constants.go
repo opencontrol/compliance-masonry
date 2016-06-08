@@ -1,5 +1,7 @@
 package constants
 
+import "errors"
+
 const (
 	// DefaultStandardsFolder is the folder where to store standards.
 	DefaultStandardsFolder = "standards"
@@ -23,4 +25,18 @@ const (
 	Certifications ResourceType = "Certifications"
 	// Components is the placeholder for the resource type of components
 	Components ResourceType = "Components"
+)
+
+const (
+	// ErrComponentSchemaParsef is a formatted string for reporting which version schema to check.
+	ErrComponentSchemaParsef = "Unable to parse component. Please check component.yaml schema for version %v"
+)
+
+var (
+	// ErrMissingVersion reports that the schema version cannot be found.
+	ErrMissingVersion            = errors.New("Schema Version can not be found.")
+	// ErrComponentFileDNE is raised when a component file does not exists
+	ErrComponentFileDNE = errors.New("Component files does not exist")
+	// ErrControlSchema is raised a control cannot be parsed
+	ErrComponentSchema = errors.New("Unable to parse component")
 )
