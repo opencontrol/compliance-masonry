@@ -10,6 +10,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/config"
 )
 
 type componentV2Test struct {
@@ -101,6 +102,8 @@ var componentTestErrors = []componentTestError{
 	{"", constants.ErrComponentFileDNE},
 	// Check loading a component with a broken schema
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), constants.ErrMissingVersion},
+	// Check for version that is unsupported
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"), config.ErrUnknownSchemaVersion},
 }
 
 func TestLoadComponentErrors(t *testing.T) {
