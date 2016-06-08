@@ -24,7 +24,7 @@ type componentTestError struct {
 
 var componentTests = []componentV2Test{
 	// Check that a component with a key loads correctly
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "EC2"), v2.Component{
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2"), v2.Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
@@ -33,7 +33,7 @@ var componentTests = []componentV2Test{
 		SchemaVersion: 2.0,
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "EC2WithKey"), v2.Component{
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2WithKey"), v2.Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
