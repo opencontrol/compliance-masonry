@@ -1,5 +1,6 @@
 documentation_complete: false
 name: Amazon Elastic Compute Cloud
+key: EC2
 references:
 - name: Reference
   path: http://VerificationURL.com
@@ -12,11 +13,7 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
-  narrative:
-    - key: "a"
-      text: "Justification in narrative form A for CM-2"
-    - key: "b"
-      text: "Justification in narrative form B for CM-2"
+  narrative: Justification in narrative form
   standard_key: NIST-800-53
 - control_key: 1.1
   covered_by:
@@ -25,23 +22,19 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
-  narrative:
-    - key: "a"
-      text: "Justification in narrative form A for 1.1"
-    - key: "b"
-      text: "Justification in narrative form B for 1.1"
+  narrative: Justification in narrative form
   standard_key: PCI-DSS-MAY-2015
 - control_key: 1.1.1
   covered_by: []
   implementation_status: partial
+  narrative: Justification in narrative form
   standard_key: PCI-DSS-MAY-2015
 - control_key: 2.1
   covered_by: []
   implementation_status: partial
-  narrative:
-    - text: "Justification in narrative form for 2.1"
+  narrative: Justification in narrative form
   standard_key: PCI-DSS-MAY-2015
-schema_version: 3.0.0
+schema_version: 2.0
 verifications:
 - key: EC2_Verification_2
   name: EC2 Governor 2

@@ -3,6 +3,7 @@ package gitbook
 import (
 	"testing"
 
+	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/models"
 )
 
@@ -21,7 +22,7 @@ var componentExportTests = []componentExportTest{
 			References:    &models.GeneralReferences{{}},
 			Verifications: &models.VerificationReferences{{}},
 			Satisfies:     &models.SatisfiesList{{}},
-			SchemaVersion: 2.0,
+			SchemaVersion: semver.MustParse("2.0.0"),
 		},
 		"EC2.md",
 		"# Amazon Elastic Compute Cloud\n## References\n* []()\n## Verifications\n* []()\n",
