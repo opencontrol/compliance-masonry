@@ -3,6 +3,7 @@ package component
 import (
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/blang/semver"
 )
 
 // Component struct is an individual component requiring documentation
@@ -13,7 +14,7 @@ type Component struct {
 	References    common.GeneralReferences      `yaml:"references" json:"references"`
 	Verifications common.VerificationReferences `yaml:"verifications" json:"verifications"`
 	Satisfies     []Satisfies          `yaml:"satisfies" json:"satisfies"`
-	SchemaVersion float32                 `yaml:"schema_version" json:"schema_version"`
+	SchemaVersion semver.Version                 `yaml:"-" json:"-"`
 }
 
 func (c Component) GetName() string {
@@ -45,8 +46,12 @@ func (c Component) GetAllSatisfies() []base.Satisfies {
 	return baseSatisfies
 }
 
-func (c Component) GetVersion() float32 {
+func (c Component) GetVersion() semver.Version {
 	return c.SchemaVersion
+}
+
+func (c *Component) SetVersion(version semver.Version) {
+	c.SchemaVersion = version
 }
 
 // Satisfies struct contains data demonstrating why a specific component meets

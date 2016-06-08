@@ -5,6 +5,7 @@ import (
 
 	v2 "github.com/opencontrol/compliance-masonry/models/components/versions/2_0_0"
 	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/blang/semver"
 )
 
 type componentExportTest struct {
@@ -22,7 +23,7 @@ var componentExportTests = []componentExportTest{
 			References:    common.GeneralReferences{{}},
 			Verifications: common.VerificationReferences{{}},
 			Satisfies:     nil,
-			SchemaVersion: 2.0,
+			SchemaVersion: semver.MustParse("2.0.0"),
 		},
 		"EC2.md",
 		"# Amazon Elastic Compute Cloud\n## References\n* []()\n## Verifications\n* []()\n",
