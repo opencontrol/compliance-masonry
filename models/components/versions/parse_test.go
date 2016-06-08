@@ -100,7 +100,7 @@ var componentTestErrors = []componentTestError{
 	// Check loading a component with no file
 	{"", constants.ErrComponentFileDNE},
 	// Check loading a component with a broken schema
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "EC2BrokenControl"), constants.ErrMissingVersion},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), constants.ErrMissingVersion},
 }
 
 func TestLoadComponentErrors(t *testing.T) {
