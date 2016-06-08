@@ -50,7 +50,7 @@ func (c Component) GetReferences() *common.GeneralReferences {
 }
 
 func (c Component) GetAllSatisfies() []base.Satisfies {
-	// Have to do manual conversion
+	// Have to do manual conversion from this Component's Satisfies to the interface base.Satisfies.
 	baseSatisfies := make([]base.Satisfies, len(c.Satisfies))
 	for idx, value := range c.Satisfies {
 		baseSatisfies[idx] = value
