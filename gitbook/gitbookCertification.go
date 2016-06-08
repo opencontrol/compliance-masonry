@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
@@ -13,24 +14,24 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 	text := fmt.Sprintf("#%s\n##%s\n", key, control.Name)
 	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications models.Verifications) {
 		for _, justification := range selectJustifications {
-			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
-				text = fmt.Sprintf("%s\n#### %s\n", text, component.Name)
-				text = fmt.Sprintf("%s%s\n", text, justification.SatisfiesData.Narrative)
+			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
+				text = fmt.Sprintf("%s\n#### %s\n", text, component.GetName())
+				text = fmt.Sprintf("%s%s\n", text, justification.SatisfiesData.GetNarrative())
 			})
-			if len(justification.SatisfiesData.CoveredBy) > 0 {
+			if len(justification.SatisfiesData.GetCoveredBy()) > 0 {
 				text += "Covered By:\n"
 			}
-			for _, coveredBy := range justification.SatisfiesData.CoveredBy {
+			for _, coveredBy := range justification.SatisfiesData.GetCoveredBy() {
 				componentKey := coveredBy.ComponentKey
 				if componentKey == "" {
 					componentKey = justification.ComponentKey
 				}
-				openControl.Components.GetAndApply(componentKey, func(component *models.Component) {
+				openControl.Components.GetAndApply(componentKey, func(component base.Component) {
 					if component != nil {
-						verification := component.Verifications.Get(coveredBy.VerificationKey)
+						verification := component.GetVerifications().Get(coveredBy.VerificationKey)
 						text += exportLink(
-							fmt.Sprintf("%s - %s", component.Name, verification.Name),
-							filepath.Join("..", "components", component.Key+".md"),
+							fmt.Sprintf("%s - %s", component.GetName(), verification.Name),
+							filepath.Join("..", "components", component.GetKey()+".md"),
 						)
 					}
 				})

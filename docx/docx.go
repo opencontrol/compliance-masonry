@@ -7,6 +7,7 @@ import (
 
 	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
 
 // Config contains data for docx template export configurations
@@ -42,23 +43,23 @@ func (openControl *OpenControlDocx) FormatControl(standardControl string) string
 	standardKey, controlKey := SplitControl(standardControl)
 	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
 		for _, justification := range selectJustifications {
-			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
-				text = fmt.Sprintf("%s%s  \n", text, component.Name)
-				text = fmt.Sprintf("%s%s  \n", text, justification.SatisfiesData.Narrative)
+			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
+				text = fmt.Sprintf("%s%s  \n", text, component.GetName())
+				text = fmt.Sprintf("%s%s  \n", text, justification.SatisfiesData.GetNarrative())
 			})
 
-			if len(justification.SatisfiesData.CoveredBy) > 0 {
+			if len(justification.SatisfiesData.GetCoveredBy()) > 0 {
 				text += "Covered By:  \n"
 			}
 
-			for _, coveredBy := range justification.SatisfiesData.CoveredBy {
+			for _, coveredBy := range justification.SatisfiesData.GetCoveredBy() {
 				componentKey := coveredBy.ComponentKey
 				if componentKey == "" {
 					componentKey = justification.ComponentKey
 				}
-				openControl.Components.GetAndApply(componentKey, func(component *models.Component) {
+				openControl.Components.GetAndApply(componentKey, func(component base.Component) {
 					if component != nil {
-						verification := component.Verifications.Get(coveredBy.VerificationKey)
+						verification := component.GetVerifications().Get(coveredBy.VerificationKey)
 						text += fmt.Sprintf("- %s %s  \n", verification.Name, verification.Path)
 					}
 				})
