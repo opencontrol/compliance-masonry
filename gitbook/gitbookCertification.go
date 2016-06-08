@@ -22,10 +22,16 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component *models.Component) {
 				text = fmt.Sprintf("%s\n#### %s\n", text, component.Name)
+
+				if justification.SatisfiesData.ResponsibleRole != "" {
+					text = fmt.Sprintf("%s\n##### Responsible Role: %s\n", text, justification.SatisfiesData.ResponsibleRole)
+				}
+
 				if len(justification.SatisfiesData.Narrative) == 0 {
 					text = fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
 					return
 				}
+
 				for _, narrative := range justification.SatisfiesData.Narrative {
 					if narrative.Key != "" {
 						text = fmt.Sprintf("%s\n##### %s\n", text, narrative.Key)

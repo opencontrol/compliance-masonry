@@ -25,6 +25,12 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
+  parameters:
+    - key: "a"
+      text: "Parameter A for 1.1"
+    - key: "b"
+      text: "Parameter B for 1.1"
+  responsible_role: "1.1 Staff"
   narrative:
     - key: "a"
       text: "Justification in narrative form A for 1.1"
@@ -34,12 +40,24 @@ satisfies:
 - control_key: 1.1.1
   covered_by: []
   implementation_status: partial
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for 1.1.1"
+    - key: "b"
+      text: "Justification in narrative form B for 1.1.1"
+  parameters:
+    - key: "a"
+      text: "Parameter A for 1.1.1"
+    - key: "b"
+      text: "Parameter B for 1.1.1"
+  responsible_role: "1.1.1 Staff"
   standard_key: PCI-DSS-MAY-2015
 - control_key: 2.1
   covered_by: []
   implementation_status: partial
   narrative:
     - text: "Justification in narrative form for 2.1"
+  responsible_role: "2.1 Staff"
   standard_key: PCI-DSS-MAY-2015
 schema_version: 3.0.0
 verifications:

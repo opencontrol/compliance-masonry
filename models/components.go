@@ -125,13 +125,22 @@ type SatisfiesList []Satisfies
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey  string             `yaml:"control_key" json:"control_key"`
-	StandardKey string             `yaml:"standard_key" json:"standard_key"`
-	Narrative   []NarrativeSection `yaml:"narrative" json:"narrative"`
-	CoveredBy   CoveredByList      `yaml:"covered_by" json:"covered_by"`
+	ControlKey      string             `yaml:"control_key" json:"control_key"`
+	StandardKey     string             `yaml:"standard_key" json:"standard_key"`
+	ResponsibleRole string             `yaml:"responsible_role" json:"responsible_role"`
+	Parameters      []Section          `yaml:"parameters" json:"parameters"`
+	Narrative       []NarrativeSection `yaml:"narrative" json:"narrative"`
+	CoveredBy       CoveredByList      `yaml:"covered_by" json:"covered_by"`
 }
 
-// NarrativeSection contains the key and text for a particular narrative section.
+// Section contains the key and text for a particular section. Both are required.
+type Section struct {
+	Key  string `yaml:"key" json:"key"`
+	Text string `yaml:"text" json:"text"`
+}
+
+// NarrativeSection contains the key and text for a particular section.
+// NarrativeSection can omit the key.
 type NarrativeSection struct {
 	Key  string `yaml:"key,omitempty" json:"key,omitempty"`
 	Text string `yaml:"text" json:"text"`
