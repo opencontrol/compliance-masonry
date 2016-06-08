@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/models/common"
 )
 
 type componentExportTest struct {
@@ -18,9 +19,9 @@ var componentExportTests = []componentExportTest{
 		models.Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
-			References:    &models.GeneralReferences{{}},
-			Verifications: &models.VerificationReferences{{}},
-			Satisfies:     &models.SatisfiesList{{}},
+			References:    common.GeneralReferences{{}},
+			Verifications: common.VerificationReferences{{}},
+			Satisfies:     nil,
 			SchemaVersion: 2.0,
 		},
 		"EC2.md",

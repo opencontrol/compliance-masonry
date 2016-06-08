@@ -3,6 +3,9 @@ package models
 import (
 	"path/filepath"
 	"testing"
+	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/stretchr/testify/assert"
 )
 
 type componentTest struct {
@@ -20,63 +23,72 @@ var componentTests = []componentTest{
 	{filepath.Join("..", "fixtures", "component_fixtures", "EC2"), Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
-		References:    &GeneralReferences{{}},
-		Verifications: &VerificationReferences{{}, {}},
-		Satisfies:     &SatisfiesList{{}, {}, {}, {}},
+		References:    common.GeneralReferences{{}},
+		Verifications: common.VerificationReferences{{}, {}},
+		Satisfies:     []Satisfies{{}, {}, {}, {}},
 		SchemaVersion: 2.0,
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
 	{filepath.Join("..", "fixtures", "component_fixtures", "EC2WithKey"), Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
-		References:    &GeneralReferences{{}},
-		Verifications: &VerificationReferences{{}, {}},
-		Satisfies:     &SatisfiesList{{}, {}, {}, {}},
+		References:    common.GeneralReferences{{}},
+		Verifications: common.VerificationReferences{{}, {}},
+		Satisfies:     []Satisfies{{}, {}, {}, {}},
 		SchemaVersion: 2.0,
 	}},
 }
 
-func testSet(example componentTest, actual *Component, t *testing.T) {
+func testSet(example base.Component, actual base.Component, t *testing.T) {
 	// Check that the key was loaded
-	if example.expected.Key != actual.Key {
-		t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)
+	if example.GetKey() != actual.GetKey() {
+		t.Errorf("Expected %s, Actual: %s", example.GetKey(), actual.GetKey())
 	}
 	// Check that the name was loaded
-	if example.expected.Name != actual.Name {
-		t.Errorf("Expected %s, Actual: %s", example.expected.Name, actual.Name)
+	if example.GetName() != actual.GetName() {
+		t.Errorf("Expected %s, Actual: %s", example.GetName(), actual.GetName())
 	}
 	// Check that the schema version was loaded
-	if example.expected.SchemaVersion != actual.SchemaVersion {
-		t.Errorf("Expected %f, Actual: %f", example.expected.SchemaVersion, actual.SchemaVersion)
+	if example.GetVersion() != actual.GetVersion() {
+		t.Errorf("Expected %f, Actual: %f", example.GetVersion(), actual.GetVersion())
 	}
 	// Check that the references were loaded
-	if example.expected.References.Len() != actual.References.Len() {
-		t.Errorf("Expected %d, Actual: %d", example.expected.References.Len(), actual.References.Len())
+	if example.GetReferences().Len() != actual.GetReferences().Len() {
+		t.Errorf("Expected %d, Actual: %d", example.GetReferences().Len(), actual.GetReferences().Len())
 	}
 	// Check that the satisfies data were loaded
-	if example.expected.Satisfies.Len() != actual.Satisfies.Len() {
-		t.Errorf("Expected %d, Actual: %d", example.expected.Satisfies.Len(), actual.Satisfies.Len())
+	if len(example.GetAllSatisfies()) != len(actual.GetAllSatisfies()) {
+		t.Errorf("Expected %d, Actual: %d", len(example.GetAllSatisfies()), len(actual.GetAllSatisfies()))
 	}
 	// Check that the verifications were loaded
-	if example.expected.Verifications.Len() != actual.Verifications.Len() {
-		t.Errorf("Expected %d, Actual: %d", example.expected.Verifications.Len(), actual.Verifications.Len())
+	if example.GetVerifications().Len() != actual.GetVerifications().Len() {
+		t.Errorf("Expected %d, Actual: %d", example.GetVerifications().Len(), actual.GetVerifications())
 	}
+}
+
+func loadValidAndTestComponent(path string, t *testing.T, example base.Component) {
+	openControl := OpenControl{
+		Justifications: NewJustifications(),
+		Components:     NewComponents(),
+	}
+	err := openControl.LoadComponent(path)
+	if !assert.Nil(t, err) {
+		t.Errorf("Expected reading component found in %s to be successful", path)
+	}
+
+	// Check the test set with the GetAndApply function
+	openControl.Components.GetAndApply(example.GetKey(), func(actual base.Component) {
+		testSet(example, actual, t)
+	})
+	// Check the test set with the simple Get function
+	actualComponent := openControl.Components.Get(example.GetKey())
+	testSet(example, actualComponent, t)
+
 }
 
 func TestLoadComponent(t *testing.T) {
 	for _, example := range componentTests {
-		openControl := &OpenControl{
-			Justifications: NewJustifications(),
-			Components:     NewComponents(),
-		}
-		openControl.LoadComponent(example.componentDir)
-		// Check the test set with the GetAndApply function
-		openControl.Components.GetAndApply(example.expected.Key, func(actual *Component) {
-			testSet(example, actual, t)
-		})
-		// Check the test set with the simple Get function
-		actualComponent := openControl.Components.Get(example.expected.Key)
-		testSet(example, actualComponent, t)
+		loadValidAndTestComponent(example.componentDir, t, &example.expected)
 	}
 }
 

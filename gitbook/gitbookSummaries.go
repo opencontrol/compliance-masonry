@@ -10,7 +10,7 @@ import (
 func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 	summary := "\n## Components\n"
 	for _, component := range openControl.Components.GetAll() {
-		summary += exportLink(component.Name, filepath.Join("components", component.Key+".md"))
+		summary += exportLink(component.GetName(), filepath.Join("components", component.GetKey()+".md"))
 	}
 	return summary
 }
