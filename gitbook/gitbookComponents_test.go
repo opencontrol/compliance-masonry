@@ -3,12 +3,12 @@ package gitbook
 import (
 	"testing"
 
-	"github.com/opencontrol/compliance-masonry/models"
+	v2 "github.com/opencontrol/compliance-masonry/models/components/versions/2_0_0"
 	"github.com/opencontrol/compliance-masonry/models/common"
 )
 
 type componentExportTest struct {
-	component    models.Component
+	component    v2.Component
 	expectedPath string
 	expectedText string
 }
@@ -16,7 +16,7 @@ type componentExportTest struct {
 var componentExportTests = []componentExportTest{
 	// Check that a component is correctly exported
 	{
-		models.Component{
+		v2.Component{
 			Name:          "Amazon Elastic Compute Cloud",
 			Key:           "EC2",
 			References:    common.GeneralReferences{{}},

@@ -20,3 +20,8 @@ type Satisfies interface {
 	GetNarrative() string
 	GetCoveredBy() common.CoveredByList
 }
+
+// Base is the common struct that all component schemas must have.
+type Base struct {
+	SchemaVersion float32 `yaml:"schema_version" json:"schema_version"`
+}
