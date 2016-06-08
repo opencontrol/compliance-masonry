@@ -11,6 +11,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/config"
+	"fmt"
 )
 
 type componentV2Test struct {
@@ -104,6 +105,8 @@ var componentTestErrors = []componentTestError{
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), constants.ErrMissingVersion},
 	// Check for version that is unsupported
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"), config.ErrUnknownSchemaVersion},
+	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"), fmt.Errorf(constants.ErrComponentSchemaParsef, 2.0)},
 }
 
 func TestLoadComponentErrors(t *testing.T) {
