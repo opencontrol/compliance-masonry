@@ -8,7 +8,7 @@ import (
 )
 
 func TestComponentGetters(t *testing.T) {
-	testSatisfies := []Satisfies{{}, {}, {}, {}}
+	testSatisfies := []Satisfies{{Narrative: "Narrative"}, {}, {}, {}}
 	component := Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
@@ -23,11 +23,17 @@ func TestComponentGetters(t *testing.T) {
 	assert.Equal(t, &common.GeneralReferences{{}}, component.GetReferences())
 	assert.Equal(t, &common.VerificationReferences{{}, {}}, component.GetVerifications())
 	assert.Equal(t, semver.MustParse("2.0.0"), component.GetVersion())
+	assert.Equal(t, "", component.GetResponsibleRole())
 	assert.Equal(t, len(testSatisfies), len(component.GetAllSatisfies()))
 	for idx, satisfies := range component.GetAllSatisfies() {
 		assert.Equal(t, satisfies.GetControlKey(), testSatisfies[idx].GetControlKey())
 		assert.Equal(t, satisfies.GetStandardKey(), testSatisfies[idx].GetStandardKey())
-		assert.Equal(t, satisfies.GetNarrative(), testSatisfies[idx].GetNarrative())
+		assert.Equal(t, satisfies.GetNarratives(), testSatisfies[idx].GetNarratives())
+		for i, narrative := range satisfies.GetNarratives() {
+			assert.Equal(t, "", narrative.GetKey())
+			assert.Equal(t, satisfies.GetNarratives()[i].GetText(), narrative.GetText())
+		}
+		assert.Equal(t, satisfies.GetParameters(), testSatisfies[idx].GetParameters())
 		assert.Equal(t, satisfies.GetCoveredBy(), testSatisfies[idx].GetCoveredBy())
 	}
 }

@@ -54,6 +54,10 @@ func (c *Component) SetVersion(version semver.Version) {
 	c.SchemaVersion = version
 }
 
+func (c Component) GetResponsibleRole() string {
+	return ""
+}
+
 // Satisfies struct contains data demonstrating why a specific component meets
 // a control
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
@@ -61,7 +65,7 @@ func (c *Component) SetVersion(version semver.Version) {
 type Satisfies struct {
 	ControlKey  string        `yaml:"control_key" json:"control_key"`
 	StandardKey string        `yaml:"standard_key" json:"standard_key"`
-	Narrative   string        `yaml:"narrative" json:"narrative"`
+	Narrative   Narrative        `yaml:"narrative" json:"narrative"`
 	CoveredBy   common.CoveredByList `yaml:"covered_by" json:"covered_by"`
 }
 
@@ -73,10 +77,32 @@ func (s Satisfies) GetStandardKey() string {
 	return s.StandardKey
 }
 
-func (s Satisfies) GetNarrative() string {
-	return s.Narrative
+func (s Satisfies) GetNarratives() []base.Section {
+	// Have to do manual conversion to the interface base.Section.
+	// V2.0.0 only had one Narrative field, so if it actually exists, let's create a slice of 1 to return.
+	var baseNarrative []base.Section
+	if len(s.Narrative) > 0 {
+		baseNarrative = make([]base.Section, 1)
+		baseNarrative[0] = s.Narrative
+	}
+
+	return baseNarrative
+}
+
+func (s Satisfies) GetParameters() []base.Section {
+	return nil
 }
 
 func (s Satisfies) GetCoveredBy() common.CoveredByList {
 	return s.CoveredBy
+}
+
+type Narrative string
+
+func (n Narrative) GetKey() string {
+	return ""
+}
+
+func (n Narrative) GetText() string {
+	return string(n)
 }
