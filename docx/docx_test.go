@@ -39,17 +39,19 @@ var _ = Describe("Docx", func() {
 	)
 
 	Describe("BuildDoc Tests", func() {
-		tempDir, _ := ioutil.TempDir("", "example")
-		defer os.RemoveAll(tempDir)
-		exportPath := filepath.Join(tempDir, "test_output.docx")
-		config := docx.Config{
-			OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
-			TemplatePath:   filepath.Join("..", "fixtures", "template_fixtures", "test.docx"),
-			ExportPath:     exportPath,
-		}
-		config.BuildDocx()
-		expectedDoc, _ := docTemp.GetTemplate(filepath.Join("..", "fixtures", "exports_fixtures", "output.docx"))
-		actualDoc, _ := docTemp.GetTemplate(exportPath)
-		assert.Equal(GinkgoT(), expectedDoc.Document.GetContent(), actualDoc.Document.GetContent())
+		It("loads the template and build the final docx", func() {
+			tempDir, _ := ioutil.TempDir("", "example")
+			defer os.RemoveAll(tempDir)
+			exportPath := filepath.Join(tempDir, "test_output.docx")
+			config := docx.Config{
+				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
+				TemplatePath:   filepath.Join("..", "fixtures", "template_fixtures", "test.docx"),
+				ExportPath:     exportPath,
+			}
+			config.BuildDocx()
+			expectedDoc, _ := docTemp.GetTemplate(filepath.Join("..", "fixtures", "exports_fixtures", "output.docx"))
+			actualDoc, _ := docTemp.GetTemplate(exportPath)
+			assert.Equal(GinkgoT(), expectedDoc.Document.GetContent(), actualDoc.Document.GetContent())
+		})
 	})
 })
