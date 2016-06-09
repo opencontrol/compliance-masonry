@@ -2,12 +2,13 @@ package docx
 
 import (
 	"fmt"
-	"strings"
 	"text/template"
 
 	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"gopkg.in/fatih/set.v0"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 // Config contains data for docx template export configurations
@@ -30,61 +31,149 @@ func (config *Config) BuildDocx() error {
 	if err != nil {
 		return err
 	}
-	funcMap := template.FuncMap{"getControl": openControl.FormatControl}
+	funcMap := template.FuncMap{
+		"getAllControlSections": openControl.FormatControl,
+		"getControlSection":     openControl.FormatControl,
+		"getParameter":          openControl.FormatParameter,
+		"getResponsibleRole":    openControl.FormatResponsibleRoles,
+	}
 	docTemplate.AddFunctions(funcMap)
 	docTemplate.Parse()
 	docTemplate.Execute(config.ExportPath, nil)
 	return err
 }
 
-// FormatControl returns a control formatted for docx
-func (openControl *OpenControlDocx) FormatControl(standardControl string) string {
-	var text string
-	standardKey, controlKey := SplitControl(standardControl)
-	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
-		for _, justification := range selectJustifications {
-			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
-				text = fmt.Sprintf("%s%s  \n", text, component.GetName())
-				for _, narrative := range justification.SatisfiesData.GetNarratives() {
-					text = fmt.Sprintf("%s%s  \n", text, narrative.GetText())
-				}
-			})
+type componentInfoType int
 
-			if len(justification.SatisfiesData.GetCoveredBy()) > 0 {
-				text += "Covered By:  \n"
+const (
+	noneInfo componentInfoType = iota
+	controlInfo
+	parameterInfo
+	responsibleRoleInfo
+)
+
+// createSectionsSet creates a set of section headers to do easy searching from the slice of string section keys
+func createSectionsSet(sections ...string) *set.Set {
+	sectionsSet := set.New()
+	for _, section := range sections {
+		sectionsSet.Add(section)
+	}
+	return sectionsSet
+}
+
+func getControlInfo(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string, bool) {
+	// Add the component name.
+	text = fmt.Sprintf("%s%s\n", text, component.GetName())
+
+	// foundText is a placeholder to indicate that we actually found text for the section.
+	foundText := false
+
+	// Determine if we want to get all of the sections or just one. If we specify exact sections, that means we do
+	// not want all and if we do not specify sections, it means we want all sections.
+	allSections := specifiedSections.Size() == 0
+	// Print out the narrative(s)
+	for _, section := range justification.SatisfiesData.GetNarratives() {
+		if allSections {
+			// If we want to print out all the sections...
+
+			// If section header exists, let's print it. Key could be empty, in that case
+			// just print the text for the section.
+			if section.GetKey() != "" {
+				text = fmt.Sprintf("%s%s:\n", text, section.GetKey())
 			}
+			text = fmt.Sprintf("%s%s\n", text, section.GetText())
 
-			for _, coveredBy := range justification.SatisfiesData.GetCoveredBy() {
-				componentKey := coveredBy.ComponentKey
-				if componentKey == "" {
-					componentKey = justification.ComponentKey
-				}
-				openControl.Components.GetAndApply(componentKey, func(component base.Component) {
-					if component != nil {
-						verification := component.GetVerifications().Get(coveredBy.VerificationKey)
-						text += fmt.Sprintf("- %s %s  \n", verification.Name, verification.Path)
-					}
-				})
+			// Automatically assume foundText is true as long as the length of
+			// justification.SatisfiesData.Narrative is > 0, which is implied if we reach here.
+			// Also, in case the section in the YAML is explicitly "", we accept empty string here too.
+			foundText = true
+		} else {
+			// If we only want certain section(s)...
+
+			// If section header exists, let's print it's corresponding text and not the header itself.
+			if specifiedSections.Has(section.GetKey()) {
+				text = fmt.Sprintf("%s%s\n", text, section.GetText())
+				foundText = true
 			}
 		}
+	}
+	return text, foundText
+}
+
+func getParameterInfo(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string, bool) {
+	// Add the component name.
+	text = fmt.Sprintf("%s%s\n", text, component.GetName())
+
+	// foundText is a placeholder to indicate that we actually found text for the section.
+	foundText := false
+
+	for _, parameter := range justification.SatisfiesData.GetParameters() {
+		// If section header exists, let's print it's corresponding text and not the header itself.
+		if specifiedSections.Has(parameter.GetKey()){
+			text = fmt.Sprintf("%s%s\n", text, parameter.GetText())
+			foundText = true
+		}
+	}
+	return text, foundText
+}
+
+func getResponsibleRoleInfo(text string, component base.Component) (string, bool) {
+	// Add the component name.
+	text = fmt.Sprintf("%s%s: ", text, component.GetName())
+	// Print out the component name and the responsible for that component.
+	if component.GetResponsibleRole() != "" {
+		return fmt.Sprintf("%s%s\n", text, component.GetResponsibleRole()), true
+	}
+	return text, false
+}
+
+// getComponentTextFromJustifications is for information that will need to dig into the justifications.
+func (openControl *OpenControlDocx) getComponentText(infoType componentInfoType, standardKey string, controlKey string, sectionKeys ...string) string {
+	var text string
+	sectionSet := createSectionsSet(sectionKeys...)
+	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
+		// In the case that no information was found period for the standard and control
+		if len(selectJustifications) == 0 {
+			text = fmt.Sprintf("No information found for the combination of standard %s and control %s", standardKey, controlKey)
+			return
+		}
+
+		for _, justification := range selectJustifications {
+			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
+				// Get the Component Text
+				var specificText string
+				var found bool
+				switch(infoType) {
+				case controlInfo:
+					specificText, found = getControlInfo(text, justification, component, sectionSet)
+				case parameterInfo:
+					specificText, found = getParameterInfo(text, justification, component, sectionSet)
+				case responsibleRoleInfo:
+					specificText, found = getResponsibleRoleInfo(text, component)
+				}
+				if found {
+					text = fmt.Sprintf("%s%s", text, specificText)
+				} else {
+					text = fmt.Sprintf("%s%s%s\n", text, specificText, constants.WarningNoInformationAvailable)
+				}
+			})
+		}
 	})
+
 	return text
 }
 
-// SplitControl returns a split standard and control given a standard
-// and control delimited with `@`
-func SplitControl(standardControl string) (string, string) {
-	var standard, control string
-	splitString := strings.Split(standardControl, "@")
-	splitStringLen := len(splitString)
-	switch {
-	case splitStringLen >= 2:
-		standard = splitString[0]
-		control = splitString[1]
+// FormatResponsibleRole fills in the responsible role for each component for a given standard and control.
+func (openControl *OpenControlDocx) FormatResponsibleRoles(standardKey string, controlKey string) string {
+	return openControl.getComponentText(responsibleRoleInfo, standardKey, controlKey, "")
+}
 
-	case splitStringLen == 1:
-		standard = splitString[0]
-	}
-	return standard, control
+// FormatParameter fills in the parameter for a given parameter, standard and control.
+func (openControl *OpenControlDocx) FormatParameter(standardKey string, controlKey string, sectionKeys ...string) string {
+	return openControl.getComponentText(parameterInfo, standardKey, controlKey, sectionKeys...)
+}
 
+// FormatControl returns a control formatted for docx
+func (openControl *OpenControlDocx) FormatControl(standardKey string, controlKey string, sectionKeys ...string) string {
+	return openControl.getComponentText(controlInfo, standardKey, controlKey, sectionKeys...)
 }
