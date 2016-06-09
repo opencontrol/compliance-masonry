@@ -77,7 +77,6 @@ var _ = Describe("Docx", func() {
 
 	Describe("BuildDoc Tests", func() {
 		It("loads the template and build the final docx", func() {
-			Skip("")
 			tempDir, _ := ioutil.TempDir("", "example")
 			defer os.RemoveAll(tempDir)
 			exportPath := filepath.Join(tempDir, "test_output.docx")
@@ -86,9 +85,11 @@ var _ = Describe("Docx", func() {
 				TemplatePath:   filepath.Join("..", "fixtures", "template_fixtures", "test.docx"),
 				ExportPath:     exportPath,
 			}
-			config.BuildDocx()
+			err := config.BuildDocx()
+			assert.Nil(GinkgoT(), err)
 			expectedDoc, _ := docTemp.GetTemplate(filepath.Join("..", "fixtures", "exports_fixtures", "output.docx"))
-			actualDoc, _ := docTemp.GetTemplate(exportPath)
+			actualDoc, err := docTemp.GetTemplate(exportPath)
+			assert.Nil(GinkgoT(), err)
 			assert.Equal(GinkgoT(), expectedDoc.Document.GetContent(), actualDoc.Document.GetContent())
 		})
 	})
