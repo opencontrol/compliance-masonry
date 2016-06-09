@@ -24,7 +24,7 @@ type OpenControlDocx struct {
 	*models.OpenControl
 }
 
-//BuildDocx exports a Doxc ssp based on a template
+//BuildDocx exports a Docx ssp based on a template
 func (config *Config) BuildDocx() error {
 	openControl := OpenControlDocx{models.LoadData(config.OpencontrolDir, "")}
 	docTemplate, err := docTemp.GetTemplate(config.TemplatePath)
