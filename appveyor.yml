@@ -19,4 +19,4 @@ install:
 build_script:
 - cmd: go build
 test_script:
-- cmd: FOR /F %%A IN ('glide novendor') DO go test -v %%A
+- cmd: FOR /F %%A IN ('glide novendor') DO go test -v %%A || exit /b 1
