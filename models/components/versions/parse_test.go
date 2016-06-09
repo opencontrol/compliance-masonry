@@ -11,7 +11,8 @@ import (
 	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/config"
-	"fmt"
+	"github.com/blang/semver"
+	"errors"
 )
 
 type componentV2Test struct {
@@ -32,7 +33,7 @@ var componentTests = []componentV2Test{
 		References:    common.GeneralReferences{{}},
 		Verifications: common.VerificationReferences{{}, {}},
 		Satisfies:     []v2.Satisfies{{}, {}, {}, {}},
-		SchemaVersion: 2.0,
+		SchemaVersion: semver.MustParse("2.0.0"),
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2WithKey"), v2.Component{
@@ -41,7 +42,7 @@ var componentTests = []componentV2Test{
 		References:    common.GeneralReferences{{}},
 		Verifications: common.VerificationReferences{{}, {}},
 		Satisfies:     []v2.Satisfies{{}, {}, {}, {}},
-		SchemaVersion: 2.0,
+		SchemaVersion: semver.MustParse("2.0.0"),
 	}},
 }
 
@@ -55,7 +56,7 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 		t.Errorf("Expected %s, Actual: %s", example.GetName(), actual.GetName())
 	}
 	// Check that the schema version was loaded
-	if example.GetVersion() != actual.GetVersion() {
+	if example.GetVersion().NE(actual.GetVersion()) {
 		t.Errorf("Expected %f, Actual: %f", example.GetVersion(), actual.GetVersion())
 	}
 	// Check that the references were loaded
@@ -100,13 +101,15 @@ func TestLoadComponent(t *testing.T) {
 
 var componentTestErrors = []componentTestError{
 	// Check loading a component with no file
-	{"", constants.ErrComponentFileDNE},
+	{"", errors.New(constants.ErrComponentFileDNE)},
 	// Check loading a component with a broken schema
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), constants.ErrMissingVersion},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), errors.New(constants.ErrComponentSchema)},
 	// Check for version that is unsupported
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"), config.ErrUnknownSchemaVersion},
 	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"), fmt.Errorf(constants.ErrComponentSchemaParsef, 2.0)},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"), errors.New("Unable to parse component. Please check component.yaml schema for version 2.0.0")},
+	// Check for the case when non-2.0 version is not in semver format.
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2VersionNotSemver"), base.NewBaseComponentParseError("Version 1 is not in semver format")},
 }
 
 func TestLoadComponentErrors(t *testing.T) {

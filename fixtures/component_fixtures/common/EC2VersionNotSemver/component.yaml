@@ -14,7 +14,7 @@ satisfies:
   implementation_status: partial
   narrative: Justification in narrative form
   standard_key: NIST-800-53
-schema_version: 1.0.0
+schema_version: 1.0
 verifications:
 - key: EC2_Verification_2
   name: EC2 Governor 2

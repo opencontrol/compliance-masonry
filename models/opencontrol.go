@@ -121,7 +121,7 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	// Read the component file.
 	componentData, err := fs.OpenAndReadFile(filepath.Join(componentDir, "component.yaml"))
 	if err != nil {
-		return constants.ErrComponentFileDNE
+		return errors.New(constants.ErrComponentFileDNE)
 	}
 	// Parse the component.
 	var component base.Component
