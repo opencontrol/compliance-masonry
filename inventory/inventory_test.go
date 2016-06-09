@@ -43,7 +43,7 @@ var _ = Describe("Inventory", func() {
 				}
 				i, err := ComputeGapAnalysis(config)
 				assert.Nil(GinkgoT(), err)
-				assert.Equal(GinkgoT(), 2, len(i.MissingControlList))
+				assert.Equal(GinkgoT(), 3, len(i.MissingControlList))
 			})
 		})
 		Context("When there are controls specified in the certification and we have documented them", func() {
