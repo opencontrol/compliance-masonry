@@ -1,0 +1,22 @@
+documentation_complete: false
+name: Amazon Elastic Compute Cloud
+references:
+- name: Reference
+  path: http://VerificationURL.com
+  type: URL
+satisfies:
+- control_key: CM-2
+  covered_by: "wrong"
+  implementation_status: partial
+  narrative: "Justification in narrative form for CM-2"
+  standard_key: NIST-800-53
+schema_version: 2.0
+verifications:
+- key: EC2_Verification_2
+  name: EC2 Governor 2
+  path: artifact-ec2-1.png
+  type: Image
+- key: EC2_Verification_1
+  name: EC2 Verification 1
+  path: http://VerificationURL.com
+  type: URL

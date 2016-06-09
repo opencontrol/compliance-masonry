@@ -6,6 +6,11 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/models/components/versions"
+	"github.com/opencontrol/compliance-masonry/models/components"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
 )
 
 var (
@@ -15,18 +20,14 @@ var (
 	ErrReadFile = errors.New("Unable to read the file")
 	// ErrCertificationSchema is raised a certification cannot be parsed
 	ErrCertificationSchema = errors.New("Unable to parse certification")
-	// ErrControlSchema is raised a control cannot be parsed
-	ErrControlSchema = errors.New("Unable to parse control")
 	// ErrStandardSchema is raised a standard cannot be parsed
 	ErrStandardSchema = errors.New("Unable to parse standard")
-	// ErrComponentFileDNE is raised when a component file does not exists
-	ErrComponentFileDNE = errors.New("Component files does not exist")
 )
 
 // OpenControl struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
 type OpenControl struct {
-	Components     *Components
+	Components     *components.Components
 	Standards      *Standards
 	Justifications *Justifications
 	Certification  *Certification
@@ -42,7 +43,7 @@ func getKey(filePath string) string {
 func NewOpenControl() *OpenControl {
 	return &OpenControl{
 		Justifications: NewJustifications(),
-		Components:     NewComponents(),
+		Components:     components.NewComponents(),
 		Standards:      NewStandards(),
 	}
 }
@@ -108,5 +109,33 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) error {
 		}(standardFile)
 	}
 	wg.Wait()
+	return nil
+}
+
+
+// LoadComponent imports components into a Component struct and adds it to the
+// Components map.
+func (openControl *OpenControl) LoadComponent(componentDir string) error {
+	// Get file system assistance.
+	fs := fs.OSUtil{}
+	// Read the component file.
+	componentData, err := fs.OpenAndReadFile(filepath.Join(componentDir, "component.yaml"))
+	if err != nil {
+		return constants.ErrComponentFileDNE
+	}
+	// Parse the component.
+	var component base.Component
+	component, err = versions.ParseComponent(componentData)
+	if err != nil {
+		return err
+	}
+	// Ensure we have a key for the component.
+	if component.GetKey() == "" {
+		component.SetKey(getKey(componentDir))
+	}
+	// If the component is new, make sure we load the justifications as well.
+	if openControl.Components.CompareAndAdd(component) {
+		openControl.Justifications.LoadMappings(component)
+	}
 	return nil
 }
