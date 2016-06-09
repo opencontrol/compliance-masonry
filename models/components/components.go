@@ -27,17 +27,17 @@ func (components *Components) Add(component base.Component) {
 
 // Get retrieves a new component from the component map
 func (components *Components) Get(key string) base.Component {
-	components.Lock()
-	defer components.Unlock()
+	components.RLock()
+	defer components.RUnlock()
 	return components.mapping[key]
 }
 
 // GetAndApply get a component and apply the callback function inside while locking
 // components
 func (components *Components) GetAndApply(key string, callback func(component base.Component)) {
-	components.Lock()
+	components.RLock()
 	callback(components.mapping[key])
-	components.Unlock()
+	components.RUnlock()
 }
 
 // CompareAndAdd compares to see if the component exists in the map. If not, it adds the component.
