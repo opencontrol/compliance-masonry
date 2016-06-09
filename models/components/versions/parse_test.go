@@ -4,6 +4,7 @@ import (
 	"path/filepath"
 	"testing"
 	v2 "github.com/opencontrol/compliance-masonry/models/components/versions/2_0_0"
+	v3 "github.com/opencontrol/compliance-masonry/models/components/versions/3_0_0"
 	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 	"github.com/stretchr/testify/assert"
@@ -15,6 +16,11 @@ import (
 	"errors"
 )
 
+type componentV3Test struct {
+	componentDir string
+	expected     v3.Component
+}
+
 type componentV2Test struct {
 	componentDir string
 	expected     v2.Component
@@ -25,14 +31,86 @@ type componentTestError struct {
 	expectedError error
 }
 
-var componentTests = []componentV2Test{
+var v3Satisfies = []v3.Satisfies {
+	{
+		Narrative: []v3.NarrativeSection{
+			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
+			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
+		},
+	},
+	{
+		Narrative: []v3.NarrativeSection{
+			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1"},
+			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
+		},
+		Parameters: []v3.Section{
+			v3.Section{Key: "a", Text:"Parameter A for 1.1"},
+			v3.Section{Key: "b", Text:"Parameter B for 1.1"},
+		},
+	},
+	{
+		Narrative: []v3.NarrativeSection{
+			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
+			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
+		},
+		Parameters: []v3.Section{
+			v3.Section{Key: "a", Text:"Parameter A for 1.1.1"},
+			v3.Section{Key: "b", Text:"Parameter B for 1.1.1"},
+		},
+	},
+	{
+		Narrative: []v3.NarrativeSection{
+			v3.NarrativeSection{Text: "Justification in narrative form for 2.1"},
+		},
+	},
+}
+
+var componentV3Tests = []componentV3Test{
+	// Check that a component with a key loads correctly
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2"), v3.Component{
+		Name:          "Amazon Elastic Compute Cloud",
+		Key:           "EC2",
+		References:    common.GeneralReferences{{}},
+		Verifications: common.VerificationReferences{{}, {}},
+		Satisfies:     v3Satisfies,
+		SchemaVersion: semver.MustParse("3.0.0"),
+		ResponsibleRole: "AWS Staff",
+	}},
+	// Check that a component with no key, uses the key of its directory and loads correctly
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2WithKey"), v3.Component{
+		Name:          "Amazon Elastic Compute Cloud",
+		Key:           "EC2",
+		References:    common.GeneralReferences{{}},
+		Verifications: common.VerificationReferences{{}, {}},
+		Satisfies:     v3Satisfies,
+		SchemaVersion: semver.MustParse("3.0.0"),
+		ResponsibleRole: "AWS Staff",
+	}},
+}
+
+var v2Satisfies = []v2.Satisfies {
+	{
+		Narrative: "Justification in narrative form",
+	},
+	{
+		Narrative: "Justification in narrative form",
+	},
+	{
+		Narrative: "Justification in narrative form",
+	},
+	{
+		Narrative: "Justification in narrative form",
+	},
+}
+
+var componentV2Tests = []componentV2Test{
 	// Check that a component with a key loads correctly
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2"), v2.Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
 		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     []v2.Satisfies{{}, {}, {}, {}},
+		Satisfies:     v2Satisfies,
 		SchemaVersion: semver.MustParse("2.0.0"),
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
@@ -41,7 +119,7 @@ var componentTests = []componentV2Test{
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
 		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     []v2.Satisfies{{}, {}, {}, {}},
+		Satisfies:     v2Satisfies,
 		SchemaVersion: semver.MustParse("2.0.0"),
 	}},
 }
@@ -63,10 +141,17 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 	if example.GetReferences().Len() != actual.GetReferences().Len() {
 		t.Errorf("Expected %d, Actual: %d", example.GetReferences().Len(), actual.GetReferences().Len())
 	}
-	// Check that the satisfies data were loaded
+	// Check that the satisfies data was loaded
 	if len(example.GetAllSatisfies()) != len(actual.GetAllSatisfies()) {
 		t.Errorf("Expected %d, Actual: %d", len(example.GetAllSatisfies()), len(actual.GetAllSatisfies()))
 	}
+	// Check Narratives and Parameters.
+	for idx, _ := range actual.GetAllSatisfies() {
+		assert.Equal(t, (example.GetAllSatisfies())[idx].GetNarratives(), (actual.GetAllSatisfies())[idx].GetNarratives())
+		assert.Equal(t, (example.GetAllSatisfies())[idx].GetParameters(), (actual.GetAllSatisfies())[idx].GetParameters())
+	}
+	// Check the responsible role.
+	assert.Equal(t, example.GetResponsibleRole(), actual.GetResponsibleRole())
 	// Check that the verifications were loaded
 	if example.GetVerifications().Len() != actual.GetVerifications().Len() {
 		t.Errorf("Expected %d, Actual: %d", example.GetVerifications().Len(), actual.GetVerifications())
@@ -94,7 +179,12 @@ func loadValidAndTestComponent(path string, t *testing.T, example base.Component
 }
 
 func TestLoadComponent(t *testing.T) {
-	for _, example := range componentTests {
+	// V3 tests
+	for _, example := range componentV3Tests {
+		loadValidAndTestComponent(example.componentDir, t, &example.expected)
+	}
+	// V2 tests
+	for _, example := range componentV2Tests {
 		loadValidAndTestComponent(example.componentDir, t, &example.expected)
 	}
 }
