@@ -21,7 +21,8 @@ type Satisfies interface {
 	GetCoveredBy() common.CoveredByList
 }
 
-// Base is the common struct that all component schemas must have.
+// Base is the bare minimum that every component YAML will have and is used to find the schema version.
+// Complete implementations of component do not need to embed this struct or put it as a field in the component.
 type Base struct {
 	SchemaVersion float32 `yaml:"schema_version" json:"schema_version"`
 }
