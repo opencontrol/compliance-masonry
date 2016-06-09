@@ -10,6 +10,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/models/components/versions"
 	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
 )
 
 var (
@@ -115,22 +116,24 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) error {
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
 func (openControl *OpenControl) LoadComponent(componentDir string) error {
-	_, err := os.Stat(filepath.Join(componentDir, "component.yaml"))
+	// Get file system assistance.
+	fs := fs.OSUtil{}
+	// Read the component file.
+	componentData, err := fs.OpenAndReadFile(filepath.Join(componentDir, "component.yaml"))
 	if err != nil {
 		return constants.ErrComponentFileDNE
 	}
+	// Parse the component.
 	var component base.Component
-	componentData, err := ioutil.ReadFile(filepath.Join(componentDir, "component.yaml"))
-	if err != nil {
-		return ErrReadFile
-	}
 	component, err = versions.ParseComponent(componentData)
 	if err != nil {
 		return err
 	}
+	// Ensure we have a key for the component.
 	if component.GetKey() == "" {
 		component.SetKey(getKey(componentDir))
 	}
+	// If the component is new, make sure we load the justifications as well.
 	if openControl.Components.CompareAndAdd(component) {
 		openControl.Justifications.LoadMappings(component)
 	}
