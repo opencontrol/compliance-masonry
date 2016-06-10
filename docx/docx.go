@@ -32,8 +32,8 @@ func (config *Config) BuildDocx() error {
 		return err
 	}
 	funcMap := template.FuncMap{
-		"getAllControlSections": openControl.FormatControl,
-		"getControlSection":     openControl.FormatControl,
+		"getAllControlSections": openControl.FormatAllNarratives,
+		"getControlSection":     openControl.FormatNarrative,
 		"getParameter":          openControl.FormatParameter,
 		"getResponsibleRole":    openControl.FormatResponsibleRoles,
 	}
@@ -43,12 +43,18 @@ func (config *Config) BuildDocx() error {
 	return err
 }
 
-type componentInfoType int
+type controlInfoType int
 
 const (
-	noneInfo componentInfoType = iota
+	// placeholder for the default case.
+	noneInfo controlInfoType = iota
+	// represents the request for all the narratives for a control.
+	allControlInfo
+	// represents the request for specific narrative(s) for a control.
 	controlInfo
+	// represents the request for specific parameter(s) for a control.
 	parameterInfo
+	// represents the request for the responsible role for a control..
 	responsibleRoleInfo
 )
 
@@ -61,74 +67,82 @@ func createSectionsSet(sections ...string) *set.Set {
 	return sectionsSet
 }
 
-func getControlInfo(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string, bool) {
+// getNarrativeSection will just print the narrative section text. No need to print the section header since it was specified.
+func getNarrativeSection(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string) {
 	// Add the component name.
 	text = fmt.Sprintf("%s%s\n", text, component.GetName())
 
-	// foundText is a placeholder to indicate that we actually found text for the section.
-	foundText := false
+	// Use generic []base.Section handler.
+	return getSpecificGenericSections(justification.SatisfiesData.GetNarratives(), text, specifiedSections)
+}
 
-	// Determine if we want to get all of the sections or just one. If we specify exact sections, that means we do
-	// not want all and if we do not specify sections, it means we want all sections.
-	allSections := specifiedSections.Size() == 0
-	// Print out the narrative(s)
+// getAllNarrativeSection will print both the section header and the section text for all narrative sections.
+func getAllNarrativeSections(text string, justification models.Verification, component base.Component) (string) {
+	// Add the component name.
+	text = fmt.Sprintf("%s%s\n", text, component.GetName())
 	for _, section := range justification.SatisfiesData.GetNarratives() {
-		if allSections {
-			// If we want to print out all the sections...
+		// If we want to print out all the sections...
 
-			// If section header exists, let's print it. Key could be empty, in that case
-			// just print the text for the section.
-			if section.GetKey() != "" {
-				text = fmt.Sprintf("%s%s:\n", text, section.GetKey())
-			}
-			text = fmt.Sprintf("%s%s\n", text, section.GetText())
-
-			// Automatically assume foundText is true as long as the length of
-			// justification.SatisfiesData.Narrative is > 0, which is implied if we reach here.
-			// Also, in case the section in the YAML is explicitly "", we accept empty string here too.
-			foundText = true
-		} else {
-			// If we only want certain section(s)...
-
-			// If section header exists, let's print it's corresponding text and not the header itself.
-			if specifiedSections.Has(section.GetKey()) {
-				text = fmt.Sprintf("%s%s\n", text, section.GetText())
-				foundText = true
-			}
+		// If section header exists, let's print it. Key could be empty, in that case
+		// just print the text for the section.
+		if section.GetKey() != "" {
+			text = fmt.Sprintf("%s%s:\n", text, section.GetKey())
 		}
+		text = fmt.Sprintf("%s%s\n", text, section.GetText())
+
+		// Automatically assume foundText is true as long as the length of
+		// justification.SatisfiesData.Narrative is > 0, which is implied if we reach here.
+		// Also, in case the section in the YAML is explicitly "", we accept empty string here too.
 	}
-	return text, foundText
+	return text
+
 }
 
-func getParameterInfo(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string, bool) {
+// getSpecificGenericSections can be used by both narrative and parameter since they both implement base.Section
+func getSpecificGenericSections(sections []base.Section, text string, specifiedSections *set.Set) (string) {
+	// In the case that the user does not provide any sections.
+	if specifiedSections.Size() == 0 {
+		return fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
+	}
+	for _, section := range sections {
+		// If we only want certain section(s)...
+
+		// If section header exists, let's print it's corresponding text and not the header itself.
+		if specifiedSections.Has(section.GetKey()) {
+			text = fmt.Sprintf("%s%s\n", text, section.GetText())
+			specifiedSections.Remove(section.GetKey())
+		}
+	}
+	// In the case that we do not have the section, print warning that information was not found.
+	if specifiedSections.Size() != 0 {
+		text = fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
+	}
+	return text
+}
+
+// getParameterInfo will just print the parameter section text. No need to print the section header since it was specified.
+func getParameterInfo(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string) {
 	// Add the component name.
 	text = fmt.Sprintf("%s%s\n", text, component.GetName())
 
-	// foundText is a placeholder to indicate that we actually found text for the section.
-	foundText := false
-
-	for _, parameter := range justification.SatisfiesData.GetParameters() {
-		// If section header exists, let's print it's corresponding text and not the header itself.
-		if specifiedSections.Has(parameter.GetKey()){
-			text = fmt.Sprintf("%s%s\n", text, parameter.GetText())
-			foundText = true
-		}
-	}
-	return text, foundText
+	// Use generic []base.Section handler.
+	return getSpecificGenericSections(justification.SatisfiesData.GetParameters(), text, specifiedSections)
 }
 
-func getResponsibleRoleInfo(text string, component base.Component) (string, bool) {
+// getResponsibleRoleInfo will just print the responsible role if it exists.
+func getResponsibleRoleInfo(text string, component base.Component) (string) {
 	// Add the component name.
 	text = fmt.Sprintf("%s%s: ", text, component.GetName())
 	// Print out the component name and the responsible for that component.
 	if component.GetResponsibleRole() != "" {
-		return fmt.Sprintf("%s%s\n", text, component.GetResponsibleRole()), true
+		return fmt.Sprintf("%s%s\n", text, component.GetResponsibleRole())
 	}
-	return text, false
+	// Else, print warning indicating there was no info.
+	return fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
 }
 
 // getComponentTextFromJustifications is for information that will need to dig into the justifications.
-func (openControl *OpenControlDocx) getComponentText(infoType componentInfoType, standardKey string, controlKey string, sectionKeys ...string) string {
+func (openControl *OpenControlDocx) getComponentText(infoType controlInfoType, standardKey string, controlKey string, sectionKeys ...string) string {
 	var text string
 	sectionSet := createSectionsSet(sectionKeys...)
 	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
@@ -141,20 +155,15 @@ func (openControl *OpenControlDocx) getComponentText(infoType componentInfoType,
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
 				// Get the Component Text
-				var specificText string
-				var found bool
 				switch(infoType) {
+				case allControlInfo:
+					text = fmt.Sprintf("%s%s", text, getAllNarrativeSections(text, justification, component))
 				case controlInfo:
-					specificText, found = getControlInfo(text, justification, component, sectionSet)
+					text = fmt.Sprintf("%s%s", text, getNarrativeSection(text, justification, component, sectionSet))
 				case parameterInfo:
-					specificText, found = getParameterInfo(text, justification, component, sectionSet)
+					text = fmt.Sprintf("%s%s", text, getParameterInfo(text, justification, component, sectionSet))
 				case responsibleRoleInfo:
-					specificText, found = getResponsibleRoleInfo(text, component)
-				}
-				if found {
-					text = fmt.Sprintf("%s%s", text, specificText)
-				} else {
-					text = fmt.Sprintf("%s%s%s\n", text, specificText, constants.WarningNoInformationAvailable)
+					text = fmt.Sprintf("%s%s", text, getResponsibleRoleInfo(text, component))
 				}
 			})
 		}
@@ -163,7 +172,7 @@ func (openControl *OpenControlDocx) getComponentText(infoType componentInfoType,
 	return text
 }
 
-// FormatResponsibleRole fills in the responsible role for each component for a given standard and control.
+// FormatResponsibleRoles fills in the responsible role for each component for a given standard and control.
 func (openControl *OpenControlDocx) FormatResponsibleRoles(standardKey string, controlKey string) string {
 	return openControl.getComponentText(responsibleRoleInfo, standardKey, controlKey, "")
 }
@@ -173,7 +182,12 @@ func (openControl *OpenControlDocx) FormatParameter(standardKey string, controlK
 	return openControl.getComponentText(parameterInfo, standardKey, controlKey, sectionKeys...)
 }
 
-// FormatControl returns a control formatted for docx
-func (openControl *OpenControlDocx) FormatControl(standardKey string, controlKey string, sectionKeys ...string) string {
+// FormatAllNarratives returns a control formatted for docx with all the narratives
+func (openControl *OpenControlDocx) FormatAllNarratives(standardKey string, controlKey string) string {
+	return openControl.getComponentText(allControlInfo, standardKey, controlKey, "")
+}
+
+// FormatNarrative returns a control formatted for docx with only the specified narrative section(s)
+func (openControl *OpenControlDocx) FormatNarrative(standardKey string, controlKey string, sectionKeys ...string) string {
 	return openControl.getComponentText(controlInfo, standardKey, controlKey, sectionKeys...)
 }

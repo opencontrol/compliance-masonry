@@ -16,26 +16,35 @@ import (
 )
 
 var _ = Describe("Docx", func() {
-	DescribeTable("FormatControl", func(standard string, control string, expectedData string, sectionKeys ...string) {
+
+	DescribeTable("FormatAllNarratives", func(standard string, control string, expectedData string,) {
 		openControl := OpenControlDocx{
 			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
 		}
-		actualData := openControl.FormatControl(standard, control, sectionKeys...)
+		actualData := openControl.FormatAllNarratives(standard, control)
 		assert.Equal(GinkgoT(), expectedData, actualData)
 	},
 		// Get All Control Data
-		Entry("openControl.FormatControl(NIST-800-53@CM-2)", "NIST-800-53", "CM-2", "Amazon Elastic Compute Cloud\na:\nJustification in narrative form A for CM-2\nb:\nJustification in narrative form B for CM-2\n"),
-		Entry("openControl.FormatControl(PCI-DSS-MAY-2015@2.1)", "PCI-DSS-MAY-2015", "2.1", "Amazon Elastic Compute Cloud\nJustification in narrative form for 2.1\n"),
-		Entry("openControl.FormatControl(PCI-DSS-MAY-2015@1.1.1) - Missing Control", "PCI-DSS-MAY-2015", "1.1.1", "No information found for the combination of standard PCI-DSS-MAY-2015 and control 1.1.1"),
-		Entry("openControl.FormatControl(BogusStandard@NothingControl)", "BogusStandard", "NothingControl", "No information found for the combination of standard BogusStandard and control NothingControl"),
+		Entry("openControl.FormatAllNarratives(PCI-DSS-MAY-2015@2.1)", "PCI-DSS-MAY-2015", "2.1", "Amazon Elastic Compute Cloud\nJustification in narrative form for 2.1\n"),
+		Entry("openControl.FormatAllNarratives(PCI-DSS-MAY-2015@1.1.1) - Missing Control", "PCI-DSS-MAY-2015", "1.1.1", "No information found for the combination of standard PCI-DSS-MAY-2015 and control 1.1.1"),
+		Entry("openControl.FormatAllNarratives(BogusStandard@NothingControl)", "BogusStandard", "NothingControl", "No information found for the combination of standard BogusStandard and control NothingControl"),
+	)
+
+	DescribeTable("FormatNarrative", func(standard string, control string, expectedData string, sectionKeys ...string) {
+		openControl := OpenControlDocx{
+			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+		}
+		actualData := openControl.FormatNarrative(standard, control, sectionKeys...)
+		assert.Equal(GinkgoT(), expectedData, actualData)
+	},
 		// Get Specific Control Data
-		Entry(`openControl.FormatControl(NIST-800-53,CM-2,a) - Regular case that should return one section from a loaded component.`,
+		Entry(`openControl.FormatNarrative(NIST-800-53,CM-2,a) - Regular case that should return one section from a loaded component.`,
 			"NIST-800-53", "CM-2", "Amazon Elastic Compute Cloud\nJustification in narrative form A for CM-2\n", "a"),
-		Entry(`openControl.FormatControl(PCI-DSS-MAY-2015,2.1,X)
+		Entry(`openControl.FormatNarrative(PCI-DSS-MAY-2015,2.1,X)
 			- Regular case that should return no section nor header from a loaded component
 			 because the section does not exist. Instead provide a warning that nothing exists`,
 			"PCI-DSS-MAY-2015", "2.1", "Amazon Elastic Compute Cloud\nNo information available for component\n", "X"),
-		Entry("openControl.FormatControl(BogusStandard,NothingControl,'')", "BogusStandard", "NothingControl", fmt.Sprintf("No information found for the combination of standard %s and control %s", "BogusStandard", "NothingControl")),
+		Entry("openControl.FormatNarrative(BogusStandard,NothingControl,'')", "BogusStandard", "NothingControl", fmt.Sprintf("No information found for the combination of standard %s and control %s", "BogusStandard", "NothingControl")),
 	)
 
 	DescribeTable("FormatParameter", func(standard string, control string, expectedData string, sectionKeys ...string) {
@@ -68,9 +77,8 @@ var _ = Describe("Docx", func() {
 	Describe("Misc. FormatResponsibleRole Tests", func() {
 		It("should return just the component name when trying to get the responsible role and the component does not have one defined.", func() {
 			c := v3.Component{Name:"Component Name"}
-			text, found := getResponsibleRoleInfo("", &c)
-			assert.Equal(GinkgoT(), "Component Name: ", text)
-			assert.Equal(GinkgoT(), false, found)
+			text := getResponsibleRoleInfo("", &c)
+			assert.Equal(GinkgoT(), "Component Name: No information available for component\n", text)
 
 		})
 	})
