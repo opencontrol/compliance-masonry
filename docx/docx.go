@@ -141,7 +141,7 @@ func getResponsibleRoleInfo(text string, component base.Component) (string) {
 	return fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
 }
 
-// getComponentTextFromJustifications is for information that will need to dig into the justifications.
+// getComponentText is for information that will need to dig into the justifications.
 func (openControl *OpenControlDocx) getComponentText(infoType controlInfoType, standardKey string, controlKey string, sectionKeys ...string) string {
 	var text string
 	sectionSet := createSectionsSet(sectionKeys...)
