@@ -58,7 +58,7 @@ func NewCLIApp() *cli.App {
 					Usage: "Location of system yaml",
 				},
 			},
-			Action: func(c *cli.Context) {
+			Action: func(c *cli.Context) error {
 				f := fs.OSUtil{}
 				config := c.String("config")
 				configBytes, err := f.OpenAndReadFile(config)
@@ -76,10 +76,10 @@ func NewCLIApp() *cli.App {
 					configBytes,
 					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init(), FSUtil: f})
 				if err != nil {
-					app.Writer.Write([]byte(err.Error()))
-					os.Exit(1)
+					return cli.NewExitError(err.Error(), 1)
 				}
 				app.Writer.Write([]byte("Compliance Dependencies Installed"))
+				return nil
 			},
 		},
 		{
@@ -111,7 +111,7 @@ func NewCLIApp() *cli.App {
 							Destination: &markdownPath,
 						},
 					},
-					Action: func(c *cli.Context) {
+					Action: func(c *cli.Context) error {
 						config := gitbook.Config{
 							Certification:  c.Args().First(),
 							OpencontrolDir: opencontrolDir,
@@ -120,6 +120,7 @@ func NewCLIApp() *cli.App {
 						}
 						messages := docs.MakeGitbook(config)
 						app.Writer.Write([]byte(strings.Join(messages, "\n")))
+						return nil
 					},
 				},
 				{
@@ -146,7 +147,7 @@ func NewCLIApp() *cli.App {
 							Destination: &exportPath,
 						},
 					},
-					Action: func(c *cli.Context) {
+					Action: func(c *cli.Context) error {
 						config := docx.Config{
 							OpencontrolDir: opencontrolDir,
 							TemplatePath:   templatePath,
@@ -154,6 +155,7 @@ func NewCLIApp() *cli.App {
 						}
 						messages := docs.BuildTemplate(config)
 						app.Writer.Write([]byte(strings.Join(messages, "\n")))
+						return nil
 					},
 				},
 			},
