@@ -16,14 +16,14 @@ func TestComponentGetters(t *testing.T) {
 		References:    common.GeneralReferences{{}},
 		Verifications: common.VerificationReferences{{}, {}},
 		Satisfies:     testSatisfies,
-		SchemaVersion: semver.MustParse("2.0.0"),
+		SchemaVersion: semver.MustParse("3.0.0"),
 	}
 	// Test the getters
 	assert.Equal(t, "EC2", component.GetKey())
 	assert.Equal(t, "Amazon Elastic Compute Cloud", component.GetName())
 	assert.Equal(t, &common.GeneralReferences{{}}, component.GetReferences())
 	assert.Equal(t, &common.VerificationReferences{{}, {}}, component.GetVerifications())
-	assert.Equal(t, semver.MustParse("2.0.0"), component.GetVersion())
+	assert.Equal(t, semver.MustParse("3.0.0"), component.GetVersion())
 	assert.Equal(t, "AWS Staff", component.GetResponsibleRole())
 	assert.Equal(t, len(testSatisfies), len(component.GetAllSatisfies()))
 	for idx, satisfies := range component.GetAllSatisfies() {
