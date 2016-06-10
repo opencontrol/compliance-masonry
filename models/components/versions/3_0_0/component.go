@@ -14,6 +14,7 @@ type Component struct {
 	References    common.GeneralReferences      `yaml:"references" json:"references"`
 	Verifications common.VerificationReferences `yaml:"verifications" json:"verifications"`
 	Satisfies     []Satisfies          `yaml:"satisfies" json:"satisfies"`
+	ResponsibleRole string             `yaml:"responsible_role" json:"responsible_role"`
 	SchemaVersion semver.Version                 `yaml:"-" json:"-"`
 }
 
@@ -55,7 +56,7 @@ func (c *Component) SetVersion(version semver.Version) {
 }
 
 func (c Component) GetResponsibleRole() string {
-	return ""
+	return c.ResponsibleRole
 }
 
 // Satisfies struct contains data demonstrating why a specific component meets
@@ -65,8 +66,9 @@ func (c Component) GetResponsibleRole() string {
 type Satisfies struct {
 	ControlKey  string        `yaml:"control_key" json:"control_key"`
 	StandardKey string        `yaml:"standard_key" json:"standard_key"`
-	Narrative   Narrative        `yaml:"narrative" json:"narrative"`
+	Narrative   []NarrativeSection        `yaml:"narrative" json:"narrative"`
 	CoveredBy   common.CoveredByList `yaml:"covered_by" json:"covered_by"`
+	Parameters      []Section          `yaml:"parameters" json:"parameters"`
 }
 
 func (s Satisfies) GetControlKey() string {
@@ -78,31 +80,52 @@ func (s Satisfies) GetStandardKey() string {
 }
 
 func (s Satisfies) GetNarratives() []base.Section {
-	// Have to do manual conversion to the interface base.Section.
-	// V2.0.0 only had one Narrative field, so if it actually exists, let's create a slice of 1 to return.
-	var baseNarrative []base.Section
-	if len(s.Narrative) > 0 {
-		baseNarrative = make([]base.Section, 1)
-		baseNarrative[0] = s.Narrative
+	// Have to do manual conversion to the interface base.Section from NarrativeSection.
+	baseSection := make([]base.Section, len(s.Narrative))
+	for idx, value := range s.Narrative {
+		baseSection[idx] = value
 	}
-
-	return baseNarrative
+	return baseSection
 }
 
 func (s Satisfies) GetParameters() []base.Section {
-	return nil
+	// Have to do manual conversion to the interface base.Section from Section.
+	baseSection := make([]base.Section, len(s.Parameters))
+	for idx, value := range s.Parameters {
+		baseSection[idx] = value
+	}
+	return baseSection
 }
 
 func (s Satisfies) GetCoveredBy() common.CoveredByList {
 	return s.CoveredBy
 }
 
-type Narrative string
-
-func (n Narrative) GetKey() string {
-	return ""
+// NarrativeSection contains the key and text for a particular section.
+// NarrativeSection can omit the key.
+type NarrativeSection struct {
+	Key  string `yaml:"key,omitempty" json:"key,omitempty"`
+	Text string `yaml:"text" json:"text"`
 }
 
-func (n Narrative) GetText() string {
-	return string(n)
+func (ns NarrativeSection) GetKey() string {
+	return ns.Key
+}
+
+func (ns NarrativeSection) GetText() string {
+	return ns.Text
+}
+
+// Section contains the key and text for a particular section. Both are required.
+type Section struct {
+	Key  string `yaml:"key" json:"key"`
+	Text string `yaml:"text" json:"text"`
+}
+
+func (s Section) GetKey() string {
+	return s.Key
+}
+
+func (s Section) GetText() string {
+	return s.Text
 }

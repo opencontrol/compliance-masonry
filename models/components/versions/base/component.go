@@ -16,13 +16,20 @@ type Component interface {
 	GetReferences() *common.GeneralReferences
 	GetVersion() semver.Version
 	SetVersion(semver.Version)
+	GetResponsibleRole() string
 }
 
 type Satisfies interface {
 	GetStandardKey() string
 	GetControlKey() string
-	GetNarrative() string
+	GetNarratives() []Section
+	GetParameters() []Section
 	GetCoveredBy() common.CoveredByList
+}
+
+type Section interface {
+	GetKey() string
+	GetText() string
 }
 
 func NewBaseComponentParseError(message string) BaseComponentParseError {

@@ -16,7 +16,9 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
 				text = fmt.Sprintf("%s\n#### %s\n", text, component.GetName())
-				text = fmt.Sprintf("%s%s\n", text, justification.SatisfiesData.GetNarrative())
+				for _, narrative := range justification.SatisfiesData.GetNarratives(){
+					text = fmt.Sprintf("%s%s\n", text, narrative.GetText())
+				}
 			})
 			if len(justification.SatisfiesData.GetCoveredBy()) > 0 {
 				text += "Covered By:\n"

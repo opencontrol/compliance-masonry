@@ -45,7 +45,9 @@ func (openControl *OpenControlDocx) FormatControl(standardControl string) string
 		for _, justification := range selectJustifications {
 			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
 				text = fmt.Sprintf("%s%s  \n", text, component.GetName())
-				text = fmt.Sprintf("%s%s  \n", text, justification.SatisfiesData.GetNarrative())
+				for _, narrative := range justification.SatisfiesData.GetNarratives() {
+					text = fmt.Sprintf("%s%s  \n", text, narrative.GetText())
+				}
 			})
 
 			if len(justification.SatisfiesData.GetCoveredBy()) > 0 {
