@@ -1,4 +1,6 @@
 package docx
+// The docx test uses an internal function of the `docx` package. As a result, the test needs to be in the same package
+// instead of the `docx_test` package.
 
 import (
 	"io/ioutil"
