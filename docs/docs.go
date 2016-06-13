@@ -23,23 +23,18 @@ func BuildTemplate(config docx.Config) error {
 	return nil
 }
 
-func MakeGitbook(config gitbook.Config) ([]error) {
-	var errs []error
+func MakeGitbook(config gitbook.Config) (string, []error) {
+	warning := ""
 	certificationPath, err := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
-		return append(errs, err)
+		return warning, err
 	}
-	//errMessages := cli.NewMultiError()
 	if _, err := os.Stat(config.MarkdownPath); os.IsNotExist(err) {
-		errs = append(errs, errors.New("Warning: markdown directory does not exist"))
-		//errMessages.Errors = append(errMessages.Errors, errors.New("Warning: markdown directory does not exist"))
+		warning = "Warning: markdown directory does not exist"
 	}
 	config.Certification = certificationPath
 	if err := config.BuildGitbook(); err != nil {
-		//panic(err.Error())
-		return append(errs, err...)
-		///errMessages.Errors = append(errMessages.Errors, err)
-		//panic(errMessages.Error())
+		return warning, err
 	}
-	return nil
+	return warning, nil
 }

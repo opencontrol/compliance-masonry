@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
+	"errors"
 )
 
 var _ = Describe("Inventory", func() {
@@ -22,7 +23,7 @@ var _ = Describe("Inventory", func() {
 				It("should return an empty slice and an error", func() {
 					config := Config{}
 					i, err := ComputeGapAnalysis(config)
-					assert.Equal(GinkgoT(), []string{"Error: Missing Certification Argument"}, err)
+					assert.Equal(GinkgoT(), []error{errors.New("Error: Missing Certification Argument")}, err)
 					assert.Equal(GinkgoT(), 0, len(i.MissingControlList))
 				})
 			})
@@ -30,7 +31,7 @@ var _ = Describe("Inventory", func() {
 				It("should return an empty slice and an error", func() {
 					config := Config{Certification: "LATO"}
 					i, err := ComputeGapAnalysis(config)
-					assert.Equal(GinkgoT(), []string{"Error: `certifications` directory does exist"}, err)
+					assert.Equal(GinkgoT(), []error{errors.New("Error: `certifications` directory does exist")}, err)
 					assert.Equal(GinkgoT(), 0, len(i.MissingControlList))
 				})
 			})

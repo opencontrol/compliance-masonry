@@ -1,6 +1,7 @@
 package docs_test
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -16,7 +17,7 @@ import (
 )
 
 var _ = Describe("Doc Tests", func() {
-	DescribeTable("BuildTemplateTest", func(config docx.Config, expectedMessages []string) {
+	DescribeTable("BuildTemplateTest", func(config docx.Config, expectedMessages error) {
 		tempDir, _ := ioutil.TempDir("", "example")
 		defer os.RemoveAll(tempDir)
 		config.ExportPath = tempDir
@@ -30,7 +31,7 @@ var _ = Describe("Doc Tests", func() {
 				TemplatePath:   "",
 				ExportPath:     "",
 			},
-			[]string{"Error: No Template Supplied"},
+			errors.New("Error: No Template Supplied"),
 		),
 
 		Entry(
@@ -40,7 +41,7 @@ var _ = Describe("Doc Tests", func() {
 				TemplatePath:   "fake",
 				ExportPath:     "",
 			},
-			[]string{"Error: Template does not exist"},
+			errors.New("Error: Template does not exist"),
 		),
 
 		Entry(
@@ -50,15 +51,16 @@ var _ = Describe("Doc Tests", func() {
 				TemplatePath:   filepath.Join("..", "fixtures", "template_fixtures", "test.docx"),
 				ExportPath:     "",
 			},
-			[]string{"New Docx Created"},
+			nil,
 		),
 	)
 
-	DescribeTable("BuildGitbookTest", func(config gitbook.Config, expectedMessages []string) {
+	DescribeTable("BuildGitbookTest", func(config gitbook.Config, expectedWarning string, expectedMessages []error) {
 		tempDir, _ := ioutil.TempDir("", "example")
 		defer os.RemoveAll(tempDir)
 		config.ExportPath = tempDir
-		actualMessages := MakeGitbook(config)
+		actualWarning, actualMessages := MakeGitbook(config)
+		assert.Equal(GinkgoT(), expectedWarning, actualWarning)
 		assert.Equal(GinkgoT(), expectedMessages, actualMessages)
 	},
 		Entry(
@@ -68,7 +70,8 @@ var _ = Describe("Doc Tests", func() {
 				Certification:  "LATO",
 				MarkdownPath:   "",
 			},
-			[]string{"Warning: markdown directory does not exist", "New Gitbook Documentation Created"},
+			"Warning: markdown directory does not exist",
+			nil,
 		),
 
 		Entry(
@@ -78,7 +81,8 @@ var _ = Describe("Doc Tests", func() {
 				Certification:  "LATO",
 				MarkdownPath:   "",
 			},
-			[]string{"Error: `certifications` directory does exist"},
+			"",
+			[]error{errors.New("Error: `certifications` directory does exist")},
 		),
 
 		Entry(
@@ -88,7 +92,8 @@ var _ = Describe("Doc Tests", func() {
 				Certification:  "LATO",
 				MarkdownPath:   filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
 			},
-			[]string{"New Gitbook Documentation Created"},
+			"",
+			nil,
 		),
 
 		Entry(
@@ -98,7 +103,8 @@ var _ = Describe("Doc Tests", func() {
 				Certification:  "LAT",
 				MarkdownPath:   filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
 			},
-			[]string{fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LAT.yaml")), "`LATO`"},
+			"",
+			[]error{fmt.Errorf("Error: `%s` does not exist\nUse one of the following:\nLATO", filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LAT.yaml"))},
 		),
 
 		Entry(
@@ -108,7 +114,8 @@ var _ = Describe("Doc Tests", func() {
 				Certification:  "",
 				MarkdownPath:   filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns/"),
 			},
-			[]string{"Error: Missing Certification Argument"},
+			"",
+			[]error{errors.New("Error: Missing Certification Argument")},
 		),
 	)
 })

@@ -55,7 +55,7 @@ var loadDataTests = []loadDataTest{
 
 func TestLoadData(t *testing.T) {
 	for _, example := range loadDataTests {
-		actual := LoadData(example.openControlDir, example.certificationPath)
+		actual, _ := LoadData(example.openControlDir, example.certificationPath)
 		actualComponentNum := len(actual.Components.GetAll())
 		// Check the number of components
 		if actualComponentNum != example.expectedComponents {

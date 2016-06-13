@@ -117,7 +117,10 @@ func NewCLIApp() *cli.App {
 							ExportPath:     exportPath,
 							MarkdownPath:   markdownPath,
 						}
-						errMessages := docs.MakeGitbook(config)
+						warning, errMessages := docs.MakeGitbook(config)
+						if warning != "" {
+							app.Writer.Write([]byte(warning))
+						}
 						if errMessages != nil && len(errMessages) > 0{
 							err := cli.NewMultiError(errMessages...)
 							app.Writer.Write([]byte(err.Error()))

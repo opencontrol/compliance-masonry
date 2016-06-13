@@ -11,7 +11,6 @@ import (
 	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
-	"fmt"
 	"github.com/codegangsta/cli"
 )
 

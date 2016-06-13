@@ -36,9 +36,9 @@ func diffCommandAction(c *cli.Context) error {
 		Certification:  c.Args().First(),
 		OpencontrolDir: opencontrolDir,
 	}
-	inventory, err := inventory.ComputeGapAnalysis(config)
-	if err != nil && len(err.Error()) > 0 {
-		return cli.NewExitError(err.Error(), 1)
+	inventory, errs := inventory.ComputeGapAnalysis(config)
+	if errs != nil && len(errs) > 0 {
+		return cli.NewExitError(cli.NewMultiError(errs...).Error(), 1)
 	}
 
 	c.App.Writer.Write([]byte(fmt.Sprintf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))))

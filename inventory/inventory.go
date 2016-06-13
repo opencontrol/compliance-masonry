@@ -64,11 +64,11 @@ type Config struct {
 // opencontrol workspace if successful. Otherwise, it will return a list of error messages.
 // TODO: fix the error return to return of type error. This was used because existing code returned that type
 // TODO: e.g. GetCertification
-func ComputeGapAnalysis(config Config) (Inventory, error) {
+func ComputeGapAnalysis(config Config) (Inventory, []error) {
 	// Initialize inventory with certification
-	certificationPath, messages := certifications.GetCertification(config.OpencontrolDir, config.Certification)
+	certificationPath, errs := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
-		return Inventory{}, messages
+		return Inventory{}, errs
 	}
 	openControlData, _ := models.LoadData(config.OpencontrolDir, certificationPath)
 	i := Inventory{
@@ -78,7 +78,7 @@ func ComputeGapAnalysis(config Config) (Inventory, error) {
 		MissingControlList:      make(map[string]models.Control),
 	}
 	if i.Certification == nil || i.Components == nil {
-		return Inventory{}, fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)
+		return Inventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
 	}
 
 	// Gather list of all controls for certification

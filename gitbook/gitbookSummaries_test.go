@@ -38,8 +38,9 @@ var buildComponentsSummariesTests = []buildComponentsSummariesTest{
 
 func TestBuildComponentsSummaries(t *testing.T) {
 	for _, example := range buildComponentsSummariesTests {
+		openControlData, _ := models.LoadData(example.opencontrolDir, example.certificationPath)
 		openControl := OpenControlGitBook{
-			models.LoadData(example.opencontrolDir, example.certificationPath),
+			openControlData,
 			"",
 			example.exportPath,
 			fs.OSUtil{},
@@ -70,8 +71,9 @@ var buildStandardsSummariesTests = []buildStandardsSummariesTest{
 
 func TestBuildStandardsSummaries(t *testing.T) {
 	for _, example := range buildStandardsSummariesTests {
+		openControlData, _ := models.LoadData(example.opencontrolDir, example.certificationPath)
 		openControl := OpenControlGitBook{
-			models.LoadData(example.opencontrolDir, example.certificationPath),
+			openControlData,
 			"",
 			example.exportPath,
 			fs.OSUtil{},
