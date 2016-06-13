@@ -145,7 +145,6 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	if component.GetKey() == "" {
 		component.SetKey(getKey(componentDir))
 	}
-	fmt.Printf("Loaded component (%s) key\n", component.GetKey())
 	// If the component is new, make sure we load the justifications as well.
 	if openControl.Components.CompareAndAdd(component) {
 		openControl.Justifications.LoadMappings(component)
