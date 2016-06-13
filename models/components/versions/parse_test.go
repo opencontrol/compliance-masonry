@@ -193,7 +193,7 @@ var componentTestErrors = []componentTestError{
 	// Check loading a component with no file
 	{"", errors.New(constants.ErrComponentFileDNE)},
 	// Check loading a component with a broken schema
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), errors.New("Unable to parse component ../../../fixtures/component_fixtures/common/EC2BrokenControl/component.yaml. Error: yaml: line 16: did not find expected key")},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), errors.New("Unable to parse component " +filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl", "component.yaml") + ". Error: yaml: line 16: did not find expected key")},
 	// Check for version that is unsupported
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"), config.ErrUnknownSchemaVersion},
 	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
