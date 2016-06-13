@@ -99,7 +99,7 @@ func (openControl *OpenControl) LoadComponents(directory string) []error {
 	}
 	wg.Wait()
 	close(errChannel)
-	return convertErrChannelToError(errChannel)
+	return convertErrChannelToErrorSlice(errChannel)
 }
 
 // LoadStandards loads multiple standards by searching for components in a
@@ -120,7 +120,7 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) []error {
 	}
 	wg.Wait()
 	close(errChannel)
-	return convertErrChannelToError(errChannel)
+	return convertErrChannelToErrorSlice(errChannel)
 }
 
 
@@ -153,7 +153,7 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	return nil
 }
 
-func convertErrChannelToError(errs <-chan error) []error {
+func convertErrChannelToErrorSlice(errs <-chan error) []error {
 	errMessages := cli.NewMultiError()
 	for err := range errs {
 		if err != nil && len(err.Error()) > 0 {
