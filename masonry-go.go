@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/config/common"
@@ -58,7 +57,7 @@ func NewCLIApp() *cli.App {
 					Usage: "Location of system yaml",
 				},
 			},
-			Action: func(c *cli.Context) {
+			Action: func(c *cli.Context) error {
 				f := fs.OSUtil{}
 				config := c.String("config")
 				configBytes, err := f.OpenAndReadFile(config)
@@ -76,10 +75,10 @@ func NewCLIApp() *cli.App {
 					configBytes,
 					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init(), FSUtil: f})
 				if err != nil {
-					app.Writer.Write([]byte(err.Error()))
-					os.Exit(1)
+					return cli.NewExitError(err.Error(), 1)
 				}
 				app.Writer.Write([]byte("Compliance Dependencies Installed"))
+				return nil
 			},
 		},
 		{
@@ -111,15 +110,24 @@ func NewCLIApp() *cli.App {
 							Destination: &markdownPath,
 						},
 					},
-					Action: func(c *cli.Context) {
+					Action: func(c *cli.Context) error {
 						config := gitbook.Config{
 							Certification:  c.Args().First(),
 							OpencontrolDir: opencontrolDir,
 							ExportPath:     exportPath,
 							MarkdownPath:   markdownPath,
 						}
-						messages := docs.MakeGitbook(config)
-						app.Writer.Write([]byte(strings.Join(messages, "\n")))
+						warning, errMessages := docs.MakeGitbook(config)
+						if warning != "" {
+							app.Writer.Write([]byte(warning))
+						}
+						if errMessages != nil && len(errMessages) > 0{
+							err := cli.NewMultiError(errMessages...)
+							return cli.NewExitError(err.Error(), 1)
+						} else {
+							app.Writer.Write([]byte("New Gitbook Documentation Created"))
+							return nil
+						}
 					},
 				},
 				{
@@ -146,14 +154,18 @@ func NewCLIApp() *cli.App {
 							Destination: &exportPath,
 						},
 					},
-					Action: func(c *cli.Context) {
+					Action: func(c *cli.Context) error {
 						config := docx.Config{
 							OpencontrolDir: opencontrolDir,
 							TemplatePath:   templatePath,
 							ExportPath:     exportPath,
 						}
-						messages := docs.BuildTemplate(config)
-						app.Writer.Write([]byte(strings.Join(messages, "\n")))
+						if err := docs.BuildTemplate(config); err != nil && len(err.Error()) > 0 {
+							return cli.NewExitError(err.Error(), 1)
+						} else {
+							app.Writer.Write([]byte("New Docx Created"))
+							return nil
+						}
 					},
 				},
 			},

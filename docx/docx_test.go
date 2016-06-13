@@ -20,10 +20,12 @@ import (
 var _ = Describe("Docx", func() {
 
 	DescribeTable("FormatAllNarratives", func(standard string, control string, expectedData string,) {
+		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+			OpenControl: openControlData,
 		}
 		actualData := openControl.FormatAllNarratives(standard, control)
+		assert.Nil(GinkgoT(), err)
 		assert.Equal(GinkgoT(), expectedData, actualData)
 	},
 		// Get All Control Data
@@ -33,10 +35,12 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatNarrative", func(standard string, control string, expectedData string, sectionKeys ...string) {
+		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+			OpenControl: openControlData,
 		}
 		actualData := openControl.FormatNarrative(standard, control, sectionKeys...)
+		assert.Nil(GinkgoT(), err)
 		assert.Equal(GinkgoT(), expectedData, actualData)
 	},
 		// Get Specific Control Data
@@ -50,10 +54,12 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatParameter", func(standard string, control string, expectedData string, sectionKeys ...string) {
+		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+			OpenControl: openControlData,
 		}
 		actualData := openControl.FormatParameter(standard, control, sectionKeys...)
+		assert.Nil(GinkgoT(), err)
 		assert.Equal(GinkgoT(), expectedData, actualData)
 	},
 		Entry("openControl.FormatParameter(NIST-800-53@CM-2) - Not specifying a parameter should say no available info", "NIST-800-53", "CM-2", "Amazon Elastic Compute Cloud\nNo information available for component\n"),
@@ -65,10 +71,12 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatResponsibleRole", func(standard string, control string, expectedData string, sectionKeys ...string) {
+		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), ""),
+			OpenControl: openControlData,
 		}
 		actualData := openControl.FormatResponsibleRoles(standard, control)
+		assert.Nil(GinkgoT(), err)
 		assert.Equal(GinkgoT(), expectedData, actualData)
 	},
 		Entry("openControl.FormatResponsibleRole(NIST-800-53@CM-2) - Regular case", "NIST-800-53", "CM-2", "Amazon Elastic Compute Cloud: AWS Staff\n"),

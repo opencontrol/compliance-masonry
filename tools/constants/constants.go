@@ -30,8 +30,6 @@ const (
 	ErrMissingVersion  = "Schema Version can not be found."
 	// ErrComponentFileDNE is raised when a component file does not exists
 	ErrComponentFileDNE = "Component files does not exist"
-	// ErrControlSchema is raised a control cannot be parsed
-	ErrComponentSchema = "Unable to parse component"
 )
 
 const (

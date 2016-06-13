@@ -6,37 +6,35 @@ import (
 	"github.com/opencontrol/compliance-masonry/docx"
 	"github.com/opencontrol/compliance-masonry/gitbook"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
+	"errors"
 )
 
-func BuildTemplate(config docx.Config) []string {
-	var messages []string
+func BuildTemplate(config docx.Config) error {
 	if config.TemplatePath == "" {
-		messages = append(messages, "Error: No Template Supplied")
-		return messages
+		return errors.New("Error: No Template Supplied")
 	}
 	if _, err := os.Stat(config.TemplatePath); os.IsNotExist(err) {
-		messages = append(messages, "Error: Template does not exist")
-		return messages
+		return errors.New("Error: Template does not exist")
 	}
 	err := config.BuildDocx()
 	if err != nil {
-		messages = append(messages, err.Error())
-	} else {
-		messages = append(messages, "New Docx Created")
+		return err
 	}
-	return messages
+	return nil
 }
 
-func MakeGitbook(config gitbook.Config) []string {
-	certificationPath, messages := certifications.GetCertification(config.OpencontrolDir, config.Certification)
+func MakeGitbook(config gitbook.Config) (string, []error) {
+	warning := ""
+	certificationPath, err := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
-		return messages
+		return warning, err
 	}
 	if _, err := os.Stat(config.MarkdownPath); os.IsNotExist(err) {
-		messages = append(messages, "Warning: markdown directory does not exist")
+		warning = "Warning: markdown directory does not exist"
 	}
 	config.Certification = certificationPath
-	config.BuildGitbook()
-	messages = append(messages, "New Gitbook Documentation Created")
-	return messages
+	if err := config.BuildGitbook(); err != nil {
+		return warning, err
+	}
+	return warning, nil
 }

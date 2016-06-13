@@ -54,8 +54,12 @@ func TestExportControl(t *testing.T) {
 			log.Fatal(err)
 		}
 		defer os.RemoveAll(dir)
+		openControlData, errs := models.LoadData(example.opencontrolDir, example.certificationPath)
+		if len(errs) > 0 {
+			log.Fatal("Should have loaded the opencontrol data.")
+		}
 		openControl := OpenControlGitBook{
-			models.LoadData(example.opencontrolDir, example.certificationPath),
+			openControlData,
 			"",
 			dir,
 			fs.OSUtil{},

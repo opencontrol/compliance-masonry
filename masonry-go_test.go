@@ -44,14 +44,14 @@ var _ = Describe("Masonry CLI", func() {
 			Describe("When the CLI is run with the `docs gitbook` command", func() {
 				It("should let the user know that they have not described a certification and show how to use the command", func() {
 					output := Masonry("docs", "gitbook")
-					Eventually(output.Out.Contents).Should(ContainSubstring("Error: Missing Certification Argument"))
+					Eventually(output.Err.Contents).Should(ContainSubstring("Error: Missing Certification Argument"))
 				})
 			})
 
 			Describe("When the CLI is run with the `docs gitbook` command without opencontrols dir", func() {
 				It("should let the user know that there is no opencontrols/certifications directory", func() {
 					output := Masonry("docs", "gitbook", "LATO")
-					Eventually(output.Out.Contents).Should(ContainSubstring("Error: `" + filepath.Join("opencontrols", "certifications") + "` directory does exist"))
+					Eventually(output.Err.Contents).Should(ContainSubstring("Error: `" + filepath.Join("opencontrols", "certifications") + "` directory does exist"))
 				})
 			})
 		})
@@ -95,14 +95,14 @@ var _ = Describe("Masonry CLI", func() {
 		Describe("When the docs docx command is run", func() {
 			It("should warn the user that no template has been supplied", func() {
 				output := Masonry("docs", "docx")
-				Eventually(output.Out.Contents).Should(ContainSubstring("Error: No Template Supplied"))
+				Eventually(output.Err.Contents).Should(ContainSubstring("Error: No Template Supplied"))
 			})
 		})
 
 		Describe("When the docs docx command is run with a none existent template", func() {
 			It("should warn the user that no template does not exist", func() {
 				output := Masonry("docs", "docx", "-t", "test")
-				Eventually(output.Out.Contents).Should(ContainSubstring("Error: Template does not exist"))
+				Eventually(output.Err.Contents).Should(ContainSubstring("Error: Template does not exist"))
 			})
 		})
 
@@ -114,7 +114,7 @@ var _ = Describe("Masonry CLI", func() {
 					"-t", filepath.Join("fixtures", "template_fixtures", "test_corrupted.docx"),
 					"-e", filepath.Join(exportTempDir, "export.docx"),
 				)
-				Eventually(output.Out.Contents).Should(ContainSubstring("Cannot Open File"))
+				Eventually(output.Err.Contents).Should(ContainSubstring("Cannot Open File"))
 			})
 		})
 

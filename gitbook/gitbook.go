@@ -52,9 +52,14 @@ func replaceParentheses(text string) string {
 }
 
 // BuildGitbook entry point for creating gitbook
-func (config Config) BuildGitbook() {
+func (config Config) BuildGitbook() []error {
+	var errs []error
+	openControlData, err := models.LoadData(config.OpencontrolDir, config.Certification)
+	if err != nil && len(err) > 0 {
+		return append(errs, err...)
+	}
 	openControl := OpenControlGitBook{
-		models.LoadData(config.OpencontrolDir, config.Certification),
+		openControlData,
 		config.MarkdownPath,
 		config.ExportPath,
 		fs.OSUtil{},
@@ -62,7 +67,10 @@ func (config Config) BuildGitbook() {
 	openControl.FSUtil.Mkdirs(config.ExportPath)
 	openControl.FSUtil.Mkdirs(filepath.Join(config.ExportPath, "components"))
 	openControl.FSUtil.Mkdirs(filepath.Join(config.ExportPath, "standards"))
-	openControl.buildSummaries()
+	if err := openControl.buildSummaries(); err != nil {
+		return append(errs, err)
+	}
 	openControl.exportComponents()
 	openControl.exportStandards()
+	return nil
 }

@@ -8,8 +8,6 @@ import (
 	"github.com/opencontrol/compliance-masonry/config"
 	"fmt"
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"errors"
 )
 
 var (
@@ -17,7 +15,7 @@ var (
 	ComponentV3_0_0 = semver.MustParse("3.0.0")
 )
 
-func ParseComponent(componentData []byte) (base.Component, error) {
+func ParseComponent(componentData []byte, fileName string) (base.Component, error) {
 	b := base.Base{}
 	err := yaml.Unmarshal(componentData, &b)
 	if err != nil {
@@ -27,7 +25,7 @@ func ParseComponent(componentData []byte) (base.Component, error) {
 			return nil, err
 		}
 		// Otherwise, just return a generic error about the schema.
-		return nil, errors.New(constants.ErrComponentSchema)
+		return nil, fmt.Errorf("Unable to parse component %s. Error: %s", fileName, err.Error())
 	}
 	var component base.Component
 	switch {
