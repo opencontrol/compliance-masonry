@@ -2,4 +2,6 @@
 ##Always change vendor-supplied defaults and remove or disable unnecessary default accounts before installing a system on the network.
 
 #### Amazon Elastic Compute Cloud
-Justification in narrative form
+
+##### Responsible Role: AWS Staff
+Justification in narrative form for 2.1
