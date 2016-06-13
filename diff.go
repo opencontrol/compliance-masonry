@@ -5,7 +5,6 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/inventory"
 	"github.com/tg/gosortmap"
-	"strings"
 )
 
 const (
@@ -38,8 +37,8 @@ func diffCommandAction(c *cli.Context) error {
 		OpencontrolDir: opencontrolDir,
 	}
 	inventory, err := inventory.ComputeGapAnalysis(config)
-	if err != nil && len(err) > 0 {
-		return cli.NewExitError(strings.Join(err, "\n"), 1)
+	if err != nil && len(err.Error()) > 0 {
+		return cli.NewExitError(err.Error(), 1)
 	}
 
 	c.App.Writer.Write([]byte(fmt.Sprintf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))))

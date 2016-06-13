@@ -4,6 +4,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"fmt"
 )
 
 // Inventory maintains the inventory of all the controls within a given workspace.
@@ -63,20 +64,21 @@ type Config struct {
 // opencontrol workspace if successful. Otherwise, it will return a list of error messages.
 // TODO: fix the error return to return of type error. This was used because existing code returned that type
 // TODO: e.g. GetCertification
-func ComputeGapAnalysis(config Config) (Inventory, []string) {
+func ComputeGapAnalysis(config Config) (Inventory, error) {
 	// Initialize inventory with certification
 	certificationPath, messages := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" {
 		return Inventory{}, messages
 	}
+	openControlData, _ := models.LoadData(config.OpencontrolDir, certificationPath)
 	i := Inventory{
-		OpenControl:             models.LoadData(config.OpencontrolDir, certificationPath),
+		OpenControl:   openControlData,
 		masterControlList:       make(map[string]models.Control),
 		actualSatisfiedControls: make(map[string]base.Satisfies),
 		MissingControlList:      make(map[string]models.Control),
 	}
 	if i.Certification == nil || i.Components == nil {
-		return Inventory{}, []string{"Unable to load data in " + config.OpencontrolDir + " for certification " + config.Certification}
+		return Inventory{}, fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)
 	}
 
 	// Gather list of all controls for certification

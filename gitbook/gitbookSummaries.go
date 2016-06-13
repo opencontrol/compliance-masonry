@@ -53,12 +53,17 @@ func (openControl *OpenControlGitBook) buildMarkdowns() {
 }
 
 // buildSummaries creates the general summary
-func (openControl *OpenControlGitBook) buildSummaries() {
+func (openControl *OpenControlGitBook) buildSummaries() error {
 	openControl.buildMarkdowns()
 	standardsSummary, familySummaryMap := openControl.buildStandardsSummaries()
 	componentsSummary := openControl.buildComponentsSummaries()
 	openControl.exportFamilyReadMap(familySummaryMap)
 	summary := standardsSummary + componentsSummary
-	go openControl.FSUtil.AppendOrCreate(filepath.Join(openControl.exportPath, "SUMMARY.md"), summary)
-	go openControl.FSUtil.AppendOrCreate(filepath.Join(openControl.exportPath, "README.md"), summary)
+	if err := openControl.FSUtil.AppendOrCreate(filepath.Join(openControl.exportPath, "SUMMARY.md"), summary); err != nil {
+		return err
+	}
+	if err := openControl.FSUtil.AppendOrCreate(filepath.Join(openControl.exportPath, "README.md"), summary); err != nil {
+		return err
+	}
+	return nil
 }

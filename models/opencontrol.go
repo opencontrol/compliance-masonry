@@ -11,6 +11,8 @@ import (
 	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
+	"fmt"
+	"github.com/codegangsta/cli"
 )
 
 var (
@@ -50,66 +52,75 @@ func NewOpenControl() *OpenControl {
 
 // LoadData creates a new instance of OpenControl struct and loads
 // the components, standards, and certification data.
-func LoadData(openControlDir string, certificationPath string) *OpenControl {
+func LoadData(openControlDir string, certificationPath string) (*OpenControl, []error) {
 	var wg sync.WaitGroup
 	openControl := NewOpenControl()
 	wg.Add(3)
-	go func() {
+	var componentsErrs, standardsErrs []error
+	var certificationErr error
+	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
-		openControl.LoadComponents(filepath.Join(openControlDir, "components"))
-	}()
-	go func() {
+		componentsErrs = openControl.LoadComponents(filepath.Join(openControlDir, "components"))
+	}(&wg)
+	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
-		openControl.LoadStandards(filepath.Join(openControlDir, "standards"))
-	}()
-	go func() {
+		standardsErrs = openControl.LoadStandards(filepath.Join(openControlDir, "standards"))
+	}(&wg)
+	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
-		openControl.LoadCertification(certificationPath)
-	}()
+		certificationErr = openControl.LoadCertification(certificationPath)
+	}(&wg)
 	wg.Wait()
-	return openControl
+	var errs []error
+	//errs = append(errs, certificationErr)
+	errs = append(errs, componentsErrs...)
+	errs = append(errs, standardsErrs...)
+	return openControl, errs
 }
 
 // LoadComponents loads multiple components by searching for components in a
 // given directory
-func (openControl *OpenControl) LoadComponents(directory string) error {
+func (openControl *OpenControl) LoadComponents(directory string) []error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
-		return ErrReadDir
+		return []error{ErrReadDir}
 	}
+	errChannel := make(chan error ,len(componentsDir))
+	wg.Add(len(componentsDir))
 	for _, componentDir := range componentsDir {
-		wg.Add(1)
-		go func(componentDir os.FileInfo) {
+		go func(componentDir os.FileInfo, wg *sync.WaitGroup) {
 			if componentDir.IsDir() {
 				componentDir := filepath.Join(directory, componentDir.Name())
-				openControl.LoadComponent(componentDir)
+				errChannel <- openControl.LoadComponent(componentDir)
 			}
 			wg.Done()
-		}(componentDir)
+		}(componentDir, &wg)
 	}
 	wg.Wait()
-	return nil
+	close(errChannel)
+	return convertErrChannelToError(errChannel)
 }
 
 // LoadStandards loads multiple standards by searching for components in a
 // given directory
-func (openControl *OpenControl) LoadStandards(standardsDir string) error {
+func (openControl *OpenControl) LoadStandards(standardsDir string) []error {
 	var wg sync.WaitGroup
-
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
-		return ErrReadDir
+		return []error{ErrReadDir}
 	}
+	errChannel := make(chan error, len(standardsFiles))
+	wg.Add(len(standardsFiles))
 	for _, standardFile := range standardsFiles {
-		wg.Add(1)
-		go func(standardFile os.FileInfo) {
-			openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
+		go func(standardFile os.FileInfo, wg *sync.WaitGroup) {
+			errChannel <- openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
 			wg.Done()
-		}(standardFile)
+		}(standardFile, &wg)
 	}
 	wg.Wait()
-	return nil
+	close(errChannel)
+	return convertErrChannelToError(errChannel)
 }
 
 
@@ -119,13 +130,14 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	// Get file system assistance.
 	fs := fs.OSUtil{}
 	// Read the component file.
-	componentData, err := fs.OpenAndReadFile(filepath.Join(componentDir, "component.yaml"))
+	fileName := filepath.Join(componentDir, "component.yaml")
+	componentData, err := fs.OpenAndReadFile(fileName)
 	if err != nil {
 		return errors.New(constants.ErrComponentFileDNE)
 	}
 	// Parse the component.
 	var component base.Component
-	component, err = versions.ParseComponent(componentData)
+	component, err = versions.ParseComponent(componentData,fileName)
 	if err != nil {
 		return err
 	}
@@ -133,9 +145,20 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 	if component.GetKey() == "" {
 		component.SetKey(getKey(componentDir))
 	}
+	fmt.Printf("Loaded component (%s) key\n", component.GetKey())
 	// If the component is new, make sure we load the justifications as well.
 	if openControl.Components.CompareAndAdd(component) {
 		openControl.Justifications.LoadMappings(component)
 	}
 	return nil
+}
+
+func convertErrChannelToError(errs <-chan error) []error {
+	errMessages := cli.NewMultiError()
+	for err := range errs {
+		if err != nil && len(err.Error()) > 0 {
+			errMessages.Errors = append(errMessages.Errors, err)
+		}
+	}
+	return errMessages.Errors
 }

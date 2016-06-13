@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/config/common"
@@ -118,9 +117,15 @@ func NewCLIApp() *cli.App {
 							ExportPath:     exportPath,
 							MarkdownPath:   markdownPath,
 						}
-						messages := docs.MakeGitbook(config)
-						app.Writer.Write([]byte(strings.Join(messages, "\n")))
-						return nil
+						errMessages := docs.MakeGitbook(config)
+						if errMessages != nil && len(errMessages) > 0{
+							err := cli.NewMultiError(errMessages...)
+							app.Writer.Write([]byte(err.Error()))
+							return cli.NewExitError(err.Error(), 1)
+						} else {
+							app.Writer.Write([]byte("New Gitbook Documentation Created"))
+							return nil
+						}
 					},
 				},
 				{
@@ -153,9 +158,13 @@ func NewCLIApp() *cli.App {
 							TemplatePath:   templatePath,
 							ExportPath:     exportPath,
 						}
-						messages := docs.BuildTemplate(config)
-						app.Writer.Write([]byte(strings.Join(messages, "\n")))
-						return nil
+						if err := docs.BuildTemplate(config); err != nil && len(err.Error()) > 0 {
+							app.Writer.Write([]byte(err.Error()))
+							return cli.NewExitError(err.Error(), 1)
+						} else {
+							app.Writer.Write([]byte("New Docx Created"))
+							return nil
+						}
 					},
 				},
 			},
