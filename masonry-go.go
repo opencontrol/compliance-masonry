@@ -123,7 +123,6 @@ func NewCLIApp() *cli.App {
 						}
 						if errMessages != nil && len(errMessages) > 0{
 							err := cli.NewMultiError(errMessages...)
-							app.Writer.Write([]byte(err.Error()))
 							return cli.NewExitError(err.Error(), 1)
 						} else {
 							app.Writer.Write([]byte("New Gitbook Documentation Created"))
@@ -162,7 +161,6 @@ func NewCLIApp() *cli.App {
 							ExportPath:     exportPath,
 						}
 						if err := docs.BuildTemplate(config); err != nil && len(err.Error()) > 0 {
-							app.Writer.Write([]byte(err.Error()))
 							return cli.NewExitError(err.Error(), 1)
 						} else {
 							app.Writer.Write([]byte("New Docx Created"))
