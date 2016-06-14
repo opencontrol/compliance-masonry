@@ -56,7 +56,9 @@ go test $(glide nv)
 
 #### Compiling and Uploading Binaries
 
-1. Set version number in `.goxc.json` file
+1. Set version number in:
+    * [`.goxc.json`](.goxc.json)
+    * As `app.Version` in [`masonry-go.go`](masonry-go.go)
 1. Run the release script
 
     ```bash
