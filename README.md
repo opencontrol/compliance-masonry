@@ -121,6 +121,17 @@ After making any edits, view the changes by running
 compliance-masonry get && compliance-masonry docs gitbook <certification>
 ```
 
+### Viewing as a PDF
+
+1. Following [the steps above](#creating-gitbook-documentation)
+1. Navigate to the `exports` directory
+
+    ```bash
+    cd exports
+    ```
+
+1. Follow [these instructions](http://toolchain.gitbook.com/ebook.html)
+
 ## Create Docx template
 
 1. Create a Word Document template that uses the following template tag format:
