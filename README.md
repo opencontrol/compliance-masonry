@@ -91,7 +91,7 @@ The `get` command will retrieve dependencies needed to compile documentation.
 
 The `gitbook` command by default will create a folder called `exports` that contains the files needed to create a gitbook. Visit the [gitbook documentation](https://github.com/GitbookIO/gitbook-cli) for more information on creating gitbooks via the CLI.
 
-### Viewing locally
+### Viewing gitbook locally in browser
 
 Requires [NodeJS](https://nodejs.org/). After running the steps above,
 
@@ -121,7 +121,7 @@ After making any edits, view the changes by running
 compliance-masonry get && compliance-masonry docs gitbook <certification>
 ```
 
-### Viewing as a PDF
+### Export gitbook as a PDF
 
 1. Following [the steps above](#creating-gitbook-documentation)
 1. Navigate to the `exports` directory
