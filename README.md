@@ -89,7 +89,48 @@ The `get` command will retrieve dependencies needed to compile documentation.
     compliance-masonry docs gitbook FedRAMP-low
     ```
 
-The `gitbook` command by default will create a folder called `exports` that contains the files needed to create a gitbook. Visit the [gitbook documentation](https://github.com/GitbookIO/gitbook-cli) for more information on creating gitbooks via the cli
+The `gitbook` command by default will create a folder called `exports` that contains the files needed to create a gitbook. Visit the [gitbook documentation](https://github.com/GitbookIO/gitbook-cli) for more information on creating gitbooks via the CLI.
+
+### Viewing gitbook locally in browser
+
+Requires [NodeJS](https://nodejs.org/). After running the steps above,
+
+1. Install the gitbook CLI
+
+    ```bash
+    npm install -g gitbook-cli
+    ```
+
+1. Navigate to the `exports` directory
+
+    ```bash
+    cd exports
+    ```
+
+1. Serve the gitbook site locally
+
+    ```bash
+    gitbook serve
+    ```
+
+1. Open the site: http://localhost:4000
+
+After making any edits, view the changes by running
+
+```bash
+compliance-masonry get && compliance-masonry docs gitbook <certification>
+```
+
+### Export gitbook as a PDF
+
+1. Following [the steps above](#creating-gitbook-documentation)
+1. Navigate to the `exports` directory
+
+    ```bash
+    cd exports
+    ```
+
+1. Follow [these instructions](http://toolchain.gitbook.com/ebook.html)
 
 ## Create Docx template
 
