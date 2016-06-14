@@ -19,7 +19,7 @@ func (openControl *OpenControlGitBook) getResponsibleRole(text string, component
 
 func (openControl *OpenControlGitBook) getNarratives(narratives []base.Section, text string, control *ControlGitbook) string {
 	if len(narratives) == 0 {
-		return fmt.Sprintf("%sNo narrative found for the combination of standard %s and control %s\n", text, control.standardKey, control.controlKey)
+		return fmt.Sprintf("%s\nNo narrative found for the combination of standard %s and control %s\n", text, control.standardKey, control.controlKey)
 	}
 
 	for _, narrative := range narratives {
@@ -33,6 +33,22 @@ func (openControl *OpenControlGitBook) getNarrative(narrative base.Section, text
 		text = fmt.Sprintf("%s\n##### %s\n", text, narrative.GetKey())
 	}
 	text = fmt.Sprintf("%s%s\n", text, narrative.GetText())
+	return text
+}
+
+func (openControl *OpenControlGitBook) getParameters(text string, parameters []base.Section) string {
+	if len(parameters) > 0 {
+		text = fmt.Sprintf("%s\n##### Parameters:\n", text)
+	}
+	for _, parameter := range parameters {
+		text = openControl.getParameter(text, parameter)
+	}
+	return text
+}
+
+func (openControl *OpenControlGitBook) getParameter(text string, parameter base.Section) string{
+	text = fmt.Sprintf("%s\n###### %s\n", text, parameter.GetKey())
+	text = fmt.Sprintf("%s%s\n", text, parameter.GetText())
 	return text
 }
 
@@ -81,6 +97,8 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 				text = fmt.Sprintf("%s\n#### %s\n", text, component.GetName())
 
 				text = openControl.getResponsibleRole(text, component)
+
+				text = openControl.getParameters(text, justification.SatisfiesData.GetParameters())
 
 				text = openControl.getNarratives(justification.SatisfiesData.GetNarratives(), text, control)
 			})
