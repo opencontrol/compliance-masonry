@@ -69,6 +69,7 @@ type Satisfies struct {
 	Narrative   []NarrativeSection        `yaml:"narrative" json:"narrative"`
 	CoveredBy   common.CoveredByList `yaml:"covered_by" json:"covered_by"`
 	Parameters      []Section          `yaml:"parameters" json:"parameters"`
+	ControlOrigin string `yaml:"control_origin" json:"control_origin"`
 }
 
 func (s Satisfies) GetControlKey() string {
@@ -99,6 +100,10 @@ func (s Satisfies) GetParameters() []base.Section {
 
 func (s Satisfies) GetCoveredBy() common.CoveredByList {
 	return s.CoveredBy
+}
+
+func (s Satisfies) GetControlOrigin() string {
+	return s.ControlOrigin
 }
 
 // NarrativeSection contains the key and text for a particular section.
