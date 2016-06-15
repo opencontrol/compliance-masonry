@@ -36,6 +36,8 @@ var exportControlTests = []exportControlTest{
 
 ##### Responsible Role: AWS Staff
 
+##### Control Origin: shared
+
 ##### a
 Justification in narrative form A for CM-2
 

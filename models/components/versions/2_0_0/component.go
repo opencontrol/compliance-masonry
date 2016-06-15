@@ -97,6 +97,10 @@ func (s Satisfies) GetCoveredBy() common.CoveredByList {
 	return s.CoveredBy
 }
 
+func (s Satisfies) GetControlOrigin() string {
+	return ""
+}
+
 type Narrative string
 
 func (n Narrative) GetKey() string {

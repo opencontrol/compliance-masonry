@@ -80,6 +80,12 @@ func (openControl *OpenControlGitBook) getCoveredByVerification(text string, com
 	return text
 }
 
+func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrigin string) string {
+	if controlOrigin != "" {
+		text = fmt.Sprintf("%s\n##### Control Origin: %s\n", text, controlOrigin)
+	}
+	return text
+}
 
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
@@ -99,6 +105,8 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 				text = openControl.getResponsibleRole(text, component)
 
 				text = openControl.getParameters(text, justification.SatisfiesData.GetParameters())
+
+				text = openControl.getControlOrigin(text, justification.SatisfiesData.GetControlOrigin())
 
 				text = openControl.getNarratives(justification.SatisfiesData.GetNarratives(), text, control)
 			})
