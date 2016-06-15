@@ -4,6 +4,15 @@
 #### Amazon Elastic Compute Cloud
 
 ##### Responsible Role: AWS Staff
+
+##### Parameters:
+
+###### a
+Parameter A for 1.1
+
+###### b
+Parameter B for 1.1
+
 No narrative found for the combination of standard PCI-DSS-MAY-2015 and control 1.1
 Covered By:
 * [Amazon Elastic Compute Cloud - EC2 Verification 1](../components/EC2.md)
