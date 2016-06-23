@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"io/ioutil"
-  "log"
 	"os"
 	"path/filepath"
 	"sync"
@@ -17,7 +16,7 @@ import (
 
 var (
 	// ErrReadDir is raised when a directory can not be read
-	ErrReadDir = errors.New("Unable to read the directory: ")
+	ErrReadDir = errors.New("Unable to read the directory")
 	// ErrReadFile is raised when a file can not be read
 	ErrReadFile = errors.New("Unable to read the file")
 	// ErrCertificationSchema is raised a certification cannot be parsed
@@ -84,7 +83,7 @@ func (openControl *OpenControl) LoadComponents(directory string) []error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
-    return []error{errors.New("Error: Unable to read the directory "+directory)}
+		return []error{errors.New("Error: Unable to read the directory "+directory)}
 	}
 	errChannel := make(chan error ,len(componentsDir))
 	wg.Add(len(componentsDir))
