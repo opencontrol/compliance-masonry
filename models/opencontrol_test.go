@@ -101,8 +101,8 @@ func TestLoadComponents(t *testing.T) {
 }
 
 var loadComponentsTestErrors = []loadComponentsTestError{
-	// Check loading set components that only has one component
-	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"), ErrReadDir},
+	// Check the error is emitted when
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"), ErrReadFile},
 }
 
 func TestLoadComponentErrors (t *testing.T) {
@@ -110,7 +110,7 @@ func TestLoadComponentErrors (t *testing.T) {
 		openControl := NewOpenControl()
 		actualErrors := openControl.LoadComponents(example.dir)
 		if example.expectedError != actualErrors[0] {
-			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
 		}
 	}
 }
