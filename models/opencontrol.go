@@ -15,8 +15,6 @@ import (
 )
 
 var (
-	// ErrReadDir is raised when a directory can not be read
-	ErrReadDir = errors.New("Unable to read the directory")
 	// ErrReadFile is raised when a file can not be read
 	ErrReadFile = errors.New("Unable to read the file")
 	// ErrCertificationSchema is raised a certification cannot be parsed
