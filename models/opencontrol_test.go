@@ -3,6 +3,8 @@ package models
 import (
 	"path/filepath"
 	"testing"
+	"errors"
+	"github.com/stretchr/testify/assert"
 )
 
 type keyTest struct {
@@ -101,15 +103,18 @@ func TestLoadComponents(t *testing.T) {
 }
 
 var loadComponentsTestErrors = []loadComponentsTestError{
-	// Check the error is emitted when
-	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"), ErrReadFile},
+	{
+		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
+	 	errors.New("Error: Unable to read the directory "+filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+	},
 }
 
 func TestLoadComponentErrors (t *testing.T) {
 	for _, example := range loadComponentsTestErrors {
 		openControl := NewOpenControl()
 		actualErrors := openControl.LoadComponents(example.dir)
-		if example.expectedError != actualErrors[0] {
+		// Check that the actual error is the expected error
+		if !assert.Equal(t, example.expectedError, actualErrors[0]) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
 		}
 	}
