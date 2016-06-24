@@ -35,6 +35,7 @@ func TestComponentGetters(t *testing.T) {
 		}
 		assert.Equal(t, satisfies.GetParameters(), testSatisfies[idx].GetParameters())
 		assert.Equal(t, satisfies.GetCoveredBy(), testSatisfies[idx].GetCoveredBy())
+		assert.Equal(t, "", satisfies.GetControlOrigin())
 	}
 }
 

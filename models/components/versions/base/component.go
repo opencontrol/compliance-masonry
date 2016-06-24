@@ -25,6 +25,7 @@ type Satisfies interface {
 	GetNarratives() []Section
 	GetParameters() []Section
 	GetCoveredBy() common.CoveredByList
+	GetControlOrigin() string
 }
 
 type Section interface {

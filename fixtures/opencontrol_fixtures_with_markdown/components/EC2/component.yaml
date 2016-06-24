@@ -13,6 +13,7 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
+  control_origin: shared
   narrative:
     - key: "a"
       text: "Justification in narrative form A for CM-2"
@@ -26,6 +27,7 @@ satisfies:
     system_key: CloudFoundry
     verification_key: UAA_Verification_1
   implementation_status: partial
+  control_origin: inherited
   parameters:
     - key: "a"
       text: "Parameter A for 1.1"
@@ -35,6 +37,7 @@ satisfies:
 - control_key: 2.1
   covered_by: []
   implementation_status: partial
+  control_origin: inherited
   narrative:
     - text: "Justification in narrative form for 2.1"
   standard_key: PCI-DSS-MAY-2015

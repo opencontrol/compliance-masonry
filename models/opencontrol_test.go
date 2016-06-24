@@ -29,6 +29,11 @@ type loadComponentsTest struct {
 	expectedComponents int
 }
 
+type loadComponentsTestError struct {
+	dir                string
+	expectedError      error
+}
+
 var keyTests = []keyTest{
 	// Check that the key is extracted by using the local directory
 	{".", "."},
@@ -91,6 +96,21 @@ func TestLoadComponents(t *testing.T) {
 		// Check the number of components
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
+		}
+	}
+}
+
+var loadComponentsTestErrors = []loadComponentsTestError{
+	// Check the error is emitted when
+	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"), ErrReadFile},
+}
+
+func TestLoadComponentErrors (t *testing.T) {
+	for _, example := range loadComponentsTestErrors {
+		openControl := NewOpenControl()
+		actualErrors := openControl.LoadComponents(example.dir)
+		if example.expectedError != actualErrors[0] {
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
 		}
 	}
 }

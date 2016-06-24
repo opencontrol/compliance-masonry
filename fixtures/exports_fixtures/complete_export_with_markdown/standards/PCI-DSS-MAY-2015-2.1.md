@@ -4,4 +4,6 @@
 #### Amazon Elastic Compute Cloud
 
 ##### Responsible Role: AWS Staff
+
+##### Control Origin: inherited
 Justification in narrative form for 2.1
