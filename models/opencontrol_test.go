@@ -3,6 +3,8 @@ package models
 import (
 	"path/filepath"
 	"testing"
+	"errors"
+	"github.com/stretchr/testify/assert"
 )
 
 type keyTest struct {
@@ -24,9 +26,19 @@ type loadStandardsTest struct {
 	expectedStandards int
 }
 
+type loadStandardsTestError struct {
+	dir                string
+	expectedError      error
+}
+
 type loadComponentsTest struct {
 	dir                string
 	expectedComponents int
+}
+
+type loadComponentsTestError struct {
+	dir                string
+	expectedError      error
 }
 
 var keyTests = []keyTest{
@@ -95,6 +107,24 @@ func TestLoadComponents(t *testing.T) {
 	}
 }
 
+var loadComponentsTestErrors = []loadComponentsTestError{
+	{
+		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
+	 	errors.New("Error: Unable to read the directory "+filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+	},
+}
+
+func TestLoadComponentErrors (t *testing.T) {
+	for _, example := range loadComponentsTestErrors {
+		openControl := NewOpenControl()
+		actualErrors := openControl.LoadComponents(example.dir)
+		// Check that the actual error is the expected error
+		if !assert.Equal(t, example.expectedError, actualErrors[0]) {
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
+		}
+	}
+}
+
 var loadStandardsTests = []loadStandardsTest{
 	// Load a series of standards file that have 2 standards
 	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "standards"), 2},
@@ -108,6 +138,24 @@ func TestLoadStandards(t *testing.T) {
 		// Check that the actual number of standards is the expected number of standards
 		if actualStandards != example.expectedStandards {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedStandards, actualStandards)
+		}
+	}
+}
+
+var loadStandardsTestErrors = []loadStandardsTestError{
+	{
+		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
+	 	errors.New("Error: Unable to read the directory "+filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+	},
+}
+
+func TestLoadStandardErrors (t *testing.T) {
+	for _, example := range loadStandardsTestErrors {
+		openControl := NewOpenControl()
+		actualErrors := openControl.LoadStandards(example.dir)
+		// Check that the actual error is the expected error
+		if !assert.Equal(t, example.expectedError, actualErrors[0]) {
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
 		}
 	}
 }
