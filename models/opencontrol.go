@@ -107,7 +107,7 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) []error {
 	var wg sync.WaitGroup
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
-		return []error{ErrReadDir}
+		return []error{errors.New("Error: Unable to read the directory "+standardsDir)}
 	}
 	errChannel := make(chan error, len(standardsFiles))
 	wg.Add(len(standardsFiles))

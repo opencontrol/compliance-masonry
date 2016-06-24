@@ -26,6 +26,11 @@ type loadStandardsTest struct {
 	expectedStandards int
 }
 
+type loadStandardsTestError struct {
+	dir                string
+	expectedError      error
+}
+
 type loadComponentsTest struct {
 	dir                string
 	expectedComponents int
@@ -133,6 +138,24 @@ func TestLoadStandards(t *testing.T) {
 		// Check that the actual number of standards is the expected number of standards
 		if actualStandards != example.expectedStandards {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedStandards, actualStandards)
+		}
+	}
+}
+
+var loadStandardsTestErrors = []loadStandardsTestError{
+	{
+		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
+	 	errors.New("Error: Unable to read the directory "+filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+	},
+}
+
+func TestLoadStandardErrors (t *testing.T) {
+	for _, example := range loadStandardsTestErrors {
+		openControl := NewOpenControl()
+		actualErrors := openControl.LoadStandards(example.dir)
+		// Check that the actual error is the expected error
+		if !assert.Equal(t, example.expectedError, actualErrors[0]) {
+			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
 		}
 	}
 }
