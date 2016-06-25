@@ -40,10 +40,9 @@ func diffCommandAction(c *cli.Context) error {
 	if errs != nil && len(errs) > 0 {
 		return cli.NewExitError(cli.NewMultiError(errs...).Error(), 1)
 	}
-
-	c.App.Writer.Write([]byte(fmt.Sprintf("\nNumber of missing controls: %d\n", len(inventory.MissingControlList))))
+	fmt.Fprintf(c.App.Writer, "\nNumber of missing controls: %d\n", len(inventory.MissingControlList))
 	for _, standardAndControl := range sortmap.ByKey(inventory.MissingControlList) {
-		c.App.Writer.Write([]byte(fmt.Sprintf("%s\n", standardAndControl.Key)))
+		fmt.Fprintf(c.App.Writer, "%s\n", standardAndControl.Key)
 	}
 	return nil
 }

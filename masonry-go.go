@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -62,12 +63,12 @@ func NewCLIApp() *cli.App {
 				config := c.String("config")
 				configBytes, err := f.OpenAndReadFile(config)
 				if err != nil {
-					app.Writer.Write([]byte(err.Error()))
+					fmt.Fprintf(app.Writer, "%v\n", err.Error())
 					os.Exit(1)
 				}
 				wd, err := os.Getwd()
 				if err != nil {
-					app.Writer.Write([]byte(err.Error()))
+					fmt.Fprintf(app.Writer, "%v\n", err.Error())
 					os.Exit(1)
 				}
 				destination := filepath.Join(wd, c.String("dest"))
@@ -77,7 +78,7 @@ func NewCLIApp() *cli.App {
 				if err != nil {
 					return cli.NewExitError(err.Error(), 1)
 				}
-				app.Writer.Write([]byte("Compliance Dependencies Installed"))
+				fmt.Fprintf(app.Writer, "%v\n", "Compliance Dependencies Installed")
 				return nil
 			},
 		},
@@ -119,13 +120,13 @@ func NewCLIApp() *cli.App {
 						}
 						warning, errMessages := docs.MakeGitbook(config)
 						if warning != "" {
-							app.Writer.Write([]byte(warning))
+							fmt.Fprintf(app.Writer, "%v\n", warning)
 						}
-						if errMessages != nil && len(errMessages) > 0{
+						if errMessages != nil && len(errMessages) > 0 {
 							err := cli.NewMultiError(errMessages...)
 							return cli.NewExitError(err.Error(), 1)
 						} else {
-							app.Writer.Write([]byte("New Gitbook Documentation Created"))
+							fmt.Fprintf(app.Writer, "%v\n", "New Gitbook Documentation Created")
 							return nil
 						}
 					},
@@ -163,7 +164,7 @@ func NewCLIApp() *cli.App {
 						if err := docs.BuildTemplate(config); err != nil && len(err.Error()) > 0 {
 							return cli.NewExitError(err.Error(), 1)
 						} else {
-							app.Writer.Write([]byte("New Docx Created"))
+							fmt.Fprintf(app.Writer, "%v\n", "New Docx Created")
 							return nil
 						}
 					},
