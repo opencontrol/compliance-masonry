@@ -100,13 +100,13 @@ Security documentation usually requires unstructured information that is not cap
     mkdir markdowns
     ```
 
-2. Create the `SUMMARY.md` and `README.md` documents.
+2. Create the `markdowns/SUMMARY.md` and `markdowns/README.md` documents.
     ```bash
-    touch SUMMARY.md
-    touch README.md
+    touch markdowns/SUMMARY.md
+    touch markdowns/README.md
     ```
 
-The content of the `SUMMARY.md` and `README.md` files and the files they reference is prepended to the Gitbook documentation.
+The content of the `markdowns/SUMMARY.md` and `markdowns/README.md` files and the files they reference is prepended to the Gitbook documentation.
 
 For more information on using the `SUMMARY.md` and `README.md` files visit the [Gitbook documentation.](http://toolchain.gitbook.com/structure.html) For an example `markdowns` directory visit the [cloud.gov `markdowns`](https://github.com/18F/cg-compliance/tree/master/markdowns).
 
