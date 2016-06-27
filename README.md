@@ -91,6 +91,26 @@ The `get` command will retrieve dependencies needed to compile documentation.
 
 The `gitbook` command by default will create a folder called `exports` that contains the files needed to create a gitbook. Visit the [gitbook documentation](https://github.com/GitbookIO/gitbook-cli) for more information on creating gitbooks via the CLI.
 
+### Adding additional markdown content to Gitbook documentation (optional)
+Security documentation usually requires unstructured information that is not captured in the control documentation. The `markdowns` directory can be used to add this supplemental information.
+
+1. Create a `markdowns` folder in the same directory as the `opencontrol.yaml`.
+
+    ```bash
+    mkdir markdowns
+    ```
+
+2. Create the `markdowns/SUMMARY.md` and `markdowns/README.md` documents.
+    ```bash
+    touch markdowns/SUMMARY.md
+    touch markdowns/README.md
+    ```
+
+The content of the `markdowns/SUMMARY.md` and `markdowns/README.md` files and the files they reference is prepended to the Gitbook documentation.
+
+For more information on using the `SUMMARY.md` and `README.md` files visit the [Gitbook documentation.](http://toolchain.gitbook.com/structure.html) For an example `markdowns` directory visit the [cloud.gov `markdowns`](https://github.com/18F/cg-compliance/tree/master/markdowns).
+
+
 ### Viewing gitbook locally in browser
 
 Requires [NodeJS](https://nodejs.org/). After running the steps above,
