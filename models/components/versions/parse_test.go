@@ -191,15 +191,28 @@ func TestLoadComponent(t *testing.T) {
 
 var componentTestErrors = []componentTestError{
 	// Check loading a component with no file
-	{"", errors.New(constants.ErrComponentFileDNE)},
+	{"",
+		errors.New(constants.ErrComponentFileDNE)},
+
 	// Check loading a component with a broken schema
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"), errors.New("Unable to parse component " +filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl", "component.yaml") + ". Error: yaml: line 16: did not find expected key")},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"),
+		errors.New("Unable to parse component " + filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl", "component.yaml") + ". Error: yaml: line 16: did not find expected key")},
+
 	// Check for version that is unsupported
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"), config.ErrUnknownSchemaVersion},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"),
+		config.ErrUnknownSchemaVersion},
+
 	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"), errors.New("Unable to parse component. Please check component.yaml schema for version 2.0.0")},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"),
+		errors.New("Unable to parse component. Please check component.yaml schema for version 2.0.0" +
+			"\n\tFile: " +
+			filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0", "component.yaml") +
+			"\n\tParse error: yaml: unmarshal errors:" +
+			"\n  line 9: cannot unmarshal !!str `wrong` into common.CoveredByList")},
+
 	// Check for the case when non-2.0 version is not in semver format.
-	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2VersionNotSemver"), base.NewBaseComponentParseError("Version 1 is not in semver format")},
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2VersionNotSemver"),
+		base.NewBaseComponentParseError("Version 1 is not in semver format")},
 }
 
 func TestLoadComponentErrors(t *testing.T) {

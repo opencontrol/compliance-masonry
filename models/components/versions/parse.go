@@ -42,7 +42,8 @@ func ParseComponent(componentData []byte, fileName string) (base.Component, erro
 
 	}
 	if err != nil {
-		return nil, fmt.Errorf("Unable to parse component. Please check component.yaml schema for version %s", b.SchemaVersion.String())
+		return nil, fmt.Errorf("Unable to parse component. Please check component.yaml schema for version %s\n" +
+			"\tFile: %v\n\tParse error: %v", b.SchemaVersion.String(), fileName, err)
 	}
 	// Copy version from base because some versions of the component can not expect to parse directly into it's own struct
 	// e.g. version 2.0.0 with 2.0 float
