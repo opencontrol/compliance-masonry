@@ -205,7 +205,8 @@ var componentTestErrors = []componentTestError{
 	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"),
 		errors.New("Unable to parse component. Please check component.yaml schema for version 2.0.0" +
-			"\n\tFile: ../../../fixtures/component_fixtures/common/EC2_InvalidFieldTypeForVersion2_0/component.yaml" +
+			"\n\tFile: " +
+			filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0", "component.yaml") +
 			"\n\tParse error: yaml: unmarshal errors:" +
 			"\n  line 9: cannot unmarshal !!str `wrong` into common.CoveredByList")},
 
