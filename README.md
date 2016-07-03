@@ -32,13 +32,13 @@ Compliance Masonry is a command-line interface (CLI) that allows users to constr
     mkdir your-project-name && cd your-project-name
     ```
 
-1. Create an opencontrol.yaml files
+1. Create an `opencontrol.yaml` files
 
     ```bash
     touch opencontrol.yaml
     ```
 
-1. Edit the opencontrol.yaml to contain the following data:
+1. Edit the `opencontrol.yaml` to contain the following data:
 
     ```yaml
     schema_version: "1.0.0" # 1.0.0 is the current opencontrol.yaml schema version
@@ -55,13 +55,13 @@ Compliance Masonry is a command-line interface (CLI) that allows users to constr
       - ./standard-1.yaml
     dependencies:
       certifications: # An optional list of certifications stored remotely
-        - url: github.com/18F/LATO
+        - url: https://github.com/18F/GSA-Certifications
           revision: master
       systems:  # An optional list of repos that contain an opencontrol.yaml stored remotely
-        - url: github.com/18F/cg-compliance
+        - url: https://github.com/18F/cg-compliance
           revision: master
       standards:   # An optional list of remote repos containing standards info that contain an opencontrol.yaml
-        - url: github.com/18F/NIST-800-53
+        - url: https://github.com/opencontrol/NIST-800-53-Standards
           revision: master
     ```
 
@@ -71,7 +71,7 @@ Compliance Masonry is a command-line interface (CLI) that allows users to constr
     compliance-masonry get
     ```
 
-The `get` command will retrieve dependencies needed to compile documentation.
+The `get` command will retrieve dependencies needed to compile documentation in an `opencontrols/` folder. You will probably want to exclude this from your version control system (e.g. add `opencontrols/` to your `.gitignore`).
 
 ## Creating Gitbook Documentation
 
