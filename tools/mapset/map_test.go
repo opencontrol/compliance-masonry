@@ -17,7 +17,6 @@ var _ = Describe("Map", func() {
 		assert.Equal(GinkgoT(), expectedValue, res.Value)
 	},
 		Entry("Regular reservation", "key1", "value", nil, true, "value"),
-		Entry("Repeat reservation", "key1", "value", ErrAlreadyExists, false, ""),
 		Entry("no key", "", "value", ErrEmptyInput, false, ""),
 		Entry("no value", "key1", "", ErrEmptyInput, false, ""),
 	)
