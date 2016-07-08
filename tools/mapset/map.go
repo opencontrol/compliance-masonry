@@ -38,7 +38,11 @@ func (m *MapSet) Reserve(key string, value string) (result Result) {
 		innerSet = set.New()
 		m.mapOfSet[key] = innerSet
 	}
-
+	if m.mapOfSet[key].Has(value) {
+		result.Success = false
+		result.Value = value
+		return
+	}
 	m.mapOfSet[key].Add(value)
 	result.Success = true
 	result.Value = value
