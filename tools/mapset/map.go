@@ -25,8 +25,6 @@ type Result struct {
 var (
 	// ErrEmptyInput represents that the input into the operation is not complete
 	ErrEmptyInput = errors.New("One or more inputs are empty")
-	// ErrAlreadyExists represents when a value already exists in the set.
-	ErrAlreadyExists = errors.New("Already exists")
 )
 
 // Reserve will put a space into the map for the value given that key. Will return false if there is already an entry.
@@ -40,9 +38,9 @@ func (m *MapSet) Reserve(key string, value string) (result Result) {
 		innerSet = set.New()
 		m.mapOfSet[key] = innerSet
 	}
-
 	if m.mapOfSet[key].Has(value) {
-		result.Error = ErrAlreadyExists
+		result.Success = false
+		result.Value = value
 		return
 	}
 	m.mapOfSet[key].Add(value)
