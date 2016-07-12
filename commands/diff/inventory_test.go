@@ -1,7 +1,7 @@
-package inventory_test
+package diff_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry/commands/inventory"
+	. "github.com/opencontrol/compliance-masonry/commands/diff"
 
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/assert"
