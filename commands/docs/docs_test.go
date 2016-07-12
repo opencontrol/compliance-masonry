@@ -9,7 +9,7 @@ import (
 
 	. "github.com/opencontrol/compliance-masonry/commands/docs"
 	"github.com/opencontrol/compliance-masonry/docx"
-	"github.com/opencontrol/compliance-masonry/gitbook"
+	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
