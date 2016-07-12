@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry/inventory"
+	"github.com/opencontrol/compliance-masonry/commands/inventory"
 	"github.com/tg/gosortmap"
 )
 
