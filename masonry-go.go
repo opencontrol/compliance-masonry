@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 
 	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/commands/docs"
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/config/parser"
-	"github.com/opencontrol/compliance-masonry/docs"
 	"github.com/opencontrol/compliance-masonry/docx"
 	"github.com/opencontrol/compliance-masonry/gitbook"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
