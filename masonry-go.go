@@ -12,7 +12,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/commands/get"
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/config/parser"
-	"github.com/opencontrol/compliance-masonry/docx"
+	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"

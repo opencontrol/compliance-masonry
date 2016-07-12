@@ -3,7 +3,7 @@ package docs
 import (
 	"os"
 
-	"github.com/opencontrol/compliance-masonry/docx"
+	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
 	"errors"

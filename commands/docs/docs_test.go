@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	. "github.com/opencontrol/compliance-masonry/commands/docs"
-	"github.com/opencontrol/compliance-masonry/docx"
+	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
 
 	. "github.com/onsi/ginkgo"
