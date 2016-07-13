@@ -62,17 +62,17 @@ func TestReplaceParentheses(t *testing.T) {
 var buildGitbookTests = []buildGitbookTest{
 	// Check that the gitbook is correctly exported given the fixtures
 	{
-		filepath.Join("..", "fixtures", "opencontrol_fixtures"),
-		filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"),
+		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		"",
-		filepath.Join("..", "fixtures", "exports_fixtures", "complete_export"),
+		filepath.Join("..", "..", "..", "fixtures", "exports_fixtures", "complete_export"),
 	},
 	// Check that the gitbook is correctly exported given the fixtures with markdowns
 	{
-		filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown"),
-		filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LATO.yaml"),
-		filepath.Join("..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
-		filepath.Join("..", "fixtures", "exports_fixtures", "complete_export_with_markdown"),
+		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures_with_markdown"),
+		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LATO.yaml"),
+		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
+		filepath.Join("..", "..", "..", "fixtures", "exports_fixtures", "complete_export_with_markdown"),
 	},
 }
 
