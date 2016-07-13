@@ -55,8 +55,8 @@ var _ = Describe("TestServer", func() {
 					io.WriteString(w, req.RemoteAddr)
 				},
 			)
-
-			resp, err := http.Get(s.URL())
+			client := http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+			resp, err := client.Get(s.URL())
 			Ω(err).ShouldNot(HaveOccurred())
 			Ω(resp.StatusCode).Should(Equal(200))
 
@@ -66,7 +66,7 @@ var _ = Describe("TestServer", func() {
 
 			s.CloseClientConnections()
 
-			resp, err = http.Get(s.URL())
+			resp, err = client.Get(s.URL())
 			Ω(err).ShouldNot(HaveOccurred())
 			Ω(resp.StatusCode).Should(Equal(200))
 
@@ -75,6 +75,13 @@ var _ = Describe("TestServer", func() {
 			Ω(err).ShouldNot(HaveOccurred())
 
 			Ω(body2).ShouldNot(Equal(body))
+		})
+	})
+
+	Describe("closing server mulitple times", func() {
+		It("should not fail", func() {
+			s.Close()
+			Ω(s.Close).ShouldNot(Panic())
 		})
 	})
 
