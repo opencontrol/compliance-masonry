@@ -23,6 +23,7 @@ type Schema struct {
 	Components     []string     `yaml:",flow"`
 	Certifications []string     `yaml:",flow"`
 	Standards      []string     `yaml:",flow"`
+	Includes       []string     `yaml:",flow"`
 	Dependencies   Dependencies `yaml:"dependencies"`
 	resourceGetter resources.ResourceGetter
 }
@@ -71,6 +72,12 @@ func (s *Schema) GetResources(source string, destination string, worker *common.
 	// Get Components
 	log.Println("Retrieving components")
 	err = s.resourceGetter.GetLocalResources(source, s.Components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components)
+	if err != nil {
+		return err
+	}
+	// Get Included files
+	log.Println("Retrieving files to be included")
+	err = s.resourceGetter.GetLocalResources(source, s.Includes, destination, constants.DefaultIncludesFolder, true, worker, constants.Includes)
 	if err != nil {
 		return err
 	}
