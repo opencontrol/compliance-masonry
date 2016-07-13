@@ -24,7 +24,9 @@ var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
-const _ = proto.ProtoPackageIsVersion1
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // A Duration represents a signed, fixed-length span of time represented
 // as a count of seconds and fractions of seconds at nanosecond
@@ -67,6 +69,7 @@ const _ = proto.ProtoPackageIsVersion1
 //       end.nanos -= 1000000000;
 //     }
 //
+//
 type Duration struct {
 	// Signed seconds of the span of time. Must be from -315,576,000,000
 	// to +315,576,000,000 inclusive.
@@ -88,6 +91,10 @@ func (*Duration) XXX_WellKnownType() string   { return "Duration" }
 
 func init() {
 	proto.RegisterType((*Duration)(nil), "google.protobuf.Duration")
+}
+
+func init() {
+	proto.RegisterFile("github.com/golang/protobuf/ptypes/duration/duration.proto", fileDescriptor0)
 }
 
 var fileDescriptor0 = []byte{
