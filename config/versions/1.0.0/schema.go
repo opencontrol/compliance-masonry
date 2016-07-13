@@ -71,7 +71,7 @@ func (s *Schema) GetResources(source string, destination string, worker *common.
 	}
 	// Get Components
 	log.Println("Retrieving components")
-	err = s.resourceGetter.GetLocalResources(source, s.Components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components)
+	err = s.resourceGetter.GetLocalResources(source, s.Components, destination, constants.DefaultComponentsFolder, false, worker, constants.Components)
 	if err != nil {
 		return err
 	}
