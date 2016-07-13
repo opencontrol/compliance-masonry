@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry/inventory"
+	"github.com/opencontrol/compliance-masonry/commands/diff"
 	"github.com/tg/gosortmap"
 )
 
@@ -32,11 +32,11 @@ var (
 )
 
 func diffCommandAction(c *cli.Context) error {
-	config := inventory.Config{
+	config := diff.Config{
 		Certification:  c.Args().First(),
 		OpencontrolDir: opencontrolDir,
 	}
-	inventory, errs := inventory.ComputeGapAnalysis(config)
+	inventory, errs := diff.ComputeGapAnalysis(config)
 	if errs != nil && len(errs) > 0 {
 		return cli.NewExitError(cli.NewMultiError(errs...).Error(), 1)
 	}

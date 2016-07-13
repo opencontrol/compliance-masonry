@@ -1,4 +1,4 @@
-package inventory
+package diff
 
 import (
 	"github.com/opencontrol/compliance-masonry/models"

@@ -1,7 +1,7 @@
-package inventory_test
+package diff_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry/inventory"
+	. "github.com/opencontrol/compliance-masonry/commands/diff"
 
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/assert"
@@ -39,7 +39,7 @@ var _ = Describe("Inventory", func() {
 		Context("When there are controls specified in the certification but some controls have been documented", func() {
 			It("should return a subset of the full list of controls", func() {
 				config := Config{
-					OpencontrolDir: filepath.Join(workingDir, "..", "fixtures", "opencontrol_fixtures"),
+					OpencontrolDir: filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures"),
 					Certification:  "LATO",
 				}
 				i, err := ComputeGapAnalysis(config)
@@ -50,7 +50,7 @@ var _ = Describe("Inventory", func() {
 		Context("When there are controls specified in the certification and we have documented them", func() {
 			It("should return no missing controls", func() {
 				config := Config{
-					OpencontrolDir: filepath.Join(workingDir, "..", "fixtures", "opencontrol_fixtures_complete"),
+					OpencontrolDir: filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures_complete"),
 					Certification:  "LATO",
 				}
 				i, err := ComputeGapAnalysis(config)

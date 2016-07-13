@@ -1,4 +1,4 @@
-package inventory_test
+package diff_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestInventory(t *testing.T) {
+func TestDiff(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Inventory Suite")
+	RunSpecs(t, "Diff Suite")
 }

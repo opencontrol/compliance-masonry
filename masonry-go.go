@@ -8,11 +8,12 @@ import (
 	"path/filepath"
 
 	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/commands/docs"
+	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
+	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
+	"github.com/opencontrol/compliance-masonry/commands/get"
 	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/config/parser"
-	"github.com/opencontrol/compliance-masonry/docs"
-	"github.com/opencontrol/compliance-masonry/docx"
-	"github.com/opencontrol/compliance-masonry/gitbook"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
@@ -72,7 +73,7 @@ func NewCLIApp() *cli.App {
 					os.Exit(1)
 				}
 				destination := filepath.Join(wd, c.String("dest"))
-				err = Get(destination,
+				err = get.Get(destination,
 					configBytes,
 					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init(), FSUtil: f})
 				if err != nil {

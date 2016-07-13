@@ -20,7 +20,7 @@ import (
 var _ = Describe("Docx", func() {
 
 	DescribeTable("FormatAllNarratives", func(standard string, control string, expectedData string,) {
-		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}
@@ -35,7 +35,7 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatNarrative", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}
@@ -54,7 +54,7 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatParameter", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}
@@ -71,7 +71,7 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatResponsibleRole", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := models.LoadData(filepath.Join("..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}
@@ -99,13 +99,13 @@ var _ = Describe("Docx", func() {
 			defer os.RemoveAll(tempDir)
 			exportPath := filepath.Join(tempDir, "test_output.docx")
 			config := Config{
-				OpencontrolDir: filepath.Join("..", "fixtures", "opencontrol_fixtures"),
-				TemplatePath:   filepath.Join("..", "fixtures", "template_fixtures", "test.docx"),
+				OpencontrolDir: filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"),
+				TemplatePath:   filepath.Join("..", "..", "..", "fixtures", "template_fixtures", "test.docx"),
 				ExportPath:     exportPath,
 			}
 			err := config.BuildDocx()
 			assert.Nil(GinkgoT(), err)
-			expectedDoc, _ := docTemp.GetTemplate(filepath.Join("..", "fixtures", "exports_fixtures", "output.docx"))
+			expectedDoc, _ := docTemp.GetTemplate(filepath.Join("..", "..", "..", "fixtures", "exports_fixtures", "output.docx"))
 			actualDoc, err := docTemp.GetTemplate(exportPath)
 			assert.Nil(GinkgoT(), err)
 			assert.Equal(GinkgoT(), expectedDoc.Document.GetContent(), actualDoc.Document.GetContent())
