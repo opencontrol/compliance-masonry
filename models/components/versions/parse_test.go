@@ -1,20 +1,27 @@
 package versions_test
 
 import (
+	"errors"
 	"path/filepath"
 	"testing"
+
+	"github.com/blang/semver"
+	"github.com/opencontrol/compliance-masonry/config"
+	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/opencontrol/compliance-masonry/models/components"
 	v2 "github.com/opencontrol/compliance-masonry/models/components/versions/2_0_0"
 	v3 "github.com/opencontrol/compliance-masonry/models/components/versions/3_0_0"
-	"github.com/opencontrol/compliance-masonry/models/common"
+	v31 "github.com/opencontrol/compliance-masonry/models/components/versions/3_1_0"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
-	"github.com/stretchr/testify/assert"
-	"github.com/opencontrol/compliance-masonry/models"
-	"github.com/opencontrol/compliance-masonry/models/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"github.com/opencontrol/compliance-masonry/config"
-	"github.com/blang/semver"
-	"errors"
+	"github.com/stretchr/testify/assert"
 )
+
+type componentV3_1Test struct {
+	componentDir string
+	expected     v31.Component
+}
 
 type componentV3Test struct {
 	componentDir string
@@ -31,12 +38,67 @@ type componentTestError struct {
 	expectedError error
 }
 
-var v3Satisfies = []v3.Satisfies {
+var v3_1Satisfies = []v31.Satisfies{
+	{
+		Narrative: []v31.NarrativeSection{
+			v31.NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
+			v31.NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
+		},
+		ControlOrigin:  "shared",
+		ControlOrigins: []string{"shared", "inherited"},
+	},
+	{
+		Narrative: []v31.NarrativeSection{
+			v31.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1"},
+			v31.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
+		},
+		Parameters: []v31.Section{
+			v31.Section{Key: "a", Text: "Parameter A for 1.1"},
+			v31.Section{Key: "b", Text: "Parameter B for 1.1"},
+		},
+		ControlOrigin:  "inherited",
+		ControlOrigins: []string{"inherited"},
+	},
+	{
+		Narrative: []v31.NarrativeSection{
+			v31.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
+			v31.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
+		},
+		Parameters: []v31.Section{
+			v31.Section{Key: "a", Text: "Parameter A for 1.1.1"},
+			v31.Section{Key: "b", Text: "Parameter B for 1.1.1"},
+		},
+		ControlOrigin: "inherited",
+	},
+	{
+		Narrative: []v31.NarrativeSection{
+			v31.NarrativeSection{Text: "Justification in narrative form for 2.1"},
+		},
+		ControlOrigin: "inherited",
+	},
+}
+
+var componentV3_1Tests = []componentV3_1Test{
+	// Check that a component with a key loads correctly
+	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_1_0", "EC2"), v31.Component{
+		Name:            "Amazon Elastic Compute Cloud",
+		Key:             "EC2",
+		References:      common.GeneralReferences{{}},
+		Verifications:   common.VerificationReferences{{}, {}},
+		Satisfies:       v3_1Satisfies,
+		SchemaVersion:   semver.MustParse("3.1.0"),
+		ResponsibleRole: "AWS Staff",
+	}},
+}
+
+var v3Satisfies = []v3.Satisfies{
 	{
 		Narrative: []v3.NarrativeSection{
 			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
 			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
 		},
+
+		ControlOrigin: "shared",
 	},
 	{
 		Narrative: []v3.NarrativeSection{
@@ -44,51 +106,54 @@ var v3Satisfies = []v3.Satisfies {
 			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
 		},
 		Parameters: []v3.Section{
-			v3.Section{Key: "a", Text:"Parameter A for 1.1"},
-			v3.Section{Key: "b", Text:"Parameter B for 1.1"},
+			v3.Section{Key: "a", Text: "Parameter A for 1.1"},
+			v3.Section{Key: "b", Text: "Parameter B for 1.1"},
 		},
+		ControlOrigin: "inherited",
 	},
 	{
 		Narrative: []v3.NarrativeSection{
 			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
 			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
 		},
+		ControlOrigin: "inherited",
 		Parameters: []v3.Section{
-			v3.Section{Key: "a", Text:"Parameter A for 1.1.1"},
-			v3.Section{Key: "b", Text:"Parameter B for 1.1.1"},
+			v3.Section{Key: "a", Text: "Parameter A for 1.1.1"},
+			v3.Section{Key: "b", Text: "Parameter B for 1.1.1"},
 		},
 	},
 	{
 		Narrative: []v3.NarrativeSection{
 			v3.NarrativeSection{Text: "Justification in narrative form for 2.1"},
 		},
+		ControlOrigin: "inherited",
 	},
 }
 
 var componentV3Tests = []componentV3Test{
 	// Check that a component with a key loads correctly
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2"), v3.Component{
-		Name:          "Amazon Elastic Compute Cloud",
-		Key:           "EC2",
-		References:    common.GeneralReferences{{}},
-		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     v3Satisfies,
-		SchemaVersion: semver.MustParse("3.0.0"),
+		Name:            "Amazon Elastic Compute Cloud",
+		Key:             "EC2",
+		References:      common.GeneralReferences{{}},
+		Verifications:   common.VerificationReferences{{}, {}},
+		Satisfies:       v3Satisfies,
+		SchemaVersion:   semver.MustParse("3.0.0"),
 		ResponsibleRole: "AWS Staff",
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2WithKey"), v3.Component{
-		Name:          "Amazon Elastic Compute Cloud",
-		Key:           "EC2",
-		References:    common.GeneralReferences{{}},
-		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     v3Satisfies,
-		SchemaVersion: semver.MustParse("3.0.0"),
+		Name:            "Amazon Elastic Compute Cloud",
+		Key:             "EC2",
+		References:      common.GeneralReferences{{}},
+		Verifications:   common.VerificationReferences{{}, {}},
+		Satisfies:       v3Satisfies,
+		SchemaVersion:   semver.MustParse("3.0.0"),
 		ResponsibleRole: "AWS Staff",
 	}},
 }
 
-var v2Satisfies = []v2.Satisfies {
+var v2Satisfies = []v2.Satisfies{
 	{
 		Narrative: "Justification in narrative form",
 	},
@@ -135,7 +200,7 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 	}
 	// Check that the schema version was loaded
 	if example.GetVersion().NE(actual.GetVersion()) {
-		t.Errorf("Expected %f, Actual: %f", example.GetVersion(), actual.GetVersion())
+		t.Errorf("Expected %v, Actual: %v", example.GetVersion(), actual.GetVersion())
 	}
 	// Check that the references were loaded
 	if example.GetReferences().Len() != actual.GetReferences().Len() {
@@ -149,6 +214,8 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 	for idx, _ := range actual.GetAllSatisfies() {
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetNarratives(), (actual.GetAllSatisfies())[idx].GetNarratives())
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetParameters(), (actual.GetAllSatisfies())[idx].GetParameters())
+		assert.Equal(t, (example.GetAllSatisfies())[idx].GetControlOrigin(), (actual.GetAllSatisfies())[idx].GetControlOrigin())
+		assert.Equal(t, (example.GetAllSatisfies())[idx].GetControlOrigins(), (actual.GetAllSatisfies())[idx].GetControlOrigins())
 	}
 	// Check the responsible role.
 	assert.Equal(t, example.GetResponsibleRole(), actual.GetResponsibleRole())
@@ -179,6 +246,10 @@ func loadValidAndTestComponent(path string, t *testing.T, example base.Component
 }
 
 func TestLoadComponent(t *testing.T) {
+	// v3_1_0 tests
+	for _, example := range componentV3_1Tests {
+		loadValidAndTestComponent(example.componentDir, t, &example.expected)
+	}
 	// V3 tests
 	for _, example := range componentV3Tests {
 		loadValidAndTestComponent(example.componentDir, t, &example.expected)

@@ -1,20 +1,20 @@
 package component
 
 import (
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
-	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/blang/semver"
+	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
 )
 
 // Component struct is an individual component requiring documentation
 // Schema info: https://github.com/opencontrol/schemas#component-yaml
 type Component struct {
-	Name          string                  `yaml:"name" json:"name"`
-	Key           string                  `yaml:"key" json:"key"`
+	Name          string                        `yaml:"name" json:"name"`
+	Key           string                        `yaml:"key" json:"key"`
 	References    common.GeneralReferences      `yaml:"references" json:"references"`
 	Verifications common.VerificationReferences `yaml:"verifications" json:"verifications"`
-	Satisfies     []Satisfies          `yaml:"satisfies" json:"satisfies"`
-	SchemaVersion semver.Version                 `yaml:"-" json:"-"`
+	Satisfies     []Satisfies                   `yaml:"satisfies" json:"satisfies"`
+	SchemaVersion semver.Version                `yaml:"-" json:"-"`
 }
 
 func (c Component) GetName() string {
@@ -63,9 +63,9 @@ func (c Component) GetResponsibleRole() string {
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey  string        `yaml:"control_key" json:"control_key"`
-	StandardKey string        `yaml:"standard_key" json:"standard_key"`
-	Narrative   Narrative        `yaml:"narrative" json:"narrative"`
+	ControlKey  string               `yaml:"control_key" json:"control_key"`
+	StandardKey string               `yaml:"standard_key" json:"standard_key"`
+	Narrative   Narrative            `yaml:"narrative" json:"narrative"`
 	CoveredBy   common.CoveredByList `yaml:"covered_by" json:"covered_by"`
 }
 
@@ -99,6 +99,10 @@ func (s Satisfies) GetCoveredBy() common.CoveredByList {
 
 func (s Satisfies) GetControlOrigin() string {
 	return ""
+}
+
+func (s Satisfies) GetControlOrigins() []string {
+	return []string{}
 }
 
 type Narrative string

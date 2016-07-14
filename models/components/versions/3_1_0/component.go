@@ -4,6 +4,7 @@ import (
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"gopkg.in/fatih/set.v0"
 )
 
 // Component struct is an individual component requiring documentation
@@ -64,12 +65,13 @@ func (c Component) GetResponsibleRole() string {
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey    string               `yaml:"control_key" json:"control_key"`
-	StandardKey   string               `yaml:"standard_key" json:"standard_key"`
-	Narrative     []NarrativeSection   `yaml:"narrative" json:"narrative"`
-	CoveredBy     common.CoveredByList `yaml:"covered_by" json:"covered_by"`
-	Parameters    []Section            `yaml:"parameters" json:"parameters"`
-	ControlOrigin string               `yaml:"control_origin" json:"control_origin"`
+	ControlKey     string               `yaml:"control_key" json:"control_key"`
+	StandardKey    string               `yaml:"standard_key" json:"standard_key"`
+	Narrative      []NarrativeSection   `yaml:"narrative" json:"narrative"`
+	CoveredBy      common.CoveredByList `yaml:"covered_by" json:"covered_by"`
+	Parameters     []Section            `yaml:"parameters" json:"parameters"`
+	ControlOrigin  string               `yaml:"control_origin" json:"control_origin"`
+	ControlOrigins []string             `yaml:"control_origins" json:"control_origins"`
 }
 
 func (s Satisfies) GetControlKey() string {
@@ -107,7 +109,14 @@ func (s Satisfies) GetControlOrigin() string {
 }
 
 func (s Satisfies) GetControlOrigins() []string {
-	return []string{s.ControlOrigin}
+	controlOrigins := set.New()
+	for i := range s.ControlOrigins {
+		controlOrigins.Add(s.ControlOrigins[i])
+	}
+	if s.ControlOrigin != "" {
+		controlOrigins.Add(s.ControlOrigin)
+	}
+	return set.StringSlice(controlOrigins)
 }
 
 // NarrativeSection contains the key and text for a particular section.
