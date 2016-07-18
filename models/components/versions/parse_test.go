@@ -155,7 +155,8 @@ var componentV3Tests = []componentV3Test{
 
 var v2Satisfies = []v2.Satisfies{
 	{
-		Narrative: "Justification in narrative form",
+		Narrative:             "Justification in narrative form",
+		implementation_status: "blah",
 	},
 	{
 		Narrative: "Justification in narrative form",
@@ -216,6 +217,7 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetParameters(), (actual.GetAllSatisfies())[idx].GetParameters())
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetControlOrigin(), (actual.GetAllSatisfies())[idx].GetControlOrigin())
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetControlOrigins(), (actual.GetAllSatisfies())[idx].GetControlOrigins())
+		assert.Equal(t, (example.GetAllSatisfies())[idx].GetImplementationStatus(), (actual.GetAllSatisfies())[idx].GetImplementationStatus())
 	}
 	// Check the responsible role.
 	assert.Equal(t, example.GetResponsibleRole(), actual.GetResponsibleRole())

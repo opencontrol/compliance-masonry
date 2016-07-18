@@ -2,21 +2,22 @@ package component
 
 import (
 	"testing"
+
+	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/stretchr/testify/assert"
-	"github.com/blang/semver"
 )
 
 func TestComponentGetters(t *testing.T) {
-	testSatisfies := []Satisfies{{ControlOrigin: "control_origin", Parameters: []Section{Section{Key:"key", Text: "text"}}, Narrative: []NarrativeSection{NarrativeSection{Key: "key", Text: "text"}, NarrativeSection{Text: "text"}}}, {}, {}, {}}
+	testSatisfies := []Satisfies{{ControlOrigin: "control_origin", Parameters: []Section{Section{Key: "key", Text: "text"}}, Narrative: []NarrativeSection{NarrativeSection{Key: "key", Text: "text"}, NarrativeSection{Text: "text"}}}, {}, {}, {}}
 	component := Component{
-		Name:          "Amazon Elastic Compute Cloud",
-		Key:           "EC2",
+		Name:            "Amazon Elastic Compute Cloud",
+		Key:             "EC2",
 		ResponsibleRole: "AWS Staff",
-		References:    common.GeneralReferences{{}},
-		Verifications: common.VerificationReferences{{}, {}},
-		Satisfies:     testSatisfies,
-		SchemaVersion: semver.MustParse("3.0.0"),
+		References:      common.GeneralReferences{{}},
+		Verifications:   common.VerificationReferences{{}, {}},
+		Satisfies:       testSatisfies,
+		SchemaVersion:   semver.MustParse("3.0.0"),
 	}
 	// Test the getters
 	assert.Equal(t, "EC2", component.GetKey())
@@ -41,6 +42,7 @@ func TestComponentGetters(t *testing.T) {
 		}
 		assert.Equal(t, satisfies.GetCoveredBy(), testSatisfies[idx].GetCoveredBy())
 		assert.Equal(t, satisfies.GetControlOrigin(), testSatisfies[idx].GetControlOrigin())
+		assert.Equal(t, satisfies.GetImplementationStatus(), testSatisfies[idx].GetImplementationStatus())
 	}
 }
 

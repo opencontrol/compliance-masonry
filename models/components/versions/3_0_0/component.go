@@ -64,12 +64,13 @@ func (c Component) GetResponsibleRole() string {
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey    string               `yaml:"control_key" json:"control_key"`
-	StandardKey   string               `yaml:"standard_key" json:"standard_key"`
-	Narrative     []NarrativeSection   `yaml:"narrative" json:"narrative"`
-	CoveredBy     common.CoveredByList `yaml:"covered_by" json:"covered_by"`
-	Parameters    []Section            `yaml:"parameters" json:"parameters"`
-	ControlOrigin string               `yaml:"control_origin" json:"control_origin"`
+	ControlKey           string               `yaml:"control_key" json:"control_key"`
+	StandardKey          string               `yaml:"standard_key" json:"standard_key"`
+	Narrative            []NarrativeSection   `yaml:"narrative" json:"narrative"`
+	CoveredBy            common.CoveredByList `yaml:"covered_by" json:"covered_by"`
+	Parameters           []Section            `yaml:"parameters" json:"parameters"`
+	ControlOrigin        string               `yaml:"control_origin" json:"control_origin"`
+	ImplementationStatus string               `yaml:"implementation_status" json:"implementation_status"`
 }
 
 func (s Satisfies) GetControlKey() string {
@@ -108,6 +109,10 @@ func (s Satisfies) GetControlOrigin() string {
 
 func (s Satisfies) GetControlOrigins() []string {
 	return []string{s.ControlOrigin}
+}
+
+func (s Satisfies) GetImplementationStatus() string {
+	return s.ImplementationStatus
 }
 
 // NarrativeSection contains the key and text for a particular section.

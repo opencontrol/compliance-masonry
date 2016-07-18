@@ -2,13 +2,14 @@ package component
 
 import (
 	"testing"
+
+	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/stretchr/testify/assert"
-	"github.com/blang/semver"
 )
 
 func TestComponentGetters(t *testing.T) {
-	testSatisfies := []Satisfies{{Narrative: "Narrative"}, {}, {}, {}}
+	testSatisfies := []Satisfies{{Narrative: "Narrative"}, {}, {}, {}, {}}
 	component := Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
@@ -36,6 +37,7 @@ func TestComponentGetters(t *testing.T) {
 		assert.Equal(t, satisfies.GetParameters(), testSatisfies[idx].GetParameters())
 		assert.Equal(t, satisfies.GetCoveredBy(), testSatisfies[idx].GetCoveredBy())
 		assert.Equal(t, "", satisfies.GetControlOrigin())
+		assert.Equal(t, "", satisfies.GetImplementationStatus())
 	}
 }
 

@@ -28,6 +28,7 @@ type Satisfies interface {
 	GetCoveredBy() common.CoveredByList
 	GetControlOrigin() string
 	GetControlOrigins() []string
+	GetImplementationStatus() string
 }
 
 type Section interface {

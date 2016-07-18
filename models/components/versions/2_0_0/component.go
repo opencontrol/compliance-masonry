@@ -63,10 +63,11 @@ func (c Component) GetResponsibleRole() string {
 // This struct is a one-to-one mapping of a `satisfies` item in the component.yaml schema
 // https://github.com/opencontrol/schemas#component-yaml
 type Satisfies struct {
-	ControlKey  string               `yaml:"control_key" json:"control_key"`
-	StandardKey string               `yaml:"standard_key" json:"standard_key"`
-	Narrative   Narrative            `yaml:"narrative" json:"narrative"`
-	CoveredBy   common.CoveredByList `yaml:"covered_by" json:"covered_by"`
+	ControlKey           string               `yaml:"control_key" json:"control_key"`
+	StandardKey          string               `yaml:"standard_key" json:"standard_key"`
+	Narrative            Narrative            `yaml:"narrative" json:"narrative"`
+	CoveredBy            common.CoveredByList `yaml:"covered_by" json:"covered_by"`
+	ImplementationStatus string               `yaml:"implementation_status" json:"implementation_status"`
 }
 
 func (s Satisfies) GetControlKey() string {
@@ -113,4 +114,8 @@ func (n Narrative) GetKey() string {
 
 func (n Narrative) GetText() string {
 	return string(n)
+}
+
+func (s Satisfies) GetImplementationStatus() string {
+	return s.ImplementationStatus
 }
