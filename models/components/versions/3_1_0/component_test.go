@@ -43,6 +43,7 @@ func TestComponentGetters(t *testing.T) {
 		assert.Equal(t, satisfies.GetCoveredBy(), testSatisfies[idx].GetCoveredBy())
 		assert.Equal(t, satisfies.GetControlOrigin(), testSatisfies[idx].GetControlOrigin())
 		assert.Equal(t, satisfies.GetControlOrigins(), testSatisfies[idx].GetControlOrigins())
+		assert.Equal(t, satisfies.GetImplementationStatus(), testSatisfies[idx].GetImplementationStatus())
 	}
 }
 
