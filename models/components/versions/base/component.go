@@ -29,6 +29,7 @@ type Satisfies interface {
 	GetControlOrigin() string
 	GetControlOrigins() []string
 	GetImplementationStatus() string
+	GetImplementationStatuses() []string
 }
 
 type Section interface {

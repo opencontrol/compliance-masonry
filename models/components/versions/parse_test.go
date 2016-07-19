@@ -44,8 +44,10 @@ var v3_1Satisfies = []v31.Satisfies{
 			v31.NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
 			v31.NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
 		},
-		ControlOrigin:  "shared",
-		ControlOrigins: []string{"shared", "inherited"},
+		ControlOrigin:          "shared",
+		ControlOrigins:         []string{"shared", "inherited"},
+		ImplementationStatus:   "partial",
+		ImplementationStatuses: []string{"planned", "partial"},
 	},
 	{
 		Narrative: []v31.NarrativeSection{
@@ -56,8 +58,10 @@ var v3_1Satisfies = []v31.Satisfies{
 			v31.Section{Key: "a", Text: "Parameter A for 1.1"},
 			v31.Section{Key: "b", Text: "Parameter B for 1.1"},
 		},
-		ControlOrigin:  "inherited",
-		ControlOrigins: []string{"inherited"},
+		ControlOrigin:          "inherited",
+		ControlOrigins:         []string{"inherited"},
+		ImplementationStatus:   "partial",
+		ImplementationStatuses: []string{"partial"},
 	},
 	{
 		Narrative: []v31.NarrativeSection{
@@ -68,13 +72,17 @@ var v3_1Satisfies = []v31.Satisfies{
 			v31.Section{Key: "a", Text: "Parameter A for 1.1.1"},
 			v31.Section{Key: "b", Text: "Parameter B for 1.1.1"},
 		},
-		ControlOrigin: "inherited",
+		ControlOrigin:          "inherited",
+		ImplementationStatus:   "partial",
+		ImplementationStatuses: []string{"partial"},
 	},
 	{
 		Narrative: []v31.NarrativeSection{
 			v31.NarrativeSection{Text: "Justification in narrative form for 2.1"},
 		},
-		ControlOrigin: "inherited",
+		ControlOrigin:          "inherited",
+		ImplementationStatus:   "partial",
+		ImplementationStatuses: []string{"partial"},
 	},
 }
 
@@ -97,8 +105,8 @@ var v3Satisfies = []v3.Satisfies{
 			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
 			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
 		},
-
-		ControlOrigin: "shared",
+		ControlOrigin:        "shared",
+		ImplementationStatus: "partial",
 	},
 	{
 		Narrative: []v3.NarrativeSection{
@@ -109,14 +117,16 @@ var v3Satisfies = []v3.Satisfies{
 			v3.Section{Key: "a", Text: "Parameter A for 1.1"},
 			v3.Section{Key: "b", Text: "Parameter B for 1.1"},
 		},
-		ControlOrigin: "inherited",
+		ControlOrigin:        "inherited",
+		ImplementationStatus: "partial",
 	},
 	{
 		Narrative: []v3.NarrativeSection{
 			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
 			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
 		},
-		ControlOrigin: "inherited",
+		ControlOrigin:        "inherited",
+		ImplementationStatus: "partial",
 		Parameters: []v3.Section{
 			v3.Section{Key: "a", Text: "Parameter A for 1.1.1"},
 			v3.Section{Key: "b", Text: "Parameter B for 1.1.1"},
@@ -126,7 +136,8 @@ var v3Satisfies = []v3.Satisfies{
 		Narrative: []v3.NarrativeSection{
 			v3.NarrativeSection{Text: "Justification in narrative form for 2.1"},
 		},
-		ControlOrigin: "inherited",
+		ControlOrigin:        "inherited",
+		ImplementationStatus: "partial",
 	},
 }
 
@@ -221,6 +232,7 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetControlOrigin(), (actual.GetAllSatisfies())[idx].GetControlOrigin())
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetControlOrigins(), (actual.GetAllSatisfies())[idx].GetControlOrigins())
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetImplementationStatus(), (actual.GetAllSatisfies())[idx].GetImplementationStatus())
+		assert.Equal(t, (example.GetAllSatisfies())[idx].GetImplementationStatuses(), (actual.GetAllSatisfies())[idx].GetImplementationStatuses())
 	}
 	// Check the responsible role.
 	assert.Equal(t, example.GetResponsibleRole(), actual.GetResponsibleRole())
@@ -252,13 +264,13 @@ func loadValidAndTestComponent(path string, t *testing.T, example base.Component
 
 func TestLoadComponent(t *testing.T) {
 	// v3_1_0 tests
-	//	for _, example := range componentV3_1Tests {
-	//		loadValidAndTestComponent(example.componentDir, t, &example.expected)
-	//	}
+	for _, example := range componentV3_1Tests {
+		loadValidAndTestComponent(example.componentDir, t, &example.expected)
+	}
 	// V3 tests
-	//	for _, example := range componentV3Tests {
-	//		loadValidAndTestComponent(example.componentDir, t, &example.expected)
-	//	}
+	for _, example := range componentV3Tests {
+		loadValidAndTestComponent(example.componentDir, t, &example.expected)
+	}
 	// V2 tests
 	for _, example := range componentV2Tests {
 		loadValidAndTestComponent(example.componentDir, t, &example.expected)

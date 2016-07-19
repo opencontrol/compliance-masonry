@@ -17,6 +17,10 @@ satisfies:
   control_origins:
     - "shared"
     - "inherited"
+  implementation_status: partial
+  implementation_statuses:
+    - "partial"
+    - "planned"  
   narrative:
     - key: "a"
       text: "Justification in narrative form A for CM-2"

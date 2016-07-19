@@ -119,3 +119,7 @@ func (n Narrative) GetText() string {
 func (s Satisfies) GetImplementationStatus() string {
 	return s.ImplementationStatus
 }
+
+func (s Satisfies) GetImplementationStatuses() []string {
+	return []string{}
+}

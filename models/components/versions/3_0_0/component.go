@@ -115,6 +115,10 @@ func (s Satisfies) GetImplementationStatus() string {
 	return s.ImplementationStatus
 }
 
+func (s Satisfies) GetImplementationStatuses() []string {
+	return []string{}
+}
+
 // NarrativeSection contains the key and text for a particular section.
 // NarrativeSection can omit the key.
 type NarrativeSection struct {
