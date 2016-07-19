@@ -1,9 +1,10 @@
 package base
 
 import (
-	"github.com/opencontrol/compliance-masonry/models/common"
-	"github.com/blang/semver"
 	"fmt"
+
+	"github.com/blang/semver"
+	"github.com/opencontrol/compliance-masonry/models/common"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
@@ -26,6 +27,9 @@ type Satisfies interface {
 	GetParameters() []Section
 	GetCoveredBy() common.CoveredByList
 	GetControlOrigin() string
+	GetControlOrigins() []string
+	GetImplementationStatus() string
+	GetImplementationStatuses() []string
 }
 
 type Section interface {

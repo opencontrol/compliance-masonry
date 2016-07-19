@@ -1,0 +1,83 @@
+documentation_complete: false
+name: Amazon Elastic Compute Cloud
+references:
+- name: Reference
+  path: http://VerificationURL.com
+  type: URL
+satisfies:
+- control_key: CM-2
+  covered_by:
+  - verification_key: EC2_Verification_1
+  - component_key: UAA
+    system_key: CloudFoundry
+    verification_key: UAA_Verification_1
+  implementation_status: partial
+  implementation_statuses:
+    - "partial"
+    - "planned"
+  control_origin: shared
+  control_origins:
+    - "shared"
+    - "inherited"
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for CM-2"
+    - key: "b"
+      text: "Justification in narrative form B for CM-2"
+  standard_key: NIST-800-53
+- control_key: 1.1
+  covered_by:
+  - verification_key: EC2_Verification_1
+  - component_key: UAA
+    system_key: CloudFoundry
+    verification_key: UAA_Verification_1
+  implementation_status: partial
+  implementation_statuses:
+    - "partial"
+  control_origin: inherited
+  control_origins:
+    - "inherited"
+  parameters:
+    - key: "a"
+      text: "Parameter A for 1.1"
+    - key: "b"
+      text: "Parameter B for 1.1"
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for 1.1"
+    - key: "b"
+      text: "Justification in narrative form B for 1.1"
+  standard_key: PCI-DSS-MAY-2015
+- control_key: 1.1.1
+  covered_by: []
+  implementation_status: partial
+  control_origin: inherited
+  narrative:
+    - key: "a"
+      text: "Justification in narrative form A for 1.1.1"
+    - key: "b"
+      text: "Justification in narrative form B for 1.1.1"
+  parameters:
+    - key: "a"
+      text: "Parameter A for 1.1.1"
+    - key: "b"
+      text: "Parameter B for 1.1.1"
+  standard_key: PCI-DSS-MAY-2015
+- control_key: 2.1
+  covered_by: []
+  implementation_status: partial
+  control_origin: inherited
+  narrative:
+    - text: "Justification in narrative form for 2.1"
+  standard_key: PCI-DSS-MAY-2015
+responsible_role: "AWS Staff"
+schema_version: 3.1.0
+verifications:
+- key: EC2_Verification_2
+  name: EC2 Governor 2
+  path: artifact-ec2-1.png
+  type: Image
+- key: EC2_Verification_1
+  name: EC2 Verification 1
+  path: http://VerificationURL.com
+  type: URL

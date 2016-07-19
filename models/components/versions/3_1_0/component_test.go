@@ -9,7 +9,18 @@ import (
 )
 
 func TestComponentGetters(t *testing.T) {
-	testSatisfies := []Satisfies{{ControlOrigin: "control_origin", Parameters: []Section{Section{Key: "key", Text: "text"}}, Narrative: []NarrativeSection{NarrativeSection{Key: "key", Text: "text"}, NarrativeSection{Text: "text"}}}, {}, {}, {}}
+	testSatisfies := []Satisfies{
+		{
+			ControlOrigin:          "inherited",
+			ControlOrigins:         []string{"inherited"},
+			ImplementationStatus:   "partial",
+			ImplementationStatuses: []string{"partial"},
+			Parameters:             []Section{Section{Key: "key", Text: "text"}},
+			Narrative: []NarrativeSection{
+				NarrativeSection{Key: "key", Text: "text"},
+				NarrativeSection{Text: "text"},
+			},
+		}, {}}
 	component := Component{
 		Name:            "Amazon Elastic Compute Cloud",
 		Key:             "EC2",
@@ -17,14 +28,14 @@ func TestComponentGetters(t *testing.T) {
 		References:      common.GeneralReferences{{}},
 		Verifications:   common.VerificationReferences{{}, {}},
 		Satisfies:       testSatisfies,
-		SchemaVersion:   semver.MustParse("3.0.0"),
+		SchemaVersion:   semver.MustParse("3.1.0"),
 	}
 	// Test the getters
 	assert.Equal(t, "EC2", component.GetKey())
 	assert.Equal(t, "Amazon Elastic Compute Cloud", component.GetName())
 	assert.Equal(t, &common.GeneralReferences{{}}, component.GetReferences())
 	assert.Equal(t, &common.VerificationReferences{{}, {}}, component.GetVerifications())
-	assert.Equal(t, semver.MustParse("3.0.0"), component.GetVersion())
+	assert.Equal(t, semver.MustParse("3.1.0"), component.GetVersion())
 	assert.Equal(t, "AWS Staff", component.GetResponsibleRole())
 	assert.Equal(t, len(testSatisfies), len(component.GetAllSatisfies()))
 	for idx, satisfies := range component.GetAllSatisfies() {
@@ -42,9 +53,9 @@ func TestComponentGetters(t *testing.T) {
 		}
 		assert.Equal(t, satisfies.GetCoveredBy(), testSatisfies[idx].GetCoveredBy())
 		assert.Equal(t, satisfies.GetControlOrigin(), testSatisfies[idx].GetControlOrigin())
-		assert.Equal(t, []string{satisfies.GetControlOrigin()}, satisfies.GetControlOrigins())
+		assert.Equal(t, satisfies.GetControlOrigins(), testSatisfies[idx].GetControlOrigins())
 		assert.Equal(t, satisfies.GetImplementationStatus(), testSatisfies[idx].GetImplementationStatus())
-		assert.Equal(t, satisfies.GetImplementationStatuses(), []string{})
+		assert.Equal(t, satisfies.GetImplementationStatuses(), testSatisfies[idx].GetImplementationStatuses())
 	}
 }
 
@@ -52,8 +63,8 @@ func TestComponentSetters(t *testing.T) {
 	component := Component{}
 	// Test the setters.
 	// Change the version.
-	component.SetVersion(semver.MustParse("3.0.0"))
-	assert.Equal(t, semver.MustParse("3.0.0"), component.GetVersion())
+	component.SetVersion(semver.MustParse("3.1.0"))
+	assert.Equal(t, semver.MustParse("3.1.0"), component.GetVersion())
 	// Change the key.
 	component.SetKey("FooKey")
 	assert.Equal(t, "FooKey", component.GetKey())

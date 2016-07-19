@@ -1,18 +1,21 @@
 package versions
 
 import (
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
-	"gopkg.in/yaml.v2"
+	"fmt"
+
+	"github.com/blang/semver"
+	"github.com/opencontrol/compliance-masonry/config"
 	v2 "github.com/opencontrol/compliance-masonry/models/components/versions/2_0_0"
 	v3 "github.com/opencontrol/compliance-masonry/models/components/versions/3_0_0"
-	"github.com/opencontrol/compliance-masonry/config"
-	"fmt"
-	"github.com/blang/semver"
+	v31 "github.com/opencontrol/compliance-masonry/models/components/versions/3_1_0"
+	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"gopkg.in/yaml.v2"
 )
 
 var (
 	ComponentV2_0_0 = semver.MustParse("2.0.0")
 	ComponentV3_0_0 = semver.MustParse("3.0.0")
+	ComponentV3_1_0 = semver.MustParse("3.1.0")
 )
 
 func ParseComponent(componentData []byte, fileName string) (base.Component, error) {
@@ -37,12 +40,16 @@ func ParseComponent(componentData []byte, fileName string) (base.Component, erro
 		c := new(v3.Component)
 		err = yaml.Unmarshal(componentData, c)
 		component = c
+	case ComponentV3_1_0.EQ(b.SchemaVersion):
+		c := new(v31.Component)
+		err = yaml.Unmarshal(componentData, c)
+		component = c
 	default:
 		return nil, config.ErrUnknownSchemaVersion
 
 	}
 	if err != nil {
-		return nil, fmt.Errorf("Unable to parse component. Please check component.yaml schema for version %s\n" +
+		return nil, fmt.Errorf("Unable to parse component. Please check component.yaml schema for version %s\n"+
 			"\tFile: %v\n\tParse error: %v", b.SchemaVersion.String(), fileName, err)
 	}
 	// Copy version from base because some versions of the component can not expect to parse directly into it's own struct
