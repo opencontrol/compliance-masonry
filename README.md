@@ -167,7 +167,14 @@ Compliance Masonry examples in the wild (in order of completeness):
 
 ## Documentation Format
 
-Compliance Masonry uses the [OpenControl v2 Schema](https://github.com/opencontrol/schemas).
+Compliance Masonry uses the [OpenControl schema](https://github.com/opencontrol/schemas).
+
+| Type | Supported versions |
+|---|---|
+| [Components](https://github.com/opencontrol/schemas#components) | [2.0.0](https://github.com/opencontrol/schemas/blob/master/kwalify/component/v2.0.0.yaml), [3.0.0](https://github.com/opencontrol/schemas/blob/master/kwalify/component/v3.0.0.yaml), 3.1.0 |
+| [Standards](https://github.com/opencontrol/schemas#standards) | 1.0.0 |
+| [Certifications](https://github.com/opencontrol/schemas#certifications) | 1.0.0 |
+| [opencontrol.yaml](https://github.com/opencontrol/schemas#opencontrolyaml) | [1.0.0](https://github.com/opencontrol/schemas/blob/master/kwalify/opencontrol/v1.0.0.yaml) |
 
 ## Benefits
 
