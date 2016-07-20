@@ -11,6 +11,8 @@ const (
 	DefaultDestination = "opencontrols"
 	// DefaultConfigYaml is the file name for the file to find config details
 	DefaultConfigYaml = "opencontrol.yaml"
+	// DefaultIncludesFolder is the folder where to store components.
+	DefaultIncludesFolder = "includes"
 )
 
 // ResourceType is a type to help tell when it should be of only types of resources.
@@ -23,6 +25,8 @@ const (
 	Certifications ResourceType = "Certifications"
 	// Components is the placeholder for the resource type of components
 	Components ResourceType = "Components"
+	// Includes is the placeholder for the resource type of components
+	Includes ResourceType = "Includes"
 )
 
 const (

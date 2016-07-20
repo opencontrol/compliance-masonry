@@ -38,6 +38,8 @@ certifications:
   - ./cert-1.yaml
 standards:
   - ./standard-1.yaml
+includes:
+  - extra
 dependencies:
   certifications:
     - url: github.com/18F/LATO
@@ -69,6 +71,9 @@ dependencies:
 			},
 			Standards: []string{
 				"./standard-1.yaml",
+			},
+			Includes:[]string{
+				"extra",
 			},
 			Dependencies: Dependencies{
 				Certifications: []common.Entry{
@@ -119,7 +124,7 @@ dependencies:
 		var (
 			getter *mocks.ResourceGetter
 			dependentStandards, dependentCertifications, dependentComponents []common.Entry
-			certifications, standards, components []string
+			certifications, standards, components, includes []string
 			worker *common.ConfigWorker
 			dependencies Dependencies
 			destination = "."
@@ -145,20 +150,29 @@ dependencies:
 			expectedError = errors.New("Components error")
 			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
 			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(expectedError)
+			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, false, worker, constants.Components).Return(expectedError)
+		})
+		It("should return an error when it's unable to get local includes", func() {
+			expectedError = errors.New("Includes error")
+			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
+			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
+			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, false, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", includes, destination, constants.DefaultIncludesFolder, true, worker, constants.Includes).Return(expectedError)
 		})
 		It("should return an error when it's unable to get remote certifications", func() {
 			expectedError = errors.New("Remote cert error")
 			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
 			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, false, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", includes, destination, constants.DefaultIncludesFolder, true, worker, constants.Includes).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(expectedError)
 		})
 		It("should return an error when it's unable to get remote standards", func() {
 			expectedError = errors.New("Remote standards error")
 			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
 			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, false, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", includes, destination, constants.DefaultIncludesFolder, true, worker, constants.Includes).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(expectedError)
 		})
@@ -166,7 +180,8 @@ dependencies:
 			expectedError = errors.New("Remote components error")
 			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
 			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, false, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", includes, destination, constants.DefaultIncludesFolder, true, worker, constants.Includes).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(expectedError)
@@ -175,7 +190,8 @@ dependencies:
 			expectedError = nil
 			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
 			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, false, worker, constants.Components).Return(nil)
+			getter.On("GetLocalResources", "", includes, destination, constants.DefaultIncludesFolder, true, worker, constants.Includes).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
 			getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(nil)
