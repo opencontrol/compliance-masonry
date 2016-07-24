@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 )
 
 // Config contains data for gitbook export configurations
@@ -21,7 +21,7 @@ type Config struct {
 // OpenControlGitBook struct is an extension of models.OpenControl that adds
 // an exportPath
 type OpenControlGitBook struct {
-	*models.OpenControl
+	*lib.OpenControl
 	markdownPath string
 	exportPath   string
 	FSUtil       fs.Util
@@ -37,7 +37,7 @@ type ComponentGitbook struct {
 // ControlGitbook struct is an extension of models.Control that adds
 // an exportPath
 type ControlGitbook struct {
-	*models.Control
+	*lib.Control
 	exportPath  string
 	standardKey string
 	controlKey  string
@@ -54,7 +54,7 @@ func replaceParentheses(text string) string {
 // BuildGitbook entry point for creating gitbook
 func (config Config) BuildGitbook() []error {
 	var errs []error
-	openControlData, err := models.LoadData(config.OpencontrolDir, config.Certification)
+	openControlData, err := lib.LoadData(config.OpencontrolDir, config.Certification)
 	if err != nil && len(err) > 0 {
 		return append(errs, err...)
 	}

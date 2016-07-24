@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 )
 
@@ -56,7 +56,7 @@ func TestExportControl(t *testing.T) {
 			log.Fatal(err)
 		}
 		defer os.RemoveAll(dir)
-		openControlData, errs := models.LoadData(example.opencontrolDir, example.certificationPath)
+		openControlData, errs := lib.LoadData(example.opencontrolDir, example.certificationPath)
 		if len(errs) > 0 {
 			log.Fatal("Should have loaded the opencontrol data.")
 		}

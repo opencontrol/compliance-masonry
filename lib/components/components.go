@@ -4,7 +4,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 )
 
 // Components struct is a thread-safe structure mapping for components

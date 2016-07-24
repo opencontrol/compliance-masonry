@@ -7,20 +7,20 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/doc-template"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
 	"fmt"
-	v3 "github.com/opencontrol/compliance-masonry/models/components/versions/3_0_0"
+	v3 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_0_0"
 )
 
 var _ = Describe("Docx", func() {
 
 	DescribeTable("FormatAllNarratives", func(standard string, control string, expectedData string,) {
-		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}
@@ -35,7 +35,7 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatNarrative", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}
@@ -54,7 +54,7 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatParameter", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}
@@ -71,7 +71,7 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatResponsibleRole", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := models.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
+		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
 			OpenControl: openControlData,
 		}

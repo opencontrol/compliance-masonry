@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 )
 
@@ -38,7 +38,7 @@ var buildComponentsSummariesTests = []buildComponentsSummariesTest{
 
 func TestBuildComponentsSummaries(t *testing.T) {
 	for _, example := range buildComponentsSummariesTests {
-		openControlData, _ := models.LoadData(example.opencontrolDir, example.certificationPath)
+		openControlData, _ := lib.LoadData(example.opencontrolDir, example.certificationPath)
 		openControl := OpenControlGitBook{
 			openControlData,
 			"",
@@ -71,7 +71,7 @@ var buildStandardsSummariesTests = []buildStandardsSummariesTest{
 
 func TestBuildStandardsSummaries(t *testing.T) {
 	for _, example := range buildStandardsSummariesTests {
-		openControlData, _ := models.LoadData(example.opencontrolDir, example.certificationPath)
+		openControlData, _ := lib.LoadData(example.opencontrolDir, example.certificationPath)
 		openControl := OpenControlGitBook{
 			openControlData,
 			"",

@@ -1,4 +1,4 @@
-package models
+package lib
 
 import (
 	"errors"
@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
-	"github.com/opencontrol/compliance-masonry/models/components/versions"
-	"github.com/opencontrol/compliance-masonry/models/components"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions"
+	"github.com/opencontrol/compliance-masonry/lib/components"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/codegangsta/cli"

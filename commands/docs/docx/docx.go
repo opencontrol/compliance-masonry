@@ -5,8 +5,8 @@ import (
 	"text/template"
 
 	"github.com/opencontrol/doc-template"
-	"github.com/opencontrol/compliance-masonry/models"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"gopkg.in/fatih/set.v0"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
@@ -21,12 +21,12 @@ type Config struct {
 // OpenControlDocx struct is an extension of models.OpenControl that adds a
 // template path and export path.
 type OpenControlDocx struct {
-	*models.OpenControl
+	*lib.OpenControl
 }
 
 //BuildDocx exports a Docx ssp based on a template
 func (config *Config) BuildDocx() error {
-	openControlData, _ := models.LoadData(config.OpencontrolDir, "")
+	openControlData, _ := lib.LoadData(config.OpencontrolDir, "")
 	openControl := OpenControlDocx{openControlData}
 	docTemplate, err := docTemp.GetTemplate(config.TemplatePath)
 	if err != nil {
@@ -69,7 +69,7 @@ func createSectionsSet(sections ...string) *set.Set {
 }
 
 // getNarrativeSection will just print the narrative section text. No need to print the section header since it was specified.
-func getNarrativeSection(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string) {
+func getNarrativeSection(text string, justification lib.Verification, component base.Component, specifiedSections *set.Set) (string) {
 	// Add the component name.
 	text = fmt.Sprintf("%s%s\n", text, component.GetName())
 
@@ -78,7 +78,7 @@ func getNarrativeSection(text string, justification models.Verification, compone
 }
 
 // getAllNarrativeSection will print both the section header and the section text for all narrative sections.
-func getAllNarrativeSections(text string, justification models.Verification, component base.Component) (string) {
+func getAllNarrativeSections(text string, justification lib.Verification, component base.Component) (string) {
 	// Add the component name.
 	text = fmt.Sprintf("%s%s\n", text, component.GetName())
 	for _, section := range justification.SatisfiesData.GetNarratives() {
@@ -122,7 +122,7 @@ func getSpecificGenericSections(sections []base.Section, text string, specifiedS
 }
 
 // getParameterInfo will just print the parameter section text. No need to print the section header since it was specified.
-func getParameterInfo(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string) {
+func getParameterInfo(text string, justification lib.Verification, component base.Component, specifiedSections *set.Set) (string) {
 	// Add the component name.
 	text = fmt.Sprintf("%s%s\n", text, component.GetName())
 
@@ -146,7 +146,7 @@ func getResponsibleRoleInfo(text string, component base.Component) (string) {
 func (openControl *OpenControlDocx) getComponentText(infoType controlInfoType, standardKey string, controlKey string, sectionKeys ...string) string {
 	var text string
 	sectionSet := createSectionsSet(sectionKeys...)
-	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications models.Verifications) {
+	openControl.Justifications.GetAndApply(standardKey, controlKey, func(selectJustifications lib.Verifications) {
 		// In the case that no information was found period for the standard and control
 		if len(selectJustifications) == 0 {
 			text = fmt.Sprintf("No information found for the combination of standard %s and control %s", standardKey, controlKey)
