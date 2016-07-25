@@ -60,7 +60,7 @@ var _ = Describe("ResourceGetter", func() {
 			data := []byte("schema_version: 1.0.0")
 			fsUtil.On("OpenAndReadFile", mock.AnythingOfType("string")).Return(data, openAndReadFileError)
 			parser := new(basemocks.SchemaParser)
-			schema := new(basemocks.BaseSchema)
+			schema := new(basemocks.OpenControl)
 			schema.On("GetResources", mock.AnythingOfType("string"), mock.AnythingOfType("string"), worker).Return(getResourcesError)
 			parser.On("ParseV1_0_0", data).Return(schema, parseV1_0_0Error)
 			worker.Parser = parser

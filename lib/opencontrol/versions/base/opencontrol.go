@@ -22,7 +22,7 @@ type SchemaParser interface {
 	ParseV1_0_0(data []byte) (OpenControl, error)
 }
 
-// BaseSchema is an interface that every schema should implement.
+// OpenControl is an interface that every schema should implement.
 type OpenControl interface {
 	Parse(data []byte) error
 	GetSchemaVersion() string

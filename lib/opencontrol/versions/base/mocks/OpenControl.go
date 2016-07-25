@@ -5,12 +5,12 @@ import (
 	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
 )
 
-type BaseSchema struct {
+type OpenControl struct {
 	mock.Mock
 }
 
 // Parse provides a mock function with given fields: data
-func (_m *BaseSchema) Parse(data []byte) error {
+func (_m *OpenControl) Parse(data []byte) error {
 	ret := _m.Called(data)
 
 	var r0 error
@@ -24,7 +24,7 @@ func (_m *BaseSchema) Parse(data []byte) error {
 }
 
 // GetSchemaVersion provides a mock function with given fields:
-func (_m *BaseSchema) GetSchemaVersion() string {
+func (_m *OpenControl) GetSchemaVersion() string {
 	ret := _m.Called()
 
 	var r0 string
@@ -38,7 +38,7 @@ func (_m *BaseSchema) GetSchemaVersion() string {
 }
 
 // GetResources provides a mock function with given fields: _a0, _a1, _a2
-func (_m *BaseSchema) GetResources(_a0 string, _a1 string, _a2 *base.Worker) error {
+func (_m *OpenControl) GetResources(_a0 string, _a1 string, _a2 *base.Worker) error {
 	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 error

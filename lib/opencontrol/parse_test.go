@@ -52,11 +52,11 @@ var _ = Describe("Parse", func() {
 		var (
 			data          []byte
 			expectedError error
-			mockSchema    *mocks.BaseSchema
+			mockSchema    *mocks.OpenControl
 		)
 		BeforeEach(func() {
 			expectedError = nil
-			mockSchema = new(mocks.BaseSchema)
+			mockSchema = new(mocks.OpenControl)
 		})
 		JustBeforeEach(func() {
 			parser.On("ParseV1_0_0", data).Return(mockSchema, expectedError)
