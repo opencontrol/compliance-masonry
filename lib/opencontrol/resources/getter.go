@@ -7,12 +7,13 @@ import (
 	"path/filepath"
 	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
 	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // ResourceGetter is an interface for how to get and place local and remote resources.
 type Getter interface {
 	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *base.Worker, resourceType constants.ResourceType) error
-	GetRemoteResources(destination string, subfolder string, worker *base.Worker, entries []Entry) error
+	GetRemoteResources(destination string, subfolder string, worker *base.Worker, entries []common.Entry) error
 }
 
 func NewVCSAndLocalGetter() Getter {
@@ -56,7 +57,7 @@ func (g vcsAndLocalFSGetter) GetLocalResources(source string, resources []string
 }
 
 // GetRemoteResources is the implementation that uses VCS to get remote resources.
-func (g vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder string, worker *base.Worker, entries []Entry) error {
+func (g vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder string, worker *base.Worker, entries []common.Entry) error {
 	tempResourcesDir, err := worker.FSUtil.TempDir("", "opencontrol-resources")
 	if err != nil {
 		return err

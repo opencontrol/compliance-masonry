@@ -4,11 +4,13 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
-	"github.com/opencontrol/compliance-masonry/config/common"
-	"github.com/opencontrol/compliance-masonry/config/common/resources"
-	"github.com/opencontrol/compliance-masonry/config/common/resources/mocks"
-"errors"
+
+	"errors"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/resources"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/resources/mocks"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 var _ = Describe("Schema", func() {
@@ -50,8 +52,8 @@ dependencies:
       revision: master
 `),
 			Schema{
-			resourceGetter: resources.VCSAndLocalFSGetter{},
-			Base:           common.Base{SchemaVersion: "1.0.0"},
+			resourceGetter: resources.NewVCSAndLocalGetter(),
+			Base:           base.Base{SchemaVersion: "1.0.0"},
 			Name:           "test",
 			Meta: Metadata{
 				Description: "A system to test parsing",
@@ -117,18 +119,18 @@ dependencies:
 
 	Describe("Getting resources", func(){
 		var (
-			getter *mocks.ResourceGetter
+			getter *mocks.Getter
 			dependentStandards, dependentCertifications, dependentComponents []common.Entry
 			certifications, standards, components []string
-			worker *common.ConfigWorker
+			worker *base.Worker
 			dependencies Dependencies
 			destination = "."
 			expectedError error
 			s Schema
 		)
 		BeforeEach(func(){
-			getter = new(mocks.ResourceGetter)
-			worker = new(common.ConfigWorker)
+			getter = new(mocks.Getter)
+			worker = new(base.Worker)
 			dependencies = Dependencies{Certifications: dependentCertifications, Systems: dependentComponents, Standards: dependentStandards}
 			s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
 		})

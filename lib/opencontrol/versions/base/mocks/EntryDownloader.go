@@ -1,7 +1,10 @@
 package mocks
 
-import "github.com/opencontrol/compliance-masonry/config/common"
-import "github.com/stretchr/testify/mock"
+
+import (
+	"github.com/stretchr/testify/mock"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+)
 
 type EntryDownloader struct {
 	mock.Mock

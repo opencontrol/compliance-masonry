@@ -4,17 +4,18 @@ import (
 	. "github.com/opencontrol/compliance-masonry/lib/opencontrol/versions"
 
 	. "github.com/onsi/ginkgo"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/common/mocks"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/vektra/errors"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 var _ = Describe("Parse", func() {
 	var (
 		parser *mocks.SchemaParser
 		err    error
-		schema common.BaseSchema
+		openControl base.OpenControl
 	)
 
 	BeforeEach(func() {
@@ -23,27 +24,27 @@ var _ = Describe("Parse", func() {
 
 	Describe("bad input scenarios", func() {
 		It("should detect there's no data to parse when given nil data", func() {
-			schema, err = Parse(parser, nil)
+			openControl, err = Parse(parser, nil)
 			assert.Equal(GinkgoT(), common.ErrNoDataToParse, err)
 		})
 		It("should detect there's no data to parse when given empty data", func() {
-			schema, err = Parse(parser, []byte(""))
+			openControl, err = Parse(parser, []byte(""))
 			assert.Equal(GinkgoT(), common.ErrNoDataToParse, err)
 		})
 		It("should detect when it's unable to unmarshal into the base type", func() {
-			schema, err = Parse(parser, []byte("schema_version: @"))
+			openControl, err = Parse(parser, []byte("schema_version: @"))
 			assert.Contains(GinkgoT(), err.Error(), ErrMalformedBaseYamlPrefix)
 		})
 		It("should detect when it's unable to determine the semver version because it is not in the format", func() {
-			schema, err = Parse(parser, []byte("schema_version: versionone"))
+			openControl, err = Parse(parser, []byte("schema_version: versionone"))
 			assert.Equal(GinkgoT(), err, common.ErrCantParseSemver)
 		})
 		It("should detect when it's unable to determine the semver version because the version is not in string quotes", func() {
-			schema, err = Parse(parser, []byte(`schema_version: 1.0`))
+			openControl, err = Parse(parser, []byte(`schema_version: 1.0`))
 			assert.Equal(GinkgoT(), err, common.ErrCantParseSemver)
 		})
 		It("should detect when the version is unknown", func() {
-			schema, err = Parse(parser, []byte(`schema_version: "0.0.0"`))
+			openControl, err = Parse(parser, []byte(`schema_version: "0.0.0"`))
 			assert.Equal(GinkgoT(), err, common.ErrUnknownSchemaVersion)
 		})
 	})

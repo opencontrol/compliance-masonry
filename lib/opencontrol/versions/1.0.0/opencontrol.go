@@ -7,6 +7,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"gopkg.in/yaml.v2"
 	"log"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 const (
@@ -29,9 +30,9 @@ type Schema struct {
 
 // Dependencies contains all the dependencies for the system
 type Dependencies struct {
-	Certifications []resources.Entry `yaml:"certifications"`
-	Systems        []resources.Entry `yaml:",flow"`
-	Standards      []resources.Entry `yaml:",flow"`
+	Certifications []common.Entry `yaml:"certifications"`
+	Systems        []common.Entry `yaml:",flow"`
+	Standards      []common.Entry `yaml:",flow"`
 }
 
 // Metadata contains metadata about the system.

@@ -1,21 +1,24 @@
 package mocks
 
-import "github.com/opencontrol/compliance-masonry/config/common"
-import "github.com/stretchr/testify/mock"
+
+import (
+	"github.com/stretchr/testify/mock"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
+)
 
 type SchemaParser struct {
 	mock.Mock
 }
 
 // ParseV1_0_0 provides a mock function with given fields: data
-func (_m *SchemaParser) ParseV1_0_0(data []byte) (common.BaseSchema, error) {
+func (_m *SchemaParser) ParseV1_0_0(data []byte) (base.OpenControl, error) {
 	ret := _m.Called(data)
 
-	var r0 common.BaseSchema
-	if rf, ok := ret.Get(0).(func([]byte) common.BaseSchema); ok {
+	var r0 base.OpenControl
+	if rf, ok := ret.Get(0).(func([]byte) base.OpenControl); ok {
 		r0 = rf(data)
 	} else {
-		r0 = ret.Get(0).(common.BaseSchema)
+		r0 = ret.Get(0).(base.OpenControl)
 	}
 
 	var r1 error

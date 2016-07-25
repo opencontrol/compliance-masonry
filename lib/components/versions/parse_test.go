@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/config"
 	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/opencontrol/compliance-masonry/lib/components"
@@ -288,7 +287,7 @@ var componentTestErrors = []componentTestError{
 
 	// Check for version that is unsupported
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"),
-		config.ErrUnknownSchemaVersion},
+		common.ErrUnknownSchemaVersion},
 
 	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
 	{filepath.Join("..", "..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"),
