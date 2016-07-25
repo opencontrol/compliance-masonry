@@ -2,8 +2,8 @@ package schema
 
 import (
 	"errors"
-	"github.com/opencontrol/compliance-masonry/config/common"
-	"github.com/opencontrol/compliance-masonry/config/common/resources"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/resources"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"gopkg.in/yaml.v2"
 	"log"
@@ -17,21 +17,21 @@ const (
 
 // Schema contains the structs for the v1.0.0 schema
 type Schema struct {
-	common.Base    `yaml:",inline"`
+	base.Base     `yaml:",inline"`
 	Meta           Metadata     `yaml:"metadata"`
 	Name           string       `yaml:"name"`
 	Components     []string     `yaml:",flow"`
 	Certifications []string     `yaml:",flow"`
 	Standards      []string     `yaml:",flow"`
 	Dependencies   Dependencies `yaml:"dependencies"`
-	resourceGetter resources.ResourceGetter
+	resourceGetter resources.Getter
 }
 
 // Dependencies contains all the dependencies for the system
 type Dependencies struct {
-	Certifications []common.Entry `yaml:"certifications"`
-	Systems        []common.Entry `yaml:",flow"`
-	Standards      []common.Entry `yaml:",flow"`
+	Certifications []resources.Entry `yaml:"certifications"`
+	Systems        []resources.Entry `yaml:",flow"`
+	Standards      []resources.Entry `yaml:",flow"`
 }
 
 // Metadata contains metadata about the system.
@@ -46,7 +46,7 @@ func (s *Schema) Parse(data []byte) error {
 	if err != nil {
 		return errors.New(ErrMalformedV1_0_0YamlPrefix + " - " + err.Error())
 	}
-	s.resourceGetter = resources.VCSAndLocalFSGetter{}
+	s.resourceGetter = resources.NewVCSAndLocalGetter()
 
 	return nil
 }
@@ -54,7 +54,7 @@ func (s *Schema) Parse(data []byte) error {
 // GetResources will download all the resources that are specified by the v1.0.0 of the schema first by copying the
 // local resources then downloading the remote ones and letting their respective schema version handle
 // how to get their resources.
-func (s *Schema) GetResources(source string, destination string, worker *common.ConfigWorker) error {
+func (s *Schema) GetResources(source string, destination string, worker *base.Worker) error {
 	// Local
 	// Get Certifications
 	log.Println("Retrieving certifications")

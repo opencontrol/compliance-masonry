@@ -1,4 +1,4 @@
-package common
+package resources
 
 import (
 	"github.com/opencontrol/compliance-masonry/tools/constants"

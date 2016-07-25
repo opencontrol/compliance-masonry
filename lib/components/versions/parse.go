@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/config"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 	v2 "github.com/opencontrol/compliance-masonry/lib/components/versions/2_0_0"
 	v3 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_0_0"
 	v31 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_1_0"
@@ -45,7 +45,7 @@ func ParseComponent(componentData []byte, fileName string) (base.Component, erro
 		err = yaml.Unmarshal(componentData, c)
 		component = c
 	default:
-		return nil, config.ErrUnknownSchemaVersion
+		return nil, common.ErrUnknownSchemaVersion
 
 	}
 	if err != nil {

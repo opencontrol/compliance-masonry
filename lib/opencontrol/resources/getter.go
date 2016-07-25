@@ -1,25 +1,31 @@
 package resources
 
 import (
-	"github.com/opencontrol/compliance-masonry/config"
-	"github.com/opencontrol/compliance-masonry/config/common"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"log"
 	"os"
 	"path/filepath"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions"
 )
 
 // ResourceGetter is an interface for how to get and place local and remote resources.
-type ResourceGetter interface {
-	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *common.ConfigWorker, resourceType constants.ResourceType) error
-	GetRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error
+type Getter interface {
+	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *base.Worker, resourceType constants.ResourceType) error
+	GetRemoteResources(destination string, subfolder string, worker *base.Worker, entries []Entry) error
 }
 
-// VCSAndLocalFSGetter is the resource getter that uses VCS for remote resource getting and local file system for local resources.
-type VCSAndLocalFSGetter struct{}
+func NewVCSAndLocalGetter() Getter {
+	return vcsAndLocalFSGetter{Downloader: NewVCSDownloader()}
+}
+
+// vcsAndLocalFSGetter is the resource getter that uses VCS for remote resource getting and local file system for local resources.
+type vcsAndLocalFSGetter struct{
+	Downloader  EntryDownloader
+}
 
 // GetLocalResources is the implementation that uses the local file system to get local resources.
-func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *common.ConfigWorker, resourceType constants.ResourceType) error {
+func (g vcsAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, worker *base.Worker, resourceType constants.ResourceType) error {
 	for _, resource := range resources {
 		if result := worker.ResourceMap.Reserve(string(resourceType), resource); !result.Success {
 			return result.Error
@@ -50,7 +56,7 @@ func (g VCSAndLocalFSGetter) GetLocalResources(source string, resources []string
 }
 
 // GetRemoteResources is the implementation that uses VCS to get remote resources.
-func (g VCSAndLocalFSGetter) GetRemoteResources(destination string, subfolder string, worker *common.ConfigWorker, entries []common.Entry) error {
+func (g vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder string, worker *base.Worker, entries []Entry) error {
 	tempResourcesDir, err := worker.FSUtil.TempDir("", "opencontrol-resources")
 	if err != nil {
 		return err
@@ -60,7 +66,7 @@ func (g VCSAndLocalFSGetter) GetRemoteResources(destination string, subfolder st
 		tempPath := filepath.Join(tempResourcesDir, subfolder, filepath.Base(entry.URL))
 		// Clone repo
 		log.Printf("Attempting to clone %v into %s\n", entry, tempPath)
-		err := worker.Downloader.DownloadEntry(entry, tempPath)
+		err := g.Downloader.DownloadEntry(entry, tempPath)
 		if err != nil {
 			return err
 		}
@@ -69,7 +75,7 @@ func (g VCSAndLocalFSGetter) GetRemoteResources(destination string, subfolder st
 		if err != nil {
 			return err
 		}
-		schema, err := config.Parse(worker.Parser, configBytes)
+		schema, err := versions.Parse(worker.Parser, configBytes)
 		if err != nil {
 			return err
 		}
