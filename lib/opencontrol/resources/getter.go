@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol"
 )
 
 // ResourceGetter is an interface for how to get and place local and remote resources.
@@ -76,7 +76,7 @@ func (g vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder st
 		if err != nil {
 			return err
 		}
-		schema, err := versions.Parse(worker.Parser, configBytes)
+		schema, err := opencontrol.Parse(worker.Parser, configBytes)
 		if err != nil {
 			return err
 		}

@@ -1,4 +1,4 @@
-package versions_test
+package opencontrol_test
 
 import (
 	. "github.com/onsi/ginkgo"

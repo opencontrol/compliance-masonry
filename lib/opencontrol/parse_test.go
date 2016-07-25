@@ -1,7 +1,7 @@
-package versions_test
+package opencontrol_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry/lib/opencontrol/versions"
+	. "github.com/opencontrol/compliance-masonry/lib/opencontrol"
 
 	. "github.com/onsi/ginkgo"
 	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
