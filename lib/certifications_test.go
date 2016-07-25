@@ -29,9 +29,9 @@ var certificationTests = []certificationTest{
 
 func TestLoadCertification(t *testing.T) {
 	for _, example := range certificationTests {
-		openControl := &OpenControl{}
-		openControl.LoadCertification(example.certificationFile)
-		actual := openControl.Certification
+		ws := &LocalWorkspace{}
+		ws.LoadCertification(example.certificationFile)
+		actual := ws.Certification
 		// Check if loaded certification has the expected key
 		if actual.Key != example.expected.Key {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)
@@ -61,8 +61,8 @@ var certificationTestErrors = []certificationTestError{
 
 func TestLoadCertificationErrors(t *testing.T) {
 	for _, example := range certificationTestErrors {
-		openControl := &OpenControl{}
-		actualError := openControl.LoadCertification(example.certificationFile)
+		ws := &LocalWorkspace{}
+		actualError := ws.LoadCertification(example.certificationFile)
 		// Check that the expected error is the actual error returned
 		if example.expectedError != actualError {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)

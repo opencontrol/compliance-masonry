@@ -20,9 +20,9 @@ import (
 var _ = Describe("Docx", func() {
 
 	DescribeTable("FormatAllNarratives", func(standard string, control string, expectedData string,) {
-		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
+		workspace, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: openControlData,
+			LocalWorkspace: workspace,
 		}
 		actualData := openControl.FormatAllNarratives(standard, control)
 		assert.Nil(GinkgoT(), err)
@@ -35,9 +35,9 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatNarrative", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
+		workspace, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: openControlData,
+			LocalWorkspace: workspace,
 		}
 		actualData := openControl.FormatNarrative(standard, control, sectionKeys...)
 		assert.Nil(GinkgoT(), err)
@@ -56,7 +56,7 @@ var _ = Describe("Docx", func() {
 	DescribeTable("FormatParameter", func(standard string, control string, expectedData string, sectionKeys ...string) {
 		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: openControlData,
+			LocalWorkspace: openControlData,
 		}
 		actualData := openControl.FormatParameter(standard, control, sectionKeys...)
 		assert.Nil(GinkgoT(), err)
@@ -71,9 +71,9 @@ var _ = Describe("Docx", func() {
 	)
 
 	DescribeTable("FormatResponsibleRole", func(standard string, control string, expectedData string, sectionKeys ...string) {
-		openControlData, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
+		workspace, err := lib.LoadData(filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"), "")
 		openControl := OpenControlDocx{
-			OpenControl: openControlData,
+			LocalWorkspace: workspace,
 		}
 		actualData := openControl.FormatResponsibleRoles(standard, control)
 		assert.Nil(GinkgoT(), err)

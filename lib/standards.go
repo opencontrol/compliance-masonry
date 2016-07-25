@@ -67,7 +67,7 @@ func (standards *Standards) GetAll() map[string]*Standard {
 
 // LoadStandard imports a standard into the Standard struct and adds it to the
 // main object.
-func (openControl *OpenControl) LoadStandard(standardFile string) error {
+func (ws *LocalWorkspace) LoadStandard(standardFile string) error {
 	var standard Standard
 	standardData, err := ioutil.ReadFile(standardFile)
 	if err != nil {
@@ -77,6 +77,6 @@ func (openControl *OpenControl) LoadStandard(standardFile string) error {
 	if err != nil {
 		return ErrStandardSchema
 	}
-	openControl.Standards.Add(&standard)
+	ws.Standards.Add(&standard)
 	return nil
 }

@@ -97,9 +97,9 @@ var loadComponentsTests = []loadComponentsTest{
 
 func TestLoadComponents(t *testing.T) {
 	for _, example := range loadComponentsTests {
-		openControl := NewOpenControl()
-		openControl.LoadComponents(example.dir)
-		actualComponentNum := len(openControl.Components.GetAll())
+		ws := NewWorkspace()
+		ws.LoadComponents(example.dir)
+		actualComponentNum := len(ws.Components.GetAll())
 		// Check the number of components
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
@@ -116,8 +116,8 @@ var loadComponentsTestErrors = []loadComponentsTestError{
 
 func TestLoadComponentErrors (t *testing.T) {
 	for _, example := range loadComponentsTestErrors {
-		openControl := NewOpenControl()
-		actualErrors := openControl.LoadComponents(example.dir)
+		ws := NewWorkspace()
+		actualErrors := ws.LoadComponents(example.dir)
 		// Check that the actual error is the expected error
 		if !assert.Equal(t, example.expectedError, actualErrors[0]) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
@@ -132,9 +132,9 @@ var loadStandardsTests = []loadStandardsTest{
 
 func TestLoadStandards(t *testing.T) {
 	for _, example := range loadStandardsTests {
-		openControl := NewOpenControl()
-		openControl.LoadStandards(example.dir)
-		actualStandards := len(openControl.Standards.GetAll())
+		ws := NewWorkspace()
+		ws.LoadStandards(example.dir)
+		actualStandards := len(ws.Standards.GetAll())
 		// Check that the actual number of standards is the expected number of standards
 		if actualStandards != example.expectedStandards {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedStandards, actualStandards)
@@ -151,8 +151,8 @@ var loadStandardsTestErrors = []loadStandardsTestError{
 
 func TestLoadStandardErrors (t *testing.T) {
 	for _, example := range loadStandardsTestErrors {
-		openControl := NewOpenControl()
-		actualErrors := openControl.LoadStandards(example.dir)
+		ws := NewWorkspace()
+		actualErrors := ws.LoadStandards(example.dir)
 		// Check that the actual error is the expected error
 		if !assert.Equal(t, example.expectedError, actualErrors[0]) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
