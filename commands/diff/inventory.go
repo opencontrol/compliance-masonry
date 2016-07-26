@@ -1,18 +1,18 @@
 package diff
 
 import (
-	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"fmt"
 )
 
 // Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
-	*models.OpenControl
-	masterControlList       map[string]models.Control
+	*lib.OpenControl
+	masterControlList       map[string]lib.Control
 	actualSatisfiedControls map[string]base.Satisfies
-	MissingControlList      map[string]models.Control
+	MissingControlList      map[string]lib.Control
 }
 
 // retrieveMasterControlsList will gather the list of controls needed for a given certification.
@@ -70,12 +70,12 @@ func ComputeGapAnalysis(config Config) (Inventory, []error) {
 	if certificationPath == "" {
 		return Inventory{}, errs
 	}
-	openControlData, _ := models.LoadData(config.OpencontrolDir, certificationPath)
+	openControlData, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := Inventory{
 		OpenControl:   openControlData,
-		masterControlList:       make(map[string]models.Control),
+		masterControlList:       make(map[string]lib.Control),
 		actualSatisfiedControls: make(map[string]base.Satisfies),
-		MissingControlList:      make(map[string]models.Control),
+		MissingControlList:      make(map[string]lib.Control),
 	}
 	if i.Certification == nil || i.Components == nil {
 		return Inventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}

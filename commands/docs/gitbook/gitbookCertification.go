@@ -5,9 +5,9 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/opencontrol/compliance-masonry/models"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
-	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/opencontrol/compliance-masonry/lib"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 func (openControl *OpenControlGitBook) getResponsibleRole(text string, component base.Component) string {
@@ -52,7 +52,7 @@ func (openControl *OpenControlGitBook) getParameter(text string, parameter base.
 	return text
 }
 
-func (openControl *OpenControlGitBook) getCoveredBy(text string, justification models.Verification) string {
+func (openControl *OpenControlGitBook) getCoveredBy(text string, justification lib.Verification) string {
 	if len(justification.SatisfiesData.GetCoveredBy()) > 0 {
 		text += "Covered By:\n"
 	}
@@ -91,7 +91,7 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("#%s\n##%s\n", key, control.Name)
-	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications models.Verifications) {
+	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications lib.Verifications) {
 		// In the case that no information was found period for the standard and control
 		if len(selectJustifications) == 0 {
 			errorText := fmt.Sprintf("No information found for the combination of standard %s and control %s", control.standardKey, control.controlKey)

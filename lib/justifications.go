@@ -1,8 +1,8 @@
-package models
+package lib
 
 import (
 	"sync"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 )
 
 // Verification struct holds data for a specific component and verification

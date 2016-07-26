@@ -7,13 +7,13 @@ import (
 
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/config"
-	"github.com/opencontrol/compliance-masonry/models"
-	"github.com/opencontrol/compliance-masonry/models/common"
-	"github.com/opencontrol/compliance-masonry/models/components"
-	v2 "github.com/opencontrol/compliance-masonry/models/components/versions/2_0_0"
-	v3 "github.com/opencontrol/compliance-masonry/models/components/versions/3_0_0"
-	v31 "github.com/opencontrol/compliance-masonry/models/components/versions/3_1_0"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/components"
+	v2 "github.com/opencontrol/compliance-masonry/lib/components/versions/2_0_0"
+	v3 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_0_0"
+	v31 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_1_0"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/stretchr/testify/assert"
 )
@@ -243,8 +243,8 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 }
 
 func loadValidAndTestComponent(path string, t *testing.T, example base.Component) {
-	openControl := models.OpenControl{
-		Justifications: models.NewJustifications(),
+	openControl := lib.OpenControl{
+		Justifications: lib.NewJustifications(),
 		Components:     components.NewComponents(),
 	}
 	err := openControl.LoadComponent(path)
@@ -305,7 +305,7 @@ var componentTestErrors = []componentTestError{
 
 func TestLoadComponentErrors(t *testing.T) {
 	for _, example := range componentTestErrors {
-		openControl := &models.OpenControl{}
+		openControl := &lib.OpenControl{}
 		actualError := openControl.LoadComponent(example.componentDir)
 		// Check that the expected error is the actual error
 		if !assert.Equal(t, example.expectedError, actualError) {

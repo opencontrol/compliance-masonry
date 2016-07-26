@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/models/common"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/stretchr/testify/assert"
 )
 

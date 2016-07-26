@@ -4,8 +4,8 @@ import (
 	"sort"
 
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/models/common"
-	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"gopkg.in/fatih/set.v0"
 )
 
