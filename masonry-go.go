@@ -12,11 +12,11 @@ import (
 	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
 	"github.com/opencontrol/compliance-masonry/commands/get"
-	"github.com/opencontrol/compliance-masonry/config/common"
-	"github.com/opencontrol/compliance-masonry/config/parser"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/parser"
 )
 
 var certification, exportPath, markdownPath, opencontrolDir, templatePath string
@@ -75,7 +75,7 @@ func NewCLIApp() *cli.App {
 				destination := filepath.Join(wd, c.String("dest"))
 				err = get.Get(destination,
 					configBytes,
-					&common.ConfigWorker{Downloader: common.NewVCSDownloader(), Parser: parser.Parser{}, ResourceMap: mapset.Init(), FSUtil: f})
+					&base.Worker{Parser: parser.Parser{}, ResourceMap: mapset.Init(), FSUtil: f})
 				if err != nil {
 					return cli.NewExitError(err.Error(), 1)
 				}

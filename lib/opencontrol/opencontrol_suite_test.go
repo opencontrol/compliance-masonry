@@ -1,4 +1,4 @@
-package resources_test
+package opencontrol_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestResources(t *testing.T) {
+func TestCommon(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Resources Suite")
+	RunSpecs(t, "Opencontrol Versions Suite")
 }

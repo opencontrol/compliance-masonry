@@ -1,4 +1,4 @@
-package common
+package base
 
 import (
 	. "github.com/onsi/ginkgo"

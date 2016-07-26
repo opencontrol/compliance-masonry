@@ -25,12 +25,12 @@ When adding a new schema version. (in this example we will add v2.0.0
   ```
 
 - Add a new `ParseV2_0_0` function to the `parser/parser.go` file.
-  - It should satisfy the `func (p Parser) ParseVX_Y_Z(data []byte) (common.BaseSchema, error) {` prototype.
+  - It should satisfy the `func (p Parser) ParseVX_Y_Z(data []byte) (base.OpenControl, error) {` prototype.
   - Alias the import so that you can easily refer to the particular version.
   ```
   import (
-    v1_0_0 "github.com/opencontrol/compliance-masonry/yaml/versions/1.0.0"
-    v2_0_0 "github.com/opencontrol/compliance-masonry/yaml/versions/2.0.0"
+    v1_0_0 "github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
+    v2_0_0 "github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
   )
   ```
   - Now it should call the parse function that your schema version has.
