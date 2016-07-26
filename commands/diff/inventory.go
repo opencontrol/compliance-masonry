@@ -9,7 +9,7 @@ import (
 
 // Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
-	*lib.OpenControl
+	*lib.LocalWorkspace
 	masterControlList       map[string]lib.Control
 	actualSatisfiedControls map[string]base.Satisfies
 	MissingControlList      map[string]lib.Control
@@ -70,9 +70,9 @@ func ComputeGapAnalysis(config Config) (Inventory, []error) {
 	if certificationPath == "" {
 		return Inventory{}, errs
 	}
-	openControlData, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
+	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := Inventory{
-		OpenControl:   openControlData,
+		LocalWorkspace:          workspace,
 		masterControlList:       make(map[string]lib.Control),
 		actualSatisfiedControls: make(map[string]base.Satisfies),
 		MissingControlList:      make(map[string]lib.Control),

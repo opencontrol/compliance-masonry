@@ -21,7 +21,7 @@ type Config struct {
 // OpenControlGitBook struct is an extension of models.OpenControl that adds
 // an exportPath
 type OpenControlGitBook struct {
-	*lib.OpenControl
+	*lib.LocalWorkspace
 	markdownPath string
 	exportPath   string
 	FSUtil       fs.Util

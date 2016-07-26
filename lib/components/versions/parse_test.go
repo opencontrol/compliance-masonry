@@ -243,21 +243,21 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 }
 
 func loadValidAndTestComponent(path string, t *testing.T, example base.Component) {
-	openControl := lib.OpenControl{
+	workspace := lib.LocalWorkspace{
 		Justifications: lib.NewJustifications(),
 		Components:     components.NewComponents(),
 	}
-	err := openControl.LoadComponent(path)
+	err := workspace.LoadComponent(path)
 	if !assert.Nil(t, err) {
 		t.Fatalf("Expected reading component found in %s to be successful", path)
 	}
 
 	// Check the test set with the GetAndApply function
-	openControl.Components.GetAndApply(example.GetKey(), func(actual base.Component) {
+	workspace.Components.GetAndApply(example.GetKey(), func(actual base.Component) {
 		testSet(example, actual, t)
 	})
 	// Check the test set with the simple Get function
-	actualComponent := openControl.Components.Get(example.GetKey())
+	actualComponent := workspace.Components.Get(example.GetKey())
 	testSet(example, actualComponent, t)
 
 }
@@ -305,8 +305,8 @@ var componentTestErrors = []componentTestError{
 
 func TestLoadComponentErrors(t *testing.T) {
 	for _, example := range componentTestErrors {
-		openControl := &lib.OpenControl{}
-		actualError := openControl.LoadComponent(example.componentDir)
+		ws := &lib.LocalWorkspace{}
+		actualError := ws.LoadComponent(example.componentDir)
 		// Check that the expected error is the actual error
 		if !assert.Equal(t, example.expectedError, actualError) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)

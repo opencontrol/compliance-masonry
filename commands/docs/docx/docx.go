@@ -21,7 +21,7 @@ type Config struct {
 // OpenControlDocx struct is an extension of models.OpenControl that adds a
 // template path and export path.
 type OpenControlDocx struct {
-	*lib.OpenControl
+	*lib.LocalWorkspace
 }
 
 //BuildDocx exports a Docx ssp based on a template

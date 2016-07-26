@@ -30,9 +30,9 @@ var standardsTests = []standardsTest{
 
 func TestLoadStandard(t *testing.T) {
 	for _, example := range standardsTests {
-		openControl := &OpenControl{Standards: NewStandards()}
-		openControl.LoadStandard(example.standardsFile)
-		actual := openControl.Standards.Get(example.expected.Name)
+		ws := &LocalWorkspace{Standards: NewStandards()}
+		ws.LoadStandard(example.standardsFile)
+		actual := ws.Standards.Get(example.expected.Name)
 		// Check that the name of the standard was correctly loaded
 		if actual.Name != example.expected.Name {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Name, actual.Name)
@@ -108,8 +108,8 @@ var standardTestErrors = []standardTestError{
 
 func TestLoadStandardsErrors(t *testing.T) {
 	for _, example := range standardTestErrors {
-		openControl := &OpenControl{}
-		actualError := openControl.LoadStandard(example.standardsFile)
+		ws := &LocalWorkspace{}
+		actualError := ws.LoadStandard(example.standardsFile)
 		// Check that the expected error and the actual error are the same
 		if example.expectedError != actualError {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)

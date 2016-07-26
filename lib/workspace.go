@@ -23,9 +23,9 @@ var (
 	ErrStandardSchema = errors.New("Unable to parse standard")
 )
 
-// OpenControl struct combines components, standards, and a certification data
+// LocalWorkspace struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
-type OpenControl struct {
+type LocalWorkspace struct {
 	Components     *components.Components
 	Standards      *Standards
 	Justifications *Justifications
@@ -38,9 +38,9 @@ func getKey(filePath string) string {
 	return key
 }
 
-// NewOpenControl initializes an empty OpenControl struct
-func NewOpenControl() *OpenControl {
-	return &OpenControl{
+// NewWorkspace initializes an empty OpenControl struct
+func NewWorkspace() *LocalWorkspace {
+	return &LocalWorkspace{
 		Justifications: NewJustifications(),
 		Components:     components.NewComponents(),
 		Standards:      NewStandards(),
@@ -49,35 +49,35 @@ func NewOpenControl() *OpenControl {
 
 // LoadData creates a new instance of OpenControl struct and loads
 // the components, standards, and certification data.
-func LoadData(openControlDir string, certificationPath string) (*OpenControl, []error) {
+func LoadData(openControlDir string, certificationPath string) (*LocalWorkspace, []error) {
 	var wg sync.WaitGroup
-	openControl := NewOpenControl()
+	ws := NewWorkspace()
 	wg.Add(3)
 	var componentsErrs, standardsErrs []error
 	var certificationErr error
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
-		componentsErrs = openControl.LoadComponents(filepath.Join(openControlDir, "components"))
+		componentsErrs = ws.LoadComponents(filepath.Join(openControlDir, "components"))
 	}(&wg)
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
-		standardsErrs = openControl.LoadStandards(filepath.Join(openControlDir, "standards"))
+		standardsErrs = ws.LoadStandards(filepath.Join(openControlDir, "standards"))
 	}(&wg)
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
-		certificationErr = openControl.LoadCertification(certificationPath)
+		certificationErr = ws.LoadCertification(certificationPath)
 	}(&wg)
 	wg.Wait()
 	var errs []error
 	//errs = append(errs, certificationErr)
 	errs = append(errs, componentsErrs...)
 	errs = append(errs, standardsErrs...)
-	return openControl, errs
+	return ws, errs
 }
 
 // LoadComponents loads multiple components by searching for components in a
 // given directory
-func (openControl *OpenControl) LoadComponents(directory string) []error {
+func (ws *LocalWorkspace) LoadComponents(directory string) []error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
@@ -89,7 +89,7 @@ func (openControl *OpenControl) LoadComponents(directory string) []error {
 		go func(componentDir os.FileInfo, wg *sync.WaitGroup) {
 			if componentDir.IsDir() {
 				componentDir := filepath.Join(directory, componentDir.Name())
-				errChannel <- openControl.LoadComponent(componentDir)
+				errChannel <- ws.LoadComponent(componentDir)
 			}
 			wg.Done()
 		}(componentDir, &wg)
@@ -101,7 +101,7 @@ func (openControl *OpenControl) LoadComponents(directory string) []error {
 
 // LoadStandards loads multiple standards by searching for components in a
 // given directory
-func (openControl *OpenControl) LoadStandards(standardsDir string) []error {
+func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
 	var wg sync.WaitGroup
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
@@ -111,7 +111,7 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) []error {
 	wg.Add(len(standardsFiles))
 	for _, standardFile := range standardsFiles {
 		go func(standardFile os.FileInfo, wg *sync.WaitGroup) {
-			errChannel <- openControl.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
+			errChannel <- ws.LoadStandard(filepath.Join(standardsDir, standardFile.Name()))
 			wg.Done()
 		}(standardFile, &wg)
 	}
@@ -123,7 +123,7 @@ func (openControl *OpenControl) LoadStandards(standardsDir string) []error {
 
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
-func (openControl *OpenControl) LoadComponent(componentDir string) error {
+func (ws *LocalWorkspace) LoadComponent(componentDir string) error {
 	// Get file system assistance.
 	fs := fs.OSUtil{}
 	// Read the component file.
@@ -143,8 +143,8 @@ func (openControl *OpenControl) LoadComponent(componentDir string) error {
 		component.SetKey(getKey(componentDir))
 	}
 	// If the component is new, make sure we load the justifications as well.
-	if openControl.Components.CompareAndAdd(component) {
-		openControl.Justifications.LoadMappings(component)
+	if ws.Components.CompareAndAdd(component) {
+		ws.Justifications.LoadMappings(component)
 	}
 	return nil
 }
