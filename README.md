@@ -120,26 +120,6 @@ compliance-masonry get && compliance-masonry docs gitbook <certification>
 
 1. Follow [these instructions](http://toolchain.gitbook.com/ebook.html)
 
-## Create Docx template
-
-1. Create a Word Document template that uses the following template tag format:
-
-    ```
-    Documentation for Standard: NIST-800-53 and Control: CM-2 will be rendered below
-    {{ getControl "NIST-800-53@CM-2"}}
-
-    Documentation for Standard: NIST-800-53 and Control: AC-2 will be rendered below
-    {{ getControl "NIST-800-53@AC-2"}}
-    ```
-
-1. Run the docx command.
-
-    ```bash
-    compliance-masonry docs docx -t path/to/template.docx
-    ```
-
-Running the `docx` command will by default create a file named `export.docx` in the local directory.
-
 ## Gap Analysis
 
 Use Gap Analysis to determine the difference between how many controls you have documented versus the total controls for a given certification. This should be used continually as you work to indicate your compliance progress.

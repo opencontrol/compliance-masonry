@@ -15,5 +15,4 @@ import:
 - package: vbom.ml/util
   subpackages:
   - sortorder
-- package: github.com/opencontrol/doc-template
 - package: github.com/tg/gosortmap

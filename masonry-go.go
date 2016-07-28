@@ -9,17 +9,16 @@ import (
 
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/commands/docs"
-	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
 	"github.com/opencontrol/compliance-masonry/commands/get"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/parser"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/parser"
 )
 
-var certification, exportPath, markdownPath, opencontrolDir, templatePath string
+var exportPath, markdownPath, opencontrolDir string
 
 // NewCLIApp creates a new instances of the CLI
 func NewCLIApp() *cli.App {
@@ -128,44 +127,6 @@ func NewCLIApp() *cli.App {
 							return cli.NewExitError(err.Error(), 1)
 						} else {
 							fmt.Fprintf(app.Writer, "%v\n", "New Gitbook Documentation Created")
-							return nil
-						}
-					},
-				},
-				{
-					Name:    "docx",
-					Aliases: []string{"d"},
-					Usage:   "Create Docx Documentation using a Template",
-					Flags: []cli.Flag{
-						cli.StringFlag{
-							Name:        "opencontrols, o",
-							Value:       "opencontrols",
-							Usage:       "Set opencontrols directory",
-							Destination: &opencontrolDir,
-						},
-						cli.StringFlag{
-							Name:        "template, t",
-							Value:       "",
-							Usage:       "Set template to build",
-							Destination: &templatePath,
-						},
-						cli.StringFlag{
-							Name:        "export, e",
-							Value:       "export.docx",
-							Usage:       "Sets the export directory",
-							Destination: &exportPath,
-						},
-					},
-					Action: func(c *cli.Context) error {
-						config := docx.Config{
-							OpencontrolDir: opencontrolDir,
-							TemplatePath:   templatePath,
-							ExportPath:     exportPath,
-						}
-						if err := docs.BuildTemplate(config); err != nil && len(err.Error()) > 0 {
-							return cli.NewExitError(err.Error(), 1)
-						} else {
-							fmt.Fprintf(app.Writer, "%v\n", "New Docx Created")
 							return nil
 						}
 					},

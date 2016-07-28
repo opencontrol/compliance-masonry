@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 
 	. "github.com/opencontrol/compliance-masonry/commands/docs"
-	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
 
 	. "github.com/onsi/ginkgo"
@@ -17,44 +16,6 @@ import (
 )
 
 var _ = Describe("Doc Tests", func() {
-	DescribeTable("BuildTemplateTest", func(config docx.Config, expectedMessages error) {
-		tempDir, _ := ioutil.TempDir("", "example")
-		defer os.RemoveAll(tempDir)
-		config.ExportPath = tempDir
-		actualMessages := BuildTemplate(config)
-		assert.Equal(GinkgoT(), expectedMessages, actualMessages)
-	},
-		Entry(
-			"Check the template method returns an error message when no template is defined",
-			docx.Config{
-				OpencontrolDir: filepath.Join("..", "..", "fixtures", "opencontrol_fixtures"),
-				TemplatePath:   "",
-				ExportPath:     "",
-			},
-			errors.New("Error: No Template Supplied"),
-		),
-
-		Entry(
-			"Check the template method returns an error message when no template does not exist",
-			docx.Config{
-				OpencontrolDir: filepath.Join("..", "..", "fixtures", "opencontrol_fixtures"),
-				TemplatePath:   "fake",
-				ExportPath:     "",
-			},
-			errors.New("Error: Template does not exist"),
-		),
-
-		Entry(
-			"Check that template is created when inputs are correct",
-			docx.Config{
-				OpencontrolDir: filepath.Join("..", "..", "fixtures", "opencontrol_fixtures"),
-				TemplatePath:   filepath.Join("..", "..", "fixtures", "template_fixtures", "test.docx"),
-				ExportPath:     "",
-			},
-			nil,
-		),
-	)
-
 	DescribeTable("BuildGitbookTest", func(config gitbook.Config, expectedWarning string, expectedMessages []error) {
 		tempDir, _ := ioutil.TempDir("", "example")
 		defer os.RemoveAll(tempDir)

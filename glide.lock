@@ -1,34 +1,28 @@
-hash: eb1a71be81e235149b3dff3f6b0b3209ccfb8d548ae21525047659a50e71996d
-updated: 2016-07-13T13:06:15.763894256-04:00
+hash: 8c012aa19d4acf701696c877b7d1a38c794744eb4f2ae4532615f53bb1326f6d
+updated: 2016-07-27T21:39:19.941803274-04:00
 imports:
 - name: github.com/blang/semver
-  version: 60ec3488bfea7cca02b021d106d9911120d25fe9
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/codegangsta/cli
-  version: 3a5216227e14699bf7810b2573db60bf4b3f71b5
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/davecgh/go-spew
-  version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
+  version: ""
   subpackages:
   - spew
 - name: github.com/go-forks/fsnotify
-  version: 6b1ef893dc11e0447abda6da20a5203481878dda
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/go-utils/ufs
-  version: 3f2140988c4e1ab09dc4637142bd9077cea577fb
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/go-utils/ugo
-  version: ffc2267bb34560e62bfdbc5f56f775fc509e177f
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/go-utils/uslice
-  version: 7f8c3df848991b2e38824a7bda55bda1339b651e
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/go-utils/ustr
-  version: 18ce5cfd3a95bbf3f197eb5ff21f0fd0b39b0046
-- name: github.com/golang/protobuf
-  version: 874264fbbb43f4d91e999fecb4b40143ed611400
-  subpackages:
-  - proto
-  - proto/testdata
-  - ptypes/any
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/Masterminds/vcs
-  version: fbe9fb6ad5b5f35b3e82a7c21123cfc526cbf895
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/onsi/ginkgo
-  version: 01a0bc330e324e78c3e84f199c552481e3395179
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
   subpackages:
   - config
   - internal/codelocation
@@ -40,15 +34,12 @@ imports:
   - reporters
   - reporters/stenographer
   - types
-  - ginkgo/convert
-  - ginkgo/interrupthandler
-  - ginkgo/nodot
-  - ginkgo/testrunner
-  - ginkgo/testsuite
-  - ginkgo/watch
+  - internal/containernode
   - internal/leafnodes
+  - internal/spec
+  - internal/specrunner
 - name: github.com/onsi/gomega
-  version: 9574b2d94c03faf63bf1b296e21d9db950006ea4
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
   subpackages:
   - internal/assertion
   - internal/asyncassertion
@@ -56,42 +47,36 @@ imports:
   - matchers
   - types
   - internal/oraclematcher
+  - format
   - matchers/support/goraph/bipartitegraph
   - matchers/support/goraph/edge
   - matchers/support/goraph/node
   - matchers/support/goraph/util
-- name: github.com/opencontrol/doc-template
-  version: 88997261e3057776e761bb1460d6a53ae240a782
-  subpackages:
-  - docx
 - name: github.com/pmezard/go-difflib
-  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  version: ""
   subpackages:
   - difflib
 - name: github.com/stretchr/objx
-  version: cbeaeb16a013161a98496fad62933b1d21786672
+  version: ""
 - name: github.com/stretchr/testify
-  version: d77da356e56a7428ad25149ca77381849a6a5232
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
   subpackages:
   - mock
   - assert
-  - http
 - name: github.com/tg/gosortmap
-  version: 9e9c6c22cdeb75203f2b1ee5f7eb8d5d7832e7b0
-- name: github.com/urfave/cli
-  version: 3a5216227e14699bf7810b2573db60bf4b3f71b5
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: github.com/vektra/errors
-  version: c64d83aba85aa4392895aadeefabbd24e89f3580
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: golang.org/x/sys
-  version: b518c298ac9dc94b6ac0757394f50d10c5dfa25a
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
   subpackages:
   - unix
 - name: gopkg.in/fatih/set.v0
-  version: 27c40922c40b43fe04554d8223a402af3ea333f3
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: gopkg.in/yaml.v2
-  version: a83829b6f1293c91addabc89d0571c246397bbf4
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
 - name: vbom.ml/util
-  version: db5cfe13f5cc80a4990d98e2e1b0707a4d1a5394
+  version: 26ad09bd764b8f3b6a2489753642774559fe049c
   subpackages:
   - sortorder
-devImports: []
+testImports: []
