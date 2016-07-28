@@ -28,7 +28,6 @@ var _ = Describe("Masonry CLI", func() {
 			It("should list the available doc commands", func() {
 				output := Masonry("docs", "")
 				Eventually(output.Out.Contents).Should(ContainSubstring("Create Gitbook Documentation"))
-				Eventually(output.Out.Contents).Should(ContainSubstring("Create Docx Documentation using a Template"))
 			})
 		})
 	})
@@ -83,57 +82,6 @@ var _ = Describe("Masonry CLI", func() {
 		AfterEach(func() {
 			os.RemoveAll(exportTempDir)
 		})
-	})
-
-	Describe("Template Engine Commands", func() {
-
-		var exportTempDir string
-		BeforeEach(func() {
-			exportTempDir, _ = ioutil.TempDir("", "exports")
-		})
-
-		Describe("When the docs docx command is run", func() {
-			It("should warn the user that no template has been supplied", func() {
-				output := Masonry("docs", "docx")
-				Eventually(output.Err.Contents).Should(ContainSubstring("Error: No Template Supplied\n"))
-			})
-		})
-
-		Describe("When the docs docx command is run with a none existent template", func() {
-			It("should warn the user that no template does not exist", func() {
-				output := Masonry("docs", "docx", "-t", "test")
-				Eventually(output.Err.Contents).Should(ContainSubstring("Error: Template does not exist\n"))
-			})
-		})
-
-		Describe("When the docs docx command is run with a corrupted template", func() {
-			It("should return an error", func() {
-				output := Masonry(
-					"docs", "docx",
-					"-o", filepath.Join("fixtures", "opencontrol_fixtures"),
-					"-t", filepath.Join("fixtures", "template_fixtures", "test_corrupted.docx"),
-					"-e", filepath.Join(exportTempDir, "export.docx"),
-				)
-				Eventually(output.Err.Contents).Should(ContainSubstring("Cannot Open File\n"))
-			})
-		})
-
-		Describe("When the docs docx command is run with an existing template and certification", func() {
-			It("should run the script", func() {
-				output := Masonry(
-					"docs", "docx",
-					"-o", filepath.Join("fixtures", "opencontrol_fixtures"),
-					"-t", filepath.Join("fixtures", "template_fixtures", "test.docx"),
-					"-e", filepath.Join(exportTempDir, "export.docx"),
-				)
-				Eventually(output.Out.Contents).Should(ContainSubstring("New Docx Created\n"))
-			})
-		})
-
-		AfterEach(func() {
-			os.RemoveAll(exportTempDir)
-		})
-
 	})
 
 	Describe("Diff Commands", func() {

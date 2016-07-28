@@ -1,4 +1,4 @@
 .goxc.local.json
-compliance-masonry
+/compliance-masonry
 *.swp
 *.out

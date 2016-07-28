@@ -78,7 +78,6 @@ The content of the `markdowns/SUMMARY.md` and `markdowns/README.md` files and th
 
 For more information on using the `SUMMARY.md` and `README.md` files visit the [Gitbook documentation.](http://toolchain.gitbook.com/structure.html) For an example `markdowns` directory visit the [cloud.gov `markdowns`](https://github.com/18F/cg-compliance/tree/master/markdowns).
 
-
 ### Viewing gitbook locally in browser
 
 Requires [NodeJS](https://nodejs.org/). After running the steps above,
@@ -122,23 +121,7 @@ compliance-masonry get && compliance-masonry docs gitbook <certification>
 
 ## Create Docx template
 
-1. Create a Word Document template that uses the following template tag format:
-
-    ```
-    Documentation for Standard: NIST-800-53 and Control: CM-2 will be rendered below
-    {{ getControl "NIST-800-53@CM-2"}}
-
-    Documentation for Standard: NIST-800-53 and Control: AC-2 will be rendered below
-    {{ getControl "NIST-800-53@AC-2"}}
-    ```
-
-1. Run the docx command.
-
-    ```bash
-    compliance-masonry docs docx -t path/to/template.docx
-    ```
-
-Running the `docx` command will by default create a file named `export.docx` in the local directory.
+While there used to be Word document templating logic in Masonry, the team [found](https://github.com/opencontrol/compliance-masonry/issues/153) that it could be done more effectively with rendering code tailored to the specifics of the destination `*.docx`. See the [FedRAMP templater](https://github.com/opencontrol/fedramp-templater) for an example of using Compliance Masonry as a library to inject [OpenControl-formatted](https://github.com/opencontrol/schemas) documentation into a Word doc.
 
 ## Gap Analysis
 
