@@ -1,0 +1,18 @@
+engines:
+  fixme:
+    enabled: true
+  gofmt:
+    enabled: true
+  golint:
+    enabled: true
+    exclude_paths:
+    # Ginkgo/Gomega style aren't compatible
+    - "**_test.go"
+  govet:
+    enabled: true
+ratings:
+  paths:
+  - "**.go"
+exclude_paths:
+- fixtures/
+- vendor/
