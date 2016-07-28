@@ -78,7 +78,6 @@ The content of the `markdowns/SUMMARY.md` and `markdowns/README.md` files and th
 
 For more information on using the `SUMMARY.md` and `README.md` files visit the [Gitbook documentation.](http://toolchain.gitbook.com/structure.html) For an example `markdowns` directory visit the [cloud.gov `markdowns`](https://github.com/18F/cg-compliance/tree/master/markdowns).
 
-
 ### Viewing gitbook locally in browser
 
 Requires [NodeJS](https://nodejs.org/). After running the steps above,
@@ -119,6 +118,10 @@ compliance-masonry get && compliance-masonry docs gitbook <certification>
     ```
 
 1. Follow [these instructions](http://toolchain.gitbook.com/ebook.html)
+
+## Create Docx template
+
+While there used to be Word document templating logic in Masonry, the team [found](https://github.com/opencontrol/compliance-masonry/issues/153) that it could be done more effectively with rendering code tailored to the specifics of the destination `*.docx`. See the [FedRAMP templater](https://github.com/opencontrol/fedramp-templater) for an example of using Compliance Masonry as a library to inject [OpenControl-formatted](https://github.com/opencontrol/schemas) documentation into a Word doc.
 
 ## Gap Analysis
 
