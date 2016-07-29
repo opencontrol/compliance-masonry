@@ -63,8 +63,16 @@ func (standards *Standards) Get(standardName string) *Standard {
 }
 
 // GetAll retrieves all the standards
-func (standards *Standards) GetAll() map[string]*Standard {
-	return standards.mapping
+func (standards *Standards) GetAll() []*Standard {
+	standards.RLock()
+	defer standards.RUnlock()
+	s := make([]*Standard, len(standards.mapping))
+	idx := 0
+	for _, value := range standards.mapping {
+		s[idx] = value
+		idx++
+	}
+	return s
 }
 
 // LoadStandard imports a standard into the Standard struct and adds it to the

@@ -74,7 +74,7 @@ func TestLoadData(t *testing.T) {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
 		// Check the number of standards
-		actualStandardsNum := len(actual.Standards.GetAll())
+		actualStandardsNum := len(actual.GetStandards())
 		if actualStandardsNum != example.expectedStandardsNum {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
@@ -134,7 +134,7 @@ func TestLoadStandards(t *testing.T) {
 	for _, example := range loadStandardsTests {
 		ws := NewWorkspace()
 		ws.LoadStandards(example.dir)
-		actualStandards := len(ws.Standards.GetAll())
+		actualStandards := len(ws.GetStandards())
 		// Check that the actual number of standards is the expected number of standards
 		if actualStandards != example.expectedStandards {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedStandards, actualStandards)

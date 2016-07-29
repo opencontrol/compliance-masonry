@@ -30,6 +30,7 @@ type Workspace interface {
 	GetAllComponents() []base.Component
 	GetComponent(string) base.Component
 	GetStandard(string) *Standard
+	GetStandards() []*Standard
 	GetCertification() *Certification
 	GetJustification(string, string) Verifications
 }
@@ -178,6 +179,10 @@ func (ws *LocalWorkspace) GetJustification(standardKey string, controlKey string
 
 func (ws *LocalWorkspace) GetStandard(standardKey string) *Standard {
 	return ws.standards.Get(standardKey)
+}
+
+func (ws *LocalWorkspace) GetStandards() []*Standard {
+	return ws.standards.GetAll()
 }
 
 func convertErrChannelToErrorSlice(errs <-chan error) []error {
