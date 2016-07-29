@@ -8,7 +8,6 @@ import (
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/components"
 	v2 "github.com/opencontrol/compliance-masonry/lib/components/versions/2_0_0"
 	v3 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_0_0"
 	v31 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_1_0"
@@ -242,21 +241,18 @@ func testSet(example base.Component, actual base.Component, t *testing.T) {
 }
 
 func loadValidAndTestComponent(path string, t *testing.T, example base.Component) {
-	workspace := lib.LocalWorkspace{
-		Justifications: lib.NewJustifications(),
-		Components:     components.NewComponents(),
+	ws := lib.NewWorkspace()
+	workspace, ok := ws.(*lib.LocalWorkspace)
+	if !ok {
+		t.Fatal("Unable to convert to specialized local workspace")
 	}
 	err := workspace.LoadComponent(path)
 	if !assert.Nil(t, err) {
 		t.Fatalf("Expected reading component found in %s to be successful", path)
 	}
 
-	// Check the test set with the GetAndApply function
-	workspace.Components.GetAndApply(example.GetKey(), func(actual base.Component) {
-		testSet(example, actual, t)
-	})
 	// Check the test set with the simple Get function
-	actualComponent := workspace.Components.Get(example.GetKey())
+	actualComponent := workspace.GetComponent(example.GetKey())
 	testSet(example, actualComponent, t)
 
 }

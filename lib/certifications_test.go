@@ -31,7 +31,7 @@ func TestLoadCertification(t *testing.T) {
 	for _, example := range certificationTests {
 		ws := &LocalWorkspace{}
 		ws.LoadCertification(example.certificationFile)
-		actual := ws.Certification
+		actual := ws.certification
 		// Check if loaded certification has the expected key
 		if actual.Key != example.expected.Key {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Key, actual.Key)
@@ -42,9 +42,13 @@ func TestLoadCertification(t *testing.T) {
 		}
 		// Get the length of the control by using the GetSortedData method
 		totalControls := 0
-		actual.GetSortedData(func(_ string, _ string) {
-			totalControls++
-		})
+		standardKeys := actual.GetSortedStandards()
+		for _, standardKey := range standardKeys {
+			controlKeys := actual.Standards[standardKey].GetSortedControls()
+			for _, _ = range controlKeys {
+				totalControls++
+			}
+		}
 		// Check if loaded certification has the expected number of controls
 		if totalControls != example.expectedControls {
 			t.Errorf("Expected %d, Actual: %d", example.expectedControls, totalControls)
@@ -94,9 +98,13 @@ var standardOrderTests = []standardOrderTest{
 func TestStandardOrder(t *testing.T) {
 	for _, example := range standardOrderTests {
 		actualOrder := ""
-		example.certification.GetSortedData(func(standardKey string, controlKey string) {
-			actualOrder += standardKey + controlKey
-		})
+		standardKeys := example.certification.GetSortedStandards()
+		for _, standardKey := range standardKeys {
+			controlKeys := example.certification.Standards[standardKey].GetSortedControls()
+			for _, controlKey := range controlKeys {
+				actualOrder += standardKey + controlKey
+			}
+		}
 		// Verify that the actual order is the expected order
 		if actualOrder != example.expectedOrder {
 			t.Errorf("Expected %s, Actual: %s", example.expectedOrder, actualOrder)

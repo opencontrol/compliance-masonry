@@ -32,14 +32,6 @@ func (components *Components) Get(key string) base.Component {
 	return components.mapping[key]
 }
 
-// GetAndApply get a component and apply the callback function inside while locking
-// components
-func (components *Components) GetAndApply(key string, callback func(component base.Component)) {
-	components.RLock()
-	callback(components.mapping[key])
-	components.RUnlock()
-}
-
 // CompareAndAdd compares to see if the component exists in the map. If not, it adds the component.
 // This function is thread-safe.
 func (components *Components) CompareAndAdd(component base.Component) bool {
@@ -55,7 +47,15 @@ func (components *Components) CompareAndAdd(component base.Component) bool {
 	return added
 }
 
-// GetAll retrieves all the components
-func (components *Components) GetAll() map[string]base.Component {
-	return components.mapping
+// GetAll retrieves all the components without giving directly to the map.
+func (components *Components) GetAll() []base.Component {
+	components.RLock()
+	defer components.RUnlock()
+	c := make([]base.Component, len(components.mapping))
+	idx := 0
+	for _, value := range components.mapping {
+		c[idx] = value
+		idx++
+	}
+	return c
 }

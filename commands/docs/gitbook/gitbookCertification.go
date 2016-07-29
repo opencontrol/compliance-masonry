@@ -62,9 +62,8 @@ func (openControl *OpenControlGitBook) getCoveredBy(text string, justification l
 		if componentKey == "" {
 			componentKey = justification.ComponentKey
 		}
-		openControl.Components.GetAndApply(componentKey, func(component base.Component) {
-			text = openControl.getCoveredByVerification(text, component, coveredBy)
-		})
+		component := openControl.GetComponent(componentKey)
+		text = openControl.getCoveredByVerification(text, component, coveredBy)
 	}
 	return text
 }
@@ -91,37 +90,39 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("#%s\n##%s\n", key, control.Name)
-	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications lib.Verifications) {
-		// In the case that no information was found period for the standard and control
-		if len(selectJustifications) == 0 {
-			errorText := fmt.Sprintf("No information found for the combination of standard %s and control %s", control.standardKey, control.controlKey)
-			text = fmt.Sprintf("%s%s\n", text, errorText)
-			return
-		}
-		for _, justification := range selectJustifications {
-			openControl.Components.GetAndApply(justification.ComponentKey, func(component base.Component) {
-				text = fmt.Sprintf("%s\n#### %s\n", text, component.GetName())
+	selectJustifications := openControl.GetJustification(control.standardKey, control.controlKey)
+	// In the case that no information was found period for the standard and control
+	if len(selectJustifications) == 0 {
+		errorText := fmt.Sprintf("No information found for the combination of standard %s and control %s", control.standardKey, control.controlKey)
+		text = fmt.Sprintf("%s%s\n", text, errorText)
+	}
+	for _, justification := range selectJustifications {
+		component := openControl.GetComponent(justification.ComponentKey)
+		text = fmt.Sprintf("%s\n#### %s\n", text, component.GetName())
 
-				text = openControl.getResponsibleRole(text, component)
+		text = openControl.getResponsibleRole(text, component)
 
-				text = openControl.getParameters(text, justification.SatisfiesData.GetParameters())
+		text = openControl.getParameters(text, justification.SatisfiesData.GetParameters())
 
-				text = openControl.getControlOrigin(text, justification.SatisfiesData.GetControlOrigin())
+		text = openControl.getControlOrigin(text, justification.SatisfiesData.GetControlOrigin())
 
-				text = openControl.getNarratives(justification.SatisfiesData.GetNarratives(), text, control)
-			})
-			text = openControl.getCoveredBy(text, justification)
-		}
-	})
+		text = openControl.getNarratives(justification.SatisfiesData.GetNarratives(), text, control)
+		text = openControl.getCoveredBy(text, justification)
+	}
+
 	return filepath.Join(control.exportPath, key+".md"), text
 }
 
 func (openControl *OpenControlGitBook) exportStandards() {
 	standardsExportPath := filepath.Join(openControl.exportPath, "standards")
 	openControl.FSUtil.Mkdirs(standardsExportPath)
-	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
-		control := openControl.Standards.Get(standardKey).Controls[controlKey]
-		controlPath, controlText := openControl.exportControl(&ControlGitbook{&control, standardsExportPath, standardKey, controlKey})
-		ioutil.WriteFile(controlPath, []byte(controlText), 0700)
-	})
+	standardKeys := openControl.GetCertification().GetSortedStandards()
+	for _, standardKey := range standardKeys {
+		controlKeys := openControl.GetStandard(standardKey).GetSortedControls()
+		for _, controlKey := range controlKeys {
+			control := openControl.GetStandard(standardKey).Controls[controlKey]
+			controlPath, controlText := openControl.exportControl(&ControlGitbook{&control, standardsExportPath, standardKey, controlKey})
+			ioutil.WriteFile(controlPath, []byte(controlText), 0700)
+		}
+	}
 }

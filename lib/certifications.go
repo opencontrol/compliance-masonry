@@ -16,17 +16,13 @@ type Certification struct {
 }
 
 // GetSortedData returns a list of sorted standards
-func (certification Certification) GetSortedData(callback func(string, string)) {
+func (certification Certification) GetSortedStandards() []string {
 	var standardNames []string
 	for standardName := range certification.Standards {
 		standardNames = append(standardNames, standardName)
 	}
 	sort.Sort(sortorder.Natural(standardNames))
-	for _, standardKey := range standardNames {
-		certification.Standards[standardKey].GetSortedData(func(controlKey string) {
-			callback(standardKey, controlKey)
-		})
-	}
+	return standardNames
 }
 
 // LoadCertification struct loads certifications into a Certification struct
@@ -41,6 +37,6 @@ func (ws *LocalWorkspace) LoadCertification(certificationFile string) error {
 	if err != nil {
 		return ErrCertificationSchema
 	}
-	ws.Certification = &certification
+	ws.certification = &certification
 	return nil
 }

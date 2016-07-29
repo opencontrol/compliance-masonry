@@ -68,7 +68,7 @@ var loadDataTests = []loadDataTest{
 func TestLoadData(t *testing.T) {
 	for _, example := range loadDataTests {
 		actual, _ := LoadData(example.openControlDir, example.certificationPath)
-		actualComponentNum := len(actual.Components.GetAll())
+		actualComponentNum := len(actual.GetAllComponents())
 		// Check the number of components
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
@@ -84,8 +84,8 @@ func TestLoadData(t *testing.T) {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
 		// Check the certification key
-		if actual.Certification.Key != example.expectedCertKey {
-			t.Errorf("Expected: `%s`, Actual: `%s`", actual.Certification.Key, example.expectedCertKey)
+		if actual.GetCertification().Key != example.expectedCertKey {
+			t.Errorf("Expected: `%s`, Actual: `%s`", actual.GetCertification().Key, example.expectedCertKey)
 		}
 	}
 }
@@ -99,7 +99,7 @@ func TestLoadComponents(t *testing.T) {
 	for _, example := range loadComponentsTests {
 		ws := NewWorkspace()
 		ws.LoadComponents(example.dir)
-		actualComponentNum := len(ws.Components.GetAll())
+		actualComponentNum := len(ws.GetAllComponents())
 		// Check the number of components
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)

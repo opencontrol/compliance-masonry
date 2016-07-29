@@ -9,7 +9,7 @@ import (
 
 // Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
-	*lib.LocalWorkspace
+	lib.Workspace
 	masterControlList       map[string]lib.Control
 	actualSatisfiedControls map[string]base.Satisfies
 	MissingControlList      map[string]lib.Control
@@ -17,7 +17,7 @@ type Inventory struct {
 
 // retrieveMasterControlsList will gather the list of controls needed for a given certification.
 func (i *Inventory) retrieveMasterControlsList() {
-	for standardKey, standard := range i.Certification.Standards {
+	for standardKey, standard := range i.GetCertification().Standards {
 		for controlKey, control := range standard.Controls {
 			key := standardAndControlString(standardKey, controlKey)
 			if _, exists := i.masterControlList[key]; !exists {
@@ -29,7 +29,7 @@ func (i *Inventory) retrieveMasterControlsList() {
 
 // findDocumentedControls will find the list of all documented controls found within the workspace.
 func (i *Inventory) findDocumentedControls() {
-	for _, component := range i.Components.GetAll() {
+	for _, component := range i.GetAllComponents() {
 		for _, satisfiedControl := range component.GetAllSatisfies() {
 			key := standardAndControlString(satisfiedControl.GetStandardKey(), satisfiedControl.GetControlKey())
 			if _, exists := i.actualSatisfiedControls[key]; !exists {
@@ -72,12 +72,12 @@ func ComputeGapAnalysis(config Config) (Inventory, []error) {
 	}
 	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := Inventory{
-		LocalWorkspace:          workspace,
+		Workspace:          workspace,
 		masterControlList:       make(map[string]lib.Control),
 		actualSatisfiedControls: make(map[string]base.Satisfies),
 		MissingControlList:      make(map[string]lib.Control),
 	}
-	if i.Certification == nil || i.Components == nil {
+	if i.GetCertification() == nil || len(i.GetAllComponents()) == 0 {
 		return Inventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
 	}
 

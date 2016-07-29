@@ -30,18 +30,15 @@ var standardsTests = []standardsTest{
 
 func TestLoadStandard(t *testing.T) {
 	for _, example := range standardsTests {
-		ws := &LocalWorkspace{Standards: NewStandards()}
+		ws := &LocalWorkspace{standards: NewStandards()}
 		ws.LoadStandard(example.standardsFile)
-		actual := ws.Standards.Get(example.expected.Name)
+		actual := ws.standards.Get(example.expected.Name)
 		// Check that the name of the standard was correctly loaded
 		if actual.Name != example.expected.Name {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Name, actual.Name)
 		}
 		// Get the length of the control by using the GetSortedData method
-		totalControls := 0
-		actual.GetSortedData(func(_ string) {
-			totalControls++
-		})
+		totalControls := len(actual.GetSortedControls())
 		if totalControls != example.expectedControls {
 			t.Errorf("Expected %d, Actual: %d", example.expectedControls, totalControls)
 		}
@@ -89,9 +86,10 @@ var controlOrderTests = []controlOrderTest{
 func TestControlOrder(t *testing.T) {
 	for _, example := range controlOrderTests {
 		actualOrder := ""
-		example.standard.GetSortedData(func(controlKey string) {
+		controlKeys := example.standard.GetSortedControls()
+		for _, controlKey := range controlKeys {
 			actualOrder += controlKey
-		})
+		}
 		// Check that the expected order is the actual order
 		if actualOrder != example.expectedOrder {
 			t.Errorf("Expected %s, Actual: %s", example.expectedOrder, actualOrder)

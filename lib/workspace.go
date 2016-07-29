@@ -23,13 +23,24 @@ var (
 	ErrStandardSchema = errors.New("Unable to parse standard")
 )
 
+type Workspace interface {
+	LoadComponents(string) []error
+	LoadStandards(string) []error
+	LoadCertification(string) error
+	GetAllComponents() []base.Component
+	GetComponent(string) base.Component
+	GetStandard(string) *Standard
+	GetCertification() *Certification
+	GetJustification(string, string) Verifications
+}
+
 // LocalWorkspace struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
 type LocalWorkspace struct {
-	Components     *components.Components
-	Standards      *Standards
-	Justifications *Justifications
-	Certification  *Certification
+	componentsMap  *components.Components
+	standards      *Standards
+	justifications *Justifications
+	certification  *Certification
 }
 
 // getKey extracts a component key from the filepath
@@ -39,17 +50,17 @@ func getKey(filePath string) string {
 }
 
 // NewWorkspace initializes an empty OpenControl struct
-func NewWorkspace() *LocalWorkspace {
+func NewWorkspace() Workspace {
 	return &LocalWorkspace{
-		Justifications: NewJustifications(),
-		Components:     components.NewComponents(),
-		Standards:      NewStandards(),
+		justifications: NewJustifications(),
+		componentsMap:  components.NewComponents(),
+		standards:      NewStandards(),
 	}
 }
 
 // LoadData creates a new instance of OpenControl struct and loads
 // the components, standards, and certification data.
-func LoadData(openControlDir string, certificationPath string) (*LocalWorkspace, []error) {
+func LoadData(openControlDir string, certificationPath string) (Workspace, []error) {
 	var wg sync.WaitGroup
 	ws := NewWorkspace()
 	wg.Add(3)
@@ -143,10 +154,30 @@ func (ws *LocalWorkspace) LoadComponent(componentDir string) error {
 		component.SetKey(getKey(componentDir))
 	}
 	// If the component is new, make sure we load the justifications as well.
-	if ws.Components.CompareAndAdd(component) {
-		ws.Justifications.LoadMappings(component)
+	if ws.componentsMap.CompareAndAdd(component) {
+		ws.justifications.LoadMappings(component)
 	}
 	return nil
+}
+
+func (ws *LocalWorkspace) GetComponent(component string) base.Component {
+	return ws.componentsMap.Get(component)
+}
+
+func (ws *LocalWorkspace) GetAllComponents() []base.Component {
+	return ws.componentsMap.GetAll()
+}
+
+func (ws *LocalWorkspace) GetCertification() *Certification {
+	return ws.certification
+}
+
+func (ws *LocalWorkspace) GetJustification(standardKey string, controlKey string) Verifications {
+	return ws.justifications.Get(standardKey,controlKey)
+}
+
+func (ws *LocalWorkspace) GetStandard(standardKey string) *Standard {
+	return ws.standards.Get(standardKey)
 }
 
 func convertErrChannelToErrorSlice(errs <-chan error) []error {

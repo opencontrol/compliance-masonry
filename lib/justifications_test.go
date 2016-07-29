@@ -72,13 +72,12 @@ func TestJustificationGetAndApply(t *testing.T) {
 		for _, mapping := range example.mappings {
 			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, nil)
 		}
-		just.GetAndApply("a", "b", func(actualVerificaitons Verifications) {
-			numberofABs := actualVerificaitons.Len()
-			// Check that the number of controls stored is the expected number
-			if example.expectedCount != numberofABs {
-				t.Errorf("Expected %d, Actual: %d", example.expectedCount, numberofABs)
-			}
-		})
+		actualVerificaitons := just.Get("a", "b")
+		numberofABs := actualVerificaitons.Len()
+		// Check that the number of controls stored is the expected number
+		if example.expectedCount != numberofABs {
+			t.Errorf("Expected %d, Actual: %d", example.expectedCount, numberofABs)
+		}
 	}
 }
 

@@ -30,15 +30,17 @@ type Standards struct {
 }
 
 // GetSortedData returns a list of sorted controls
-func (standard Standard) GetSortedData(callback func(string)) {
+func (standard Standard) GetSortedControls() []string {
 	var controlNames []string
 	for controlName := range standard.Controls {
 		controlNames = append(controlNames, controlName)
 	}
 	sort.Sort(sortorder.Natural(controlNames))
-	for _, controlName := range controlNames {
-		callback(controlName)
-	}
+	return controlNames
+}
+
+func (standard Standard) GetControl(controlKey string) Control {
+	return standard.Controls[controlKey]
 }
 
 // NewStandards creates an instance of Components struct
@@ -77,6 +79,6 @@ func (ws *LocalWorkspace) LoadStandard(standardFile string) error {
 	if err != nil {
 		return ErrStandardSchema
 	}
-	ws.Standards.Add(&standard)
+	ws.standards.Add(&standard)
 	return nil
 }

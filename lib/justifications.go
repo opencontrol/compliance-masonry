@@ -78,10 +78,3 @@ func (justifications *Justifications) Get(standardKey string, controlKey string)
 	}
 	return controlJustifications
 }
-
-//GetAndApply get a justification set and apply a generic function
-func (justifications *Justifications) GetAndApply(standardKey string, controlKey string, callback func(selectJustifications Verifications)) {
-	justifications.Lock()
-	callback(justifications.Get(standardKey, controlKey))
-	justifications.Unlock()
-}
