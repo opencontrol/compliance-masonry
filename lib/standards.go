@@ -19,21 +19,21 @@ func NewStandards() *standardsMap {
 }
 
 // Add adds a standard to the standards mapping
-func (s *standardsMap) Add(standard standards.Standard) {
+func (s *standardsMap) add(standard standards.Standard) {
 	s.Lock()
 	s.mapping[standard.GetName()] = standard
 	s.Unlock()
 }
 
 // Get retrieves a standard
-func (s *standardsMap) Get(standardName string) standards.Standard {
+func (s *standardsMap) get(standardName string) standards.Standard {
 	s.Lock()
 	defer s.Unlock()
 	return s.mapping[standardName]
 }
 
 // GetAll retrieves all the standards
-func (s *standardsMap) GetAll() []standards.Standard {
+func (s *standardsMap) getAll() []standards.Standard {
 	s.RLock()
 	defer s.RUnlock()
 	standardSlice := make([]standards.Standard, len(s.mapping))
@@ -52,6 +52,6 @@ func (ws *LocalWorkspace) LoadStandard(standardFile string) error {
 	if err != nil {
 		return common.ErrStandardSchema
 	}
-	ws.standards.Add(standard)
+	ws.standards.add(standard)
 	return nil
 }

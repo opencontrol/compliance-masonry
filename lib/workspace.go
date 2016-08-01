@@ -172,11 +172,11 @@ func (ws *LocalWorkspace) GetJustification(standardKey string, controlKey string
 }
 
 func (ws *LocalWorkspace) GetStandard(standardKey string) standards.Standard {
-	return ws.standards.Get(standardKey)
+	return ws.standards.get(standardKey)
 }
 
 func (ws *LocalWorkspace) GetStandards() []standards.Standard {
-	return ws.standards.GetAll()
+	return ws.standards.getAll()
 }
 
 func convertErrChannelToErrorSlice(errs <-chan error) []error {

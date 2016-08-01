@@ -32,7 +32,7 @@ func TestLoadStandard(t *testing.T) {
 	for _, example := range standardsTests {
 		ws := &LocalWorkspace{standards: NewStandards()}
 		ws.LoadStandard(example.standardsFile)
-		actual := ws.standards.Get(example.expected.Name)
+		actual := ws.standards.get(example.expected.Name)
 		// Check that the name of the standard was correctly loaded
 		if actual.Name != example.expected.Name {
 			t.Errorf("Expected %s, Actual: %s", example.expected.Name, actual.Name)
