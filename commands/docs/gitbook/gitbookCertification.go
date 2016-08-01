@@ -89,7 +89,7 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
-	text := fmt.Sprintf("#%s\n##%s\n", key, control.Name)
+	text := fmt.Sprintf("#%s\n##%s\n", key, control.GetName())
 	selectJustifications := openControl.GetJustification(control.standardKey, control.controlKey)
 	// In the case that no information was found period for the standard and control
 	if len(selectJustifications) == 0 {
@@ -120,8 +120,8 @@ func (openControl *OpenControlGitBook) exportStandards() {
 	for _, standardKey := range standardKeys {
 		controlKeys := openControl.GetStandard(standardKey).GetSortedControls()
 		for _, controlKey := range controlKeys {
-			control := openControl.GetStandard(standardKey).Controls[controlKey]
-			controlPath, controlText := openControl.exportControl(&ControlGitbook{&control, standardsExportPath, standardKey, controlKey})
+			control := openControl.GetStandard(standardKey).GetControls()[controlKey]
+			controlPath, controlText := openControl.exportControl(&ControlGitbook{control, standardsExportPath, standardKey, controlKey})
 			ioutil.WriteFile(controlPath, []byte(controlText), 0700)
 		}
 	}

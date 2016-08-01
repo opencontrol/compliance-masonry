@@ -28,8 +28,8 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 		for _, controlKey := range controlKeys {
 			componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
 			control := standard.GetControl(controlKey)
-			controlFamily := control.Family
-			controlName := control.Name
+			controlFamily := control.GetFamily()
+			controlName := control.GetName()
 			newFamily = standardKey + "-" + controlFamily
 			// create control family headings
 			if oldFamily != newFamily {
