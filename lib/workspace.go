@@ -12,16 +12,10 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/lib/standards"
+	"github.com/opencontrol/compliance-masonry/lib/certifications"
 )
 
-var (
-	// ErrReadFile is raised when a file can not be read
-	ErrReadFile = errors.New("Unable to read the file")
-	// ErrCertificationSchema is raised a certification cannot be parsed
-	ErrCertificationSchema = errors.New("Unable to parse certification")
-	// ErrStandardSchema is raised a standard cannot be parsed
-	ErrStandardSchema = errors.New("Unable to parse standard")
-)
 
 type Workspace interface {
 	LoadComponents(string) []error
@@ -29,9 +23,9 @@ type Workspace interface {
 	LoadCertification(string) error
 	GetAllComponents() []base.Component
 	GetComponent(string) base.Component
-	GetStandard(string) *Standard
-	GetStandards() []*Standard
-	GetCertification() *Certification
+	GetStandard(string) standards.Standard
+	GetStandards() []standards.Standard
+	GetCertification() certifications.Certification
 	GetJustification(string, string) Verifications
 }
 
@@ -39,9 +33,9 @@ type Workspace interface {
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
 type LocalWorkspace struct {
 	componentsMap  *components.Components
-	standards      *Standards
+	standards      *standardsMap
 	justifications *Justifications
-	certification  *Certification
+	certification  certifications.Certification
 }
 
 // getKey extracts a component key from the filepath
@@ -169,7 +163,7 @@ func (ws *LocalWorkspace) GetAllComponents() []base.Component {
 	return ws.componentsMap.GetAll()
 }
 
-func (ws *LocalWorkspace) GetCertification() *Certification {
+func (ws *LocalWorkspace) GetCertification() certifications.Certification {
 	return ws.certification
 }
 
@@ -177,11 +171,11 @@ func (ws *LocalWorkspace) GetJustification(standardKey string, controlKey string
 	return ws.justifications.Get(standardKey,controlKey)
 }
 
-func (ws *LocalWorkspace) GetStandard(standardKey string) *Standard {
+func (ws *LocalWorkspace) GetStandard(standardKey string) standards.Standard {
 	return ws.standards.Get(standardKey)
 }
 
-func (ws *LocalWorkspace) GetStandards() []*Standard {
+func (ws *LocalWorkspace) GetStandards() []standards.Standard {
 	return ws.standards.GetAll()
 }
 
