@@ -9,34 +9,34 @@ import (
 
 // standardsMap struct is a thread save mapping of Standards
 type standardsMap struct {
-	mapping map[string]standards.Standard
+	mapping map[string]common.Standard
 	sync.RWMutex
 }
 
 // newStandards creates an instance of standardsMap struct
 func newStandards() *standardsMap {
-	return &standardsMap{mapping: make(map[string]standards.Standard)}
+	return &standardsMap{mapping: make(map[string]common.Standard)}
 }
 
 // Add adds a standard to the standards mapping
-func (s *standardsMap) add(standard standards.Standard) {
+func (s *standardsMap) add(standard common.Standard) {
 	s.Lock()
 	s.mapping[standard.GetName()] = standard
 	s.Unlock()
 }
 
 // Get retrieves a standard
-func (s *standardsMap) get(standardName string) standards.Standard {
+func (s *standardsMap) get(standardName string) common.Standard {
 	s.Lock()
 	defer s.Unlock()
 	return s.mapping[standardName]
 }
 
 // GetAll retrieves all the standards
-func (s *standardsMap) getAll() []standards.Standard {
+func (s *standardsMap) getAll() []common.Standard {
 	s.RLock()
 	defer s.RUnlock()
-	standardSlice := make([]standards.Standard, len(s.mapping))
+	standardSlice := make([]common.Standard, len(s.mapping))
 	idx := 0
 	for _, value := range s.mapping {
 		standardSlice[idx] = value

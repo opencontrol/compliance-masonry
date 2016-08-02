@@ -7,14 +7,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type Standard interface {
-	GetName() string
-	GetControls() map[string]common.Control
-	GetControl(string) common.Control
-	GetSortedControls() []string
-}
-
-func Load(path string) (Standard, error) {
+func Load(path string) (common.Standard, error) {
 	var standard v1_0_0.Standard
 	standardData, err := ioutil.ReadFile(path)
 	if err != nil {

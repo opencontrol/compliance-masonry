@@ -9,7 +9,7 @@ import (
 
 type v1standardsTest struct {
 	standardsFile    string
-	expected         Standard
+	expected         common.Standard
 	expectedControls int
 }
 
