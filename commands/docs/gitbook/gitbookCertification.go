@@ -6,18 +6,17 @@ import (
 	"path/filepath"
 
 	"github.com/opencontrol/compliance-masonry/lib"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
-func (openControl *OpenControlGitBook) getResponsibleRole(text string, component base.Component) string {
+func (openControl *OpenControlGitBook) getResponsibleRole(text string, component common.Component) string {
 	if component.GetResponsibleRole() != "" {
 		text = fmt.Sprintf("%s\n##### Responsible Role: %s\n", text, component.GetResponsibleRole())
 	}
 	return text
 }
 
-func (openControl *OpenControlGitBook) getNarratives(narratives []base.Section, text string, control *ControlGitbook) string {
+func (openControl *OpenControlGitBook) getNarratives(narratives []common.Section, text string, control *ControlGitbook) string {
 	if len(narratives) == 0 {
 		return fmt.Sprintf("%s\nNo narrative found for the combination of standard %s and control %s\n", text, control.standardKey, control.controlKey)
 	}
@@ -28,7 +27,7 @@ func (openControl *OpenControlGitBook) getNarratives(narratives []base.Section, 
 	return text
 }
 
-func (openControl *OpenControlGitBook) getNarrative(narrative base.Section, text string) string {
+func (openControl *OpenControlGitBook) getNarrative(narrative common.Section, text string) string {
 	if narrative.GetKey() != "" {
 		text = fmt.Sprintf("%s\n##### %s\n", text, narrative.GetKey())
 	}
@@ -36,7 +35,7 @@ func (openControl *OpenControlGitBook) getNarrative(narrative base.Section, text
 	return text
 }
 
-func (openControl *OpenControlGitBook) getParameters(text string, parameters []base.Section) string {
+func (openControl *OpenControlGitBook) getParameters(text string, parameters []common.Section) string {
 	if len(parameters) > 0 {
 		text = fmt.Sprintf("%s\n##### Parameters:\n", text)
 	}
@@ -46,7 +45,7 @@ func (openControl *OpenControlGitBook) getParameters(text string, parameters []b
 	return text
 }
 
-func (openControl *OpenControlGitBook) getParameter(text string, parameter base.Section) string{
+func (openControl *OpenControlGitBook) getParameter(text string, parameter common.Section) string{
 	text = fmt.Sprintf("%s\n###### %s\n", text, parameter.GetKey())
 	text = fmt.Sprintf("%s%s\n", text, parameter.GetText())
 	return text
@@ -68,7 +67,7 @@ func (openControl *OpenControlGitBook) getCoveredBy(text string, justification l
 	return text
 }
 
-func (openControl *OpenControlGitBook) getCoveredByVerification(text string, component base.Component, coveredBy common.CoveredBy) string {
+func (openControl *OpenControlGitBook) getCoveredByVerification(text string, component common.Component, coveredBy common.CoveredBy) string {
 	if component != nil {
 		verification := component.GetVerifications().Get(coveredBy.VerificationKey)
 		text += exportLink(

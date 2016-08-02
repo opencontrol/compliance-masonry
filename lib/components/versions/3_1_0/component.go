@@ -5,7 +5,6 @@ import (
 
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"gopkg.in/fatih/set.v0"
 )
 
@@ -41,9 +40,9 @@ func (c Component) GetReferences() *common.GeneralReferences {
 	return &c.References
 }
 
-func (c Component) GetAllSatisfies() []base.Satisfies {
+func (c Component) GetAllSatisfies() []common.Satisfies {
 	// Have to do manual conversion from this Component's Satisfies to the interface base.Satisfies.
-	baseSatisfies := make([]base.Satisfies, len(c.Satisfies))
+	baseSatisfies := make([]common.Satisfies, len(c.Satisfies))
 	for idx, value := range c.Satisfies {
 		baseSatisfies[idx] = value
 	}
@@ -86,18 +85,18 @@ func (s Satisfies) GetStandardKey() string {
 	return s.StandardKey
 }
 
-func (s Satisfies) GetNarratives() []base.Section {
+func (s Satisfies) GetNarratives() []common.Section {
 	// Have to do manual conversion to the interface base.Section from NarrativeSection.
-	baseSection := make([]base.Section, len(s.Narrative))
+	baseSection := make([]common.Section, len(s.Narrative))
 	for idx, value := range s.Narrative {
 		baseSection[idx] = value
 	}
 	return baseSection
 }
 
-func (s Satisfies) GetParameters() []base.Section {
+func (s Satisfies) GetParameters() []common.Section {
 	// Have to do manual conversion to the interface base.Section from Section.
-	baseSection := make([]base.Section, len(s.Parameters))
+	baseSection := make([]common.Section, len(s.Parameters))
 	for idx, value := range s.Parameters {
 		baseSection[idx] = value
 	}

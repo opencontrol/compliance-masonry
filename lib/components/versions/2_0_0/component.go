@@ -3,7 +3,6 @@ package component
 import (
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 )
 
 // Component struct is an individual component requiring documentation
@@ -37,9 +36,9 @@ func (c Component) GetReferences() *common.GeneralReferences {
 	return &c.References
 }
 
-func (c Component) GetAllSatisfies() []base.Satisfies {
+func (c Component) GetAllSatisfies() []common.Satisfies {
 	// Have to do manual conversion from this Component's Satisfies to the interface base.Satisfies.
-	baseSatisfies := make([]base.Satisfies, len(c.Satisfies))
+	baseSatisfies := make([]common.Satisfies, len(c.Satisfies))
 	for idx, value := range c.Satisfies {
 		baseSatisfies[idx] = value
 	}
@@ -78,19 +77,19 @@ func (s Satisfies) GetStandardKey() string {
 	return s.StandardKey
 }
 
-func (s Satisfies) GetNarratives() []base.Section {
+func (s Satisfies) GetNarratives() []common.Section {
 	// Have to do manual conversion to the interface base.Section.
 	// V2.0.0 only had one Narrative field, so if it actually exists, let's create a slice of 1 to return.
-	var baseNarrative []base.Section
+	var baseNarrative []common.Section
 	if len(s.Narrative) > 0 {
-		baseNarrative = make([]base.Section, 1)
+		baseNarrative = make([]common.Section, 1)
 		baseNarrative[0] = s.Narrative
 	}
 
 	return baseNarrative
 }
 
-func (s Satisfies) GetParameters() []base.Section {
+func (s Satisfies) GetParameters() []common.Section {
 	return nil
 }
 

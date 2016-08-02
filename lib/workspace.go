@@ -6,10 +6,10 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/lib/standards"
 	"github.com/opencontrol/compliance-masonry/lib/certifications"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 
@@ -17,8 +17,8 @@ type Workspace interface {
 	LoadComponents(string) []error
 	LoadStandards(string) []error
 	LoadCertification(string) error
-	GetAllComponents() []base.Component
-	GetComponent(string) base.Component
+	GetAllComponents() []common.Component
+	GetComponent(string) common.Component
 	GetStandard(string) standards.Standard
 	GetStandards() []standards.Standard
 	GetCertification() certifications.Certification
@@ -123,11 +123,11 @@ func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
 }
 
 
-func (ws *LocalWorkspace) GetComponent(component string) base.Component {
+func (ws *LocalWorkspace) GetComponent(component string) common.Component {
 	return ws.components.get(component)
 }
 
-func (ws *LocalWorkspace) GetAllComponents() []base.Component {
+func (ws *LocalWorkspace) GetAllComponents() []common.Component {
 	return ws.components.getAll()
 }
 

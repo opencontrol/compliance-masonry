@@ -3,7 +3,6 @@ package diff
 import (
 	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"fmt"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 )
@@ -12,7 +11,7 @@ import (
 type Inventory struct {
 	lib.Workspace
 	masterControlList       map[string]common.Control
-	actualSatisfiedControls map[string]base.Satisfies
+	actualSatisfiedControls map[string]common.Satisfies
 	MissingControlList      map[string]common.Control
 }
 
@@ -75,7 +74,7 @@ func ComputeGapAnalysis(config Config) (Inventory, []error) {
 	i := Inventory{
 		Workspace:          workspace,
 		masterControlList:       make(map[string]common.Control),
-		actualSatisfiedControls: make(map[string]base.Satisfies),
+		actualSatisfiedControls: make(map[string]common.Satisfies),
 		MissingControlList:      make(map[string]common.Control),
 	}
 	if i.GetCertification() == nil || len(i.GetAllComponents()) == 0 {

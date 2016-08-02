@@ -1,4 +1,4 @@
-package versions
+package components
 
 import (
 	"fmt"
@@ -8,7 +8,6 @@ import (
 	v2 "github.com/opencontrol/compliance-masonry/lib/components/versions/2_0_0"
 	v3 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_0_0"
 	v31 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_1_0"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 	"gopkg.in/yaml.v2"
 )
 
@@ -18,19 +17,19 @@ var (
 	ComponentV3_1_0 = semver.MustParse("3.1.0")
 )
 
-func ParseComponent(componentData []byte, fileName string) (base.Component, error) {
-	b := base.Base{}
+func ParseComponent(componentData []byte, fileName string) (common.Component, error) {
+	b := Base{}
 	err := yaml.Unmarshal(componentData, &b)
 	if err != nil {
 		// If we have a human friendly BaseComponentParseError, return it.
 		switch err.(type) {
-		case base.BaseComponentParseError:
+		case BaseComponentParseError:
 			return nil, err
 		}
 		// Otherwise, just return a generic error about the schema.
 		return nil, fmt.Errorf("Unable to parse component %s. Error: %s", fileName, err.Error())
 	}
-	var component base.Component
+	var component common.Component
 	switch {
 	case ComponentV2_0_0.EQ(b.SchemaVersion):
 		c := new(v2.Component)
