@@ -7,14 +7,14 @@ import (
 	"github.com/opencontrol/compliance-masonry/lib/standards"
 )
 
-// Standards struct is a thread save mapping of Standards
+// standardsMap struct is a thread save mapping of Standards
 type standardsMap struct {
 	mapping map[string]standards.Standard
 	sync.RWMutex
 }
 
-// NewStandards creates an instance of Components struct
-func NewStandards() *standardsMap {
+// newStandards creates an instance of standardsMap struct
+func newStandards() *standardsMap {
 	return &standardsMap{mapping: make(map[string]standards.Standard)}
 }
 
