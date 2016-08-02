@@ -24,7 +24,9 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 	standardKeys := openControl.GetCertification().GetSortedStandards()
 	for _, standardKey := range standardKeys {
 		standard := openControl.GetStandard(standardKey)
-		controlKeys := standard.GetSortedControls()
+		// Get the standard in the certification
+		certificationStandard := openControl.GetCertification().GetStandards()[standardKey]
+		controlKeys := certificationStandard.GetSortedControls()
 		for _, controlKey := range controlKeys {
 			componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
 			control := standard.GetControl(controlKey)
