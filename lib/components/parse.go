@@ -17,7 +17,7 @@ var (
 	ComponentV3_1_0 = semver.MustParse("3.1.0")
 )
 
-func ParseComponent(componentData []byte, fileName string) (common.Component, error) {
+func parseComponent(componentData []byte, fileName string) (common.Component, error) {
 	b := Base{}
 	err := yaml.Unmarshal(componentData, &b)
 	if err != nil {

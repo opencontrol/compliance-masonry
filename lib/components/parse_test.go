@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	v2 "github.com/opencontrol/compliance-masonry/lib/components/versions/2_0_0"
 	v3 "github.com/opencontrol/compliance-masonry/lib/components/versions/3_0_0"
@@ -241,18 +240,10 @@ func testSet(example common.Component, actual common.Component, t *testing.T) {
 }
 
 func loadValidAndTestComponent(path string, t *testing.T, example common.Component) {
-	ws := lib.NewWorkspace()
-	workspace, ok := ws.(*lib.LocalWorkspace)
-	if !ok {
-		t.Fatal("Unable to convert to specialized local workspace")
-	}
-	err := workspace.LoadComponent(path)
+	actualComponent, err := components.Load(path)
 	if !assert.Nil(t, err) {
 		t.Fatalf("Expected reading component found in %s to be successful", path)
 	}
-
-	// Check the test set with the simple Get function
-	actualComponent := workspace.GetComponent(example.GetKey())
 	testSet(example, actualComponent, t)
 
 }
@@ -300,8 +291,7 @@ var componentTestErrors = []componentTestError{
 
 func TestLoadComponentErrors(t *testing.T) {
 	for _, example := range componentTestErrors {
-		ws := &lib.LocalWorkspace{}
-		actualError := ws.LoadComponent(example.componentDir)
+		_, actualError := components.Load(example.componentDir)
 		// Check that the expected error is the actual error
 		if !assert.Equal(t, example.expectedError, actualError) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)

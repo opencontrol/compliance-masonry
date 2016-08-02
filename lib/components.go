@@ -68,10 +68,6 @@ func (ws *LocalWorkspace) LoadComponent(componentDir string) error {
 	if err != nil {
 		return err
 	}
-	// Ensure we have a key for the component.
-	if component.GetKey() == "" {
-		component.SetKey(getKey(componentDir))
-	}
 	// If the component is new, make sure we load the justifications as well.
 	if ws.components.compareAndAdd(component) {
 		ws.justifications.LoadMappings(component)

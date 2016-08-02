@@ -26,12 +26,18 @@ func Load(path string) (common.Component, error) {
 	}
 	// Parse the component.
 	var component common.Component
-	component, err = ParseComponent(componentData,fileName)
+	component, err = parseComponent(componentData,fileName)
 	if err != nil {
 		return nil, err
 	}
+	// Ensure we have a key for the component.
+	if component.GetKey() == "" {
+		component.SetKey(getKey(path))
+	}
 	return component, nil
 }
+
+
 
 // BaseComponentParseError is the type of error that will be returned if the parsing failed for ONLY the `Base` struct.
 type BaseComponentParseError struct {
@@ -114,4 +120,11 @@ func (b *Base) UnmarshalYAML(unmarshal func(v interface{}) error) error {
 	// Get the version
 	b.SchemaVersion = ver
 	return err
+}
+
+
+// getKey extracts a component key from the filepath
+func getKey(filePath string) string {
+	_, key := filepath.Split(filePath)
+	return key
 }

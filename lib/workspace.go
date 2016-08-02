@@ -32,12 +32,6 @@ type LocalWorkspace struct {
 	certification  common.Certification
 }
 
-// getKey extracts a component key from the filepath
-func getKey(filePath string) string {
-	_, key := filepath.Split(filePath)
-	return key
-}
-
 // NewWorkspace initializes an empty OpenControl struct
 func NewWorkspace() Workspace {
 	return &LocalWorkspace{

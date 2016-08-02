@@ -7,11 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type keyTest struct {
-	input    string
-	expected string
-}
-
 type loadDataTest struct {
 	openControlDir           string
 	certificationPath        string
@@ -39,25 +34,6 @@ type loadComponentsTest struct {
 type loadComponentsTestError struct {
 	dir                string
 	expectedError      error
-}
-
-var keyTests = []keyTest{
-	// Check that the key is extracted by using the local directory
-	{".", "."},
-	// Check that the key is extracted from the component directory
-	{"system/component", "component"},
-	// Check that the key is extracted by using the system directory
-	{"system", "system"},
-}
-
-func TestGetKey(t *testing.T) {
-	for _, example := range keyTests {
-		actual := getKey(example.input)
-		// Check that the actual key is the expected key
-		if actual != example.expected {
-			t.Errorf("Expected: `%s`, Actual: `%s`", example.expected, actual)
-		}
-	}
 }
 
 var loadDataTests = []loadDataTest{
