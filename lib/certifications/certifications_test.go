@@ -40,10 +40,7 @@ func TestLoadCertification(t *testing.T) {
 		totalControls := 0
 		standardKeys := actual.GetSortedStandards()
 		for _, standardKey := range standardKeys {
-			controlKeys := actual.GetStandards()[standardKey].GetSortedControls()
-			for _, _ = range controlKeys {
-				totalControls++
-			}
+			totalControls += len(actual.GetStandards()[standardKey].GetSortedControls())
 		}
 		// Check if loaded certification has the expected number of controls
 		if totalControls != example.expectedControls {
