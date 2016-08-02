@@ -7,8 +7,6 @@ import (
 	"path/filepath"
 	"sync"
 	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry/lib/standards"
-	"github.com/opencontrol/compliance-masonry/lib/certifications"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
@@ -19,9 +17,9 @@ type Workspace interface {
 	LoadCertification(string) error
 	GetAllComponents() []common.Component
 	GetComponent(string) common.Component
-	GetStandard(string) standards.Standard
-	GetStandards() []standards.Standard
-	GetCertification() certifications.Certification
+	GetStandard(string) common.Standard
+	GetStandards() []common.Standard
+	GetCertification() common.Certification
 	GetJustification(string, string) Verifications
 }
 
@@ -31,7 +29,7 @@ type LocalWorkspace struct {
 	components     *componentsMap
 	standards      *standardsMap
 	justifications *Justifications
-	certification  certifications.Certification
+	certification  common.Certification
 }
 
 // getKey extracts a component key from the filepath
@@ -131,7 +129,7 @@ func (ws *LocalWorkspace) GetAllComponents() []common.Component {
 	return ws.components.getAll()
 }
 
-func (ws *LocalWorkspace) GetCertification() certifications.Certification {
+func (ws *LocalWorkspace) GetCertification() common.Certification {
 	return ws.certification
 }
 
@@ -139,11 +137,11 @@ func (ws *LocalWorkspace) GetJustification(standardKey string, controlKey string
 	return ws.justifications.Get(standardKey,controlKey)
 }
 
-func (ws *LocalWorkspace) GetStandard(standardKey string) standards.Standard {
+func (ws *LocalWorkspace) GetStandard(standardKey string) common.Standard {
 	return ws.standards.get(standardKey)
 }
 
-func (ws *LocalWorkspace) GetStandards() []standards.Standard {
+func (ws *LocalWorkspace) GetStandards() []common.Standard {
 	return ws.standards.getAll()
 }
 

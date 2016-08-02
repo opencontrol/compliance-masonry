@@ -4,7 +4,7 @@ import (
 	"sort"
 	"vbom.ml/util/sortorder"
 	v1standards "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
-	"github.com/opencontrol/compliance-masonry/lib/standards"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // Certification struct is a collection of specific standards and controls
@@ -28,8 +28,8 @@ func (certification Certification) GetSortedStandards() []string {
 	return standardNames
 }
 
-func (certification Certification) GetStandards() map[string]standards.Standard {
-	m := make(map[string]standards.Standard)
+func (certification Certification) GetStandards() map[string]common.Standard {
+	m := make(map[string]common.Standard)
 	for key, value := range certification.Standards {
 		m[key] = value
 	}
