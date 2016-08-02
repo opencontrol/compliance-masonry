@@ -47,7 +47,7 @@ func (s *standardsMap) getAll() []common.Standard {
 
 // LoadStandard imports a standard into the Standard struct and adds it to the
 // main object.
-func (ws *LocalWorkspace) LoadStandard(standardFile string) error {
+func (ws *localWorkspace) LoadStandard(standardFile string) error {
 	standard, err := standards.Load(standardFile)
 	if err != nil {
 		return common.ErrStandardSchema

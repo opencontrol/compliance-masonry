@@ -63,7 +63,7 @@ func (components *componentsMap) getAll() []common.Component {
 
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
-func (ws *LocalWorkspace) LoadComponent(componentDir string) error {
+func (ws *localWorkspace) LoadComponent(componentDir string) error {
 	component, err := components.Load(componentDir)
 	if err != nil {
 		return err

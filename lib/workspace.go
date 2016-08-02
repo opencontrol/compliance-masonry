@@ -25,7 +25,7 @@ type Workspace interface {
 
 // LocalWorkspace struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
-type LocalWorkspace struct {
+type localWorkspace struct {
 	components     *componentsMap
 	standards      *standardsMap
 	justifications *Justifications
@@ -34,7 +34,7 @@ type LocalWorkspace struct {
 
 // NewWorkspace initializes an empty OpenControl struct
 func NewWorkspace() Workspace {
-	return &LocalWorkspace{
+	return &localWorkspace{
 		justifications: NewJustifications(),
 		components:  newComponents(),
 		standards:      newStandards(),
@@ -71,7 +71,7 @@ func LoadData(openControlDir string, certificationPath string) (Workspace, []err
 
 // LoadComponents loads multiple components by searching for components in a
 // given directory
-func (ws *LocalWorkspace) LoadComponents(directory string) []error {
+func (ws *localWorkspace) LoadComponents(directory string) []error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
@@ -95,7 +95,7 @@ func (ws *LocalWorkspace) LoadComponents(directory string) []error {
 
 // LoadStandards loads multiple standards by searching for components in a
 // given directory
-func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
+func (ws *localWorkspace) LoadStandards(standardsDir string) []error {
 	var wg sync.WaitGroup
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
@@ -115,27 +115,27 @@ func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
 }
 
 
-func (ws *LocalWorkspace) GetComponent(component string) common.Component {
+func (ws *localWorkspace) GetComponent(component string) common.Component {
 	return ws.components.get(component)
 }
 
-func (ws *LocalWorkspace) GetAllComponents() []common.Component {
+func (ws *localWorkspace) GetAllComponents() []common.Component {
 	return ws.components.getAll()
 }
 
-func (ws *LocalWorkspace) GetCertification() common.Certification {
+func (ws *localWorkspace) GetCertification() common.Certification {
 	return ws.certification
 }
 
-func (ws *LocalWorkspace) GetJustification(standardKey string, controlKey string) Verifications {
+func (ws *localWorkspace) GetJustification(standardKey string, controlKey string) Verifications {
 	return ws.justifications.Get(standardKey,controlKey)
 }
 
-func (ws *LocalWorkspace) GetStandard(standardKey string) common.Standard {
+func (ws *localWorkspace) GetStandard(standardKey string) common.Standard {
 	return ws.standards.get(standardKey)
 }
 
-func (ws *LocalWorkspace) GetStandards() []common.Standard {
+func (ws *localWorkspace) GetStandards() []common.Standard {
 	return ws.standards.getAll()
 }
 
