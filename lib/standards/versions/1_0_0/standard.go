@@ -1,4 +1,4 @@
-package v1_0_0
+package standard
 
 import (
 	"sort"
@@ -20,7 +20,7 @@ type Standard struct {
 	Controls map[string]Control `yaml:",inline"`
 }
 
-// GetSortedData returns a list of sorted controls
+// GetSortedControls returns a list of sorted controls
 func (standard Standard) GetSortedControls() []string {
 	var controlNames []string
 	for controlName := range standard.Controls {
@@ -30,10 +30,12 @@ func (standard Standard) GetSortedControls() []string {
 	return controlNames
 }
 
+// GetName returns the name of the standard.
 func (standard Standard) GetName() string {
 	return standard.Name
 }
 
+// GetControls returns all controls associated with the standard
 func (standard Standard) GetControls() map[string]common.Control {
 	m := make(map[string]common.Control)
 	for key, value := range standard.Controls {
@@ -42,14 +44,17 @@ func (standard Standard) GetControls() map[string]common.Control {
 	return m
 }
 
+// GetControl returns a particular control
 func (standard Standard) GetControl(controlKey string) common.Control {
 	return standard.Controls[controlKey]
 }
 
+// GetFamily returns which family the control belongs to.
 func (control Control) GetFamily() string {
 	return control.Family
 }
 
+// GetName returns the string representation of the control.
 func (control Control) GetName() string {
 	return control.Name
 }

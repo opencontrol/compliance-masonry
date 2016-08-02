@@ -44,7 +44,7 @@ func TestComponentGetters(t *testing.T) {
 		assert.Equal(t, satisfies.GetControlOrigin(), testSatisfies[idx].GetControlOrigin())
 		assert.Equal(t, []string{satisfies.GetControlOrigin()}, satisfies.GetControlOrigins())
 		assert.Equal(t, satisfies.GetImplementationStatus(), testSatisfies[idx].GetImplementationStatus())
-		assert.Equal(t, satisfies.GetImplementationStatuses(), []string{})
+		assert.Equal(t, satisfies.GetImplementationStatuses(), []string{testSatisfies[idx].GetImplementationStatus()})
 	}
 }
 

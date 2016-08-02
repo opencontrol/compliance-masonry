@@ -11,10 +11,12 @@ import (
 	"errors"
 )
 
+// NewComponentParseError is a constructor for creating errors of type BaseComponentParseError
 func NewComponentParseError(message string) BaseComponentParseError {
 	return BaseComponentParseError{message}
 }
 
+// Load will read the file at the given path and attempt to return a component object.
 func Load(path string) (common.Component, error) {
 	// Get file system assistance.
 	fs := fs.OSUtil{}

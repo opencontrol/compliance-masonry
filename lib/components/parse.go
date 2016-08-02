@@ -12,8 +12,11 @@ import (
 )
 
 var (
+	// ComponentV2_0_0 is a semver representation of version 2.0.0 of component.yaml.
 	ComponentV2_0_0 = semver.MustParse("2.0.0")
+	// ComponentV3_0_0 is a semver representation of version 3.0.0 of component.yaml.
 	ComponentV3_0_0 = semver.MustParse("3.0.0")
+	// ComponentV3_1_0 is a semver representation of version 3.1.0 of component.yaml.
 	ComponentV3_1_0 = semver.MustParse("3.1.0")
 )
 

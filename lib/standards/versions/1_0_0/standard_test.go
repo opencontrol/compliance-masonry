@@ -1,4 +1,4 @@
-package v1_0_0
+package standard
 
 import "testing"
 

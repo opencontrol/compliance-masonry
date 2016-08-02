@@ -7,6 +7,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// Load will read the file at the given path and attempt to return a standard object.
 func Load(path string) (common.Standard, error) {
 	var standard v1_0_0.Standard
 	standardData, err := ioutil.ReadFile(path)

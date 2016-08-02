@@ -10,7 +10,8 @@ import (
 	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
-
+// Workspace represents all the information such as components, standards, and certification as well as
+// the result information such as the justifications.
 type Workspace interface {
 	LoadComponents(string) []error
 	LoadStandards(string) []error
