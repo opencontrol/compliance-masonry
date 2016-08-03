@@ -1,11 +1,11 @@
 package lib
 
 import (
-	"log"
 	"sync"
 
 	"github.com/opencontrol/compliance-masonry/lib/components"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"fmt"
 )
 
 // componentsMap struct is a thread-safe structure mapping for components
@@ -42,8 +42,6 @@ func (components *componentsMap) compareAndAdd(component common.Component) bool 
 	if _, exists := components.mapping[component.GetKey()]; !exists {
 		components.mapping[component.GetKey()] = component
 		added = true
-	} else {
-		log.Fatalf("Component: %s exisits!\n", component.GetKey())
 	}
 	return added
 }
@@ -71,6 +69,8 @@ func (ws *localWorkspace) LoadComponent(componentDir string) error {
 	// If the component is new, make sure we load the justifications as well.
 	if ws.components.compareAndAdd(component) {
 		ws.justifications.LoadMappings(component)
+	} else {
+		return fmt.Errorf("Component: %s exists!\n", component.GetKey())
 	}
 	return nil
 }
