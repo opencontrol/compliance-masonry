@@ -2,8 +2,8 @@ package lib
 
 import (
 	"testing"
-	"github.com/bruth/assert"
 	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAddComponent(t *testing.T) {
