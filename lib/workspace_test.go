@@ -82,6 +82,14 @@ func TestLoadComponents(t *testing.T) {
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
+		// Test Single Component Get
+		component := ws.GetComponent("EC2")
+		if component.GetKey() != "EC2" {
+			t.Errorf("Expected component key to equal EC2. Actual %s", component.GetKey())
+		}
+		if component.GetName() != "Amazon Elastic Compute Cloud" {
+			t.Errorf("Exepcted component name to equal Amazon Elastic Compute Cloud. Actual %s", component.GetName())
+		}
 	}
 }
 
@@ -116,6 +124,11 @@ func TestLoadStandards(t *testing.T) {
 		// Check that the actual number of standards is the expected number of standards
 		if actualStandards != example.expectedStandards {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedStandards, actualStandards)
+		}
+		// Test Single Get Standards
+		standard := ws.GetStandard("NIST-800-53")
+		if standard.GetName() != "NIST-800-53" {
+			t.Errorf("Expected standard name NIST-800-53. Actual %s", standard.GetName())
 		}
 	}
 }
