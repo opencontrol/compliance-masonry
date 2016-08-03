@@ -7,7 +7,7 @@ import (
 
 	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // Config contains data for gitbook export configurations
@@ -21,7 +21,7 @@ type Config struct {
 // OpenControlGitBook struct is an extension of models.OpenControl that adds
 // an exportPath
 type OpenControlGitBook struct {
-	*lib.LocalWorkspace
+	lib.Workspace
 	markdownPath string
 	exportPath   string
 	FSUtil       fs.Util
@@ -30,14 +30,14 @@ type OpenControlGitBook struct {
 // ComponentGitbook struct is an extension of models.Component that adds
 // an exportPath
 type ComponentGitbook struct {
-	base.Component
+	common.Component
 	exportPath string
 }
 
 // ControlGitbook struct is an extension of models.Control that adds
 // an exportPath
 type ControlGitbook struct {
-	*lib.Control
+	common.Control
 	exportPath  string
 	standardKey string
 	controlKey  string

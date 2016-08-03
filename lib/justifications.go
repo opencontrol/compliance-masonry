@@ -2,14 +2,14 @@ package lib
 
 import (
 	"sync"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // Verification struct holds data for a specific component and verification
 // This is an internal data structure that helps map standards and controls to components
 type Verification struct {
 	ComponentKey  string
-	SatisfiesData base.Satisfies
+	SatisfiesData common.Satisfies
 }
 
 // Verifications is a slice of type Verifications
@@ -42,7 +42,7 @@ func NewJustifications() *Justifications {
 }
 
 // Add methods adds a new mapping to the justification while locking
-func (justifications *Justifications) Add(standardKey string, controlKey string, componentKey string, satisfies base.Satisfies) {
+func (justifications *Justifications) Add(standardKey string, controlKey string, componentKey string, satisfies common.Satisfies) {
 	justifications.Lock()
 	newVerification := Verification{componentKey, satisfies}
 	_, standardKeyExists := justifications.mapping[standardKey]
@@ -60,7 +60,7 @@ func (justifications *Justifications) Add(standardKey string, controlKey string,
 }
 
 // LoadMappings loads a set of mappings from a component
-func (justifications *Justifications) LoadMappings(component base.Component) {
+func (justifications *Justifications) LoadMappings(component common.Component) {
 	for _, satisfies := range component.GetAllSatisfies() {
 		justifications.Add(satisfies.GetStandardKey(), satisfies.GetControlKey(), component.GetKey(), satisfies)
 	}
@@ -77,11 +77,4 @@ func (justifications *Justifications) Get(standardKey string, controlKey string)
 		return nil
 	}
 	return controlJustifications
-}
-
-//GetAndApply get a justification set and apply a generic function
-func (justifications *Justifications) GetAndApply(standardKey string, controlKey string, callback func(selectJustifications Verifications)) {
-	justifications.Lock()
-	callback(justifications.Get(standardKey, controlKey))
-	justifications.Unlock()
 }

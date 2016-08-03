@@ -2,7 +2,6 @@ package gitbook
 
 import (
 	"io/ioutil"
-	"log"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -48,7 +47,7 @@ func TestBuildComponentsSummaries(t *testing.T) {
 		actualSummary := openControl.buildComponentsSummaries()
 		data, err := ioutil.ReadFile(example.expectedSummary)
 		if err != nil {
-			log.Fatal(err)
+			t.Fatal(err)
 		}
 		expectedSummary := string(data)
 		// Check that the actual and expected summaries are similar
@@ -82,7 +81,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 		// Check the summary
 		data, err := ioutil.ReadFile(example.expectedSummary)
 		if err != nil {
-			log.Fatal(err)
+			t.Fatal(err)
 		}
 		expectedSummary := string(data)
 		// Check that the actual and expected summaries are similar
@@ -94,7 +93,7 @@ func TestBuildStandardsSummaries(t *testing.T) {
 			expectedFamilySummaryFile := filepath.Join(example.expectedStandardsSummaries, family+".md")
 			data, err := ioutil.ReadFile(expectedFamilySummaryFile)
 			if err != nil {
-				log.Fatal(err)
+				t.Fatal(err)
 			}
 			expectedFamilySummary := string(data)
 			// Check that the actual and expected summaries are similar

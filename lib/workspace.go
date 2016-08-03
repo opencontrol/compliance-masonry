@@ -6,50 +6,45 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions"
-	"github.com/opencontrol/compliance-masonry/lib/components"
-	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
-var (
-	// ErrReadFile is raised when a file can not be read
-	ErrReadFile = errors.New("Unable to read the file")
-	// ErrCertificationSchema is raised a certification cannot be parsed
-	ErrCertificationSchema = errors.New("Unable to parse certification")
-	// ErrStandardSchema is raised a standard cannot be parsed
-	ErrStandardSchema = errors.New("Unable to parse standard")
-)
+// Workspace represents all the information such as components, standards, and certification as well as
+// the result information such as the justifications.
+type Workspace interface {
+	LoadComponents(string) []error
+	LoadStandards(string) []error
+	LoadCertification(string) error
+	GetAllComponents() []common.Component
+	GetComponent(string) common.Component
+	GetStandard(string) common.Standard
+	GetStandards() []common.Standard
+	GetCertification() common.Certification
+	GetJustification(string, string) Verifications
+}
 
 // LocalWorkspace struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
-type LocalWorkspace struct {
-	Components     *components.Components
-	Standards      *Standards
-	Justifications *Justifications
-	Certification  *Certification
-}
-
-// getKey extracts a component key from the filepath
-func getKey(filePath string) string {
-	_, key := filepath.Split(filePath)
-	return key
+type localWorkspace struct {
+	components     *componentsMap
+	standards      *standardsMap
+	justifications *Justifications
+	certification  common.Certification
 }
 
 // NewWorkspace initializes an empty OpenControl struct
-func NewWorkspace() *LocalWorkspace {
-	return &LocalWorkspace{
-		Justifications: NewJustifications(),
-		Components:     components.NewComponents(),
-		Standards:      NewStandards(),
+func NewWorkspace() Workspace {
+	return &localWorkspace{
+		justifications: NewJustifications(),
+		components:  newComponents(),
+		standards:      newStandards(),
 	}
 }
 
 // LoadData creates a new instance of OpenControl struct and loads
 // the components, standards, and certification data.
-func LoadData(openControlDir string, certificationPath string) (*LocalWorkspace, []error) {
+func LoadData(openControlDir string, certificationPath string) (Workspace, []error) {
 	var wg sync.WaitGroup
 	ws := NewWorkspace()
 	wg.Add(3)
@@ -77,7 +72,7 @@ func LoadData(openControlDir string, certificationPath string) (*LocalWorkspace,
 
 // LoadComponents loads multiple components by searching for components in a
 // given directory
-func (ws *LocalWorkspace) LoadComponents(directory string) []error {
+func (ws *localWorkspace) LoadComponents(directory string) []error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
@@ -101,7 +96,7 @@ func (ws *LocalWorkspace) LoadComponents(directory string) []error {
 
 // LoadStandards loads multiple standards by searching for components in a
 // given directory
-func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
+func (ws *localWorkspace) LoadStandards(standardsDir string) []error {
 	var wg sync.WaitGroup
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
@@ -121,32 +116,28 @@ func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
 }
 
 
-// LoadComponent imports components into a Component struct and adds it to the
-// Components map.
-func (ws *LocalWorkspace) LoadComponent(componentDir string) error {
-	// Get file system assistance.
-	fs := fs.OSUtil{}
-	// Read the component file.
-	fileName := filepath.Join(componentDir, "component.yaml")
-	componentData, err := fs.OpenAndReadFile(fileName)
-	if err != nil {
-		return errors.New(constants.ErrComponentFileDNE)
-	}
-	// Parse the component.
-	var component base.Component
-	component, err = versions.ParseComponent(componentData,fileName)
-	if err != nil {
-		return err
-	}
-	// Ensure we have a key for the component.
-	if component.GetKey() == "" {
-		component.SetKey(getKey(componentDir))
-	}
-	// If the component is new, make sure we load the justifications as well.
-	if ws.Components.CompareAndAdd(component) {
-		ws.Justifications.LoadMappings(component)
-	}
-	return nil
+func (ws *localWorkspace) GetComponent(component string) common.Component {
+	return ws.components.get(component)
+}
+
+func (ws *localWorkspace) GetAllComponents() []common.Component {
+	return ws.components.getAll()
+}
+
+func (ws *localWorkspace) GetCertification() common.Certification {
+	return ws.certification
+}
+
+func (ws *localWorkspace) GetJustification(standardKey string, controlKey string) Verifications {
+	return ws.justifications.Get(standardKey,controlKey)
+}
+
+func (ws *localWorkspace) GetStandard(standardKey string) common.Standard {
+	return ws.standards.get(standardKey)
+}
+
+func (ws *localWorkspace) GetStandards() []common.Standard {
+	return ws.standards.getAll()
 }
 
 func convertErrChannelToErrorSlice(errs <-chan error) []error {
