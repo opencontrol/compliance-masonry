@@ -133,7 +133,10 @@ func (s Satisfies) GetImplementationStatus() string {
 
 // GetImplementationStatuses returns all implementation statuses
 func (s Satisfies) GetImplementationStatuses() []string {
-	return []string{s.ImplementationStatus}
+	if s.ImplementationStatus != "" {
+		return []string{s.ImplementationStatus}
+	}
+	return []string{}
 }
 
 // NarrativeSection contains the key and text for a particular section.

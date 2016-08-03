@@ -9,7 +9,7 @@ import (
 )
 
 func TestComponentGetters(t *testing.T) {
-	testSatisfies := []Satisfies{{ControlOrigin: "control_origin", Parameters: []Section{Section{Key: "key", Text: "text"}}, Narrative: []NarrativeSection{NarrativeSection{Key: "key", Text: "text"}, NarrativeSection{Text: "text"}}}, {}, {}, {}}
+	testSatisfies := []Satisfies{{ControlOrigin: "control_origin", Parameters: []Section{Section{Key: "key", Text: "text"}}, Narrative: []NarrativeSection{NarrativeSection{Key: "key", Text: "text"}, NarrativeSection{Text: "text"}}}, {ImplementationStatus:"implemented"}, {}, {}}
 	component := Component{
 		Name:            "Amazon Elastic Compute Cloud",
 		Key:             "EC2",
@@ -44,7 +44,7 @@ func TestComponentGetters(t *testing.T) {
 		assert.Equal(t, satisfies.GetControlOrigin(), testSatisfies[idx].GetControlOrigin())
 		assert.Equal(t, []string{satisfies.GetControlOrigin()}, satisfies.GetControlOrigins())
 		assert.Equal(t, satisfies.GetImplementationStatus(), testSatisfies[idx].GetImplementationStatus())
-		assert.Equal(t, satisfies.GetImplementationStatuses(), []string{testSatisfies[idx].GetImplementationStatus()})
+		assert.Equal(t, satisfies.GetImplementationStatuses(), testSatisfies[idx].GetImplementationStatuses())
 	}
 }
 

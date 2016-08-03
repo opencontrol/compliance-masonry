@@ -141,5 +141,8 @@ func (s Satisfies) GetImplementationStatus() string {
 
 // GetImplementationStatuses returns all implementation statuses (just the only one for this version)
 func (s Satisfies) GetImplementationStatuses() []string {
-	return []string{s.ImplementationStatus}
+	if s.ImplementationStatus != "" {
+		return []string{s.ImplementationStatus}
+	}
+	return []string{}
 }
