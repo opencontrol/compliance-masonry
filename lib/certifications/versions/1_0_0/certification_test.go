@@ -47,3 +47,10 @@ func TestStandardOrder(t *testing.T) {
 		}
 	}
 }
+
+func TestGetKey(t *testing.T) {
+	cert := Certification{Key: "test"}
+	if cert.GetKey() != "test" {
+		t.Errorf("GetKey expected test. Actual %s", cert.GetKey())
+	}
+}
