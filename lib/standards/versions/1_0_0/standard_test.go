@@ -58,3 +58,21 @@ func TestControlOrder(t *testing.T) {
 		}
 	}
 }
+
+func TestGetters(t *testing.T) {
+	st := Standard{Name: "test", Controls: map[string]Control{"3": Control{Name:"controlName", Family:"controlFamily"}, "2": Control{}, "1": Control{}}}
+	if st.GetName() != "test" {
+		t.Errorf("Expected standard name test. Actual %s", st.GetName())
+	}
+	controls := st.GetControls()
+	if len(controls) != 3 {
+		t.Errorf("Expected 3 controls, found %d", len(controls))
+	}
+	control := st.GetControl("3")
+	if control.GetName() != "controlName" {
+		t.Errorf("Expected control name 'controlName'. Actual %s", control.GetName())
+	}
+	if control.GetFamily() != "controlFamily" {
+		t.Errorf("Expected control family 'controlFamily'. Actual %s", control.GetFamily())
+	}
+}
