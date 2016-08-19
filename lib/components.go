@@ -34,29 +34,30 @@ func (components *componentsMap) Get(key string) common.Component {
 }
 
 // CompareAndAdd compares to see if the component exists in the map. If not, it adds the component.
+// Returns true if the component was added, returns false if the component was not added.
 // This function is thread-safe.
 func (components *componentsMap) CompareAndAdd(component common.Component) bool {
 	components.Lock()
 	defer components.Unlock()
-	added := false
-	if _, exists := components.mapping[component.GetKey()]; !exists {
+	_, exists := components.mapping[component.GetKey()];
+	if !exists {
 		components.mapping[component.GetKey()] = component
-		added = true
+		return true
 	}
-	return added
+	return false
 }
 
 // GetAll retrieves all the components without giving directly to the map.
 func (components *componentsMap) GetAll() []common.Component {
 	components.RLock()
 	defer components.RUnlock()
-	c := make([]common.Component, len(components.mapping))
+	result := make([]common.Component, len(components.mapping))
 	idx := 0
 	for _, value := range components.mapping {
-		c[idx] = value
+		result[idx] = value
 		idx++
 	}
-	return c
+	return result
 }
 
 // LoadComponent imports components into a Component struct and adds it to the
