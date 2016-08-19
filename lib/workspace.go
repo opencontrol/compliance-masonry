@@ -6,11 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions"
-	"github.com/opencontrol/compliance-masonry/lib/components"
-	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/codegangsta/cli"
 )
 
@@ -26,7 +21,7 @@ var (
 // LocalWorkspace struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
 type LocalWorkspace struct {
-	Components     *components.Components
+	Components     *componentsMap
 	Standards      *Standards
 	Justifications *Justifications
 	Certification  *Certification
@@ -42,7 +37,7 @@ func getKey(filePath string) string {
 func NewWorkspace() *LocalWorkspace {
 	return &LocalWorkspace{
 		Justifications: NewJustifications(),
-		Components:     components.NewComponents(),
+		Components:     newComponents(),
 		Standards:      NewStandards(),
 	}
 }
@@ -118,35 +113,6 @@ func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
 	wg.Wait()
 	close(errChannel)
 	return convertErrChannelToErrorSlice(errChannel)
-}
-
-
-// LoadComponent imports components into a Component struct and adds it to the
-// Components map.
-func (ws *LocalWorkspace) LoadComponent(componentDir string) error {
-	// Get file system assistance.
-	fs := fs.OSUtil{}
-	// Read the component file.
-	fileName := filepath.Join(componentDir, "component.yaml")
-	componentData, err := fs.OpenAndReadFile(fileName)
-	if err != nil {
-		return errors.New(constants.ErrComponentFileDNE)
-	}
-	// Parse the component.
-	var component base.Component
-	component, err = versions.ParseComponent(componentData,fileName)
-	if err != nil {
-		return err
-	}
-	// Ensure we have a key for the component.
-	if component.GetKey() == "" {
-		component.SetKey(getKey(componentDir))
-	}
-	// If the component is new, make sure we load the justifications as well.
-	if ws.Components.CompareAndAdd(component) {
-		ws.Justifications.LoadMappings(component)
-	}
-	return nil
 }
 
 func convertErrChannelToErrorSlice(errs <-chan error) []error {

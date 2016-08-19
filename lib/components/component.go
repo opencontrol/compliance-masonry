@@ -1,45 +1,44 @@
-package base
+package components
 
 import (
-	"fmt"
-
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"errors"
+	"fmt"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
+	"path/filepath"
 )
 
-type Component interface {
-	GetName() string
-	GetKey() string
-	SetKey(string)
-	GetAllSatisfies() []Satisfies
-	GetVerifications() *common.VerificationReferences
-	GetReferences() *common.GeneralReferences
-	GetVersion() semver.Version
-	SetVersion(semver.Version)
-	GetResponsibleRole() string
-}
-
-type Satisfies interface {
-	GetStandardKey() string
-	GetControlKey() string
-	GetNarratives() []Section
-	GetParameters() []Section
-	GetCoveredBy() common.CoveredByList
-	GetControlOrigin() string
-	GetControlOrigins() []string
-	GetImplementationStatus() string
-	GetImplementationStatuses() []string
-}
-
-type Section interface {
-	GetKey() string
-	GetText() string
-}
-
-func NewBaseComponentParseError(message string) BaseComponentParseError {
+// NewComponentParseError is a constructor for creating errors of type BaseComponentParseError
+func NewComponentParseError(message string) BaseComponentParseError {
 	return BaseComponentParseError{message}
 }
+
+// Load will read the file at the given path and attempt to return a component object.
+func Load(path string) (common.Component, error) {
+	// Get file system assistance.
+	fs := fs.OSUtil{}
+	// Read the component file.
+	fileName := filepath.Join(path, "component.yaml")
+	componentData, err := fs.OpenAndReadFile(fileName)
+	if err != nil {
+		return nil, errors.New(constants.ErrComponentFileDNE)
+	}
+	// Parse the component.
+	var component common.Component
+	component, err = parseComponent(componentData,fileName)
+	if err != nil {
+		return nil, err
+	}
+	// Ensure we have a key for the component.
+	if component.GetKey() == "" {
+		component.SetKey(getKey(path))
+	}
+	return component, nil
+}
+
+
 
 // BaseComponentParseError is the type of error that will be returned if the parsing failed for ONLY the `Base` struct.
 type BaseComponentParseError struct {
@@ -122,4 +121,10 @@ func (b *Base) UnmarshalYAML(unmarshal func(v interface{}) error) error {
 	// Get the version
 	b.SchemaVersion = ver
 	return err
+}
+
+// getKey extracts a component key from the filepath
+func getKey(filePath string) string {
+	_, key := filepath.Split(filePath)
+	return key
 }
