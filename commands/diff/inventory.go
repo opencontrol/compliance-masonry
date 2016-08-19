@@ -17,7 +17,9 @@ type Inventory struct {
 
 // retrieveMasterControlsList will gather the list of controls needed for a given certification.
 func (i *Inventory) retrieveMasterControlsList() {
-	for standardKey, standard := range i.Certification.Standards {
+	standardKeys := i.Certification.GetSortedStandards()
+	for _, standardKey := range standardKeys {
+		standard := i.Certification.GetStandard(standardKey)
 		for controlKey, control := range standard.GetControls() {
 			key := standardAndControlString(standardKey, controlKey)
 			if _, exists := i.masterControlList[key]; !exists {

@@ -84,8 +84,8 @@ func TestLoadData(t *testing.T) {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
 		// Check the certification key
-		if actual.Certification.Key != example.expectedCertKey {
-			t.Errorf("Expected: `%s`, Actual: `%s`", actual.Certification.Key, example.expectedCertKey)
+		if actual.Certification.GetKey() != example.expectedCertKey {
+			t.Errorf("Expected: `%s`, Actual: `%s`", actual.Certification.GetKey(), example.expectedCertKey)
 		}
 	}
 }

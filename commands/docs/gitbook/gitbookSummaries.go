@@ -21,22 +21,29 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 	familySummaryMap := make(map[string]string)
 	summary := "## Standards\n"
 
-	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
-		componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
-		control := openControl.Standards.Get(standardKey).GetControl(controlKey)
-		controlFamily := control.GetFamily()
-		controlName := control.GetName()
-		newFamily = standardKey + "-" + controlFamily
-		// create control family headings
-		if oldFamily != newFamily {
-			familySummaryMap[newFamily] = fmt.Sprintf("## %s\n", newFamily)
-			summary += exportLink(controlFamily, filepath.Join("standards", newFamily+".md"))
-			oldFamily = newFamily
+	standardKeys := openControl.Certification.GetSortedStandards()
+	for _, standardKey := range standardKeys {
+		standard := openControl.Standards.Get(standardKey)
+		// Get the standard in the certification
+		certificationStandard := openControl.Certification.GetStandard(standardKey)
+		controlKeys := certificationStandard.GetSortedControls()
+		for _, controlKey := range controlKeys {
+			componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
+			control := standard.GetControl(controlKey)
+			controlFamily := control.GetFamily()
+			controlName := control.GetName()
+			newFamily = standardKey + "-" + controlFamily
+			// create control family headings
+			if oldFamily != newFamily {
+				familySummaryMap[newFamily] = fmt.Sprintf("## %s\n", newFamily)
+				summary += exportLink(controlFamily, filepath.Join("standards", newFamily+".md"))
+				oldFamily = newFamily
+			}
+			controlFullName := fmt.Sprintf("%s: %s", controlKey, controlName)
+			familySummaryMap[newFamily] += exportLink(controlFullName, componentLink)
+			summary += "\t" + exportLink(controlFullName, filepath.Join("standards", componentLink))
 		}
-		controlFullName := fmt.Sprintf("%s: %s", controlKey, controlName)
-		familySummaryMap[newFamily] += exportLink(controlFullName, componentLink)
-		summary += "\t" + exportLink(controlFullName, filepath.Join("standards", componentLink))
-	})
+	}
 	return summary, &familySummaryMap
 }
 
