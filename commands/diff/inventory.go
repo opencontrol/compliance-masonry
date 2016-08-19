@@ -10,15 +10,15 @@ import (
 // Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
 	*lib.LocalWorkspace
-	masterControlList       map[string]lib.Control
+	masterControlList       map[string]common.Control
 	actualSatisfiedControls map[string]common.Satisfies
-	MissingControlList      map[string]lib.Control
+	MissingControlList      map[string]common.Control
 }
 
 // retrieveMasterControlsList will gather the list of controls needed for a given certification.
 func (i *Inventory) retrieveMasterControlsList() {
 	for standardKey, standard := range i.Certification.Standards {
-		for controlKey, control := range standard.Controls {
+		for controlKey, control := range standard.GetControls() {
 			key := standardAndControlString(standardKey, controlKey)
 			if _, exists := i.masterControlList[key]; !exists {
 				i.masterControlList[key] = control
@@ -73,9 +73,9 @@ func ComputeGapAnalysis(config Config) (Inventory, []error) {
 	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := Inventory{
 		LocalWorkspace:          workspace,
-		masterControlList:       make(map[string]lib.Control),
+		masterControlList:       make(map[string]common.Control),
 		actualSatisfiedControls: make(map[string]common.Satisfies),
-		MissingControlList:      make(map[string]lib.Control),
+		MissingControlList:      make(map[string]common.Control),
 	}
 	if i.Certification == nil || i.Components == nil {
 		return Inventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}

@@ -37,7 +37,7 @@ type ComponentGitbook struct {
 // ControlGitbook struct is an extension of models.Control that adds
 // an exportPath
 type ControlGitbook struct {
-	*lib.Control
+	common.Control
 	exportPath  string
 	standardKey string
 	controlKey  string

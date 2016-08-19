@@ -23,9 +23,9 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 
 	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
 		componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
-		control := openControl.Standards.Get(standardKey).Controls[controlKey]
-		controlFamily := control.Family
-		controlName := control.Name
+		control := openControl.Standards.Get(standardKey).GetControl(controlKey)
+		controlFamily := control.GetFamily()
+		controlName := control.GetName()
 		newFamily = standardKey + "-" + controlFamily
 		// create control family headings
 		if oldFamily != newFamily {

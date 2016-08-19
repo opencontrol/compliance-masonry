@@ -9,20 +9,11 @@ import (
 	"github.com/codegangsta/cli"
 )
 
-var (
-	// ErrReadFile is raised when a file can not be read
-	ErrReadFile = errors.New("Unable to read the file")
-	// ErrCertificationSchema is raised a certification cannot be parsed
-	ErrCertificationSchema = errors.New("Unable to parse certification")
-	// ErrStandardSchema is raised a standard cannot be parsed
-	ErrStandardSchema = errors.New("Unable to parse standard")
-)
-
 // LocalWorkspace struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
 type LocalWorkspace struct {
 	Components     *componentsMap
-	Standards      *Standards
+	Standards      *standardsMap
 	Justifications *Justifications
 	Certification  *Certification
 }
@@ -38,7 +29,7 @@ func NewWorkspace() *LocalWorkspace {
 	return &LocalWorkspace{
 		Justifications: NewJustifications(),
 		Components:     newComponents(),
-		Standards:      NewStandards(),
+		Standards:      newStandards(),
 	}
 }
 
