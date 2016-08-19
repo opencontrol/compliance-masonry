@@ -3,7 +3,6 @@ package component
 import (
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/components/versions/base"
 )
 
 // Component struct is an individual component requiring documentation
@@ -18,43 +17,52 @@ type Component struct {
 	SchemaVersion   semver.Version                `yaml:"-" json:"-"`
 }
 
+// GetName returns the name of the component
 func (c Component) GetName() string {
 	return c.Name
 }
 
+// GetKey returns the key for the component (may not be unique). Useful for creating directories.
 func (c Component) GetKey() string {
 	return c.Key
 }
 
+// SetKey sets the key for the component. Useful for overriding.
 func (c *Component) SetKey(key string) {
 	c.Key = key
 }
 
+// GetVerifications get all the verifications.
 func (c Component) GetVerifications() *common.VerificationReferences {
 	return &c.Verifications
 }
 
+// GetReferences get all the references.
 func (c Component) GetReferences() *common.GeneralReferences {
 	return &c.References
 }
 
-func (c Component) GetAllSatisfies() []base.Satisfies {
+// GetAllSatisfies gets all the Satisfies objects for the component.
+func (c Component) GetAllSatisfies() []common.Satisfies {
 	// Have to do manual conversion from this Component's Satisfies to the interface base.Satisfies.
-	baseSatisfies := make([]base.Satisfies, len(c.Satisfies))
+	baseSatisfies := make([]common.Satisfies, len(c.Satisfies))
 	for idx, value := range c.Satisfies {
 		baseSatisfies[idx] = value
 	}
 	return baseSatisfies
 }
 
+// GetVersion returns the version
 func (c Component) GetVersion() semver.Version {
 	return c.SchemaVersion
 }
 
+// SetVersion sets the version for the component.
 func (c *Component) SetVersion(version semver.Version) {
 	c.SchemaVersion = version
 }
 
+// GetResponsibleRole gets the responsible party / role for the component.
 func (c Component) GetResponsibleRole() string {
 	return c.ResponsibleRole
 }
@@ -73,48 +81,57 @@ type Satisfies struct {
 	ImplementationStatus string               `yaml:"implementation_status" json:"implementation_status"`
 }
 
+// GetControlKey returns the control
 func (s Satisfies) GetControlKey() string {
 	return s.ControlKey
 }
 
+// GetStandardKey returns the standard
 func (s Satisfies) GetStandardKey() string {
 	return s.StandardKey
 }
 
-func (s Satisfies) GetNarratives() []base.Section {
+// GetNarratives gets all the general documentation for this particular standard and control
+func (s Satisfies) GetNarratives() []common.Section {
 	// Have to do manual conversion to the interface base.Section from NarrativeSection.
-	baseSection := make([]base.Section, len(s.Narrative))
+	baseSection := make([]common.Section, len(s.Narrative))
 	for idx, value := range s.Narrative {
 		baseSection[idx] = value
 	}
 	return baseSection
 }
 
-func (s Satisfies) GetParameters() []base.Section {
+// GetParameters gets all the parameters for this particular standard and control
+func (s Satisfies) GetParameters() []common.Section {
 	// Have to do manual conversion to the interface base.Section from Section.
-	baseSection := make([]base.Section, len(s.Parameters))
+	baseSection := make([]common.Section, len(s.Parameters))
 	for idx, value := range s.Parameters {
 		baseSection[idx] = value
 	}
 	return baseSection
 }
 
+// GetCoveredBy gets the list of all the CoveredBy
 func (s Satisfies) GetCoveredBy() common.CoveredByList {
 	return s.CoveredBy
 }
 
+// GetControlOrigin returns the control origin (only the first one if multiple)
 func (s Satisfies) GetControlOrigin() string {
 	return s.ControlOrigin
 }
 
+// GetControlOrigins returns all the control origins
 func (s Satisfies) GetControlOrigins() []string {
 	return []string{s.ControlOrigin}
 }
 
+// GetImplementationStatus returns the implementation status (only the first one if multiple)
 func (s Satisfies) GetImplementationStatus() string {
 	return s.ImplementationStatus
 }
 
+// GetImplementationStatuses returns all implementation statuses
 func (s Satisfies) GetImplementationStatuses() []string {
 	return []string{}
 }
@@ -126,10 +143,12 @@ type NarrativeSection struct {
 	Text string `yaml:"text" json:"text"`
 }
 
+// GetKey returns a unique key
 func (ns NarrativeSection) GetKey() string {
 	return ns.Key
 }
 
+// GetText returns the text for the section
 func (ns NarrativeSection) GetText() string {
 	return ns.Text
 }
@@ -140,10 +159,12 @@ type Section struct {
 	Text string `yaml:"text" json:"text"`
 }
 
+// GetKey returns a unique key
 func (s Section) GetKey() string {
 	return s.Key
 }
 
+// GetText returns the text for the section
 func (s Section) GetText() string {
 	return s.Text
 }
