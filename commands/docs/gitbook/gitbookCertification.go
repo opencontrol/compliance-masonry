@@ -88,7 +88,7 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
-	text := fmt.Sprintf("#%s\n##%s\n", key, control.Name)
+	text := fmt.Sprintf("#%s\n##%s\n", key, control.GetName())
 	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications lib.Verifications) {
 		// In the case that no information was found period for the standard and control
 		if len(selectJustifications) == 0 {
@@ -117,8 +117,8 @@ func (openControl *OpenControlGitBook) exportStandards() {
 	standardsExportPath := filepath.Join(openControl.exportPath, "standards")
 	openControl.FSUtil.Mkdirs(standardsExportPath)
 	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
-		control := openControl.Standards.Get(standardKey).Controls[controlKey]
-		controlPath, controlText := openControl.exportControl(&ControlGitbook{&control, standardsExportPath, standardKey, controlKey})
+		control := openControl.Standards.Get(standardKey).GetControl(controlKey)
+		controlPath, controlText := openControl.exportControl(&ControlGitbook{control, standardsExportPath, standardKey, controlKey})
 		ioutil.WriteFile(controlPath, []byte(controlText), 0700)
 	})
 }
