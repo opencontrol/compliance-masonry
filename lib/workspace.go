@@ -8,6 +8,7 @@ import (
 	"sync"
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/result"
 )
 
 // LocalWorkspace struct combines components, standards, and a certification data
@@ -15,7 +16,7 @@ import (
 type LocalWorkspace struct {
 	Components     *componentsMap
 	Standards      *standardsMap
-	Justifications *Justifications
+	Justifications *result.Justifications
 	Certification  common.Certification
 }
 
@@ -28,7 +29,7 @@ func getKey(filePath string) string {
 // NewWorkspace initializes an empty OpenControl struct
 func NewWorkspace() *LocalWorkspace {
 	return &LocalWorkspace{
-		Justifications: NewJustifications(),
+		Justifications: result.NewJustifications(),
 		Components:     newComponents(),
 		Standards:      newStandards(),
 	}

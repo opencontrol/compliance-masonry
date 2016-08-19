@@ -1,4 +1,4 @@
-package lib
+package result
 
 import (
 	"sync"
@@ -17,7 +17,7 @@ type Verifications []Verification
 
 // Justifications struct contains the mapping that links controls to specific components
 type Justifications struct {
-	mapping map[string]map[string]Verifications
+	Mapping map[string]map[string]Verifications
 	sync.RWMutex
 }
 
@@ -38,23 +38,23 @@ func (slice Verifications) Swap(i, j int) {
 
 // NewJustifications creates a new justification
 func NewJustifications() *Justifications {
-	return &Justifications{mapping: make(map[string]map[string]Verifications)}
+	return &Justifications{Mapping: make(map[string]map[string]Verifications)}
 }
 
 // Add methods adds a new mapping to the justification while locking
 func (justifications *Justifications) Add(standardKey string, controlKey string, componentKey string, satisfies common.Satisfies) {
 	justifications.Lock()
 	newVerification := Verification{componentKey, satisfies}
-	_, standardKeyExists := justifications.mapping[standardKey]
+	_, standardKeyExists := justifications.Mapping[standardKey]
 	if !standardKeyExists {
-		justifications.mapping[standardKey] = make(map[string]Verifications)
+		justifications.Mapping[standardKey] = make(map[string]Verifications)
 	}
-	_, controlKeyExists := justifications.mapping[standardKey][controlKey]
+	_, controlKeyExists := justifications.Mapping[standardKey][controlKey]
 	if !controlKeyExists {
-		justifications.mapping[standardKey][controlKey] = Verifications{}
+		justifications.Mapping[standardKey][controlKey] = Verifications{}
 	}
-	justifications.mapping[standardKey][controlKey] = append(
-		justifications.mapping[standardKey][controlKey], newVerification,
+	justifications.Mapping[standardKey][controlKey] = append(
+		justifications.Mapping[standardKey][controlKey], newVerification,
 	)
 	justifications.Unlock()
 }
@@ -68,20 +68,13 @@ func (justifications *Justifications) LoadMappings(component common.Component) {
 
 // Get retrieves justifications for a specific standard and control
 func (justifications *Justifications) Get(standardKey string, controlKey string) Verifications {
-	_, standardKeyExists := justifications.mapping[standardKey]
+	_, standardKeyExists := justifications.Mapping[standardKey]
 	if !standardKeyExists {
 		return nil
 	}
-	controlJustifications, controlKeyExists := justifications.mapping[standardKey][controlKey]
+	controlJustifications, controlKeyExists := justifications.Mapping[standardKey][controlKey]
 	if !controlKeyExists {
 		return nil
 	}
 	return controlJustifications
-}
-
-//GetAndApply get a justification set and apply a generic function
-func (justifications *Justifications) GetAndApply(standardKey string, controlKey string, callback func(selectJustifications Verifications)) {
-	justifications.Lock()
-	callback(justifications.Get(standardKey, controlKey))
-	justifications.Unlock()
 }

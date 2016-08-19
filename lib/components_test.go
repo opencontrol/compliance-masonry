@@ -5,6 +5,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
+	"github.com/opencontrol/compliance-masonry/lib/result"
 )
 
 func TestAddComponent(t *testing.T) {
@@ -40,7 +41,7 @@ func TestCompareAndAddComponent(t *testing.T) {
 }
 
 func TestLoadSameComponentTwice(t *testing.T) {
-	ws := LocalWorkspace{Components: newComponents(), Justifications: NewJustifications()}
+	ws := LocalWorkspace{Components: newComponents(), Justifications: result.NewJustifications()}
 	componentPath := filepath.Join("..", "fixtures", "component_fixtures", "v3_1_0", "EC2")
 	err := ws.LoadComponent(componentPath)
 	// Should load the component without a problem.

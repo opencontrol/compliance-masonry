@@ -79,7 +79,7 @@ func TestLoadData(t *testing.T) {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
 		// Check the number of justifications
-		actualJustificationNum := len(actual.Justifications.mapping)
+		actualJustificationNum := len(actual.Justifications.Mapping)
 		if actualJustificationNum != example.expectedJustificationNum {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
