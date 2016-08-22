@@ -5,13 +5,13 @@ import (
 	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
-// EntryDownloader is a generic interface for how to download entries.
-type EntryDownloader interface {
-	DownloadEntry(common.Entry, string) error
+// Downloader is a generic interface for how to download entries.
+type Downloader interface {
+	DownloadRepo(common.RemoteSource, string) error
 }
 
 // NewVCSDownloader is a constructor for downloading entries using VCS methods.
-func NewVCSDownloader() EntryDownloader {
+func NewVCSDownloader() Downloader {
 	return vcsEntryDownloader{vcs.Manager{}}
 }
 
@@ -20,8 +20,8 @@ type vcsEntryDownloader struct {
 }
 
 // DownloadEntry is a implementation for downloading entries using VCS methods.
-func (v vcsEntryDownloader) DownloadEntry(entry common.Entry, destination string) error {
-	err := v.manager.Clone(entry.URL, entry.Revision, destination)
+func (v vcsEntryDownloader) DownloadRepo(entry common.RemoteSource, destination string) error {
+	err := v.manager.Clone(entry.GetURL(), entry.GetRevision(), destination)
 	if err != nil {
 		return err
 	}

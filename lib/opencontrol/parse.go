@@ -3,9 +3,10 @@ package opencontrol
 import (
 	"errors"
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"gopkg.in/yaml.v2"
+	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
+
 )
 
 var (
@@ -19,18 +20,21 @@ const (
 	ErrMalformedBaseYamlPrefix = "Unable to parse yaml data"
 )
 
+// YAMLParser is the concrete implementation of parsing different schema versions in YAML format.
+type YAMLParser struct{}
+
 // Parse will try to parse the data and determine which specific version of schema to further parse.
-func Parse(parser base.SchemaParser, data []byte) (base.OpenControl, error) {
+func (parser YAMLParser) Parse(data []byte) (common.OpenControl, error) {
 	if data == nil || len(data) == 0 {
 		return nil, common.ErrNoDataToParse
 	}
-	b := base.Base{}
+	b := Base{}
 	err := yaml.Unmarshal(data, &b)
 	if err != nil {
 		return nil, errors.New(ErrMalformedBaseYamlPrefix + " - " + err.Error())
 	}
 
-	var opencontrol base.OpenControl
+	var opencontrol common.OpenControl
 	var parseError error
 	v, err := semver.Parse(b.SchemaVersion)
 	if err != nil {
@@ -38,7 +42,8 @@ func Parse(parser base.SchemaParser, data []byte) (base.OpenControl, error) {
 	}
 	switch {
 	case SchemaV1_0_0.Equals(v):
-		opencontrol, parseError = parser.ParseV1_0_0(data)
+		opencontrol = new(v1_0_0.OpenControl)
+		parseError = yaml.Unmarshal(data, opencontrol)
 	default:
 		return nil, common.ErrUnknownSchemaVersion
 	}

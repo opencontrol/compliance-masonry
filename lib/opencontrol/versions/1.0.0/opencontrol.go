@@ -1,12 +1,7 @@
 package schema
 
 import (
-	"errors"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/resources"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"gopkg.in/yaml.v2"
-	"log"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
@@ -16,23 +11,21 @@ const (
 	ErrMalformedV1_0_0YamlPrefix = "Unable to parse yaml data"
 )
 
-// Schema contains the structs for the v1.0.0 schema
-type Schema struct {
-	base.Base     `yaml:",inline"`
+// OpenControl contains the structs for the v1.0.0 schema
+type OpenControl struct {
 	Meta           Metadata     `yaml:"metadata"`
 	Name           string       `yaml:"name"`
 	Components     []string     `yaml:",flow"`
 	Certifications []string     `yaml:",flow"`
 	Standards      []string     `yaml:",flow"`
 	Dependencies   Dependencies `yaml:"dependencies"`
-	resourceGetter resources.Getter
 }
 
 // Dependencies contains all the dependencies for the system
 type Dependencies struct {
-	Certifications []common.Entry `yaml:"certifications"`
-	Systems        []common.Entry `yaml:",flow"`
-	Standards      []common.Entry `yaml:",flow"`
+	Certifications []VCSEntry `yaml:"certifications"`
+	Systems        []VCSEntry `yaml:",flow"`
+	Standards      []VCSEntry `yaml:",flow"`
 }
 
 // Metadata contains metadata about the system.
@@ -41,60 +34,72 @@ type Metadata struct {
 	Maintainers []string `yaml:",flow"`
 }
 
-// Parse will parse using it's own schema. In this case the v1.0.0 schema.
-func (s *Schema) Parse(data []byte) error {
-	err := yaml.Unmarshal(data, s)
-	if err != nil {
-		return errors.New(ErrMalformedV1_0_0YamlPrefix + " - " + err.Error())
-	}
-	s.resourceGetter = resources.NewVCSAndLocalGetter()
-
-	return nil
+// VCSEntry is a generic holder for handling the specific location and revision of a resource.
+type VCSEntry struct {
+	URL      string `yaml:"url"`
+	Revision string `yaml:"revision"`
+	Path     string `yaml:"path"`
 }
 
-// GetResources will download all the resources that are specified by the v1.0.0 of the schema first by copying the
-// local resources then downloading the remote ones and letting their respective schema version handle
-// how to get their resources.
-func (s *Schema) GetResources(source string, destination string, worker *base.Worker) error {
-	// Local
-	// Get Certifications
-	log.Println("Retrieving certifications")
-	err := s.resourceGetter.GetLocalResources(source, s.Certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications)
-	if err != nil {
-		return err
-	}
-	// Get Standards
-	log.Println("Retrieving standards")
-	err = s.resourceGetter.GetLocalResources(source, s.Standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards)
-	if err != nil {
-		return err
-	}
-	// Get Components
-	log.Println("Retrieving components")
-	err = s.resourceGetter.GetLocalResources(source, s.Components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components)
-	if err != nil {
-		return err
-	}
+// GetCertifications retrieves the list of certifications
+func (o OpenControl) GetCertifications() []string {
+	return o.Certifications
+}
 
-	// Remote
-	// Get Certifications
-	log.Println("Retrieving dependent certifications")
-	err = s.resourceGetter.GetRemoteResources(destination, constants.DefaultCertificationsFolder, worker, s.Dependencies.Certifications)
-	if err != nil {
-		return err
-	}
-	// Get Standards
-	log.Println("Retrieving dependent standards")
-	err = s.resourceGetter.GetRemoteResources(destination, constants.DefaultStandardsFolder, worker, s.Dependencies.Standards)
-	if err != nil {
-		return err
-	}
-	// Get Components
-	log.Println("Retrieving dependent components")
-	err = s.resourceGetter.GetRemoteResources(destination, constants.DefaultComponentsFolder, worker, s.Dependencies.Systems)
-	if err != nil {
-		return err
-	}
+// GetComponents retrieves the list of components
+func (o OpenControl) GetComponents() []string {
+	return o.Components
+}
 
-	return nil
+// GetStandards retrieves the list of standards
+func (o OpenControl) GetStandards() []string {
+	return o.Standards
+}
+
+// GetCertificationsDependencies retrieves the list of certifications that this config will inherit.
+func (o OpenControl) GetCertificationsDependencies() []common.RemoteSource {
+	// Have to do manual conversion to the interface common.RemoteSource from VCSEntry.
+	entries := make([]common.RemoteSource, len(o.Dependencies.Certifications))
+	for idx, value := range o.Dependencies.Certifications {
+		entries[idx] = value
+	}
+	return entries
+}
+
+// GetComponentsDependencies retrieves the list of components / systems that this config will inherit.
+func (o OpenControl) GetComponentsDependencies() []common.RemoteSource {
+	// Have to do manual conversion to the interface common.RemoteSource from VCSEntry.
+	entries := make([]common.RemoteSource, len(o.Dependencies.Systems))
+	for idx, value := range o.Dependencies.Systems {
+		entries[idx] = value
+	}
+	return entries
+}
+
+// GetStandardsDependencies retrieves the list of standards that this config will inherit.
+func (o OpenControl) GetStandardsDependencies() []common.RemoteSource {
+	// Have to do manual conversion to the interface common.RemoteSource from VCSEntry.
+	entries := make([]common.RemoteSource, len(o.Dependencies.Standards))
+	for idx, value := range o.Dependencies.Standards {
+		entries[idx] = value
+	}
+	return entries
+}
+
+// GetConfigFile is a getter for the config file name. Will return DefaultConfigYaml value if none has been set.
+func (e VCSEntry) GetConfigFile() string {
+	if e.Path == "" {
+		return constants.DefaultConfigYaml
+	}
+	return e.Path
+}
+
+// GetRevision returns the specific revision of the vcs resource.
+func (e VCSEntry) GetRevision() string {
+	return e.Revision
+}
+
+// GetURL returns the URL of the vcs resource.
+func (e VCSEntry) GetURL() string {
+	return e.URL
 }
