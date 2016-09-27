@@ -15,7 +15,10 @@ func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 	return summary
 }
 
-// BuildStandardsSummaries creates summaries the standards for the general summary
+// buildStandardsSummaries creates summaries the standards for the general summary (via SUMMARY.md) which is the
+// returned string.
+// In addition, it builds the summary page for the standard-control combination (e.g. NIST-800-53-CM.html for standard
+// NIST-800-53 and control family CM). The collection of these summary pages are in the returned map.
 func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[string]string) {
 	var oldFamily, newFamily string
 	familySummaryMap := make(map[string]string)
@@ -28,23 +31,36 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 	for _, standardKey := range standardKeys {
 		// Find all the information for a particular standard.
 		standard := openControl.Standards.Get(standardKey)
-		// Go through all the controls for the
-		controlKeys := standard.GetSortedControls()
+		// Go through all the controls for the certification.
+		controlKeys := openControl.Certification.GetControlKeysFor(standardKey)
 		for _, controlKey := range controlKeys {
-			componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
+			// format the filename
+			controlLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
+
+			// get the control.
 			control := standard.GetControl(controlKey)
+
+			// get the control family and name
 			controlFamily := control.GetFamily()
 			controlName := control.GetName()
+
+			// concatenate the standard and control family
 			newFamily = standardKey + "-" + controlFamily
-			// create control family headings
+
+			// create control family headings if we are finally on a new heading.
 			if oldFamily != newFamily {
 				familySummaryMap[newFamily] = fmt.Sprintf("## %s\n", newFamily)
 				summary += exportLink(controlFamily, filepath.Join("standards", newFamily+".md"))
 				oldFamily = newFamily
 			}
+
+			// Add the control name as a link under the control family header.
 			controlFullName := fmt.Sprintf("%s: %s", controlKey, controlName)
-			familySummaryMap[newFamily] += exportLink(controlFullName, componentLink)
-			summary += "\t" + exportLink(controlFullName, filepath.Join("standards", componentLink))
+			summary += "\t" + exportLink(controlFullName, filepath.Join("standards", controlLink))
+
+			// add the link to the summary page for that particular standard-control combination
+			// which will be created later on.
+			familySummaryMap[newFamily] += exportLink(controlFullName, controlLink)
 		}
 	}
 	return summary, &familySummaryMap
