@@ -19,14 +19,17 @@ func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[string]string) {
 	var oldFamily, newFamily string
 	familySummaryMap := make(map[string]string)
+
+	// create the Standards sub-heading for the SUMMARY.md
 	summary := "## Standards\n"
 
+	// Go through all the standards for the certification.
 	standardKeys := openControl.Certification.GetSortedStandards()
 	for _, standardKey := range standardKeys {
+		// Find all the information for a particular standard.
 		standard := openControl.Standards.Get(standardKey)
-		// Get the standard in the certification
-		certificationStandard := openControl.Certification.GetStandard(standardKey)
-		controlKeys := certificationStandard.GetSortedControls()
+		// Go through all the controls for the
+		controlKeys := standard.GetSortedControls()
 		for _, controlKey := range controlKeys {
 			componentLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
 			control := standard.GetControl(controlKey)

@@ -5,13 +5,13 @@ import (
 	"path/filepath"
 	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/stretchr/testify/assert"
 )
 
 type v1certificationTest struct {
 	certificationFile string
 	expected          v1_0_0.Certification
-	expectedStandards int
-	expectedControls  int
+	expectedControls  map[string][]string
 }
 
 type certificationTestError struct {
@@ -21,26 +21,28 @@ type certificationTestError struct {
 
 var v1certificationTests = []v1certificationTest{
 	// Test loading a certification file that has the LATO key, 2 standards, and 6 controls.
-	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"), v1_0_0.Certification{Key: "LATO"}, 2, 6},
+	{
+		filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		v1_0_0.Certification{Key: "LATO"},
+		map[string][]string{
+			"NIST-800-53": []string{"AC-2", "AC-6", "CM-2"},
+			"PCI-DSS-MAY-2015": []string{"1.1", "1.1.1", "2.1"},
+		},
+	},
 }
 
 func TestLoadCertification(t *testing.T) {
 	for _, example := range v1certificationTests {
 
-		actual, _ := Load(example.certificationFile)
+		actual, err := Load(example.certificationFile)
+		assert.Nil(t, err)
 		// Check if loaded certification has the expected key
 		if actual.GetKey() != example.expected.GetKey() {
 			t.Errorf("Expected %s, Actual: %s", example.expected.GetKey(), actual.GetKey())
 		}
-		// Get the length of the control by using the GetSortedData method
-		totalControls := 0
-		standardKeys := actual.GetSortedStandards()
-		for _, standardKey := range standardKeys {
-			totalControls += len(actual.GetStandard(standardKey).GetSortedControls())
-		}
-		// Check if loaded certification has the expected number of controls
-		if totalControls != example.expectedControls {
-			t.Errorf("Expected %d, Actual: %d", example.expectedControls, totalControls)
+		for expectedStandardKey, expectedControls := range example.expectedControls {
+			assert.Equal(t, len(actual.GetControlKeysFor(expectedStandardKey)), len(expectedControls))
+			assert.Equal(t, actual.GetControlKeysFor(expectedStandardKey), expectedControls)
 		}
 	}
 }

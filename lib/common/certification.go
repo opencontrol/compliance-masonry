@@ -9,5 +9,5 @@ package common
 type Certification interface {
 	GetKey() string
 	GetSortedStandards() []string
-	GetStandard(string) Standard
+	GetControlKeysFor(string) []string
 }

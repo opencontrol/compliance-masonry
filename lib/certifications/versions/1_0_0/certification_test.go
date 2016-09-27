@@ -2,7 +2,6 @@ package certification
 
 import (
 	"testing"
-	v1standards "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
 )
 
 type standardOrderTest struct {
@@ -13,19 +12,19 @@ type standardOrderTest struct {
 var standardOrderTests = []standardOrderTest{
 	{
 		// Verify Natural sort order
-		Certification{Standards: map[string]v1standards.Standard{
-			"A": {Controls: map[string]v1standards.Control{"3": {}, "2": {}, "1": {}}},
-			"B": {Controls: map[string]v1standards.Control{"12": {}, "2": {}, "1": {}}},
-			"C": {Controls: map[string]v1standards.Control{"2": {}, "11": {}, "101": {}, "1000": {}, "100": {}, "10": {}, "1": {}}},
+		Certification{Standards: map[string]map[string]interface{} {
+			"A": map[string]interface{} {"3": nil, "2": nil, "1": nil},
+			"B": map[string]interface{} {"12": nil, "2": nil, "1": nil},
+			"C": map[string]interface{} {"2": nil, "11": nil, "101": nil, "1000": nil, "100": nil, "10": nil, "1": nil},
 		}},
 		"A1A2A3B1B2B12C1C2C10C11C100C101C1000",
 	},
 	{
 		// Check that data is returned in order given letters and numbers
-		Certification{Standards: map[string]v1standards.Standard{
-			"1":  {Controls: map[string]v1standards.Control{"3": {}, "2": {}, "1": {}}},
-			"B":  {Controls: map[string]v1standards.Control{"3": {}, "2": {}, "1": {}}},
-			"B2": {Controls: map[string]v1standards.Control{"3": {}, "2": {}, "1": {}}},
+		Certification{Standards: map[string]map[string]interface{}{
+			"1":  map[string]interface{} {"3": nil, "2": nil, "1": nil},
+			"B":  map[string]interface{} {"3": nil, "2": nil, "1": nil},
+			"B2": map[string]interface{} {"3": nil, "2": nil, "1": nil},
 		}},
 		"111213B1B2B3B21B22B23",
 	},
@@ -36,7 +35,7 @@ func TestStandardOrder(t *testing.T) {
 		actualOrder := ""
 		standardKeys := example.certification.GetSortedStandards()
 		for _, standardKey := range standardKeys {
-			controlKeys := example.certification.GetStandard(standardKey).GetSortedControls()
+			controlKeys := example.certification.GetControlKeysFor(standardKey)
 			for _, controlKey := range controlKeys {
 				actualOrder += standardKey + controlKey
 			}

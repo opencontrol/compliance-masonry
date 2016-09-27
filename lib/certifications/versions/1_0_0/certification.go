@@ -3,15 +3,13 @@ package certification
 import (
 	"sort"
 	"vbom.ml/util/sortorder"
-	v1standards "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
-	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // Certification struct is a collection of specific standards and controls
 // Schema info: https://github.com/opencontrol/schemas#certifications
 type Certification struct {
 	Key       string              `yaml:"name" json:"name"`
-	Standards map[string]v1standards.Standard `yaml:"standards" json:"standards"`
+	Standards map[string]map[string]interface{} `yaml:"standards" json:"standards"`
 }
 
 // GetKey returns the name of the certification.
@@ -30,6 +28,11 @@ func (certification Certification) GetSortedStandards() []string {
 }
 
 // GetStandard returns the standard for the given key.
-func (certification Certification) GetStandard(key string) common.Standard {
-	return certification.Standards[key]
+func (certification Certification) GetControlKeysFor(standardKey string) []string {
+	var controlNames []string
+	for controlName := range certification.Standards[standardKey] {
+		controlNames = append(controlNames, controlName)
+	}
+	sort.Sort(sortorder.Natural(controlNames))
+	return controlNames
 }
