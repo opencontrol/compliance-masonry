@@ -8,7 +8,7 @@ import (
 // Certification struct is a collection of specific standards and controls
 // Schema info: https://github.com/opencontrol/schemas#certifications
 type Certification struct {
-	Key       string              `yaml:"name" json:"name"`
+	Key       string                            `yaml:"name" json:"name"`
 	Standards map[string]map[string]interface{} `yaml:"standards" json:"standards"`
 }
 
@@ -27,7 +27,7 @@ func (certification Certification) GetSortedStandards() []string {
 	return standardNames
 }
 
-// GetStandard returns the standard for the given key.
+// GetControlKeysFor returns the control keys for the given standard key.
 func (certification Certification) GetControlKeysFor(standardKey string) []string {
 	var controlNames []string
 	for controlName := range certification.Standards[standardKey] {

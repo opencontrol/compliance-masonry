@@ -12,19 +12,19 @@ type standardOrderTest struct {
 var standardOrderTests = []standardOrderTest{
 	{
 		// Verify Natural sort order
-		Certification{Standards: map[string]map[string]interface{} {
-			"A": map[string]interface{} {"3": nil, "2": nil, "1": nil},
-			"B": map[string]interface{} {"12": nil, "2": nil, "1": nil},
-			"C": map[string]interface{} {"2": nil, "11": nil, "101": nil, "1000": nil, "100": nil, "10": nil, "1": nil},
+		Certification{Standards: map[string]map[string]interface{}{
+			"A": map[string]interface{}{"3": nil, "2": nil, "1": nil},
+			"B": map[string]interface{}{"12": nil, "2": nil, "1": nil},
+			"C": map[string]interface{}{"2": nil, "11": nil, "101": nil, "1000": nil, "100": nil, "10": nil, "1": nil},
 		}},
 		"A1A2A3B1B2B12C1C2C10C11C100C101C1000",
 	},
 	{
 		// Check that data is returned in order given letters and numbers
 		Certification{Standards: map[string]map[string]interface{}{
-			"1":  map[string]interface{} {"3": nil, "2": nil, "1": nil},
-			"B":  map[string]interface{} {"3": nil, "2": nil, "1": nil},
-			"B2": map[string]interface{} {"3": nil, "2": nil, "1": nil},
+			"1":  map[string]interface{}{"3": nil, "2": nil, "1": nil},
+			"B":  map[string]interface{}{"3": nil, "2": nil, "1": nil},
+			"B2": map[string]interface{}{"3": nil, "2": nil, "1": nil},
 		}},
 		"111213B1B2B3B21B22B23",
 	},

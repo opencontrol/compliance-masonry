@@ -1,11 +1,11 @@
 package certifications
 
 import (
-	"testing"
-	"path/filepath"
 	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/stretchr/testify/assert"
+	"path/filepath"
+	"testing"
 )
 
 type v1certificationTest struct {
@@ -25,7 +25,7 @@ var v1certificationTests = []v1certificationTest{
 		filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		v1_0_0.Certification{Key: "LATO"},
 		map[string][]string{
-			"NIST-800-53": []string{"AC-2", "AC-6", "CM-2"},
+			"NIST-800-53":      []string{"AC-2", "AC-6", "CM-2"},
 			"PCI-DSS-MAY-2015": []string{"1.1", "1.1.1", "2.1"},
 		},
 	},

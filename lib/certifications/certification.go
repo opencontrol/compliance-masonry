@@ -1,10 +1,10 @@
 package certifications
 
 import (
-	"io/ioutil"
-	"gopkg.in/yaml.v2"
-	"github.com/opencontrol/compliance-masonry/lib/common"
 	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 )
 
 // Load will read the file at the given path and attempt to return a Certification object.
