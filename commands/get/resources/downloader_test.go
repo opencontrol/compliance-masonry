@@ -1,13 +1,12 @@
 package resources
 
 import (
-
+	"errors"
 	. "github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/extensions/table"
-	"github.com/stretchr/testify/assert"
-	"github.com/opencontrol/compliance-masonry/tools/vcs/mocks"
-	"errors"
 	commonMocks "github.com/opencontrol/compliance-masonry/lib/common/mocks"
+	"github.com/opencontrol/compliance-masonry/tools/vcs/mocks"
+	"github.com/stretchr/testify/assert"
 )
 
 var _ = Describe("Downloader", func() {
@@ -17,7 +16,7 @@ var _ = Describe("Downloader", func() {
 			assert.IsType(GinkgoT(), vcsEntryDownloader{}, downloader)
 		})
 	})
-	Describe("Downloading Entry from VCS", func(){
+	Describe("Downloading Entry from VCS", func() {
 		table.DescribeTable("DownloadRepo", func(err error) {
 			remoteSource := new(commonMocks.RemoteSource)
 			remoteSource.On("GetURL").Return("https://github.com/opencontrol/notarealrepo")

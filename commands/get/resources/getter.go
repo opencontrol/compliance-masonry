@@ -1,14 +1,14 @@
 package resources
 
 import (
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
+	"github.com/opencontrol/compliance-masonry/tools/mapset"
 	"log"
 	"os"
 	"path/filepath"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol"
-	"github.com/opencontrol/compliance-masonry/tools/mapset"
-	"github.com/opencontrol/compliance-masonry/tools/fs"
 )
 
 // getAllLocalResources will get try to get the resources that are in the current "source" directory and place them
@@ -83,28 +83,31 @@ func GetResources(source string, destination string, opencontrol common.OpenCont
 	return nil
 }
 
-
 // Getter is an interface for how to get and place local and remote resources.
 type Getter interface {
-	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, resourceType constants.ResourceType) error
+	GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool,
+		resourceType constants.ResourceType) error
 	GetRemoteResources(destination string, subfolder string, entries []common.RemoteSource) error
 }
 
 // NewVCSAndLocalGetter constructs a new resource getter with the type of parser to use for the files.
 func NewVCSAndLocalGetter(parser opencontrol.SchemaParser) Getter {
-	return &vcsAndLocalFSGetter{Downloader: NewVCSDownloader(), FSUtil: fs.OSUtil{}, Parser: parser, ResourceMap: mapset.Init()}
+	return &vcsAndLocalFSGetter{Downloader: NewVCSDownloader(), FSUtil: fs.OSUtil{}, Parser: parser,
+		ResourceMap: mapset.Init()}
 }
 
-// vcsAndLocalFSGetter is the resource getter that uses VCS for remote resource getting and local file system for local resources.
-type vcsAndLocalFSGetter struct{
-	Downloader Downloader
-	FSUtil fs.Util
+// vcsAndLocalFSGetter is the resource getter that uses VCS for remote resource getting and local file system
+// for local resources.
+type vcsAndLocalFSGetter struct {
+	Downloader  Downloader
+	FSUtil      fs.Util
 	ResourceMap mapset.MapSet
 	Parser      opencontrol.SchemaParser
 }
 
 // GetLocalResources is the implementation that uses the local file system to get local resources.
-func (g *vcsAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string, subfolder string, recursively bool, resourceType constants.ResourceType) error {
+func (g *vcsAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string,
+	subfolder string, recursively bool, resourceType constants.ResourceType) error {
 	for _, resource := range resources {
 		if result := g.ResourceMap.Reserve(string(resourceType), resource); !result.Success {
 			return result.Error
@@ -135,7 +138,8 @@ func (g *vcsAndLocalFSGetter) GetLocalResources(source string, resources []strin
 }
 
 // GetRemoteResources is the implementation that uses VCS to get remote resources.
-func (g *vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder string, entries []common.RemoteSource) error {
+func (g *vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder string,
+	entries []common.RemoteSource) error {
 	tempResourcesDir, err := g.FSUtil.TempDir("", "opencontrol-resources")
 	if err != nil {
 		return err

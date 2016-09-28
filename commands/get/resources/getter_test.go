@@ -1,33 +1,32 @@
 package resources
 
 import (
-
 	. "github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/extensions/table"
+	resmocks "github.com/opencontrol/compliance-masonry/commands/get/resources/mocks"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
+	parserMocks "github.com/opencontrol/compliance-masonry/lib/opencontrol/mocks"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	fsmocks "github.com/opencontrol/compliance-masonry/tools/fs/mocks"
-	resmocks "github.com/opencontrol/compliance-masonry/commands/get/resources/mocks"
-	parserMocks "github.com/opencontrol/compliance-masonry/lib/opencontrol/mocks"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vektra/errors"
-	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
-	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 var _ = Describe("ResourceGetter", func() {
 
-	Describe("Getting resources", func(){
+	Describe("Getting resources", func() {
 		var (
-			getter *resmocks.Getter
+			getter                                                           *resmocks.Getter
 			dependentStandards, dependentCertifications, dependentComponents []common.RemoteSource
-			certifications, standards, components []string
-			destination = "."
-			expectedError error
-			s *mocks.OpenControl
+			certifications, standards, components                            []string
+			destination                                                      = "."
+			expectedError                                                    error
+			s                                                                *mocks.OpenControl
 		)
-		BeforeEach(func(){
+		BeforeEach(func() {
 			getter = new(resmocks.Getter)
 			s = new(mocks.OpenControl)
 			s.On("GetCertifications").Return(certifications)
@@ -100,9 +99,9 @@ var _ = Describe("ResourceGetter", func() {
 			fsUtil.On("Mkdirs", mock.AnythingOfType("string")).Return(mkdirsError)
 			fsUtil.On("Copy", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(copyError)
 			fsUtil.On("CopyAll", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(copyAllError)
-			getter.Parser= parser
+			getter.Parser = parser
 			getter.FSUtil = fsUtil
-			getter.ResourceMap= mapset.Init()
+			getter.ResourceMap = mapset.Init()
 			err := getter.GetLocalResources("", resources, "dest", "subfolder", recursively, constants.Standards)
 			assert.Equal(GinkgoT(), expectedError, err)
 		},
@@ -138,7 +137,7 @@ var _ = Describe("ResourceGetter", func() {
 
 			parser := new(parserMocks.SchemaParser)
 			parser.On("Parse", mock.Anything).Return(schema, parserError)
-			getter.Parser=parser
+			getter.Parser = parser
 
 			err := getter.GetRemoteResources("dest", "subfolder", entries)
 			assert.Equal(GinkgoT(), expectedError, err)
