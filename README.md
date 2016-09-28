@@ -19,6 +19,13 @@ Compliance Masonry is a command-line interface (CLI) that allows users to constr
     go get github.com/opencontrol/compliance-masonry
     ```
 
+1. Build the tool
+
+    ```bash
+    cd $GOPATH/src/github.com/opencontrol/compliance-masonry/
+    go build
+    ```
+    
 1. Run the CLI
 
     ```bash
