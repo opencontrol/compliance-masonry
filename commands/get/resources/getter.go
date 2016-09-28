@@ -11,11 +11,9 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 )
 
-// GetResources will download all the resources that are specified by the schema first by copying the
-// local resources then downloading the remote ones and letting their respective schema version handle
-// how to get their resources.
-func GetResources(source string, destination string, opencontrol common.OpenControl, getter Getter) error {
-	// Local
+// getAllLocalResources will get try to get the resources that are in the current "source" directory and place them
+// in the final "destination" workspace directory.
+func getAllLocalResources(source string, destination string, opencontrol common.OpenControl, getter Getter) error {
 	// Get Certifications
 	log.Println("Retrieving certifications")
 	err := getter.GetLocalResources(source, opencontrol.GetCertifications(), destination,
@@ -37,27 +35,51 @@ func GetResources(source string, destination string, opencontrol common.OpenCont
 	if err != nil {
 		return err
 	}
+	return nil
+}
 
-	// Remote
+// getAllRemoteResources will get try to get the dependencies from their respective repositories and put them
+// in the final "destination" workspace directory.
+func getAllRemoteResources(destination string, opencontrol common.OpenControl, getter Getter) error {
 	// Get Certifications
 	log.Println("Retrieving dependent certifications")
-	err = getter.GetRemoteResources(destination, constants.DefaultCertificationsFolder, opencontrol.GetCertificationsDependencies())
+	err := getter.GetRemoteResources(destination, constants.DefaultCertificationsFolder,
+		opencontrol.GetCertificationsDependencies())
 	if err != nil {
 		return err
 	}
 	// Get Standards
 	log.Println("Retrieving dependent standards")
-	err = getter.GetRemoteResources(destination, constants.DefaultStandardsFolder, opencontrol.GetStandardsDependencies())
+	err = getter.GetRemoteResources(destination, constants.DefaultStandardsFolder,
+		opencontrol.GetStandardsDependencies())
 	if err != nil {
 		return err
 	}
 	// Get Components
 	log.Println("Retrieving dependent components")
-	err = getter.GetRemoteResources(destination, constants.DefaultComponentsFolder, opencontrol.GetComponentsDependencies())
+	err = getter.GetRemoteResources(destination, constants.DefaultComponentsFolder,
+		opencontrol.GetComponentsDependencies())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetResources will download all the resources that are specified by the schema first by copying the
+// local resources then downloading the remote ones and letting their respective schema version handle
+// how to get their resources.
+func GetResources(source string, destination string, opencontrol common.OpenControl, getter Getter) error {
+	// Local
+	err := getAllLocalResources(source, destination, opencontrol, getter)
 	if err != nil {
 		return err
 	}
 
+	// Remote
+	err = getAllRemoteResources(destination, opencontrol, getter)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
