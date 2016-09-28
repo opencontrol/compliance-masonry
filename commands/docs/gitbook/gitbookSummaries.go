@@ -6,11 +6,42 @@ import (
 	"path/filepath"
 )
 
+// createSubHeading will create a subheading with the passed in string.
+func createSubHeading(text string) string {
+	return fmt.Sprintf("## %s\n", text)
+}
+
+// fileName contains the base file name without the extension.
+type fileName struct {
+	name string
+}
+
+// withExt is a wrapper to wrap adding a extension and returning the final string.
+func (f fileName) withExt(ext string) string {
+	return fmt.Sprintf("%s%s", f.name, ext)
+}
+
+// createFileName creates a file name from multiple strings. Between each string, there will be a hyphen between them.
+func createFileName(fileNameParts ...string) fileName {
+	name := ""
+	for i, fileNamePart := range fileNameParts {
+		if i == len(fileNameParts)-1 {
+			// if it's the last part, no need to append the hyphen
+			name = fmt.Sprintf("%s%s", name, fileNamePart)
+		} else {
+			// if there is more left, append the hyphen
+			name = fmt.Sprintf("%s%s-", name, fileNamePart)
+		}
+	}
+	return fileName{name: name}
+}
+
 // BuildComponentsSummaries creates summaries the components for the general summary
 func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 	summary := "\n## Components\n"
 	for _, component := range openControl.Components.GetAll() {
-		summary += exportLink(component.GetName(), filepath.Join("components", component.GetKey()+".md"))
+		summary += exportLink(component.GetName(),
+			filepath.Join("components", createFileName(component.GetKey()).withExt(".md")))
 	}
 	return summary
 }
@@ -20,11 +51,11 @@ func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 // In addition, it builds the summary page for the standard-control combination (e.g. NIST-800-53-CM.html for standard
 // NIST-800-53 and control family CM). The collection of these summary pages are in the returned map.
 func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[string]string) {
-	var oldFamily, newFamily string
+	var oldFamilyFileName, newFamilyFileName fileName
 	familySummaryMap := make(map[string]string)
 
 	// create the Standards sub-heading for the SUMMARY.md
-	summary := "## Standards\n"
+	summary := createSubHeading("Standards")
 
 	// Go through all the standards for the certification.
 	standardKeys := openControl.Certification.GetSortedStandards()
@@ -35,7 +66,7 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 		controlKeys := openControl.Certification.GetControlKeysFor(standardKey)
 		for _, controlKey := range controlKeys {
 			// format the filename
-			controlLink := replaceParentheses(standardKey + "-" + controlKey + ".md")
+			controlLink := replaceParentheses(createFileName(standardKey, controlKey).withExt(".md"))
 
 			// get the control.
 			control := standard.GetControl(controlKey)
@@ -44,14 +75,15 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 			controlFamily := control.GetFamily()
 			controlName := control.GetName()
 
-			// concatenate the standard and control family
-			newFamily = standardKey + "-" + controlFamily
+			// concatenate the standard and control family to create a filename.
+			newFamilyFileName = createFileName(standardKey, controlFamily)
 
-			// create control family headings if we are finally on a new heading.
-			if oldFamily != newFamily {
-				familySummaryMap[newFamily] = fmt.Sprintf("## %s\n", newFamily)
-				summary += exportLink(controlFamily, filepath.Join("standards", newFamily+".md"))
-				oldFamily = newFamily
+			// create control family headings if we are finally on a new heading file.
+			if oldFamilyFileName.name != newFamilyFileName.name {
+				familySummaryMap[newFamilyFileName.name] = createSubHeading(newFamilyFileName.name)
+				summary += exportLink(controlFamily,
+					filepath.Join("standards", newFamilyFileName.withExt(".md")))
+				oldFamilyFileName = newFamilyFileName
 			}
 
 			// Add the control name as a link under the control family header.
@@ -60,7 +92,7 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 
 			// add the link to the summary page for that particular standard-control combination
 			// which will be created later on.
-			familySummaryMap[newFamily] += exportLink(controlFullName, controlLink)
+			familySummaryMap[newFamilyFileName.name] += exportLink(controlFullName, controlLink)
 		}
 	}
 	return summary, &familySummaryMap
