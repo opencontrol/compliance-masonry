@@ -5,9 +5,11 @@ package common
 //
 // GetKey returns the the unique key that represents the name of the certification.
 //
-// GetStandards returns the standards.
+// GetSortedStandards returns the list of sorted standard keys.
+//
+// GetControlKeysFor returns the list of control keys for a given standard key.
 type Certification interface {
 	GetKey() string
 	GetSortedStandards() []string
-	GetControlKeysFor(string) []string
+	GetControlKeysFor(standardKey string) []string
 }
