@@ -20,8 +20,8 @@ var _ = Describe("Downloader", func() {
 	Describe("Downloading Entry from VCS", func(){
 		table.DescribeTable("DownloadRepo", func(err error) {
 			remoteSource := new(commonMocks.RemoteSource)
-			remoteSource.On("GetURL").Return("")
-			remoteSource.On("GetRevision").Return("")
+			remoteSource.On("GetURL").Return("https://github.com/opencontrol/notarealrepo")
+			remoteSource.On("GetRevision").Return("master")
 			m := new(mocks.RepoManager)
 			m.On("Clone", remoteSource.GetURL(), remoteSource.GetRevision(), ".").Return(err)
 			v := vcsEntryDownloader{m}
