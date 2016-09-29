@@ -4,16 +4,16 @@ import (
 	. "github.com/opencontrol/compliance-masonry/lib/opencontrol"
 
 	. "github.com/onsi/ginkgo"
-	"github.com/stretchr/testify/assert"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/opencontrol/compliance-masonry/lib/opencontrol/mocks"
 	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
+	"github.com/stretchr/testify/assert"
 )
 
 var _ = Describe("Parse", func() {
 	var (
-		parser SchemaParser
-		err    error
+		parser      SchemaParser
+		err         error
 		openControl common.OpenControl
 	)
 
@@ -52,10 +52,9 @@ var _ = Describe("Parse", func() {
 	})
 })
 
-
 var _ = Describe("Parsing the scchema", func() {
 	Describe("Parsing v1.0.0", func() {
-		data := []byte (`
+		data := []byte(`
 schema_version: "1.0.0"
 name: test
 metadata:
@@ -88,9 +87,9 @@ dependencies:
 			assert.Equal(GinkgoT(), []string{"./cert-1.yaml"}, opencontrol.GetCertifications())
 			assert.Equal(GinkgoT(), []string{"./standard-1.yaml"}, opencontrol.GetStandards())
 			assert.Equal(GinkgoT(), []string{"./component-1", "./component-2", "./component-3"}, opencontrol.GetComponents())
-			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL:"github.com/18F/NIST-800-53", Revision:"master", Path:""}}, opencontrol.GetStandardsDependencies())
-			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL:"github.com/18F/cg-complinace", Revision:"master", Path:""}}, opencontrol.GetComponentsDependencies())
-			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL:"github.com/18F/LATO", Revision:"master", Path:""}}, opencontrol.GetCertificationsDependencies())
+			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL: "github.com/18F/NIST-800-53", Revision: "master", Path: ""}}, opencontrol.GetStandardsDependencies())
+			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL: "github.com/18F/cg-complinace", Revision: "master", Path: ""}}, opencontrol.GetComponentsDependencies())
+			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL: "github.com/18F/LATO", Revision: "master", Path: ""}}, opencontrol.GetCertificationsDependencies())
 
 		})
 	})

@@ -3,11 +3,11 @@ package diff_test
 import (
 	. "github.com/opencontrol/compliance-masonry/commands/diff"
 
+	"errors"
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
-	"errors"
 )
 
 var _ = Describe("Inventory", func() {

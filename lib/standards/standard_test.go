@@ -1,10 +1,10 @@
 package standards
 
 import (
-	"path/filepath"
-	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
-	"testing"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
+	"path/filepath"
+	"testing"
 )
 
 type v1standardsTest struct {
@@ -37,7 +37,6 @@ func TestLoadStandard(t *testing.T) {
 		}
 	}
 }
-
 
 type standardTestError struct {
 	standardsFile string

@@ -1,10 +1,10 @@
 package diff
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib"
-	"github.com/opencontrol/compliance-masonry/tools/certifications"
 	"fmt"
+	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/tools/certifications"
 )
 
 // Inventory maintains the inventory of all the controls within a given workspace.

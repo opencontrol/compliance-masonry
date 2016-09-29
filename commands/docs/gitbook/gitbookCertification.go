@@ -45,7 +45,7 @@ func (openControl *OpenControlGitBook) getParameters(text string, parameters []c
 	return text
 }
 
-func (openControl *OpenControlGitBook) getParameter(text string, parameter common.Section) string{
+func (openControl *OpenControlGitBook) getParameter(text string, parameter common.Section) string {
 	text = fmt.Sprintf("%s\n###### %s\n", text, parameter.GetKey())
 	text = fmt.Sprintf("%s%s\n", text, parameter.GetText())
 	return text
@@ -84,7 +84,6 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 	}
 	return text
 }
-
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))

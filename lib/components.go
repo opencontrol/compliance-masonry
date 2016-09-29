@@ -3,9 +3,9 @@ package lib
 import (
 	"sync"
 
-	"github.com/opencontrol/compliance-masonry/lib/components"
-	"github.com/opencontrol/compliance-masonry/lib/common"
 	"fmt"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/components"
 )
 
 // componentsMap struct is a thread-safe structure mapping for components
@@ -39,7 +39,7 @@ func (components *componentsMap) Get(key string) common.Component {
 func (components *componentsMap) CompareAndAdd(component common.Component) bool {
 	components.Lock()
 	defer components.Unlock()
-	_, exists := components.mapping[component.GetKey()];
+	_, exists := components.mapping[component.GetKey()]
 	if !exists {
 		components.mapping[component.GetKey()] = component
 		return true

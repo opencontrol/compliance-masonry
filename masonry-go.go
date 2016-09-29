@@ -120,10 +120,9 @@ func NewCLIApp() *cli.App {
 						if errMessages != nil && len(errMessages) > 0 {
 							err := cli.NewMultiError(errMessages...)
 							return cli.NewExitError(err.Error(), 1)
-						} else {
-							fmt.Fprintf(app.Writer, "%v\n", "New Gitbook Documentation Created")
-							return nil
 						}
+						fmt.Fprintf(app.Writer, "%v\n", "New Gitbook Documentation Created")
+						return nil
 					},
 				},
 			},

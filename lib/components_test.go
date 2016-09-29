@@ -1,11 +1,11 @@
 package lib
 
 import (
-	"testing"
 	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
+	"github.com/opencontrol/compliance-masonry/lib/result"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
-	"github.com/opencontrol/compliance-masonry/lib/result"
+	"testing"
 )
 
 func TestAddComponent(t *testing.T) {

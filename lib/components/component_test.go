@@ -2,7 +2,6 @@ package components
 
 import "testing"
 
-
 type keyTest struct {
 	input    string
 	expected string
