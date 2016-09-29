@@ -105,35 +105,66 @@ type vcsAndLocalFSGetter struct {
 	Parser      opencontrol.SchemaParser
 }
 
+// reserveLocalResourceDestination will attempt to make a unique reservation for a particular type of resource and make
+// any necessary filesystem changes so that the resource can moved there.
+func (g *vcsAndLocalFSGetter) reserveLocalResourceDestination(resourceType constants.ResourceType, subfolder string,
+	destination string, resource string) (string, error) {
+	// Attempt to make a unique reservation for the resource.
+	if result := g.ResourceMap.Reserve(string(resourceType), resource); !result.Success {
+		return "", result.Error
+	}
+	// Construct the folder of where the resource should be placed.
+	resourceDestinationFolder := filepath.Join(destination, subfolder)
+	// Construct the final path for the resource itself once placed in the destination path.
+	resourceDestination := filepath.Join(resourceDestinationFolder, filepath.Base(resource))
+
+	log.Printf("Ensuring directory %s exists\n", resourceDestinationFolder)
+	err := g.FSUtil.Mkdirs(resourceDestinationFolder)
+	if err != nil {
+		return "", err
+	}
+	return resourceDestination, nil
+}
+
+func (g *vcsAndLocalFSGetter) copyLocalResource(resourceSource string,
+	resourceDestination string, recursively bool) error {
+	var err error
+	log.Printf("Attempting to copy local resource %s into %s\n", resourceSource, resourceDestination)
+	if recursively {
+		log.Printf("Copying local resource %s reursively into %s\n",
+			resourceSource, resourceDestination)
+		err = g.FSUtil.CopyAll(resourceSource, resourceDestination)
+	} else {
+		log.Printf("Copying local resource %s into %s\n", resourceSource, resourceDestination)
+		err = g.FSUtil.Copy(resourceSource, resourceDestination)
+	}
+	if err != nil {
+		log.Printf("Copying local resources %s failed\n", resourceSource)
+		return err
+	}
+	return nil
+}
+
 // GetLocalResources is the implementation that uses the local file system to get local resources.
 func (g *vcsAndLocalFSGetter) GetLocalResources(source string, resources []string, destination string,
 	subfolder string, recursively bool, resourceType constants.ResourceType) error {
 	for _, resource := range resources {
-		if result := g.ResourceMap.Reserve(string(resourceType), resource); !result.Success {
-			return result.Error
+		// Attempt to reserve a space for the local resource.
+		resourceDestination, err := g.reserveLocalResourceDestination(resourceType,
+			subfolder, destination, resource)
+		if err != nil {
+			return err
 		}
+
+		// Find the final path of where the resource is originally located.
 		resourceSource := filepath.Join(source, resource)
-		resourceDestinationFolder := filepath.Join(destination, subfolder)
-		resourceDestination := filepath.Join(resourceDestinationFolder, filepath.Base(resource))
-		var err error
-		log.Printf("Ensuring directory %s exists\n", resourceDestinationFolder)
-		err = g.FSUtil.Mkdirs(resourceDestinationFolder)
+
+		// Attempt to copy the resource.
+		err = g.copyLocalResource(resourceSource, resourceDestination, recursively)
 		if err != nil {
 			return err
 		}
-		log.Printf("Attempting to copy local resource %s into %s\n", resourceSource, resourceDestination)
-		if recursively {
-			log.Printf("Copying local resource %s reursively into %s\n",
-				resourceSource, resourceDestination)
-			err = g.FSUtil.CopyAll(resourceSource, resourceDestination)
-		} else {
-			log.Printf("Copying local resource %s into %s\n", resourceSource, resourceDestination)
-			err = g.FSUtil.Copy(resourceSource, resourceDestination)
-		}
-		if err != nil {
-			log.Printf("Copying local resources %s failed\n", resourceSource)
-			return err
-		}
+
 	}
 	return nil
 }
