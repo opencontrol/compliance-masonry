@@ -18,7 +18,6 @@ import (
 )
 
 var _ = Describe("ResourceGetter", func() {
-
 	table.DescribeTable("GetResources",
 		func(errs getterErrors) {
 			dest := "."
@@ -28,36 +27,35 @@ var _ = Describe("ResourceGetter", func() {
 			err := GetResources("", dest, opencontrol, getter)
 			// Make sure that we check the error.
 			assert.Equal(GinkgoT(), errs.expectedError, err)
-
 		},
 		// Note: each of the variables not specified by the getterErrors init per entry will default to nil.
 		// Thus, it's not necessary to be explicit with all of them.
 		table.Entry("should return an error when it's unable to get local certifications", getterErrors{
 			localCertError: errors.New("Cert error"),
-			expectedError: errors.New("Cert error"),
+			expectedError:  errors.New("Cert error"),
 		}),
 		table.Entry("should return an error when it's unable to get local standards", getterErrors{
 			localStandardError: errors.New("Standards error"),
-			expectedError: errors.New("Standards error"),
+			expectedError:      errors.New("Standards error"),
 		}),
 		table.Entry("should return an error when it's unable to get local components", getterErrors{
 			localComponentError: errors.New("Components error"),
-			expectedError: errors.New("Components error"),
+			expectedError:       errors.New("Components error"),
 		}),
 		table.Entry("should return an error when it's unable to get remote certifications", getterErrors{
 			remoteCertError: errors.New("Remote cert error"),
-			expectedError: errors.New("Remote cert error"),
+			expectedError:   errors.New("Remote cert error"),
 		}),
 		table.Entry("should return an error when it's unable to get remote standards", getterErrors{
 			remoteStandardError: errors.New("Remote standards error"),
-			expectedError: errors.New("Remote standards error"),
+			expectedError:       errors.New("Remote standards error"),
 		}),
 		table.Entry("should return an error when it's unable to get remote components", getterErrors{
 			remoteComponentError: errors.New("Remote components error"),
-			expectedError: errors.New("Remote components error"),
+			expectedError:        errors.New("Remote components error"),
 		}),
 		table.Entry("should return no error when able to get all components", getterErrors{
-			// everything is nil.
+		// everything is nil.
 		}),
 	)
 
@@ -77,6 +75,7 @@ var _ = Describe("ResourceGetter", func() {
 			table.Entry("Mkdirs", false, true, []string{"res"}, errors.New("mkdirs error"), nil, nil, errors.New("mkdirs error")),
 		)
 	})
+
 	Describe("GetRemoteResources", func() {
 		table.DescribeTable("", func(downloadEntryError, tempDirError, openAndReadFileError, parserError, expectedError error) {
 			// Override remoteSource with a mock.
@@ -172,7 +171,7 @@ func createMockGetterAndOpenControl(destination string, errs getterErrors) (Gett
 }
 
 type getterErrors struct {
-	localCertError, localStandardError, localComponentError error
+	localCertError, localStandardError, localComponentError    error
 	remoteCertError, remoteStandardError, remoteComponentError error
-	expectedError error
+	expectedError                                              error
 }
