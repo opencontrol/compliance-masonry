@@ -60,24 +60,29 @@ var _ = Describe("ResourceGetter", func() {
 	)
 
 	Describe("GetLocalResources", func() {
-		DescribeTable("", func(recursively bool, initMap bool, resources []string, mkdirsError, copyError, copyAllError, expectedError error) {
+		DescribeTable("", func(recursively bool, initMap bool, resources []string, mkdirsError, copyError,
+			copyAllError, expectedError error) {
 			getter := vcsAndLocalFSGetter{}
 			getter.Parser = createMockParser(nil)
 			getter.FSUtil = createMockFSUtil(nil, nil, mkdirsError, copyError, copyAllError)
 			getter.ResourceMap = mapset.Init()
-			err := getter.GetLocalResources("", resources, "dest", "subfolder", recursively, constants.Standards)
+			err := getter.GetLocalResources("", resources, "dest", "subfolder",
+				recursively, constants.Standards)
 			assert.Equal(GinkgoT(), expectedError, err)
 		},
 			Entry("Bad input to reserve", false, true, []string{""}, nil, nil, nil, mapset.ErrEmptyInput),
 			Entry("Successful recursive copy", true, true, []string{"res"}, nil, nil, nil, nil),
 			Entry("Successful single copy", false, true, []string{"res"}, nil, nil, nil, nil),
-			Entry("Failure of single copy", false, true, []string{"res"}, nil, errors.New("single copy fail"), nil, errors.New("single copy fail")),
-			Entry("Mkdirs", false, true, []string{"res"}, errors.New("mkdirs error"), nil, nil, errors.New("mkdirs error")),
+			Entry("Failure of single copy", false, true, []string{"res"}, nil,
+				errors.New("single copy fail"), nil, errors.New("single copy fail")),
+			Entry("Mkdirs", false, true, []string{"res"},
+				errors.New("mkdirs error"), nil, nil, errors.New("mkdirs error")),
 		)
 	})
 
 	Describe("GetRemoteResources", func() {
-		DescribeTable("", func(downloadEntryError, tempDirError, openAndReadFileError, parserError, expectedError error) {
+		DescribeTable("", func(downloadEntryError, tempDirError, openAndReadFileError,
+			parserError, expectedError error) {
 			// Override remoteSource with a mock.
 			remoteSource := createMockRemoteSource()
 			entries := []common.RemoteSource{remoteSource}
@@ -98,10 +103,14 @@ var _ = Describe("ResourceGetter", func() {
 			assert.Equal(GinkgoT(), expectedError, err)
 
 		},
-			Entry("fail to parse config", nil, nil, nil, errors.New("error parsing"), errors.New("error parsing")),
-			Entry("fail to open and read file", nil, nil, errors.New("error reading file"), nil, errors.New("error reading file")),
-			Entry("fail to download repo", errors.New("error downloading entry"), nil, nil, nil, errors.New("error downloading entry")),
-			Entry("fail to create temp dir", nil, errors.New("error creating tempdir"), nil, nil, errors.New("error creating tempdir")),
+			Entry("fail to parse config", nil, nil, nil, errors.New("error parsing"),
+				errors.New("error parsing")),
+			Entry("fail to open and read file", nil, nil, errors.New("error reading file"), nil,
+				errors.New("error reading file")),
+			Entry("fail to download repo", errors.New("error downloading entry"), nil, nil, nil,
+				errors.New("error downloading entry")),
+			Entry("fail to create temp dir", nil, errors.New("error creating tempdir"), nil, nil,
+				errors.New("error creating tempdir")),
 		)
 	})
 })
