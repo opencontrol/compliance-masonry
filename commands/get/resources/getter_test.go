@@ -1,18 +1,20 @@
 package resources
 
 import (
+	"errors"
 	. "github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/extensions/table"
 	resmocks "github.com/opencontrol/compliance-masonry/commands/get/resources/mocks"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol"
 	parserMocks "github.com/opencontrol/compliance-masonry/lib/opencontrol/mocks"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
 	fsmocks "github.com/opencontrol/compliance-masonry/tools/fs/mocks"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"github.com/vektra/errors"
 )
 
 var _ = Describe("ResourceGetter", func() {
@@ -93,14 +95,9 @@ var _ = Describe("ResourceGetter", func() {
 
 	Describe("GetLocalResources", func() {
 		table.DescribeTable("", func(recursively bool, initMap bool, resources []string, mkdirsError, copyError, copyAllError, expectedError error) {
-			parser := new(parserMocks.SchemaParser)
 			getter := vcsAndLocalFSGetter{}
-			fsUtil := new(fsmocks.Util)
-			fsUtil.On("Mkdirs", mock.AnythingOfType("string")).Return(mkdirsError)
-			fsUtil.On("Copy", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(copyError)
-			fsUtil.On("CopyAll", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(copyAllError)
-			getter.Parser = parser
-			getter.FSUtil = fsUtil
+			getter.Parser = createMockParser(nil)
+			getter.FSUtil = createMockFSUtil(nil, nil, mkdirsError, copyError, copyAllError)
 			getter.ResourceMap = mapset.Init()
 			err := getter.GetLocalResources("", resources, "dest", "subfolder", recursively, constants.Standards)
 			assert.Equal(GinkgoT(), expectedError, err)
@@ -113,42 +110,64 @@ var _ = Describe("ResourceGetter", func() {
 		)
 	})
 	Describe("GetRemoteResources", func() {
-		table.DescribeTable("", func(downloadEntryError, tempDirError, openAndReadFileError, getResourcesError, parserError, expectedError error) {
-			// Setup remoteSource mock
-			remoteSource := new(mocks.RemoteSource)
-			remoteSource.On("GetURL").Return("")
-			remoteSource.On("GetConfigFile").Return("")
+		table.DescribeTable("", func(downloadEntryError, tempDirError, openAndReadFileError, parserError, expectedError error) {
+			// Override remoteSource with a mock.
+			remoteSource := createMockRemoteSource()
 			entries := []common.RemoteSource{remoteSource}
+
 			// Setup getter
 			getter := vcsAndLocalFSGetter{ResourceMap: mapset.Init()}
 
-			// Override the fsutil with a mock
-			fsUtil := new(fsmocks.Util)
-			fsUtil.On("TempDir", "", "opencontrol-resources").Return("sometempdir", tempDirError)
-			data := []byte("schema_version: 1.0.0")
-			fsUtil.On("OpenAndReadFile", mock.AnythingOfType("string")).Return(data, openAndReadFileError)
-			getter.FSUtil = fsUtil
+			// Override the fsutil with a mock.
+			getter.FSUtil = createMockFSUtil(tempDirError, openAndReadFileError, nil, nil, nil)
 
-			downloader := new(resmocks.Downloader)
-			downloader.On("DownloadRepo", remoteSource, mock.AnythingOfType("string")).Return(downloadEntryError)
-			getter.Downloader = downloader
+			// Override downloader with a mock.
+			getter.Downloader = createMockDownloader(remoteSource, downloadEntryError)
 
-			schema := new(mocks.OpenControl)
-
-			parser := new(parserMocks.SchemaParser)
-			parser.On("Parse", mock.Anything).Return(schema, parserError)
-			getter.Parser = parser
+			// Override parser with a mock.
+			getter.Parser = createMockParser(parserError)
 
 			err := getter.GetRemoteResources("dest", "subfolder", entries)
 			assert.Equal(GinkgoT(), expectedError, err)
 
 		},
-			//table.Entry("success", nil, nil, nil, nil, nil, nil),
-			//table.Entry("fail to get resources", nil, nil, nil, errors.New("error getting resources"), nil, errors.New("error getting resources")),
-			table.Entry("fail to parse config", nil, nil, nil, nil, errors.New("error parsing"), errors.New("error parsing")),
-			table.Entry("fail to open and read file", nil, nil, errors.New("error reading file"), nil, nil, errors.New("error reading file")),
-			table.Entry("fail to download repo", errors.New("error downloading entry"), nil, nil, nil, nil, errors.New("error downloading entry")),
-			table.Entry("fail to create temp dir", nil, errors.New("error creating tempdir"), nil, nil, nil, errors.New("error creating tempdir")),
+			table.Entry("fail to parse config", nil, nil, nil, errors.New("error parsing"), errors.New("error parsing")),
+			table.Entry("fail to open and read file", nil, nil, errors.New("error reading file"), nil, errors.New("error reading file")),
+			table.Entry("fail to download repo", errors.New("error downloading entry"), nil, nil, nil, errors.New("error downloading entry")),
+			table.Entry("fail to create temp dir", nil, errors.New("error creating tempdir"), nil, nil, errors.New("error creating tempdir")),
 		)
 	})
 })
+
+func createMockFSUtil(tempDirError, openAndReadFileError, mkdirsError, copyError, copyAllError error) fs.Util {
+	fsUtil := new(fsmocks.Util)
+	fsUtil.On("TempDir", "", "opencontrol-resources").Return("sometempdir", tempDirError)
+	data := []byte("schema_version: 1.0.0")
+	fsUtil.On("OpenAndReadFile", mock.AnythingOfType("string")).Return(data, openAndReadFileError)
+	fsUtil.On("Mkdirs", mock.AnythingOfType("string")).Return(mkdirsError)
+	fsUtil.On("Copy", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(copyError)
+	fsUtil.On("CopyAll", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(copyAllError)
+	return fsUtil
+}
+
+func createMockDownloader(remoteSource common.RemoteSource, downloadEntryError error) Downloader {
+	downloader := new(resmocks.Downloader)
+	downloader.On("DownloadRepo", remoteSource, mock.AnythingOfType("string")).Return(downloadEntryError)
+	return downloader
+}
+
+func createMockParser(parserError error) opencontrol.SchemaParser {
+	schema := new(mocks.OpenControl)
+
+	parser := new(parserMocks.SchemaParser)
+	parser.On("Parse", mock.Anything).Return(schema, parserError)
+	return parser
+}
+
+func createMockRemoteSource() common.RemoteSource {
+	// Setup remoteSource mock
+	remoteSource := new(mocks.RemoteSource)
+	remoteSource.On("GetURL").Return("")
+	remoteSource.On("GetConfigFile").Return("")
+	return remoteSource
+}
