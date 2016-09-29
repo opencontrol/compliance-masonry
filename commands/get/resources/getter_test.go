@@ -19,79 +19,47 @@ import (
 
 var _ = Describe("ResourceGetter", func() {
 
-	Describe("Getting resources", func() {
-		var (
-			getter                                                           *resmocks.Getter
-			dependentStandards, dependentCertifications, dependentComponents []common.RemoteSource
-			certifications, standards, components                            []string
-			destination                                                      = "."
-			expectedError                                                    error
-			s                                                                *mocks.OpenControl
-		)
-		BeforeEach(func() {
-			getter = new(resmocks.Getter)
-			s = new(mocks.OpenControl)
-			s.On("GetCertifications").Return(certifications)
-			s.On("GetStandards").Return(standards)
-			s.On("GetComponents").Return(components)
-			s.On("GetCertificationsDependencies").Return(dependentCertifications)
-			s.On("GetStandardsDependencies").Return(dependentStandards)
-			s.On("GetComponentsDependencies").Return(dependentComponents)
-		})
-		It("should return an error when it's unable to get local certifications", func() {
-			expectedError = errors.New("Cert error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, constants.Certifications).Return(expectedError)
-		})
-		It("should return an error when it's unable to get local standards", func() {
-			expectedError = errors.New("Standards error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, constants.Standards).Return(expectedError)
-		})
-		It("should return an error when it's unable to get local components", func() {
-			expectedError = errors.New("Components error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, constants.Components).Return(expectedError)
-		})
-		It("should return an error when it's unable to get remote certifications", func() {
-			expectedError = errors.New("Remote cert error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, dependentCertifications).Return(expectedError)
-		})
-		It("should return an error when it's unable to get remote standards", func() {
-			expectedError = errors.New("Remote standards error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, dependentCertifications).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, dependentStandards).Return(expectedError)
-		})
-		It("should return an error when it's unable to get remote components", func() {
-			expectedError = errors.New("Remote components error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, dependentCertifications).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, dependentStandards).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, dependentStandards).Return(expectedError)
-		})
-		It("should return no error when able to get all components", func() {
-			expectedError = nil
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, dependentCertifications).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, dependentStandards).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, dependentStandards).Return(nil)
-		})
-		AfterEach(func() {
-			err := GetResources("", destination, s, getter)
-			assert.Equal(GinkgoT(), expectedError, err)
-			getter.AssertExpectations(GinkgoT())
-		})
-	})
+	table.DescribeTable("GetResources",
+		func(errs getterErrors) {
+			dest := "."
+			// get mocks for the getter and opencontrol yaml.
+			getter, opencontrol := createMockGetterAndOpenControl(dest, errs)
+			// Call GetResources
+			err := GetResources("", dest, opencontrol, getter)
+			// Make sure that we check the error.
+			assert.Equal(GinkgoT(), errs.expectedError, err)
+
+		},
+		// Note: each of the variables not specified by the getterErrors init per entry will default to nil.
+		// Thus, it's not necessary to be explicit with all of them.
+		table.Entry("should return an error when it's unable to get local certifications", getterErrors{
+			localCertError: errors.New("Cert error"),
+			expectedError: errors.New("Cert error"),
+		}),
+		table.Entry("should return an error when it's unable to get local standards", getterErrors{
+			localStandardError: errors.New("Standards error"),
+			expectedError: errors.New("Standards error"),
+		}),
+		table.Entry("should return an error when it's unable to get local components", getterErrors{
+			localComponentError: errors.New("Components error"),
+			expectedError: errors.New("Components error"),
+		}),
+		table.Entry("should return an error when it's unable to get remote certifications", getterErrors{
+			remoteCertError: errors.New("Remote cert error"),
+			expectedError: errors.New("Remote cert error"),
+		}),
+		table.Entry("should return an error when it's unable to get remote standards", getterErrors{
+			remoteStandardError: errors.New("Remote standards error"),
+			expectedError: errors.New("Remote standards error"),
+		}),
+		table.Entry("should return an error when it's unable to get remote components", getterErrors{
+			remoteComponentError: errors.New("Remote components error"),
+			expectedError: errors.New("Remote components error"),
+		}),
+		table.Entry("should return no error when able to get all components", getterErrors{
+			// everything is nil.
+		}),
+	)
 
 	Describe("GetLocalResources", func() {
 		table.DescribeTable("", func(recursively bool, initMap bool, resources []string, mkdirsError, copyError, copyAllError, expectedError error) {
@@ -170,4 +138,41 @@ func createMockRemoteSource() common.RemoteSource {
 	remoteSource.On("GetURL").Return("")
 	remoteSource.On("GetConfigFile").Return("")
 	return remoteSource
+}
+
+func createMockGetterAndOpenControl(destination string, errs getterErrors) (Getter, common.OpenControl) {
+	// create the common variables used in both the opencontrol mock and getter mock.
+	var dependentStandards, dependentCertifications, dependentComponents []common.RemoteSource
+	var certifications, standards, components []string
+
+	// Create the opencontrol mock
+	opencontrol := new(mocks.OpenControl)
+	opencontrol.On("GetCertifications").Return(certifications)
+	opencontrol.On("GetStandards").Return(standards)
+	opencontrol.On("GetComponents").Return(components)
+	opencontrol.On("GetCertificationsDependencies").Return(dependentCertifications)
+	opencontrol.On("GetStandardsDependencies").Return(dependentStandards)
+	opencontrol.On("GetComponentsDependencies").Return(dependentComponents)
+
+	// Create the getter mock.
+	getter := new(resmocks.Getter)
+	getter.On("GetLocalResources", "", certifications, destination,
+		constants.DefaultCertificationsFolder, false, constants.Certifications).Return(errs.localCertError)
+	getter.On("GetLocalResources", "", standards, destination,
+		constants.DefaultStandardsFolder, false, constants.Standards).Return(errs.localStandardError)
+	getter.On("GetLocalResources", "", components, destination,
+		constants.DefaultComponentsFolder, true, constants.Components).Return(errs.localComponentError)
+	getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder,
+		dependentCertifications).Return(errs.remoteCertError)
+	getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder,
+		dependentStandards).Return(errs.remoteStandardError)
+	getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder,
+		dependentStandards).Return(errs.remoteComponentError)
+	return getter, opencontrol
+}
+
+type getterErrors struct {
+	localCertError, localStandardError, localComponentError error
+	remoteCertError, remoteStandardError, remoteComponentError error
+	expectedError error
 }
