@@ -172,20 +172,24 @@ func (g *vcsAndLocalFSGetter) GetLocalResources(source string, resources []strin
 // GetRemoteResources is the implementation that uses VCS to get remote resources.
 func (g *vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder string,
 	entries []common.RemoteSource) error {
+	// Create the temporary directory for where to clone all the remote resources.
 	tempResourcesDir, err := g.FSUtil.TempDir("", "opencontrol-resources")
 	if err != nil {
 		return err
 	}
 	defer os.RemoveAll(tempResourcesDir)
 	for _, entry := range entries {
+		// Create the final path for where to clone.
 		tempPath := filepath.Join(tempResourcesDir, subfolder, filepath.Base(entry.GetURL()))
+
 		// Clone repo
 		log.Printf("Attempting to clone %v into %s\n", entry, tempPath)
 		err := g.Downloader.DownloadRepo(entry, tempPath)
 		if err != nil {
 			return err
 		}
-		// Parse
+
+		// Parse the opencontrol.yaml.
 		configBytes, err := g.FSUtil.OpenAndReadFile(filepath.Join(tempPath, entry.GetConfigFile()))
 		if err != nil {
 			return err
@@ -194,6 +198,8 @@ func (g *vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder s
 		if err != nil {
 			return err
 		}
+
+		// Get the resources specified in the OpenControl YAML
 		err = GetResources(tempPath, destination, opencontrol, g)
 		if err != nil {
 			return err
