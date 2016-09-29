@@ -62,7 +62,7 @@ var _ = Describe("Opencontrol", func() {
 })
 
 
-var _ = Describe("Entry", func() {
+var _ = Describe("VCSEntry", func() {
 	Describe("Retrieving the config file", func() {
 		DescribeTable("GetConfigFile", func(e VCSEntry, expectedPath string) {
 			assert.Equal(GinkgoT(), e.GetConfigFile(), expectedPath)
