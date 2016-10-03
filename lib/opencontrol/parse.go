@@ -4,14 +4,13 @@ import (
 	"errors"
 	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/lib/common"
-	"gopkg.in/yaml.v2"
 	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
-
+	"gopkg.in/yaml.v2"
 )
 
 var (
 	// SchemaV1_0_0 is the semantic versioning representation in object form for version 1.0.0
-	SchemaV1_0_0 = semver.Version{1, 0, 0, nil, nil}
+	SchemaV1_0_0 = semver.Version{Major: 1, Minor: 0, Patch: 0, Pre: nil, Build: nil}
 )
 
 const (

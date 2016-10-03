@@ -27,7 +27,7 @@ const (
 
 const (
 	// ErrMissingVersion reports that the schema version cannot be found.
-	ErrMissingVersion  = "Schema Version can not be found."
+	ErrMissingVersion = "Schema Version can not be found."
 	// ErrComponentFileDNE is raised when a component file does not exists
 	ErrComponentFileDNE = "Component files does not exist"
 )

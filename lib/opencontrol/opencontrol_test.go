@@ -8,7 +8,7 @@ import (
 
 var _ = Describe("Base", func() {
 
-	Describe("Retrieving the schema version", func(){
+	Describe("Retrieving the schema version", func() {
 		table.DescribeTable("GetSchemaVersion", func(b Base, expectedVersion string) {
 			assert.Equal(GinkgoT(), b.GetSchemaVersion(), expectedVersion)
 		},

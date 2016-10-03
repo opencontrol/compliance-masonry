@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/opencontrol/compliance-masonry/lib"
-	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/tools/fs"
 )
 
 // Config contains data for gitbook export configurations

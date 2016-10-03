@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+// GetCertification will look for the specified certification and will return the path to the
+// certification file if found.
 func GetCertification(opencontrolDir string, certification string) (string, []error) {
 	certificationPath := ""
 	var errMessages []error
@@ -20,7 +22,7 @@ func GetCertification(opencontrolDir string, certification string) (string, []er
 	if _, err := os.Stat(certificationPath); os.IsNotExist(err) {
 		files, err := ioutil.ReadDir(certificationDir)
 		if err != nil {
-			return "", []error{errors.New("Error: `"+certificationDir+"` directory does exist")}
+			return "", []error{errors.New("Error: `" + certificationDir + "` directory does exist")}
 		}
 		errMessage := fmt.Sprintf("Error: `%s` does not exist\nUse one of the following:", certificationPath)
 		for _, file := range files {

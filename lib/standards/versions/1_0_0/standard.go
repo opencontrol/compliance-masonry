@@ -1,9 +1,9 @@
 package standard
 
 import (
+	"github.com/opencontrol/compliance-masonry/lib/common"
 	"sort"
 	"vbom.ml/util/sortorder"
-	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // Control struct stores data on a specific security requirement

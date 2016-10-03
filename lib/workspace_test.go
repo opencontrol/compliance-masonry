@@ -1,10 +1,10 @@
 package lib
 
 import (
-	"path/filepath"
-	"testing"
 	"errors"
 	"github.com/stretchr/testify/assert"
+	"path/filepath"
+	"testing"
 )
 
 type keyTest struct {
@@ -27,8 +27,8 @@ type loadStandardsTest struct {
 }
 
 type loadStandardsTestError struct {
-	dir                string
-	expectedError      error
+	dir           string
+	expectedError error
 }
 
 type loadComponentsTest struct {
@@ -37,8 +37,8 @@ type loadComponentsTest struct {
 }
 
 type loadComponentsTestError struct {
-	dir                string
-	expectedError      error
+	dir           string
+	expectedError error
 }
 
 var keyTests = []keyTest{
@@ -110,11 +110,11 @@ func TestLoadComponents(t *testing.T) {
 var loadComponentsTestErrors = []loadComponentsTestError{
 	{
 		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
-	 	errors.New("Error: Unable to read the directory "+filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+		errors.New("Error: Unable to read the directory " + filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
 	},
 }
 
-func TestLoadComponentErrors (t *testing.T) {
+func TestLoadComponentErrors(t *testing.T) {
 	for _, example := range loadComponentsTestErrors {
 		ws := NewWorkspace()
 		actualErrors := ws.LoadComponents(example.dir)
@@ -145,11 +145,11 @@ func TestLoadStandards(t *testing.T) {
 var loadStandardsTestErrors = []loadStandardsTestError{
 	{
 		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
-	 	errors.New("Error: Unable to read the directory "+filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+		errors.New("Error: Unable to read the directory " + filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
 	},
 }
 
-func TestLoadStandardErrors (t *testing.T) {
+func TestLoadStandardErrors(t *testing.T) {
 	for _, example := range loadStandardsTestErrors {
 		ws := NewWorkspace()
 		actualErrors := ws.LoadStandards(example.dir)

@@ -5,14 +5,14 @@ import (
 	. "github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 )
 
 var _ = Describe("Opencontrol", func() {
 	Describe("Getter functions for v1.0.0", func() {
 		opencontrol := OpenControl{
-			Name:           "test",
+			Name: "test",
 			Meta: Metadata{
 				Description: "A system to test parsing",
 				Maintainers: []string{
@@ -54,13 +54,12 @@ var _ = Describe("Opencontrol", func() {
 		assert.Equal(GinkgoT(), []string{"./cert-1.yaml"}, opencontrol.GetCertifications())
 		assert.Equal(GinkgoT(), []string{"./standard-1.yaml"}, opencontrol.GetStandards())
 		assert.Equal(GinkgoT(), []string{"./component-1", "./component-2", "./component-3"}, opencontrol.GetComponents())
-		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL:"github.com/18F/NIST-800-53", Revision:"master", Path:""}}, opencontrol.GetStandardsDependencies())
-		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL:"github.com/18F/cg-complinace", Revision:"master", Path:""}}, opencontrol.GetComponentsDependencies())
-		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL:"github.com/18F/LATO", Revision:"master", Path:""}}, opencontrol.GetCertificationsDependencies())
+		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL: "github.com/18F/NIST-800-53", Revision: "master", Path: ""}}, opencontrol.GetStandardsDependencies())
+		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL: "github.com/18F/cg-complinace", Revision: "master", Path: ""}}, opencontrol.GetComponentsDependencies())
+		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL: "github.com/18F/LATO", Revision: "master", Path: ""}}, opencontrol.GetCertificationsDependencies())
 	})
 
 })
-
 
 var _ = Describe("VCSEntry", func() {
 	Describe("Retrieving the config file", func() {

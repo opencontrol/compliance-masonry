@@ -2,13 +2,13 @@ package lib
 
 import (
 	"errors"
+	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/result"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
-	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/result"
 )
 
 // LocalWorkspace struct combines components, standards, and a certification data
@@ -69,9 +69,9 @@ func (ws *LocalWorkspace) LoadComponents(directory string) []error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
-		return []error{errors.New("Error: Unable to read the directory "+directory)}
+		return []error{errors.New("Error: Unable to read the directory " + directory)}
 	}
-	errChannel := make(chan error ,len(componentsDir))
+	errChannel := make(chan error, len(componentsDir))
 	wg.Add(len(componentsDir))
 	for _, componentDir := range componentsDir {
 		go func(componentDir os.FileInfo, wg *sync.WaitGroup) {
@@ -93,7 +93,7 @@ func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
 	var wg sync.WaitGroup
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
-		return []error{errors.New("Error: Unable to read the directory "+standardsDir)}
+		return []error{errors.New("Error: Unable to read the directory " + standardsDir)}
 	}
 	errChannel := make(chan error, len(standardsFiles))
 	wg.Add(len(standardsFiles))

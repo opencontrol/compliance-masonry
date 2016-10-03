@@ -1,10 +1,10 @@
 package lib
 
 import (
-	"testing"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
 	"github.com/stretchr/testify/assert"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"testing"
 )
 
 func TestGetStandard(t *testing.T) {

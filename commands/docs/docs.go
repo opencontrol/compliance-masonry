@@ -7,6 +7,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
 )
 
+// MakeGitbook is the wrapper function that will create a gitbook for the specified certification.
 func MakeGitbook(config gitbook.Config) (string, []error) {
 	warning := ""
 	certificationPath, err := certifications.GetCertification(config.OpencontrolDir, config.Certification)

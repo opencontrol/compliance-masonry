@@ -1,11 +1,11 @@
 package components
 
 import (
-	"github.com/blang/semver"
 	"errors"
 	"fmt"
-	"github.com/opencontrol/compliance-masonry/tools/constants"
+	"github.com/blang/semver"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"path/filepath"
 )
@@ -27,7 +27,7 @@ func Load(path string) (common.Component, error) {
 	}
 	// Parse the component.
 	var component common.Component
-	component, err = parseComponent(componentData,fileName)
+	component, err = parseComponent(componentData, fileName)
 	if err != nil {
 		return nil, err
 	}
@@ -37,8 +37,6 @@ func Load(path string) (common.Component, error) {
 	}
 	return component, nil
 }
-
-
 
 // BaseComponentParseError is the type of error that will be returned if the parsing failed for ONLY the `Base` struct.
 type BaseComponentParseError struct {
