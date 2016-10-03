@@ -1,4 +1,4 @@
-package lib
+package result
 
 import "testing"
 
@@ -37,8 +37,8 @@ func TestJustificationAdd(t *testing.T) {
 			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, nil)
 		}
 		// Check that the expected stored standards are the actual standards
-		if example.expectedCount != len(just.mapping) {
-			t.Errorf("Expected %d, Actual: %d", example.expectedCount, len(just.mapping))
+		if example.expectedCount != len(just.Mapping) {
+			t.Errorf("Expected %d, Actual: %d", example.expectedCount, len(just.Mapping))
 		}
 	}
 }
@@ -63,22 +63,6 @@ func TestJustificationGet(t *testing.T) {
 		if example.expectedCount != numberofABs {
 			t.Errorf("Expected %d, Actual: %d", example.expectedCount, numberofABs)
 		}
-	}
-}
-
-func TestJustificationGetAndApply(t *testing.T) {
-	for _, example := range justificationsGetTests {
-		just := NewJustifications()
-		for _, mapping := range example.mappings {
-			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, nil)
-		}
-		just.GetAndApply("a", "b", func(actualVerificaitons Verifications) {
-			numberofABs := actualVerificaitons.Len()
-			// Check that the number of controls stored is the expected number
-			if example.expectedCount != numberofABs {
-				t.Errorf("Expected %d, Actual: %d", example.expectedCount, numberofABs)
-			}
-		})
 	}
 }
 

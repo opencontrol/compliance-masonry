@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/result"
 )
 
 func (openControl *OpenControlGitBook) getResponsibleRole(text string, component common.Component) string {
@@ -51,7 +51,7 @@ func (openControl *OpenControlGitBook) getParameter(text string, parameter commo
 	return text
 }
 
-func (openControl *OpenControlGitBook) getCoveredBy(text string, justification lib.Verification) string {
+func (openControl *OpenControlGitBook) getCoveredBy(text string, justification result.Verification) string {
 	if len(justification.SatisfiesData.GetCoveredBy()) > 0 {
 		text += "Covered By:\n"
 	}
@@ -89,27 +89,25 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("#%s\n##%s\n", key, control.GetName())
-	openControl.Justifications.GetAndApply(control.standardKey, control.controlKey, func(selectJustifications lib.Verifications) {
-		// In the case that no information was found period for the standard and control
-		if len(selectJustifications) == 0 {
-			errorText := fmt.Sprintf("No information found for the combination of standard %s and control %s", control.standardKey, control.controlKey)
-			text = fmt.Sprintf("%s%s\n", text, errorText)
-			return
-		}
-		for _, justification := range selectJustifications {
-			component := openControl.Components.Get(justification.ComponentKey)
-			text = fmt.Sprintf("%s\n#### %s\n", text, component.GetName())
+	selectJustifications := openControl.Justifications.Get(control.standardKey, control.controlKey)
+	// In the case that no information was found period for the standard and control
+	if len(selectJustifications) == 0 {
+		errorText := fmt.Sprintf("No information found for the combination of standard %s and control %s", control.standardKey, control.controlKey)
+		text = fmt.Sprintf("%s%s\n", text, errorText)
+	}
+	for _, justification := range selectJustifications {
+		component := openControl.Components.Get(justification.ComponentKey)
+		text = fmt.Sprintf("%s\n#### %s\n", text, component.GetName())
 
-			text = openControl.getResponsibleRole(text, component)
+		text = openControl.getResponsibleRole(text, component)
 
-			text = openControl.getParameters(text, justification.SatisfiesData.GetParameters())
+		text = openControl.getParameters(text, justification.SatisfiesData.GetParameters())
 
-			text = openControl.getControlOrigin(text, justification.SatisfiesData.GetControlOrigin())
+		text = openControl.getControlOrigin(text, justification.SatisfiesData.GetControlOrigin())
 
-			text = openControl.getNarratives(justification.SatisfiesData.GetNarratives(), text, control)
-			text = openControl.getCoveredBy(text, justification)
-		}
-	})
+		text = openControl.getNarratives(justification.SatisfiesData.GetNarratives(), text, control)
+		text = openControl.getCoveredBy(text, justification)
+	}
 	return filepath.Join(control.exportPath, key+".md"), text
 }
 
