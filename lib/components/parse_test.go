@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/opencontrol/compliance-masonry/lib/components"
 	v2 "github.com/opencontrol/compliance-masonry/lib/components/versions/2_0_0"
@@ -293,8 +292,7 @@ var componentTestErrors = []componentTestError{
 
 func TestLoadComponentErrors(t *testing.T) {
 	for _, example := range componentTestErrors {
-		ws := &lib.LocalWorkspace{}
-		actualError := ws.LoadComponent(example.componentDir)
+		_, actualError := components.Load(example.componentDir)
 		// Check that the expected error is the actual error
 		if !assert.Equal(t, example.expectedError, actualError) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)

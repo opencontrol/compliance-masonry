@@ -9,7 +9,7 @@ import (
 
 // Inventory maintains the inventory of all the controls within a given workspace.
 type Inventory struct {
-	*lib.LocalWorkspace
+	common.Workspace
 	masterControlList       map[string]common.Control
 	actualSatisfiedControls map[string]common.Satisfies
 	MissingControlList      map[string]common.Control
@@ -17,12 +17,16 @@ type Inventory struct {
 
 // retrieveMasterControlsList will gather the list of controls needed for a given certification.
 func (i *Inventory) retrieveMasterControlsList() {
-	standardKeys := i.Certification.GetSortedStandards()
+	standardKeys := i.GetCertification().GetSortedStandards()
 	for _, standardKey := range standardKeys {
-		for _, controlKey := range i.Certification.GetControlKeysFor(standardKey) {
+		for _, controlKey := range i.GetCertification().GetControlKeysFor(standardKey) {
 			key := standardAndControlString(standardKey, controlKey)
 			if _, exists := i.masterControlList[key]; !exists {
-				i.masterControlList[key] = i.Standards.Get(standardKey).GetControl(controlKey)
+				standard, found := i.GetStandard(standardKey)
+				if !found {
+					continue
+				}
+				i.masterControlList[key] = standard.GetControl(controlKey)
 			}
 		}
 	}
@@ -30,7 +34,7 @@ func (i *Inventory) retrieveMasterControlsList() {
 
 // findDocumentedControls will find the list of all documented controls found within the workspace.
 func (i *Inventory) findDocumentedControls() {
-	for _, component := range i.Components.GetAll() {
+	for _, component := range i.GetAllComponents() {
 		for _, satisfiedControl := range component.GetAllSatisfies() {
 			key := standardAndControlString(satisfiedControl.GetStandardKey(), satisfiedControl.GetControlKey())
 			if _, exists := i.actualSatisfiedControls[key]; !exists {
@@ -73,12 +77,12 @@ func ComputeGapAnalysis(config Config) (Inventory, []error) {
 	}
 	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := Inventory{
-		LocalWorkspace:          workspace,
+		Workspace:               workspace,
 		masterControlList:       make(map[string]common.Control),
 		actualSatisfiedControls: make(map[string]common.Satisfies),
 		MissingControlList:      make(map[string]common.Control),
 	}
-	if i.Certification == nil || i.Components == nil {
+	if i.GetCertification() == nil || i.GetAllComponents() == nil {
 		return Inventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
 	}
 

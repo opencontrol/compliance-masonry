@@ -2,6 +2,7 @@ package lib
 
 import (
 	"errors"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"
@@ -15,7 +16,7 @@ type keyTest struct {
 type loadDataTest struct {
 	openControlDir           string
 	certificationPath        string
-	expectedStandardsNum     int
+	expectedStandards        []string
 	expectedJustificationNum int
 	expectedComponents       int
 	expectedCertKey          string
@@ -23,7 +24,7 @@ type loadDataTest struct {
 
 type loadStandardsTest struct {
 	dir               string
-	expectedStandards int
+	expectedStandards []string
 }
 
 type loadStandardsTestError struct {
@@ -62,30 +63,28 @@ func TestGetKey(t *testing.T) {
 
 var loadDataTests = []loadDataTest{
 	// Load a fixtures that has 2 component, 2 standards, and a certification called LATO
-	{filepath.Join("..", "fixtures", "opencontrol_fixtures"), filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"), 2, 2, 1, "LATO"},
+	{
+		filepath.Join("..", "fixtures", "opencontrol_fixtures"),
+		filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		[]string{"NIST-800-53", "PCI-DSS-MAY-2015"}, 2, 1, "LATO"},
 }
 
 func TestLoadData(t *testing.T) {
 	for _, example := range loadDataTests {
 		actual, _ := LoadData(example.openControlDir, example.certificationPath)
-		actualComponentNum := len(actual.Components.GetAll())
+		actualComponentNum := len(actual.GetAllComponents())
 		// Check the number of components
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
 		// Check the number of standards
-		actualStandardsNum := len(actual.Standards.getAll())
-		if actualStandardsNum != example.expectedStandardsNum {
-			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
-		}
-		// Check the number of justifications
-		actualJustificationNum := len(actual.Justifications.Mapping)
-		if actualJustificationNum != example.expectedJustificationNum {
+		actualStandardsNum := findNumberOfStandards(actual, example.expectedStandards)
+		if actualStandardsNum != len(example.expectedStandards) {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
 		}
 		// Check the certification key
-		if actual.Certification.GetKey() != example.expectedCertKey {
-			t.Errorf("Expected: `%s`, Actual: `%s`", actual.Certification.GetKey(), example.expectedCertKey)
+		if actual.GetCertification().GetKey() != example.expectedCertKey {
+			t.Errorf("Expected: `%s`, Actual: `%s`", actual.GetCertification().GetKey(), example.expectedCertKey)
 		}
 	}
 }
@@ -99,7 +98,7 @@ func TestLoadComponents(t *testing.T) {
 	for _, example := range loadComponentsTests {
 		ws := NewWorkspace()
 		ws.LoadComponents(example.dir)
-		actualComponentNum := len(ws.Components.GetAll())
+		actualComponentNum := len(ws.GetAllComponents())
 		// Check the number of components
 		if actualComponentNum != example.expectedComponents {
 			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedComponents, actualComponentNum)
@@ -127,17 +126,20 @@ func TestLoadComponentErrors(t *testing.T) {
 
 var loadStandardsTests = []loadStandardsTest{
 	// Load a series of standards file that have 2 standards
-	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "standards"), 2},
+	{
+		filepath.Join("..", "fixtures", "opencontrol_fixtures", "standards"),
+		[]string{"NIST-800-53", "PCI-DSS-MAY-2015"},
+	},
 }
 
 func TestLoadStandards(t *testing.T) {
 	for _, example := range loadStandardsTests {
 		ws := NewWorkspace()
 		ws.LoadStandards(example.dir)
-		actualStandards := len(ws.Standards.getAll())
+		actualStandardsCount := findNumberOfStandards(ws, example.expectedStandards)
 		// Check that the actual number of standards is the expected number of standards
-		if actualStandards != example.expectedStandards {
-			t.Errorf("Expected: `%d`, Actual: `%d`", example.expectedStandards, actualStandards)
+		if actualStandardsCount != len(example.expectedStandards) {
+			t.Errorf("Expected: `%d`, Actual: `%d`", len(example.expectedStandards), actualStandardsCount)
 		}
 	}
 }
@@ -158,4 +160,14 @@ func TestLoadStandardErrors(t *testing.T) {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualErrors[0])
 		}
 	}
+}
+
+func findNumberOfStandards(actual common.Workspace, standardKeys []string) int {
+	actualStandardsNum := 0
+	for _, standardKey := range standardKeys {
+		if _, found := actual.GetStandard(standardKey); found {
+			actualStandardsNum++
+		}
+	}
+	return actualStandardsNum
 }

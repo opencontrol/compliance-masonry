@@ -66,7 +66,8 @@ func TestExportControl(t *testing.T) {
 			dir,
 			fs.OSUtil{},
 		}
-		control := openControl.Standards.Get(example.standardKey).GetControl(example.controlKey)
+		standard, _ := openControl.GetStandard(example.standardKey)
+		control := standard.GetControl(example.controlKey)
 		actualPath, actualText := openControl.exportControl(&ControlGitbook{control, dir, example.standardKey, example.controlKey})
 		expectedPath := filepath.Join(dir, example.expectedPath)
 		// Verify the expected export path is the same as the actual export path

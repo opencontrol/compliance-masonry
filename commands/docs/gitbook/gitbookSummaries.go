@@ -32,7 +32,7 @@ func createFileName(fileNameParts ...string) fileName {
 // BuildComponentsSummaries creates summaries the components for the general summary
 func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 	summary := "\n## Components\n"
-	for _, component := range openControl.Components.GetAll() {
+	for _, component := range openControl.GetAllComponents() {
 		summary += exportLink(component.GetName(),
 			filepath.Join("components", createFileName(component.GetKey()).withExt(".md")))
 	}
@@ -51,12 +51,15 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 	summary := createSubHeading("Standards")
 
 	// Go through all the standards for the certification.
-	standardKeys := openControl.Certification.GetSortedStandards()
+	standardKeys := openControl.GetCertification().GetSortedStandards()
 	for _, standardKey := range standardKeys {
 		// Find all the information for a particular standard.
-		standard := openControl.Standards.Get(standardKey)
+		standard, found := openControl.GetStandard(standardKey)
+		if !found {
+			continue
+		}
 		// Go through all the controls for the certification.
-		controlKeys := openControl.Certification.GetControlKeysFor(standardKey)
+		controlKeys := openControl.GetCertification().GetControlKeysFor(standardKey)
 		for _, controlKey := range controlKeys {
 			var controlSummary string
 			controlSummary, familyFileName, familySummaryMap =

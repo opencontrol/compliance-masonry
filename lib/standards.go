@@ -18,18 +18,19 @@ func newStandards() *standardsMap {
 	return &standardsMap{mapping: make(map[string]common.Standard)}
 }
 
-// Add adds a standard to the standards mapping
-func (s *standardsMap) Add(standard common.Standard) {
+// add adds a standard to the standards mapping
+func (s *standardsMap) add(standard common.Standard) {
 	s.Lock()
 	s.mapping[standard.GetName()] = standard
 	s.Unlock()
 }
 
 // Get retrieves a standard
-func (s *standardsMap) Get(standardName string) common.Standard {
+func (s *standardsMap) get(standardName string) (standard common.Standard, found bool) {
 	s.Lock()
 	defer s.Unlock()
-	return s.mapping[standardName]
+	standard, found = s.mapping[standardName]
+	return
 }
 
 // GetAll retrieves all the standards
@@ -47,11 +48,15 @@ func (s *standardsMap) getAll() []common.Standard {
 
 // LoadStandard imports a standard into the Standard struct and adds it to the
 // main object.
-func (ws *LocalWorkspace) LoadStandard(standardFile string) error {
+func (ws *localWorkspace) LoadStandard(standardFile string) error {
 	standard, err := standards.Load(standardFile)
 	if err != nil {
 		return common.ErrStandardSchema
 	}
-	ws.Standards.Add(standard)
+	ws.standards.add(standard)
 	return nil
+}
+
+func (ws *localWorkspace) GetStandard(standardKey string) (common.Standard, bool) {
+	return ws.standards.get(standardKey)
 }
