@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // createSubHeading will create a subheading with the passed in string.
@@ -43,7 +44,7 @@ func (openControl *OpenControlGitBook) buildComponentsSummaries() string {
 // In addition, it builds the summary page for the standard-control combination (e.g. NIST-800-53-CM.html for standard
 // NIST-800-53 and control family CM). The collection of these summary pages are in the returned map.
 func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[string]string) {
-	var oldFamilyFileName, newFamilyFileName fileName
+	var familyFileName fileName
 	familySummaryMap := make(map[string]string)
 
 	// create the Standards sub-heading for the SUMMARY.md
@@ -57,37 +58,49 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 		// Go through all the controls for the certification.
 		controlKeys := openControl.Certification.GetControlKeysFor(standardKey)
 		for _, controlKey := range controlKeys {
-			// format the filename
-			controlLink := replaceParentheses(createFileName(standardKey, controlKey).withExt(".md"))
-
-			// get the control.
-			control := standard.GetControl(controlKey)
-
-			// get the control family and name
-			controlFamily := control.GetFamily()
-			controlName := control.GetName()
-
-			// concatenate the standard and control family to create a filename.
-			newFamilyFileName = createFileName(standardKey, controlFamily)
-
-			// create control family headings if we are finally on a new heading file.
-			if oldFamilyFileName.name != newFamilyFileName.name {
-				familySummaryMap[newFamilyFileName.name] = createSubHeading(newFamilyFileName.name)
-				summary += exportLink(controlFamily,
-					filepath.Join("standards", newFamilyFileName.withExt(".md")))
-				oldFamilyFileName = newFamilyFileName
-			}
-
-			// Add the control name as a link under the control family header.
-			controlFullName := fmt.Sprintf("%s: %s", controlKey, controlName)
-			summary += "\t" + exportLink(controlFullName, filepath.Join("standards", controlLink))
-
-			// add the link to the summary page for that particular standard-control combination
-			// which will be created later on.
-			familySummaryMap[newFamilyFileName.name] += exportLink(controlFullName, controlLink)
+			var controlSummary string
+			controlSummary, familyFileName,familySummaryMap =
+				openControl.buildStandardsSummary(standardKey, controlKey, standard,familyFileName,
+					familySummaryMap)
+			// append summary
+			summary += controlSummary
 		}
 	}
 	return summary, &familySummaryMap
+}
+
+func (*OpenControlGitBook) buildStandardsSummary(standardKey, controlKey string, standard common.Standard,
+	oldFamilyFileName fileName, familySummaryMap map[string]string) (string, fileName, map[string]string){
+	summary := ""
+	// format the filename
+	controlLink := replaceParentheses(createFileName(standardKey, controlKey).withExt(".md"))
+
+	// get the control.
+	control := standard.GetControl(controlKey)
+
+	// get the control family and name
+	controlFamily := control.GetFamily()
+	controlName := control.GetName()
+
+	// concatenate the standard and control family to create a filename.
+	newFamilyFileName := createFileName(standardKey, controlFamily)
+
+	// create control family headings if we are finally on a new heading file.
+	if oldFamilyFileName.name != newFamilyFileName.name {
+		familySummaryMap[newFamilyFileName.name] = createSubHeading(newFamilyFileName.name)
+		summary += exportLink(controlFamily,
+			filepath.Join("standards", newFamilyFileName.withExt(".md")))
+		oldFamilyFileName = newFamilyFileName
+	}
+
+	// Add the control name as a link under the control family header.
+	controlFullName := fmt.Sprintf("%s: %s", controlKey, controlName)
+	summary += "\t" + exportLink(controlFullName, filepath.Join("standards", controlLink))
+
+	// add the link to the summary page for that particular standard-control combination
+	// which will be created later on.
+	familySummaryMap[newFamilyFileName.name] += exportLink(controlFullName, controlLink)
+	return summary, oldFamilyFileName, familySummaryMap
 }
 
 func (openControl *OpenControlGitBook) exportFamilyReadMap(familySummaryMap *map[string]string) {
