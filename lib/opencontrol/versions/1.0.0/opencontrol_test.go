@@ -5,55 +5,13 @@ import (
 	. "github.com/onsi/ginkgo/extensions/table"
 	"github.com/stretchr/testify/assert"
 
-	"errors"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/resources"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/resources/mocks"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
-var _ = Describe("Schema", func() {
-	Describe("Parsing the schmema", func() {
-		DescribeTable("parsing the schema with different data",
-			func(data []byte, expectedSchema Schema, expectedErrorExists bool, expectedErrorText string) {
-				s := Schema{}
-				err := s.Parse(data)
-				assert.Equal(GinkgoT(), expectedSchema, s)
-				if expectedErrorExists {
-					assert.Contains(GinkgoT(), err.Error(), ErrMalformedV1_0_0YamlPrefix)
-				}
-				assert.Equal(GinkgoT(), expectedErrorExists, err != nil)
-			},
-		Entry("good v1.0.0 data", []byte(`
-schema_version: "1.0.0"
-name: test
-metadata:
-  description: "A system to test parsing"
-  maintainers:
-    - test@test.com
-components:
-  - ./component-1
-  - ./component-2
-  - ./component-3
-certifications:
-  - ./cert-1.yaml
-standards:
-  - ./standard-1.yaml
-dependencies:
-  certifications:
-    - url: github.com/18F/LATO
-      revision: master
-  systems:
-    - url: github.com/18F/cg-complinace
-      revision: master
-  standards:
-    - url: github.com/18F/NIST-800-53
-      revision: master
-`),
-			Schema{
-			resourceGetter: resources.NewVCSAndLocalGetter(),
-			Base:           base.Base{SchemaVersion: "1.0.0"},
+var _ = Describe("Opencontrol", func() {
+	Describe("Getter functions for v1.0.0", func() {
+		opencontrol := OpenControl{
 			Name:           "test",
 			Meta: Metadata{
 				Description: "A system to test parsing",
@@ -73,119 +31,52 @@ dependencies:
 				"./standard-1.yaml",
 			},
 			Dependencies: Dependencies{
-				Certifications: []common.Entry{
-					common.Entry{
+				Certifications: []VCSEntry{
+					VCSEntry{
 						URL:      "github.com/18F/LATO",
 						Revision: "master",
 					},
 				},
-				Systems: []common.Entry{
-					common.Entry{
+				Systems: []VCSEntry{
+					VCSEntry{
 						URL:      "github.com/18F/cg-complinace",
 						Revision: "master",
 					},
 				},
-				Standards: []common.Entry{
-					common.Entry{
+				Standards: []VCSEntry{
+					VCSEntry{
 						URL:      "github.com/18F/NIST-800-53",
 						Revision: "master",
 					},
 				},
 			},
-		},false, ""),
-		Entry("malformed yaml (tabbed over)", []byte(`
-			schema_version: "1.0.0"
-			system_name: test-system
-			metadata:
-			  description: "A system to test parsing"
-			  maintainers:
-			    - test@test.com
-			components:
-			  - ./component-1
-			  - ./component-2
-			  - ./component-3
-			dependencies:
-			  certification:
-			    url: github.com/18F/LATO
-			    revision: master
-			  systems:
-			    - url: github.com/18F/cg-complinace
-			      revision: master
-			  standards:
-			    - url: github.com/18F/NIST-800-53
-			      revision: master
-			`), Schema{}, true, ErrMalformedV1_0_0YamlPrefix))
+		}
+		assert.Equal(GinkgoT(), []string{"./cert-1.yaml"}, opencontrol.GetCertifications())
+		assert.Equal(GinkgoT(), []string{"./standard-1.yaml"}, opencontrol.GetStandards())
+		assert.Equal(GinkgoT(), []string{"./component-1", "./component-2", "./component-3"}, opencontrol.GetComponents())
+		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL:"github.com/18F/NIST-800-53", Revision:"master", Path:""}}, opencontrol.GetStandardsDependencies())
+		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL:"github.com/18F/cg-complinace", Revision:"master", Path:""}}, opencontrol.GetComponentsDependencies())
+		assert.Equal(GinkgoT(), []common.RemoteSource{VCSEntry{URL:"github.com/18F/LATO", Revision:"master", Path:""}}, opencontrol.GetCertificationsDependencies())
 	})
 
-	Describe("Getting resources", func(){
-		var (
-			getter *mocks.Getter
-			dependentStandards, dependentCertifications, dependentComponents []common.Entry
-			certifications, standards, components []string
-			worker *base.Worker
-			dependencies Dependencies
-			destination = "."
-			expectedError error
-			s Schema
+})
+
+
+var _ = Describe("VCSEntry", func() {
+	Describe("Retrieving the config file", func() {
+		DescribeTable("GetConfigFile", func(e VCSEntry, expectedPath string) {
+			assert.Equal(GinkgoT(), e.GetConfigFile(), expectedPath)
+		},
+			Entry("Empty / new base struct to return default", VCSEntry{}, constants.DefaultConfigYaml),
+			Entry("overriden config file path", VCSEntry{Path: "samplepath"}, "samplepath"),
 		)
-		BeforeEach(func(){
-			getter = new(mocks.Getter)
-			worker = new(base.Worker)
-			dependencies = Dependencies{Certifications: dependentCertifications, Systems: dependentComponents, Standards: dependentStandards}
-			s = Schema{resourceGetter: getter, Dependencies: dependencies, Certifications: certifications, Standards: standards, Components: components}
-		})
-		It("should return an error when it's unable to get local certifications", func() {
-			expectedError = errors.New("Cert error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(expectedError)
-		})
-		It("should return an error when it's unable to get local standards", func() {
-			expectedError = errors.New("Standards error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(expectedError)
-		})
-		It("should return an error when it's unable to get local components", func() {
-			expectedError = errors.New("Components error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(expectedError)
-		})
-		It("should return an error when it's unable to get remote certifications", func() {
-			expectedError = errors.New("Remote cert error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(expectedError)
-		})
-		It("should return an error when it's unable to get remote standards", func() {
-			expectedError = errors.New("Remote standards error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(expectedError)
-		})
-		It("should return an error when it's unable to get remote components", func() {
-			expectedError = errors.New("Remote components error")
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(expectedError)
-		})
-		It("should return no error when able to get all components", func() {
-			expectedError = nil
-			getter.On("GetLocalResources", "", certifications, destination, constants.DefaultCertificationsFolder, false, worker, constants.Certifications).Return(nil)
-			getter.On("GetLocalResources", "", standards, destination, constants.DefaultStandardsFolder, false, worker, constants.Standards).Return(nil)
-			getter.On("GetLocalResources", "", components, destination, constants.DefaultComponentsFolder, true, worker, constants.Components).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultCertificationsFolder, worker, dependentCertifications).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultStandardsFolder, worker, dependentStandards).Return(nil)
-			getter.On("GetRemoteResources", destination, constants.DefaultComponentsFolder, worker, dependentStandards).Return(nil)
-		})
-		AfterEach(func() {
-			err := s.GetResources("", destination, worker)
-			assert.Equal(GinkgoT(), expectedError, err)
-			getter.AssertExpectations(GinkgoT())
-		})
+	})
+	Describe("GetRevision", func() {
+		e := VCSEntry{Revision: "master"}
+		assert.Equal(GinkgoT(), "master", e.GetRevision())
+	})
+	Describe("GetURL", func() {
+		e := VCSEntry{URL: "testurl"}
+		assert.Equal(GinkgoT(), "testurl", e.GetURL())
 	})
 })

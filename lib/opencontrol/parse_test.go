@@ -4,18 +4,17 @@ import (
 	. "github.com/opencontrol/compliance-masonry/lib/opencontrol"
 
 	. "github.com/onsi/ginkgo"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/base/mocks"
 	"github.com/stretchr/testify/assert"
-	"github.com/vektra/errors"
 	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/mocks"
+	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
 )
 
 var _ = Describe("Parse", func() {
 	var (
-		parser *mocks.SchemaParser
+		parser SchemaParser
 		err    error
-		openControl base.OpenControl
+		openControl common.OpenControl
 	)
 
 	BeforeEach(func() {
@@ -23,71 +22,106 @@ var _ = Describe("Parse", func() {
 	})
 
 	Describe("bad input scenarios", func() {
+		BeforeEach(func() {
+			parser = YAMLParser{}
+		})
 		It("should detect there's no data to parse when given nil data", func() {
-			openControl, err = Parse(parser, nil)
+			openControl, err = parser.Parse(nil)
 			assert.Equal(GinkgoT(), common.ErrNoDataToParse, err)
 		})
 		It("should detect there's no data to parse when given empty data", func() {
-			openControl, err = Parse(parser, []byte(""))
+			openControl, err = parser.Parse([]byte(""))
 			assert.Equal(GinkgoT(), common.ErrNoDataToParse, err)
 		})
 		It("should detect when it's unable to unmarshal into the base type", func() {
-			openControl, err = Parse(parser, []byte("schema_version: @"))
+			openControl, err = parser.Parse([]byte("schema_version: @"))
 			assert.Contains(GinkgoT(), err.Error(), ErrMalformedBaseYamlPrefix)
 		})
 		It("should detect when it's unable to determine the semver version because it is not in the format", func() {
-			openControl, err = Parse(parser, []byte("schema_version: versionone"))
+			openControl, err = parser.Parse([]byte("schema_version: versionone"))
 			assert.Equal(GinkgoT(), err, common.ErrCantParseSemver)
 		})
 		It("should detect when it's unable to determine the semver version because the version is not in string quotes", func() {
-			openControl, err = Parse(parser, []byte(`schema_version: 1.0`))
+			openControl, err = parser.Parse([]byte(`schema_version: 1.0`))
 			assert.Equal(GinkgoT(), err, common.ErrCantParseSemver)
 		})
 		It("should detect when the version is unknown", func() {
-			openControl, err = Parse(parser, []byte(`schema_version: "0.0.0"`))
+			openControl, err = parser.Parse([]byte(`schema_version: "0.0.0"`))
 			assert.Equal(GinkgoT(), err, common.ErrUnknownSchemaVersion)
 		})
 	})
-	Describe("ParseV1_0_0 scenarios", func() {
-		var (
-			data          []byte
-			expectedError error
-			mockSchema    *mocks.OpenControl
-		)
-		BeforeEach(func() {
-			expectedError = nil
-			mockSchema = new(mocks.OpenControl)
+})
+
+
+var _ = Describe("Parsing the scchema", func() {
+	Describe("Parsing v1.0.0", func() {
+		data := []byte (`
+schema_version: "1.0.0"
+name: test
+metadata:
+  description: "A system to test parsing"
+  maintainers:
+    - test@test.com
+components:
+  - ./component-1
+  - ./component-2
+  - ./component-3
+certifications:
+  - ./cert-1.yaml
+standards:
+  - ./standard-1.yaml
+dependencies:
+  certifications:
+    - url: github.com/18F/LATO
+      revision: master
+  systems:
+    - url: github.com/18F/cg-complinace
+      revision: master
+  standards:
+    - url: github.com/18F/NIST-800-53
+      revision: master
+`)
+		It("should successfully parse", func() {
+			parser := YAMLParser{}
+			opencontrol, err := parser.Parse(data)
+			assert.Nil(GinkgoT(), err)
+			assert.Equal(GinkgoT(), []string{"./cert-1.yaml"}, opencontrol.GetCertifications())
+			assert.Equal(GinkgoT(), []string{"./standard-1.yaml"}, opencontrol.GetStandards())
+			assert.Equal(GinkgoT(), []string{"./component-1", "./component-2", "./component-3"}, opencontrol.GetComponents())
+			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL:"github.com/18F/NIST-800-53", Revision:"master", Path:""}}, opencontrol.GetStandardsDependencies())
+			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL:"github.com/18F/cg-complinace", Revision:"master", Path:""}}, opencontrol.GetComponentsDependencies())
+			assert.Equal(GinkgoT(), []common.RemoteSource{schema.VCSEntry{URL:"github.com/18F/LATO", Revision:"master", Path:""}}, opencontrol.GetCertificationsDependencies())
+
 		})
-		JustBeforeEach(func() {
-			parser.On("ParseV1_0_0", data).Return(mockSchema, expectedError)
-		})
-		Context("when the ParseV1_0_0 will not be called", func() {
-			It("should not call it when passing in 1.0", func() {
-				Parse(parser, []byte(`schema_version: "1.0"`))
-				parser.AssertNotCalled(GinkgoT(), "ParseV1_0_0", data)
-			})
-		})
-		Context("when the ParseV1_0_0 will is called", func() {
-			BeforeEach(func() {
-				data = []byte(`schema_version: "1.0.0"`)
-			})
-			Context("when ParseV1_0_0 is passed valid data", func() {
-				It("should call ParseV1_0_0", func() {
-					_, err = Parse(parser, data)
-					parser.AssertCalled(GinkgoT(), "ParseV1_0_0", data)
-					assert.Equal(GinkgoT(), expectedError, err)
-				})
-			})
-			Context("when ParseV1_0_0 is passed invalid data", func() {
-				BeforeEach(func() {
-					expectedError = errors.New("can't parse yaml")
-				})
-				It("should call ParseV1_0_0 but return an error", func() {
-					_, err = Parse(parser, data)
-					parser.AssertCalled(GinkgoT(), "ParseV1_0_0", data)
-					assert.Equal(GinkgoT(), expectedError, err)
-				})
-			})
+	})
+	Describe("Parsing a bad aligned yaml", func() {
+		data := []byte(`
+			schema_version: "1.0.0"
+			system_name: test-system
+			metadata:
+			  description: "A system to test parsing"
+			  maintainers:
+			    - test@test.com
+			components:
+			  - ./component-1
+			  - ./component-2
+			  - ./component-3
+			dependencies:
+			  certification:
+			    url: github.com/18F/LATO
+			    revision: master
+			  systems:
+			    - url: github.com/18F/cg-complinace
+			      revision: master
+			  standards:
+			    - url: github.com/18F/NIST-800-53
+			      revision: master
+			`)
+		It("should unsuccessfully parse", func() {
+			parser := YAMLParser{}
+			opencontrol, err := parser.Parse(data)
+			assert.Equal(GinkgoT(), "Unable to parse yaml data - yaml: line 1: found character that cannot start any token", err.Error())
+			assert.Nil(GinkgoT(), opencontrol)
 		})
 	})
 })

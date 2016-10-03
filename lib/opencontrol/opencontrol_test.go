@@ -1,4 +1,4 @@
-package base
+package opencontrol
 
 import (
 	. "github.com/onsi/ginkgo"
