@@ -1,4 +1,4 @@
-package certifications
+package certifications_test
 
 import (
 	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"
+	"github.com/opencontrol/compliance-masonry/lib/certifications"
 )
 
 type v1certificationTest struct {
@@ -34,7 +35,7 @@ var v1certificationTests = []v1certificationTest{
 func TestLoadCertification(t *testing.T) {
 	for _, example := range v1certificationTests {
 
-		actual, err := Load(example.certificationFile)
+		actual, err := certifications.Load(example.certificationFile)
 		assert.Nil(t, err)
 		// Check if loaded certification has the expected key
 		if actual.GetKey() != example.expected.GetKey() {
@@ -56,7 +57,7 @@ var certificationTestErrors = []certificationTestError{
 
 func TestLoadCertificationErrors(t *testing.T) {
 	for _, example := range certificationTestErrors {
-		_, actualError := Load(example.certificationFile)
+		_, actualError := certifications.Load(example.certificationFile)
 		// Check that the expected error is the actual error returned
 		if example.expectedError != actualError {
 			t.Errorf("Expected %s, Actual: %s", example.expectedError, actualError)

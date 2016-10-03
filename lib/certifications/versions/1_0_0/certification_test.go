@@ -1,18 +1,19 @@
-package certification
+package certification_test
 
 import (
 	"testing"
+	"github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
 )
 
 type standardOrderTest struct {
-	certification Certification
+	certification certification.Certification
 	expectedOrder string
 }
 
 var standardOrderTests = []standardOrderTest{
 	{
 		// Verify Natural sort order
-		Certification{Standards: map[string]map[string]interface{}{
+		certification.Certification{Standards: map[string]map[string]interface{}{
 			"A": map[string]interface{}{"3": nil, "2": nil, "1": nil},
 			"B": map[string]interface{}{"12": nil, "2": nil, "1": nil},
 			"C": map[string]interface{}{"2": nil, "11": nil, "101": nil, "1000": nil, "100": nil, "10": nil, "1": nil},
@@ -21,7 +22,7 @@ var standardOrderTests = []standardOrderTest{
 	},
 	{
 		// Check that data is returned in order given letters and numbers
-		Certification{Standards: map[string]map[string]interface{}{
+		certification.Certification{Standards: map[string]map[string]interface{}{
 			"1":  map[string]interface{}{"3": nil, "2": nil, "1": nil},
 			"B":  map[string]interface{}{"3": nil, "2": nil, "1": nil},
 			"B2": map[string]interface{}{"3": nil, "2": nil, "1": nil},
@@ -48,7 +49,7 @@ func TestStandardOrder(t *testing.T) {
 }
 
 func TestGetKey(t *testing.T) {
-	cert := Certification{Key: "test"}
+	cert := certification.Certification{Key: "test"}
 	if cert.GetKey() != "test" {
 		t.Errorf("GetKey expected test. Actual %s", cert.GetKey())
 	}
