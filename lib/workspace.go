@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"sync"
 	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // LocalWorkspace struct combines components, standards, and a certification data
@@ -15,7 +16,7 @@ type LocalWorkspace struct {
 	Components     *componentsMap
 	Standards      *standardsMap
 	Justifications *Justifications
-	Certification  *Certification
+	Certification  common.Certification
 }
 
 // getKey extracts a component key from the filepath

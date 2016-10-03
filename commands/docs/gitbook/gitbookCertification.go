@@ -116,9 +116,13 @@ func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (s
 func (openControl *OpenControlGitBook) exportStandards() {
 	standardsExportPath := filepath.Join(openControl.exportPath, "standards")
 	openControl.FSUtil.Mkdirs(standardsExportPath)
-	openControl.Certification.GetSortedData(func(standardKey string, controlKey string) {
-		control := openControl.Standards.Get(standardKey).GetControl(controlKey)
-		controlPath, controlText := openControl.exportControl(&ControlGitbook{control, standardsExportPath, standardKey, controlKey})
-		ioutil.WriteFile(controlPath, []byte(controlText), 0700)
-	})
+	standardKeys := openControl.Certification.GetSortedStandards()
+	for _, standardKey := range standardKeys {
+		controlKeys := openControl.Standards.Get(standardKey).GetSortedControls()
+		for _, controlKey := range controlKeys {
+			control := openControl.Standards.Get(standardKey).GetControls()[controlKey]
+			controlPath, controlText := openControl.exportControl(&ControlGitbook{control, standardsExportPath, standardKey, controlKey})
+			ioutil.WriteFile(controlPath, []byte(controlText), 0700)
+		}
+	}
 }
