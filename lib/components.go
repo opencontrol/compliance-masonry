@@ -26,17 +26,18 @@ func (components *componentsMap) add(component common.Component) {
 	components.Unlock()
 }
 
-// Get retrieves a new component from the component map
-func (components *componentsMap) Get(key string) common.Component {
+// get retrieves a new component from the component map
+func (components *componentsMap) get(key string) (component common.Component, found bool) {
 	components.RLock()
 	defer components.RUnlock()
-	return components.mapping[key]
+	component, found = components.mapping[key]
+	return
 }
 
-// CompareAndAdd compares to see if the component exists in the map. If not, it adds the component.
+// compareAndAdd compares to see if the component exists in the map. If not, it adds the component.
 // Returns true if the component was added, returns false if the component was not added.
 // This function is thread-safe.
-func (components *componentsMap) CompareAndAdd(component common.Component) bool {
+func (components *componentsMap) compareAndAdd(component common.Component) bool {
 	components.Lock()
 	defer components.Unlock()
 	_, exists := components.mapping[component.GetKey()]
@@ -47,8 +48,8 @@ func (components *componentsMap) CompareAndAdd(component common.Component) bool 
 	return false
 }
 
-// GetAll retrieves all the components without giving directly to the map.
-func (components *componentsMap) GetAll() []common.Component {
+// getAll retrieves all the components without giving directly to the map.
+func (components *componentsMap) getAll() []common.Component {
 	components.RLock()
 	defer components.RUnlock()
 	result := make([]common.Component, len(components.mapping))
@@ -62,16 +63,24 @@ func (components *componentsMap) GetAll() []common.Component {
 
 // LoadComponent imports components into a Component struct and adds it to the
 // Components map.
-func (ws *LocalWorkspace) LoadComponent(componentDir string) error {
+func (ws *localWorkspace) LoadComponent(componentDir string) error {
 	component, err := components.Load(componentDir)
 	if err != nil {
 		return err
 	}
 	// If the component is new, make sure we load the justifications as well.
-	if ws.Components.CompareAndAdd(component) {
-		ws.Justifications.LoadMappings(component)
+	if ws.components.compareAndAdd(component) {
+		ws.justifications.LoadMappings(component)
 	} else {
 		return fmt.Errorf("Component: %s exists!\n", component.GetKey())
 	}
 	return nil
+}
+
+func (ws *localWorkspace) GetAllComponents() []common.Component {
+	return ws.components.getAll()
+}
+
+func (ws *localWorkspace) GetComponent(component string) (common.Component, bool) {
+	return ws.components.get(component)
 }

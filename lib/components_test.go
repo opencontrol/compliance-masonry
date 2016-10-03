@@ -12,7 +12,8 @@ func TestAddComponent(t *testing.T) {
 	// Setup map
 	m := newComponents()
 	// Get nil component.
-	component := m.Get("test")
+	component, found := m.get("test")
+	assert.False(t, found)
 	assert.Nil(t, component)
 	// Create mock component
 	newComponent := new(mocks.Component)
@@ -20,33 +21,36 @@ func TestAddComponent(t *testing.T) {
 	// Test add method
 	m.add(newComponent)
 	// Try to retrieve the component again.
-	component = m.Get("test")
+	component, found = m.get("test")
+	assert.True(t, found)
 	assert.Equal(t, component.GetKey(), "test")
 }
 
 func TestCompareAndAddComponent(t *testing.T) {
 	m := newComponents()
 	// Get nil component.
-	component := m.Get("test")
+	component, found := m.get("test")
+	assert.False(t, found)
 	assert.Nil(t, component)
 	// Create mock component
 	newComponent := new(mocks.Component)
 	newComponent.On("GetKey").Return("test")
 	// Use compare and add initially.
-	added := m.CompareAndAdd(newComponent)
+	added := m.compareAndAdd(newComponent)
 	assert.True(t, added)
 	// Use compare and add again to show failure.
-	added = m.CompareAndAdd(newComponent)
+	added = m.compareAndAdd(newComponent)
 	assert.False(t, added)
 }
 
 func TestLoadSameComponentTwice(t *testing.T) {
-	ws := LocalWorkspace{Components: newComponents(), Justifications: result.NewJustifications()}
+	ws := localWorkspace{components: newComponents(), justifications: result.NewJustifications()}
 	componentPath := filepath.Join("..", "fixtures", "component_fixtures", "v3_1_0", "EC2")
 	err := ws.LoadComponent(componentPath)
 	// Should load the component without a problem.
 	assert.Nil(t, err)
-	actualComponent := ws.Components.Get("EC2")
+	actualComponent, found := ws.components.get("EC2")
+	assert.True(t, found)
 	assert.NotNil(t, actualComponent)
 	// Try to load component again.
 	err = ws.LoadComponent(componentPath)
@@ -56,7 +60,7 @@ func TestLoadSameComponentTwice(t *testing.T) {
 }
 
 func TestBadLoadComponent(t *testing.T) {
-	ws := LocalWorkspace{}
+	ws := localWorkspace{}
 	err := ws.LoadComponent("fake.file")
 	// Should return an error because it can't load the file.
 	assert.Equal(t, "Component files does not exist", err.Error())

@@ -11,13 +11,13 @@ import (
 	"sync"
 )
 
-// LocalWorkspace struct combines components, standards, and a certification data
+// localWorkspace struct combines components, standards, and a certification data
 // For more information on the opencontrol schema visit: https://github.com/opencontrol/schemas
-type LocalWorkspace struct {
-	Components     *componentsMap
-	Standards      *standardsMap
-	Justifications *result.Justifications
-	Certification  common.Certification
+type localWorkspace struct {
+	components     *componentsMap
+	standards      *standardsMap
+	justifications *result.Justifications
+	certification  common.Certification
 }
 
 // getKey extracts a component key from the filepath
@@ -27,17 +27,17 @@ func getKey(filePath string) string {
 }
 
 // NewWorkspace initializes an empty OpenControl struct
-func NewWorkspace() *LocalWorkspace {
-	return &LocalWorkspace{
-		Justifications: result.NewJustifications(),
-		Components:     newComponents(),
-		Standards:      newStandards(),
+func NewWorkspace() common.Workspace {
+	return &localWorkspace{
+		justifications: result.NewJustifications(),
+		components:     newComponents(),
+		standards:      newStandards(),
 	}
 }
 
 // LoadData creates a new instance of OpenControl struct and loads
 // the components, standards, and certification data.
-func LoadData(openControlDir string, certificationPath string) (*LocalWorkspace, []error) {
+func LoadData(openControlDir string, certificationPath string) (common.Workspace, []error) {
 	var wg sync.WaitGroup
 	ws := NewWorkspace()
 	wg.Add(3)
@@ -57,7 +57,7 @@ func LoadData(openControlDir string, certificationPath string) (*LocalWorkspace,
 	}(&wg)
 	wg.Wait()
 	var errs []error
-	//errs = append(errs, certificationErr)
+	// errs = append(errs, certificationErr)
 	errs = append(errs, componentsErrs...)
 	errs = append(errs, standardsErrs...)
 	return ws, errs
@@ -65,7 +65,7 @@ func LoadData(openControlDir string, certificationPath string) (*LocalWorkspace,
 
 // LoadComponents loads multiple components by searching for components in a
 // given directory
-func (ws *LocalWorkspace) LoadComponents(directory string) []error {
+func (ws *localWorkspace) LoadComponents(directory string) []error {
 	var wg sync.WaitGroup
 	componentsDir, err := ioutil.ReadDir(directory)
 	if err != nil {
@@ -89,7 +89,7 @@ func (ws *LocalWorkspace) LoadComponents(directory string) []error {
 
 // LoadStandards loads multiple standards by searching for components in a
 // given directory
-func (ws *LocalWorkspace) LoadStandards(standardsDir string) []error {
+func (ws *localWorkspace) LoadStandards(standardsDir string) []error {
 	var wg sync.WaitGroup
 	standardsFiles, err := ioutil.ReadDir(standardsDir)
 	if err != nil {
@@ -116,4 +116,8 @@ func convertErrChannelToErrorSlice(errs <-chan error) []error {
 		}
 	}
 	return errMessages.Errors
+}
+
+func (ws *localWorkspace) GetAllVerificationsWith(standardKey string, controlKey string) common.Verifications {
+	return ws.justifications.Get(standardKey, controlKey)
 }

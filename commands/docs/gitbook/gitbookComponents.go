@@ -36,7 +36,7 @@ func (component *ComponentGitbook) exportComponent() (string, string) {
 func (openControl *OpenControlGitBook) exportComponents() {
 	componentsExportPath := filepath.Join(openControl.exportPath, "components")
 	openControl.FSUtil.Mkdirs(componentsExportPath)
-	for _, component := range openControl.Components.GetAll() {
+	for _, component := range openControl.GetAllComponents() {
 		componentsGitBook := ComponentGitbook{component, componentsExportPath}
 		componentPath, componentText := componentsGitBook.exportComponent()
 		ioutil.WriteFile(componentPath, []byte(componentText), 0700)
