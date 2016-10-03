@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+	"strings"
 )
 
 // createSubHeading will create a subheading with the passed in string.
@@ -23,16 +24,7 @@ func (f fileName) withExt(ext string) string {
 
 // createFileName creates a file name from multiple strings. Between each string, there will be a hyphen between them.
 func createFileName(fileNameParts ...string) fileName {
-	name := ""
-	for i, fileNamePart := range fileNameParts {
-		if i == len(fileNameParts)-1 {
-			// if it's the last part, no need to append the hyphen
-			name = fmt.Sprintf("%s%s", name, fileNamePart)
-		} else {
-			// if there is more left, append the hyphen
-			name = fmt.Sprintf("%s%s-", name, fileNamePart)
-		}
-	}
+	name := strings.Join(fileNameParts, "-")
 	return fileName{name: name}
 }
 
