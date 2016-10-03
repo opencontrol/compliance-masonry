@@ -1,12 +1,12 @@
 package certifications_test
 
 import (
+	"github.com/opencontrol/compliance-masonry/lib/certifications"
 	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"
-	"github.com/opencontrol/compliance-masonry/lib/certifications"
 )
 
 type v1certificationTest struct {

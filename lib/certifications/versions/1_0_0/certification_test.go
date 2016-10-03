@@ -1,8 +1,8 @@
 package certification_test
 
 import (
-	"testing"
 	"github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
+	"testing"
 )
 
 type standardOrderTest struct {

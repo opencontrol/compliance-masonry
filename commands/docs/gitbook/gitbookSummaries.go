@@ -2,10 +2,10 @@ package gitbook
 
 import (
 	"fmt"
+	"github.com/opencontrol/compliance-masonry/lib/common"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
-	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // createSubHeading will create a subheading with the passed in string.
@@ -59,8 +59,8 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 		controlKeys := openControl.Certification.GetControlKeysFor(standardKey)
 		for _, controlKey := range controlKeys {
 			var controlSummary string
-			controlSummary, familyFileName,familySummaryMap =
-				openControl.buildStandardsSummary(standardKey, controlKey, standard,familyFileName,
+			controlSummary, familyFileName, familySummaryMap =
+				openControl.buildStandardsSummary(standardKey, controlKey, standard, familyFileName,
 					familySummaryMap)
 			// append summary
 			summary += controlSummary
@@ -70,7 +70,7 @@ func (openControl *OpenControlGitBook) buildStandardsSummaries() (string, *map[s
 }
 
 func (*OpenControlGitBook) buildStandardsSummary(standardKey, controlKey string, standard common.Standard,
-	oldFamilyFileName fileName, familySummaryMap map[string]string) (string, fileName, map[string]string){
+	oldFamilyFileName fileName, familySummaryMap map[string]string) (string, fileName, map[string]string) {
 	summary := ""
 	// format the filename
 	controlLink := replaceParentheses(createFileName(standardKey, controlKey).withExt(".md"))
