@@ -1,5 +1,7 @@
 # Lib Package
 
+[![GoDoc](https://godoc.org/github.com/opencontrol/compliance-masonry/lib?status.svg)](https://godoc.org/github.com/opencontrol/compliance-masonry/lib)
+
 ## Purpose
 
 This package (and the sub packages) are the only packages that should
@@ -48,7 +50,7 @@ a control or set of controls.
 Once you have a workspace object, you can use `GetAllComponents` or
 `GetComponent`and provide a component key. For more information about 
 the key value to used or more information about the component, refer to
-the [component schema](https://github.com/opencontrol/schemas#components)
+the [component schema](https://github.com/opencontrol/schemas#components).
 
 #### Certification
 Certification is a list of controls that make up a certain
@@ -56,7 +58,7 @@ Certification is a list of controls that make up a certain
 
 Once you have a workspace object, you can use `GetCertification`.
 For more information about the certification, refer to the
-[certification schema](https://github.com/opencontrol/schemas#certifications)
+[certification schema](https://github.com/opencontrol/schemas#certifications).
 
 ### Result Data
 `Verification` is a data structure that is not represented in yaml but
