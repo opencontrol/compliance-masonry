@@ -79,4 +79,12 @@ mockery -name NameOfInterface
 # Example:
 mockery -name Workspace
 ```
- 
+
+
+## Plugin Developer Guide
+Developers should not have to worry about loading real data / workspaces
+for their unit tests (they should for integration tests).
+
+There is an example of developing your Go plugin and tests in
+`exampleplugin/example.go` and `exampleplugin/example_test.go`
+respectively.
