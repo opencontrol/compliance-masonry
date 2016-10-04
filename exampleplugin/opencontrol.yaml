@@ -1,0 +1,14 @@
+schema_version: "1.0.0"
+name: test-opencontrol-yaml
+metadata:
+  description: "This opencontrol YAML is just used for showing various levels of testing. For more details refer to example_test.go"
+dependencies:
+  standards:
+    - url: https://github.com/opencontrol/NIST-800-53-Standards
+      revision: master
+  certifications:
+    - url: https://github.com/opencontrol/FedRAMP-Certifications
+      revision: master
+  systems:
+    - url: https://github.com/opencontrol/aws-compliance
+      revision: master
