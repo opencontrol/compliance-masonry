@@ -60,7 +60,7 @@ func (fs OSUtil) Mkdirs(dir string) error {
 // file with the given text
 func (fs OSUtil) AppendOrCreate(filePath string, text string) error {
 	var err error
-	if _, err := os.Stat(filePath); err == nil {
+	if _, err = os.Stat(filePath); err == nil {
 		err = AppendToFile(filePath, text)
 	} else {
 		err = ioutil.WriteFile(filePath, []byte(text), 0700)
