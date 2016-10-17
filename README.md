@@ -10,20 +10,70 @@ Compliance Masonry is a command-line interface (CLI) that allows users to constr
 
 ![screen shot 2016-04-12 at 12 22 02 pm](https://cloud.githubusercontent.com/assets/4596845/14469165/5d27495c-00b1-11e6-9d28-327938463adf.png)
 
-## Quick start
 
-1. Install Go 1.6, and ensure your `GOPATH` is set. Using [gvm](https://github.com/moovweb/gvm) is recommended.
-1. Install the tool
+## Installation
+Compliance Masonry is packaged into a downloadable executable program for those
+who want to use Compliance Masonry without the need to install any external
+dependencies or programs. This is extremely beneficial for those who may to
+jump right in without worrying about much technical setup.
 
-    ```bash
-    go get github.com/opencontrol/compliance-masonry
-    ```
+### Mac OS X Installation
+#### Technical Users - Mac OS X
+In your terminal, run the following:
+```sh
+curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_darwin_amd64.zip -o compliance-masonry.zip
+unzip compliance-masonry.zip
+cp compliance-masonry_1.1.2_darwin_amd64/compliance-masonry /usr/local/bin
+```
 
-1. Run the CLI
+#### Less Technical Users - Mac OS X
+1. Go to the [Github Releases
+Page](https://github.com/opencontrol/compliance-masonry/releases).
+2. Download the package that corresponds to your machine and operating system.
+  - The following are common file endings for common systems configurations to
+  help you decide which one.
+  - For Mac OS X, you'll want the file ending `_darwin_amd64.zip`
+3. Double-click on the downloaded package to unzip the archive and it
+should result in a folder which contains a file called `compliance-masonry`.
+4. Right click on `compliance-masonry` and select `Copy`
+5. Open `Finder`
+6. In the navigation bar, click `Go` -> `Go to Folder...`
+7. Type in `/usr/local/bin` to open the `bin` folder
+8. In the navigation bar, click `Edit` -> `Paste Item`
 
-    ```bash
-    compliance-masonry
-    ```
+### Windows Installation
+#### Technical Users - Windows
+1. In the browser, go to the [Github Releases
+Page](https://github.com/opencontrol/compliance-masonry/releases) and download
+the zip file.
+2. Unzip it.
+3. Create a folder for the masonry binary. (e.g. `C:\Masonry\bin`)
+4. Copy the `compliance-masonry.exe` file to `C:\Masonry\bin`
+5. Open your PowerShell and run `set PATH=%PATH%;C:\Masonry\bin`.
+
+#### Less Technical Users - Windows
+1. Go to the [Github Releases
+Page](https://github.com/opencontrol/compliance-masonry/releases).
+2. Download the package that corresponds to your machine and operating system.
+  - The following are common file endings for common systems configurations to
+  help you decide which one.
+  - For 32 Bit Windows, you'll want the file ending `_windows_386.zip`
+  - For 64 Bit Windows, you'll want the file ending `_windows_amd64.zip`
+3. Double-click on the downloaded package to unzip the archive and it
+should result in a folder which contains a file called `compliance-masonry.exe`.
+4. Create a folder (e.g. `C:\Masonry\bin`) and copy `compliance-masonry.exe` into it.
+5. Follow the instructions [here](http://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/)
+to add your folder (e.g. `C:\Masonry\bin`) to the `PATH` environment variable.
+(In this article, replace `C:\Android\platform-tools` with your folder, e.g. `C:\Masonry\bin`).
+
+### Linux Installation
+In your terminal, run the following:
+```sh
+# For 64 bit Linux
+curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_linux_amd64.tar.gz -o compliance-masonry.tar.gz
+tar -xf compliance-masonry.tar.gz
+cp compliance-masonry_1.1.2_linux_amd64/compliance-masonry /usr/local/bin
+```
 
 ## Creating an OpenControl project
 
