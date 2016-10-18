@@ -6,7 +6,12 @@
 [![Circle CI](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master.svg?style=svg)](https://circleci.com/gh/opencontrol/compliance-masonry/tree/master)
 [![Build status](https://ci.appveyor.com/api/projects/status/jjjo83ewacbwnthy/branch/master?svg=true)](https://ci.appveyor.com/project/opencontrol/compliance-masonry/branch/master)
 
-Compliance Masonry is a command-line interface (CLI) that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). See [Benefits](#benefits) for more explanation, and learn more [in our blog post about Compliance Masonry](https://18f.gsa.gov/2016/04/15/compliance-masonry-buildling-a-risk-management-platform/). If you're interested in working on the code, see [our developer documentation](CONTRIBUTING.md#development).
+Compliance Masonry is a command-line interface (CLI) that allows users to construct certification documentation using the [OpenControl Schema](https://github.com/opencontrol/schemas). Additional documentation:
+
+* [Benefits](#benefits)
+* [18F blog post about Compliance Masonry](https://18f.gsa.gov/2016/04/15/compliance-masonry-buildling-a-risk-management-platform/)
+* [Compliance Masonry for the Compliance Literate](docs/masonry-for-the-compliance-literate.md)
+* [Developer documentation](CONTRIBUTING.md#development)
 
 ![screen shot 2016-04-12 at 12 22 02 pm](docs/assets/data_flow.png)
 
