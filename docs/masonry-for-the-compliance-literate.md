@@ -28,7 +28,7 @@ Being able to render to the official SSP documents means that the cloud.gov team
 
 ![workflow diagram](assets/workflow.png)
 
-_Figure: A visual representation of the Compliance Masonry workflow. [View as SVG.](https://rawgit.com/opencontrol/compliance-masonry/compliance-literate-doc/docs/assets/workflow.svg)_
+_Figure: A visual representation of the Compliance Masonry workflow. [View as SVG.](https://rawgit.com/opencontrol/compliance-masonry/master/docs/assets/workflow.svg)_
 
 While these are major benefits for the productivity of teams producing compliance documentation, there are also major potential benefits for compliance reviewers:
 
