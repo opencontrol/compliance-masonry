@@ -1,6 +1,6 @@
-# Development
+# Developer setup
 
-This project uses [glide](https://github.com/Masterminds/glide) to manage vendored dependencies.
+Interested in contributing to Masonry? Awesome! Take a look at our [contribution guidelines](../CONTRIBUTING.md) first.
 
 ## Project setup
 
@@ -33,6 +33,8 @@ glide up --all-dependencies
 ```
 
 ## Creating binaries
+
+This will only be relevant for maintainers.
 
 ### One-time setup for uploading binaries
 
