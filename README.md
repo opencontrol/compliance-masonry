@@ -11,4 +11,4 @@ Compliance Masonry is a command-line interface (CLI) that allows users to constr
 * [Overview](docs/)
 * [Installation](docs/install.md)
 * [Usage](docs/usage.md)
-* [Developer documentation](CONTRIBUTING.md#development)
+* [Developer setup](docs/development.md)
