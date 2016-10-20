@@ -18,3 +18,7 @@ Compliance Masonry simplifies the process of certification documentations by pro
 ## Examples
 
 See [this list of OpenControl project examples](https://github.com/opencontrol/schemas/#full-project-examples).
+
+---
+
+Take a look at the [installation](install.md) instructions if you'd like to run Masonry locally.

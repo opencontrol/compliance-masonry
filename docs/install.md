@@ -37,3 +37,7 @@ curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1
 tar -xf compliance-masonry.tar.gz
 cp compliance-masonry_1.1.2_linux_amd64/compliance-masonry /usr/local/bin
 ```
+
+---
+
+See the [usage](usage.md) guide next.
