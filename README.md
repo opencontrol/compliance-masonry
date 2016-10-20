@@ -22,59 +22,37 @@ who want to use Compliance Masonry without the need to install any external
 dependencies or programs. This is extremely beneficial for those who may to
 jump right in without worrying about much technical setup.
 
-### Mac OS X Installation
-#### Technical Users - Mac OS X
+### Mac OS X
+
 In your terminal, run the following:
+
 ```sh
+cd ~/Downloads
 curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_darwin_amd64.zip -o compliance-masonry.zip
 unzip compliance-masonry.zip
 cp compliance-masonry_1.1.2_darwin_amd64/compliance-masonry /usr/local/bin
 ```
 
-#### Less Technical Users - Mac OS X
-1. Go to the [Github Releases
-Page](https://github.com/opencontrol/compliance-masonry/releases).
-2. Download the package that corresponds to your machine and operating system.
-  - The following are common file endings for common systems configurations to
-  help you decide which one.
-  - For Mac OS X, you'll want the file ending `_darwin_amd64.zip`
-3. Double-click on the downloaded package to unzip the archive and it
-should result in a folder which contains a file called `compliance-masonry`.
-4. Right click on `compliance-masonry` and select `Copy`
-5. Open `Finder`
-6. In the navigation bar, click `Go` -> `Go to Folder...`
-7. Type in `/usr/local/bin` to open the `bin` folder
-8. In the navigation bar, click `Edit` -> `Paste Item`
+### Windows
 
-### Windows Installation
-#### Technical Users - Windows
-1. In the browser, go to the [Github Releases
-Page](https://github.com/opencontrol/compliance-masonry/releases) and download
-the zip file.
-2. Unzip it.
-3. Create a folder for the masonry binary. (e.g. `C:\Masonry\bin`)
-4. Copy the `compliance-masonry.exe` file to `C:\Masonry\bin`
-5. Open your PowerShell and run `set PATH=%PATH%;C:\Masonry\bin`.
+1. Go to [the Github Release](https://github.com/opencontrol/compliance-masonry/releases/tag/v1.1.2).
+1. Download the package that corresponds to your machine and operating system.
+    - For 32 Bit Windows, you'll want the file ending `_windows_386.zip`
+    - For 64 Bit Windows, you'll want the file ending `_windows_amd64.zip`
+1. Double-click on the downloaded package to unzip the archive. The resulting folder should contain a file called `compliance-masonry.exe`.
+1. Create a folder, e.g. `C:\Masonry\bin`.
+1. Drag `compliance-masonry.exe` into the new folder.
+1. Open PowerShell.
+    * Search your Start menu / Cortana for it.
+1. [Add `C:\Masonry\bin` to your `PATH`.](https://www.java.com/en/download/help/path.xml)
 
-#### Less Technical Users - Windows
-1. Go to the [Github Releases
-Page](https://github.com/opencontrol/compliance-masonry/releases).
-2. Download the package that corresponds to your machine and operating system.
-  - The following are common file endings for common systems configurations to
-  help you decide which one.
-  - For 32 Bit Windows, you'll want the file ending `_windows_386.zip`
-  - For 64 Bit Windows, you'll want the file ending `_windows_amd64.zip`
-3. Double-click on the downloaded package to unzip the archive and it
-should result in a folder which contains a file called `compliance-masonry.exe`.
-4. Create a folder (e.g. `C:\Masonry\bin`) and copy `compliance-masonry.exe` into it.
-5. Follow the instructions [here](http://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/)
-to add your folder (e.g. `C:\Masonry\bin`) to the `PATH` environment variable.
-(In this article, replace `C:\Android\platform-tools` with your folder, e.g. `C:\Masonry\bin`).
+### Linux
 
-### Linux Installation
+The instructions below are for 64-bit architectures. See the [releases](https://github.com/opencontrol/compliance-masonry/releases) page for others.
+
 In your terminal, run the following:
+
 ```sh
-# For 64 bit Linux
 curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_linux_amd64.tar.gz -o compliance-masonry.tar.gz
 tar -xf compliance-masonry.tar.gz
 cp compliance-masonry_1.1.2_linux_amd64/compliance-masonry /usr/local/bin
