@@ -27,6 +27,8 @@ While there used to be Word document templating logic in Masonry, the team [foun
 
 ## Gap Analysis
 
+***Experimental.*** *[Does not take control origination into account.](https://github.com/opencontrol/schemas/issues/24)*
+
 Use Gap Analysis to determine the difference between how many controls you have documented versus the total controls for a given certification. This should be used continually as you work to indicate your compliance progress.
 
 Given you have an `opencontrol.yaml` for your project and you have already collected your dependencies via the `compliance-masonry get` command, run `compliance-masonry diff <the-certification>`:
