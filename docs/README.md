@@ -12,7 +12,7 @@ Modern applications are built on existing systems such as S3, EC2, and Cloud Fou
 Compliance Masonry simplifies the process of certification documentations by providing:
 
 1. a data store for certifications (ex FISMA), standards (ex NIST-800-53), and the individual system components (ex AWS-EC2).
-1. a way for government project to edit existing files and also add new control files for their applications and organizations.
+1. a way for government projects to edit existing files and also add new control files for their applications and organizations.
 1. a pipeline for generating clean and standardized certification documentation.
 
 ## Examples
