@@ -38,7 +38,7 @@ This will only be relevant for maintainers.
 
 ### One-time setup for uploading binaries
 
-1. Install [goxc](go get github.com/laher/goxc)
+1. Install [goxc](https://github.com/laher/goxc)
 
     ```sh
     go get github.com/laher/goxc
