@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: /go/src/github.com/opencontrol/compliance-masonry
     docker:
-      - image: golang:1.7-alpine
+      - image: golang:1.8-alpine
     steps:
       - run:
           name: Install Git
