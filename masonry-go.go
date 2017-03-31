@@ -22,7 +22,7 @@ func NewCLIApp() *cli.App {
 	app := cli.NewApp()
 	app.Name = "Compliance Masonry"
 	app.Usage = "Open Control CLI Tool"
-	app.Version = "1.1.2"
+	app.Version = "1.1.3"
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "verbose",

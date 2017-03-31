@@ -8,14 +8,14 @@ In your terminal, run the following:
 
 ```sh
 cd ~/Downloads
-curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_darwin_amd64.zip -o compliance-masonry.zip
+curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.3/compliance-masonry_1.1.3_darwin_amd64.zip -o compliance-masonry.zip
 unzip compliance-masonry.zip
-cp compliance-masonry_1.1.2_darwin_amd64/compliance-masonry /usr/local/bin
+cp compliance-masonry_1.1.3_darwin_amd64/compliance-masonry /usr/local/bin
 ```
 
 ## Windows
 
-1. Go to [the Github Release](https://github.com/opencontrol/compliance-masonry/releases/tag/v1.1.2).
+1. Go to [the Github Release](https://github.com/opencontrol/compliance-masonry/releases/tag/v1.1.3).
 1. Download the package that corresponds to your machine and operating system.
     - For 32 Bit Windows, you'll want the file ending `_windows_386.zip`
     - For 64 Bit Windows, you'll want the file ending `_windows_amd64.zip`
@@ -33,9 +33,9 @@ The instructions below are for 64-bit architectures. See the [releases](https://
 In your terminal, run the following:
 
 ```sh
-curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_linux_amd64.tar.gz -o compliance-masonry.tar.gz
+curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.3/compliance-masonry_1.1.3_linux_amd64.tar.gz -o compliance-masonry.tar.gz
 tar -xf compliance-masonry.tar.gz
-cp compliance-masonry_1.1.2_linux_amd64/compliance-masonry /usr/local/bin
+cp compliance-masonry_1.1.3_linux_amd64/compliance-masonry /usr/local/bin
 ```
 
 ---
