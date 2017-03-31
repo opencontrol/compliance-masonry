@@ -7,7 +7,7 @@ jobs:
     steps:
       - run:
           name: Install Git
-          command: apk add --no-cache bash git
+          command: apk add --no-cache bash gcc git
       - checkout
 
       - run:
