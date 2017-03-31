@@ -80,7 +80,7 @@ var _ = Describe("Masonry CLI", func() {
 			})
 		})
 		AfterEach(func() {
-			os.RemoveAll(exportTempDir)
+			_ = os.RemoveAll(exportTempDir)
 		})
 	})
 
@@ -115,8 +115,8 @@ func Masonry(args ...string) *Session {
 	stdin, err := cmd.StdinPipe()
 	Expect(err).ToNot(HaveOccurred())
 	buffer := bufio.NewWriter(stdin)
-	buffer.WriteString(strings.Join(args, " "))
-	buffer.Flush()
+	_, _ = buffer.WriteString(strings.Join(args, " "))
+	_ = buffer.Flush()
 	session, err := Start(cmd, GinkgoWriter, GinkgoWriter)
 	Expect(err).NotTo(HaveOccurred())
 	return session

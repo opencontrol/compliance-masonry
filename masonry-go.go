@@ -134,5 +134,8 @@ func NewCLIApp() *cli.App {
 
 func main() {
 	app := NewCLIApp()
-	app.Run(os.Args)
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }

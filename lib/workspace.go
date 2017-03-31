@@ -2,13 +2,14 @@ package lib
 
 import (
 	"errors"
-	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/result"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
+
+	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/lib/result"
 )
 
 // localWorkspace struct combines components, standards, and a certification data
@@ -57,7 +58,7 @@ func LoadData(openControlDir string, certificationPath string) (common.Workspace
 	}(&wg)
 	wg.Wait()
 	var errs []error
-	// errs = append(errs, certificationErr)
+	errs = append(errs, certificationErr)
 	errs = append(errs, componentsErrs...)
 	errs = append(errs, standardsErrs...)
 	return ws, errs
