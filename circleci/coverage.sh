@@ -2,10 +2,10 @@
 
 set -e
 
-cov_file=/home/ubuntu/coverage.txt
+cov_file=/tmp/coverage.txt
 
 # Get the list of packages.
-pkgs=`go list $(/home/ubuntu/.go_workspace/bin/glide novendor)`
+pkgs=`go list $(glide novendor)`
 
 echo "mode: count" > $cov_file
 for pkg in $pkgs

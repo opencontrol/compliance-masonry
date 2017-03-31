@@ -1,24 +1,27 @@
-machine:
-  environment:
-    GODIST: "go1.6.linux-amd64.tar.gz"
-  post:
-    - mkdir -p download
-    - test -e download/$GODIST || curl -o download/$GODIST https://storage.googleapis.com/golang/$GODIST
-    - sudo rm -rf /usr/local/go
-    - sudo tar -C /usr/local -xzf download/$GODIST
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/opencontrol/compliance-masonry
+    docker:
+      - image: golang:1.8-alpine
+    steps:
+      - run:
+          name: Install Git
+          command: apk add --no-cache bash git
+      - checkout
 
-dependencies:
-  cache_directories:
-    - ~/download
-dependencies:
-  override:
-    - go version
-    - go get github.com/Masterminds/glide
-    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry && cp -R /home/ubuntu/compliance-masonry/* /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry/ && cd /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry && go build
-test:
-  pre:
-    - go get github.com/axw/gocov/gocov
-    - go get github.com/mattn/goveralls
-    - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
-  override:
-    - cd /home/ubuntu/.go_workspace/src/github.com/opencontrol/compliance-masonry && circleci/coverage.sh
+      - run:
+          name: Build the program
+          command: go build
+
+      - run:
+          name: Download test dependencies
+          command: |
+            go get \
+              github.com/axw/gocov/gocov \
+              github.com/Masterminds/glide \
+              github.com/mattn/goveralls \
+              golang.org/x/tools/cmd/cover
+      - run:
+          name: Run tests
+          command: ./circleci/coverage.sh

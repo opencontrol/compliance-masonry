@@ -1,4 +1,4 @@
-FROM golang:1.7-alpine
+FROM golang:1.8-alpine
 RUN apk add --no-cache git
 WORKDIR /go/src/github.com/opencontrol/compliance-masonry
 ADD . .
