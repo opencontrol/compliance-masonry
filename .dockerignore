@@ -1,0 +1,12 @@
+circleci/
+docs/
+exampleplugin/
+fixtures/
+.codeclimate.yml
+.git
+.gitignore
+.goxc.json
+appveyor.yml
+circle.yml
+CONTRIBUTING.md
+release.sh

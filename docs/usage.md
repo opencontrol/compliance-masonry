@@ -17,6 +17,14 @@
 
 The `get` command will retrieve dependencies needed to compile documentation in an `opencontrols/` folder. You will probably want to exclude this from your version control system (e.g. add `opencontrols/` to your `.gitignore`).
 
+## Docker
+
+Compliance Masonry has also been packaged as a Docker image and published on [Docker Hub](https://hub.docker.com/r/opencontrolorg/compliance-masonry). Commands can be run with Docker in the directory containing `opencontrol.yaml` as follows:
+
+```bash
+docker run --rm -v "$PWD":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry get
+```
+
 ## GitBook
 
 To view the compliance documentation as a web site or a PDF, see the [GitBook](gitbook.md) documentation.
