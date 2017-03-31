@@ -57,10 +57,14 @@ func LoadData(openControlDir string, certificationPath string) (common.Workspace
 		certificationErr = ws.LoadCertification(certificationPath)
 	}(&wg)
 	wg.Wait()
+
 	var errs []error
-	errs = append(errs, certificationErr)
+	if certificationErr != nil {
+		errs = append(errs, certificationErr)
+	}
 	errs = append(errs, componentsErrs...)
 	errs = append(errs, standardsErrs...)
+
 	return ws, errs
 }
 
