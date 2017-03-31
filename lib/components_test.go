@@ -1,11 +1,12 @@
 package lib
 
 import (
+	"path/filepath"
+	"testing"
+
 	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
 	"github.com/opencontrol/compliance-masonry/lib/result"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
-	"testing"
 )
 
 func TestAddComponent(t *testing.T) {
@@ -56,7 +57,7 @@ func TestLoadSameComponentTwice(t *testing.T) {
 	err = ws.LoadComponent(componentPath)
 	// Should return an error that this component was already loaded.
 	assert.NotNil(t, err)
-	assert.Equal(t, "Component: EC2 exists!\n", err.Error())
+	assert.Equal(t, "component: EC2 exists", err.Error())
 }
 
 func TestBadLoadComponent(t *testing.T) {

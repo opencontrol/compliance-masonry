@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"fmt"
+
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"github.com/opencontrol/compliance-masonry/lib/components"
 )
@@ -72,7 +73,7 @@ func (ws *localWorkspace) LoadComponent(componentDir string) error {
 	if ws.components.compareAndAdd(component) {
 		ws.justifications.LoadMappings(component)
 	} else {
-		return fmt.Errorf("Component: %s exists!\n", component.GetKey())
+		return fmt.Errorf("component: %s exists", component.GetKey())
 	}
 	return nil
 }

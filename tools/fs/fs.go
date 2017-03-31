@@ -26,7 +26,7 @@ type OSUtil struct {
 // OpenAndReadFile is a util that will check if the file exists, open and then read the file.
 func (fs OSUtil) OpenAndReadFile(file string) ([]byte, error) {
 	if _, err := os.Stat(file); os.IsNotExist(err) {
-		return nil, fmt.Errorf("Error: %s does not exist\n", file)
+		return nil, fmt.Errorf("error: %s does not exist", file)
 	}
 	bytes, err := ioutil.ReadFile(file)
 	if err != nil {
