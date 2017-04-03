@@ -20,4 +20,4 @@ done
 
 go tool cover -func $cov_file
 
-mv $cov_file . && bash <(curl -s https://codecov.io/bash)
+mv $cov_file .

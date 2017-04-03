@@ -10,3 +10,6 @@ jobs:
       - run:
           name: Build and run test container
           command: make test
+      - run:
+          name: Send results to Codecov
+          command: bash <(curl -s https://codecov.io/bash)

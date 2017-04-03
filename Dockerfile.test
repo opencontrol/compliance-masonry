@@ -12,4 +12,4 @@ RUN go get \
 
 CMD go build && \
     errcheck && \
-    go test $(glide nv)
+    ./circleci/coverage.sh
