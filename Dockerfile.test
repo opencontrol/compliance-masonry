@@ -4,11 +4,8 @@ WORKDIR /go/src/github.com/opencontrol/compliance-masonry
 
 RUN apk add --no-cache bash gcc git musl-dev
 RUN go get \
-      github.com/axw/gocov/gocov \
       github.com/kisielk/errcheck \
-      github.com/Masterminds/glide \
-      github.com/mattn/goveralls \
-      golang.org/x/tools/cmd/cover
+      github.com/Masterminds/glide
 
 CMD go build && \
     errcheck && \
