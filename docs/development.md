@@ -16,12 +16,16 @@ This should print out usage documentation. You can find the code in `$GOPATH/src
 
 ## Running tests
 
-```sh
-# Get test dependencies
-go get -t ./...
-# Run tests
-go test $(glide nv)
-```
+The easiest way to run the tests (and most consistent with the build server) is through Docker.
+
+1. Install Docker.
+1. Run
+
+    ```sh
+    make test
+    ```
+
+If you don't want to use Docker, you can replicate the steps in [the test Dockerfile](../Dockerfile.test).
 
 ## Updating dependencies
 
