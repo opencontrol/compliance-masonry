@@ -1,8 +1,9 @@
 package result
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib/common"
 	"sync"
+
+	"github.com/opencontrol/compliance-masonry/lib/common"
 )
 
 // Justifications struct contains the mapping that links controls to specific components
@@ -19,7 +20,10 @@ func NewJustifications() *Justifications {
 // Add methods adds a new mapping to the justification while locking
 func (justifications *Justifications) Add(standardKey string, controlKey string, componentKey string, satisfies common.Satisfies) {
 	justifications.Lock()
-	newVerification := common.Verification{componentKey, satisfies}
+	newVerification := common.Verification{
+		ComponentKey:  componentKey,
+		SatisfiesData: satisfies,
+	}
 	_, standardKeyExists := justifications.mapping[standardKey]
 	if !standardKeyExists {
 		justifications.mapping[standardKey] = make(map[string]common.Verifications)
