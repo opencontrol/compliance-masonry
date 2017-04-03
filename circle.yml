@@ -8,6 +8,9 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
+          name: Install dependencies
+          command: apk add --no-cache make
+      - run:
           name: Build and run test container
           command: make test
       - run:
