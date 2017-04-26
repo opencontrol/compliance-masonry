@@ -35,7 +35,7 @@ In your terminal, run the following:
 ```sh
 curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_linux_amd64.tar.gz -o compliance-masonry.tar.gz
 tar -xf compliance-masonry.tar.gz
-cp compliance-masonry_1.1.2_linux_amd64/compliance-masonry /usr/local/bin
+sudo cp compliance-masonry_1.1.2_linux_amd64/compliance-masonry /usr/local/bin
 ```
 
 ---
