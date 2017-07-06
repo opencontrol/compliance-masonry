@@ -1,5 +1,5 @@
 FROM golang:1.8-alpine
-RUN apk add --no-cache git
+RUN apk add --no-cache git openssh
 WORKDIR /go/src/github.com/opencontrol/compliance-masonry
 ADD . .
 RUN go install
