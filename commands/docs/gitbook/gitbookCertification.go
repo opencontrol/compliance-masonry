@@ -90,11 +90,15 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("#%s\n##%s\n", key, control.GetName())
+	if len(control.GetDescription()) > 0 {
+		text += "#### Description\n"
+		text += control.GetDescription()
+	}
 	selectJustifications := openControl.GetAllVerificationsWith(control.standardKey, control.controlKey)
 	// In the case that no information was found period for the standard and control
 	if len(selectJustifications) == 0 {
 		errorText := fmt.Sprintf("No information found for the combination of standard %s and control %s", control.standardKey, control.controlKey)
-		text = fmt.Sprintf("%s%s\n", text, errorText)
+		text = fmt.Sprintf("%s\n%s\n", text, errorText)
 	}
 	for _, justification := range selectJustifications {
 		component, found := openControl.GetComponent(justification.ComponentKey)

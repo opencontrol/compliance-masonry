@@ -31,6 +31,9 @@ var exportControlTests = []exportControlTest{
 		"NIST-800-53-CM-2.md",
 		`#NIST-800-53-CM-2
 ##Baseline Configuration
+#### Description
+'The organization develops, documents, and maintains under configuration
+control, a current baseline configuration of the information system.'
 
 #### Amazon Elastic Compute Cloud
 

@@ -1,16 +1,18 @@
 package standard
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib/common"
 	"sort"
+
+	"github.com/opencontrol/compliance-masonry/lib/common"
 	"vbom.ml/util/sortorder"
 )
 
 // Control struct stores data on a specific security requirement
 // Schema info: https://github.com/opencontrol/schemas#standards-documentation
 type Control struct {
-	Family string `yaml:"family" json:"family"`
-	Name   string `yaml:"name" json:"name"`
+	Family      string `yaml:"family" json:"family"`
+	Name        string `yaml:"name" json:"name"`
+	Description string `yaml:"description" json:"description"`
 }
 
 // Standard struct is a collection of security requirements
@@ -57,4 +59,9 @@ func (control Control) GetFamily() string {
 // GetName returns the string representation of the control.
 func (control Control) GetName() string {
 	return control.Name
+}
+
+// GetDescription returns the string description of the control.
+func (control Control) GetDescription() string {
+	return control.Description
 }

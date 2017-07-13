@@ -1,10 +1,11 @@
 package standards
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
 	"path/filepath"
 	"testing"
+
+	"github.com/opencontrol/compliance-masonry/lib/common"
+	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
 )
 
 type v1standardsTest struct {
@@ -15,7 +16,7 @@ type v1standardsTest struct {
 
 var standardsTests = []v1standardsTest{
 	// Check loading a standard that has 326 controls
-	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "standards", "NIST-800-53.yaml"), v1_0_0.Standard{Name: "NIST-800-53"}, 326},
+	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "standards", "NIST-800-53.yaml"), v1_0_0.Standard{Name: "NIST-800-53"}, 328},
 	// Check loading a standard that has 258 controls
 	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "standards", "PCI-DSS-MAY-2015.yaml"), v1_0_0.Standard{Name: "PCI-DSS-MAY-2015"}, 258},
 }
