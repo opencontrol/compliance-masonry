@@ -60,7 +60,7 @@ func TestControlOrder(t *testing.T) {
 }
 
 func TestGetters(t *testing.T) {
-	st := Standard{Name: "test", Controls: map[string]Control{"3": Control{Name: "controlName", Family: "controlFamily"}, "2": Control{}, "1": Control{}}}
+	st := Standard{Name: "test", Controls: map[string]Control{"3": Control{Name: "controlName", Family: "controlFamily", Description: "controlDescription"}, "2": Control{}, "1": Control{}}}
 	if st.GetName() != "test" {
 		t.Errorf("Expected standard name test. Actual %s", st.GetName())
 	}
@@ -74,5 +74,8 @@ func TestGetters(t *testing.T) {
 	}
 	if control.GetFamily() != "controlFamily" {
 		t.Errorf("Expected control family 'controlFamily'. Actual %s", control.GetFamily())
+	}
+	if control.GetDescription() != "controlDescription" {
+		t.Errorf("Expected control family 'controlDescription'. Actual %s", control.GetDescription())
 	}
 }
