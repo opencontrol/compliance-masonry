@@ -3,29 +3,16 @@ jobs:
   build:
     working_directory: /go/src/github.com/opencontrol/compliance-masonry
     docker:
-      - image: golang:1.8-alpine
+      - image: docker:17-git
     steps:
-      - run:
-          name: Install Git
-          command: apk add --no-cache bash gcc git musl-dev
       - checkout
-
+      - setup_remote_docker
       - run:
-          name: Build the program
-          command: go build
-
+          name: Install dependencies
+          command: apk add --no-cache make
       - run:
-          name: Download test dependencies
-          command: |
-            go get \
-              github.com/axw/gocov/gocov \
-              github.com/kisielk/errcheck \
-              github.com/Masterminds/glide \
-              github.com/mattn/goveralls \
-              golang.org/x/tools/cmd/cover
+          name: Build and run test container
+          command: make test
       - run:
-          name: Run tests
-          command: ./circleci/coverage.sh
-      - run:
-          name: Check for unhandled errors
-          command: errcheck
+          name: Send results to Codecov
+          command: bash <(curl -s https://codecov.io/bash)
