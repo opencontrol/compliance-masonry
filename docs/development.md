@@ -20,17 +20,17 @@ This should print out usage documentation. You can find the code in `$GOPATH/src
 # Get test dependencies
 go get -t ./...
 # Run tests
-go test $(glide nv)
+go test $(go list ./... | grep -v vendor)
 ```
 
 ## Updating dependencies
 
-Masonry uses [glide](https://github.com/Masterminds/glide) to manage dependencies.
+1. Install [Dep](https://github.com/golang/dep).
+1. Run
 
-```sh
-go get github.com/Masterminds/glide
-glide up --all-dependencies
-```
+    ```sh
+    dep ensure -update
+    ```
 
 ## Creating binaries
 

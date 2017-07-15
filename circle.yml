@@ -20,7 +20,6 @@ jobs:
             go get \
               github.com/axw/gocov/gocov \
               github.com/kisielk/errcheck \
-              github.com/Masterminds/glide \
               github.com/mattn/goveralls \
               golang.org/x/tools/cmd/cover
       - run:
