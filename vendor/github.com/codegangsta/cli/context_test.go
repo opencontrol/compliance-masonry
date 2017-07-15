@@ -2,6 +2,7 @@ package cli
 
 import (
 	"flag"
+	"os"
 	"testing"
 	"time"
 )
@@ -180,6 +181,52 @@ func TestContext_IsSet(t *testing.T) {
 	expect(t, c.IsSet("myflagGlobal"), false)
 }
 
+// XXX Corresponds to hack in context.IsSet for flags with EnvVar field
+// Should be moved to `flag_test` in v2
+func TestContext_IsSet_fromEnv(t *testing.T) {
+	var (
+		timeoutIsSet, tIsSet    bool
+		noEnvVarIsSet, nIsSet   bool
+		passwordIsSet, pIsSet   bool
+		unparsableIsSet, uIsSet bool
+	)
+
+	clearenv()
+	os.Setenv("APP_TIMEOUT_SECONDS", "15.5")
+	os.Setenv("APP_PASSWORD", "")
+	a := App{
+		Flags: []Flag{
+			Float64Flag{Name: "timeout, t", EnvVar: "APP_TIMEOUT_SECONDS"},
+			StringFlag{Name: "password, p", EnvVar: "APP_PASSWORD"},
+			Float64Flag{Name: "unparsable, u", EnvVar: "APP_UNPARSABLE"},
+			Float64Flag{Name: "no-env-var, n"},
+		},
+		Action: func(ctx *Context) error {
+			timeoutIsSet = ctx.IsSet("timeout")
+			tIsSet = ctx.IsSet("t")
+			passwordIsSet = ctx.IsSet("password")
+			pIsSet = ctx.IsSet("p")
+			unparsableIsSet = ctx.IsSet("unparsable")
+			uIsSet = ctx.IsSet("u")
+			noEnvVarIsSet = ctx.IsSet("no-env-var")
+			nIsSet = ctx.IsSet("n")
+			return nil
+		},
+	}
+	a.Run([]string{"run"})
+	expect(t, timeoutIsSet, true)
+	expect(t, tIsSet, true)
+	expect(t, passwordIsSet, true)
+	expect(t, pIsSet, true)
+	expect(t, noEnvVarIsSet, false)
+	expect(t, nIsSet, false)
+
+	os.Setenv("APP_UNPARSABLE", "foobar")
+	a.Run([]string{"run"})
+	expect(t, unparsableIsSet, false)
+	expect(t, uIsSet, false)
+}
+
 func TestContext_GlobalIsSet(t *testing.T) {
 	set := flag.NewFlagSet("test", 0)
 	set.Bool("myflag", false, "doc")
@@ -197,6 +244,61 @@ func TestContext_GlobalIsSet(t *testing.T) {
 	expect(t, c.GlobalIsSet("myflagGlobal"), true)
 	expect(t, c.GlobalIsSet("myflagGlobalUnset"), false)
 	expect(t, c.GlobalIsSet("bogusGlobal"), false)
+}
+
+// XXX Corresponds to hack in context.IsSet for flags with EnvVar field
+// Should be moved to `flag_test` in v2
+func TestContext_GlobalIsSet_fromEnv(t *testing.T) {
+	var (
+		timeoutIsSet, tIsSet    bool
+		noEnvVarIsSet, nIsSet   bool
+		passwordIsSet, pIsSet   bool
+		unparsableIsSet, uIsSet bool
+	)
+
+	clearenv()
+	os.Setenv("APP_TIMEOUT_SECONDS", "15.5")
+	os.Setenv("APP_PASSWORD", "")
+	a := App{
+		Flags: []Flag{
+			Float64Flag{Name: "timeout, t", EnvVar: "APP_TIMEOUT_SECONDS"},
+			StringFlag{Name: "password, p", EnvVar: "APP_PASSWORD"},
+			Float64Flag{Name: "no-env-var, n"},
+			Float64Flag{Name: "unparsable, u", EnvVar: "APP_UNPARSABLE"},
+		},
+		Commands: []Command{
+			{
+				Name: "hello",
+				Action: func(ctx *Context) error {
+					timeoutIsSet = ctx.GlobalIsSet("timeout")
+					tIsSet = ctx.GlobalIsSet("t")
+					passwordIsSet = ctx.GlobalIsSet("password")
+					pIsSet = ctx.GlobalIsSet("p")
+					unparsableIsSet = ctx.GlobalIsSet("unparsable")
+					uIsSet = ctx.GlobalIsSet("u")
+					noEnvVarIsSet = ctx.GlobalIsSet("no-env-var")
+					nIsSet = ctx.GlobalIsSet("n")
+					return nil
+				},
+			},
+		},
+	}
+	if err := a.Run([]string{"run", "hello"}); err != nil {
+		t.Logf("error running Run(): %+v", err)
+	}
+	expect(t, timeoutIsSet, true)
+	expect(t, tIsSet, true)
+	expect(t, passwordIsSet, true)
+	expect(t, pIsSet, true)
+	expect(t, noEnvVarIsSet, false)
+	expect(t, nIsSet, false)
+
+	os.Setenv("APP_UNPARSABLE", "foobar")
+	if err := a.Run([]string{"run"}); err != nil {
+		t.Logf("error running Run(): %+v", err)
+	}
+	expect(t, unparsableIsSet, false)
+	expect(t, uIsSet, false)
 }
 
 func TestContext_NumFlags(t *testing.T) {
@@ -273,8 +375,10 @@ func TestContext_Set(t *testing.T) {
 	set.Int("int", 5, "an int")
 	c := NewContext(nil, set, nil)
 
+	expect(t, c.IsSet("int"), false)
 	c.Set("int", "1")
 	expect(t, c.Int("int"), 1)
+	expect(t, c.IsSet("int"), true)
 }
 
 func TestContext_GlobalSet(t *testing.T) {
@@ -291,7 +395,9 @@ func TestContext_GlobalSet(t *testing.T) {
 	expect(t, c.Int("int"), 1)
 	expect(t, c.GlobalInt("int"), 5)
 
+	expect(t, c.GlobalIsSet("int"), false)
 	c.GlobalSet("int", "1")
 	expect(t, c.Int("int"), 1)
 	expect(t, c.GlobalInt("int"), 1)
+	expect(t, c.GlobalIsSet("int"), true)
 }

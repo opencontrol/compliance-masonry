@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-forks/fsnotify"
 
-	"github.com/go-utils/ustr"
+	"github.com/metaleap/go-util-str"
 )
 
 //	A convenient wrapper around `go-forks/fsnotify.Watcher`.

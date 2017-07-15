@@ -1,6 +1,4 @@
 # ufs
---
-    import "github.com/go-utils/ufs"
 
 Go programming helpers for common file-system needs.
 
@@ -238,8 +236,7 @@ type Watcher struct {
 A convenient wrapper around `go-forks/fsnotify.Watcher`.
 
 **NOTE**: `godocdown` picked `watcher-sandboxed.go` shim instead of
-`watcher-default.go`: Refer to http://godoc.org/github.com/go-utils/ufs#Watcher
-for *actual* docs on `Watcher`.
+`watcher-default.go`: Refer to *actual* docs on `Watcher`.
 
 #### func  NewWatcher
 
@@ -287,6 +284,3 @@ type WatcherHandler func(path string)
 ```
 
 Handles a file-system notification originating in a `Watcher`.
-
---
-**godocdown** http://github.com/robertkrimen/godocdown

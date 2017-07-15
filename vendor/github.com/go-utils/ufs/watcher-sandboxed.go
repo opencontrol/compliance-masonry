@@ -5,13 +5,13 @@ package ufs
 import (
 	"path/filepath"
 
-	"github.com/go-utils/ustr"
+	"github.com/metaleap/go-util-str"
 )
 
 //	A convenient wrapper around `go-forks/fsnotify.Watcher`.
 //
 //	**NOTE**: `godocdown` picked `watcher-sandboxed.go` shim instead of `watcher-default.go`:
-//	Refer to http://godoc.org/github.com/go-utils/ufs#Watcher for *actual* docs on `Watcher`.
+//	Refer to http://godoc.org/github.com/metaleap/go-util-fs#Watcher for *actual* docs on `Watcher`.
 type Watcher struct {
 }
 

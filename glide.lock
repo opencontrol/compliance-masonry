@@ -1,82 +1,112 @@
 hash: 8c012aa19d4acf701696c877b7d1a38c794744eb4f2ae4532615f53bb1326f6d
-updated: 2016-07-27T21:39:19.941803274-04:00
+updated: 2017-07-15T15:00:50.221084802-06:00
 imports:
 - name: github.com/blang/semver
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 4a1e882c79dcf4ec00d2e29fac74b9c8938d5052
 - name: github.com/codegangsta/cli
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 4b90d79a682b4bf685762c7452db20f2a676ecb2
 - name: github.com/davecgh/go-spew
-  version: ""
+  version: 04cdfd42973bb9c8589fd6a731800cf222fde1a9
   subpackages:
   - spew
 - name: github.com/go-forks/fsnotify
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: f0c08ee9c60704c1879025f2ae0ff3e000082c13
 - name: github.com/go-utils/ufs
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
-- name: github.com/go-utils/ugo
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
-- name: github.com/go-utils/uslice
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
-- name: github.com/go-utils/ustr
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 759211ccbbfc380b7356c038dbb3667251f6b7b3
 - name: github.com/Masterminds/vcs
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 3084677c2c188840777bff30054f2b553729d329
+- name: github.com/metaleap/go-util-misc
+  version: c53f803886d3a520c369beb2368914d853389f30
+- name: github.com/metaleap/go-util-slice
+  version: fb69df90f7992e63a8959323a08a85aaba012564
+- name: github.com/metaleap/go-util-str
+  version: ea3253c93490d3bbb0ad77670e2ad712e717ae1a
 - name: github.com/onsi/ginkgo
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 2e502de24aff772bf285d36161b79eb44a01bcb3
   subpackages:
   - config
+  - extensions/table
   - internal/codelocation
+  - internal/containernode
   - internal/failer
+  - internal/leafnodes
   - internal/remote
+  - internal/spec
+  - internal/spec_iterator
+  - internal/specrunner
   - internal/suite
   - internal/testingtproxy
   - internal/writer
   - reporters
   - reporters/stenographer
+  - reporters/stenographer/support/go-colorable
+  - reporters/stenographer/support/go-isatty
   - types
-  - internal/containernode
-  - internal/leafnodes
-  - internal/spec
-  - internal/specrunner
 - name: github.com/onsi/gomega
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: efdc5a1179ed51cf9ea59b0b8ce061408b66f2d9
   subpackages:
+  - format
+  - gbytes
+  - gexec
   - internal/assertion
   - internal/asyncassertion
+  - internal/oraclematcher
   - internal/testingtsupport
   - matchers
-  - types
-  - internal/oraclematcher
-  - format
   - matchers/support/goraph/bipartitegraph
   - matchers/support/goraph/edge
   - matchers/support/goraph/node
   - matchers/support/goraph/util
+  - types
 - name: github.com/pmezard/go-difflib
-  version: ""
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:
   - difflib
 - name: github.com/stretchr/objx
-  version: ""
+  version: cbeaeb16a013161a98496fad62933b1d21786672
 - name: github.com/stretchr/testify
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 05e8a0eda380579888eb53c394909df027f06991
   subpackages:
-  - mock
   - assert
+  - mock
 - name: github.com/tg/gosortmap
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 9e9c6c22cdeb75203f2b1ee5f7eb8d5d7832e7b0
 - name: github.com/vektra/errors
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
-- name: golang.org/x/sys
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
-  subpackages:
-  - unix
+  version: c64d83aba85aa4392895aadeefabbd24e89f3580
 - name: gopkg.in/fatih/set.v0
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 27c40922c40b43fe04554d8223a402af3ea333f3
 - name: gopkg.in/yaml.v2
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 3b4ad1db5b2a649883ff3782f5f9f6fb52be71af
 - name: vbom.ml/util
-  version: 26ad09bd764b8f3b6a2489753642774559fe049c
+  version: 256737ac55c46798123f754ab7d2c784e2c71783
   subpackages:
   - sortorder
-testImports: []
+testImports:
+- name: golang.org/x/net
+  version: f01ecb60fe3835d80d9a0b7b2bf24b228c89260e
+  subpackages:
+  - html
+  - html/atom
+  - html/charset
+- name: golang.org/x/sys
+  version: 4cd6d1a821c7175768725b55ca82f14683a29ea4
+  subpackages:
+  - unix
+- name: golang.org/x/text
+  version: 836efe42bb4aa16aaa17b9c155d8813d336ed720
+  subpackages:
+  - encoding
+  - encoding/charmap
+  - encoding/htmlindex
+  - encoding/internal
+  - encoding/internal/identifier
+  - encoding/japanese
+  - encoding/korean
+  - encoding/simplifiedchinese
+  - encoding/traditionalchinese
+  - encoding/unicode
+  - internal/tag
+  - internal/utf8internal
+  - language
+  - runes
+  - transform

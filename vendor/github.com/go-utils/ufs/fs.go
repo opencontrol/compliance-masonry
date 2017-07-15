@@ -6,10 +6,11 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 
-	"github.com/go-utils/uslice"
-	"github.com/go-utils/ustr"
+	"github.com/metaleap/go-util-slice"
+	"github.com/metaleap/go-util-str"
 )
 
 //	Handles a file-system notification originating in a `Watcher`.
@@ -19,6 +20,15 @@ var (
 	//	The permission bits used in the `EnsureDirExists`, `WriteBinaryFile` and `WriteTextFile` functions.
 	ModePerm = os.ModePerm
 )
+
+
+func PathPrefix (val string, pathprefix string) bool {
+	if runtime.GOOS=="windows" {
+		return strings.HasPrefix(strings.ToLower(val), strings.ToLower(pathprefix))
+	}
+	return strings.HasPrefix(val, pathprefix)
+}
+
 
 //	Removes anything in `dirPath` (but not `dirPath` itself), except items whose `os.FileInfo.Name` matches any of the specified `keepNamePatterns`.
 func ClearDirectory(dirPath string, keepNamePatterns ...string) (err error) {
@@ -102,12 +112,11 @@ func CopyFile(srcFilePath, dstFilePath string) (err error) {
 	return
 }
 
-//	Returns whether a directory (not a file) exists at the specified `dirPath`.
-func DirExists(dirPath string) bool {
-	if stat, err := os.Stat(dirPath); err == nil {
-		return stat.IsDir()
-	}
-	return false
+//	Returns whether a directory (not a file) exists at the specified `dirpath`.
+func DirExists(dirpath string) bool {
+	if len(dirpath) == 0 { return false }
+	stat, err := os.Stat(dirpath)
+	return err==nil && stat.IsDir()
 }
 
 //	Returns whether all of the specified `dirOrFileNames` exist in `dirPath`.
@@ -186,11 +195,9 @@ func ExtractZipFile(zipFilePath, targetDirPath string, deleteZipFile bool, fileN
 }
 
 //	Returns whether a file (not a directory) exists at the specified `filePath`.
-func FileExists(filePath string) (fileExists bool) {
-	if stat, err := os.Stat(filePath); err == nil {
-		fileExists = stat.Mode().IsRegular()
-	}
-	return
+func FileExists (filePath string) bool {
+	stat,err := os.Stat(filePath)
+	return err==nil && stat.Mode().IsRegular()
 }
 
 /*
@@ -289,6 +296,20 @@ func ReadTextFile(filePath string, panicOnError bool, defaultValue string) strin
 		panic(err)
 	}
 	return defaultValue
+}
+
+func SanitizeFsName (name string) string {
+	return ustr.Replace(name, map[string]string {	":": "_",
+													"*": "_",
+													".": "_",
+													"\"": "_",
+													"/": "_",
+													"\\": "_",
+													"<": "_",
+													">": "_",
+													"|": "_",
+													"?": "_",
+												})
 }
 
 //	Performs an `io.Copy` from the specified `io.Reader` to the specified local file.
