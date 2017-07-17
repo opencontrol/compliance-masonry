@@ -11,16 +11,21 @@ jobs:
       - checkout
 
       - run:
+          name: Install dependencies
+          command: |
+            go get -u github.com/golang/dep/cmd/dep
+            dep ensure
+      - run:
           name: Build the program
           command: go build
 
       - run:
           name: Download test dependencies
           command: |
-            go get \
+            go get -u \
+              github.com/golang/dep/cmd/dep \
               github.com/axw/gocov/gocov \
               github.com/kisielk/errcheck \
-              github.com/Masterminds/glide \
               github.com/mattn/goveralls \
               golang.org/x/tools/cmd/cover
       - run:

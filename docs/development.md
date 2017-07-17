@@ -4,15 +4,29 @@ Interested in contributing to Masonry? Awesome! Take a look at our [contribution
 
 ## Project setup
 
-1. Install Go 1.6+, and ensure your `GOPATH` is set. Using [gvm](https://github.com/moovweb/gvm) is recommended.
-1. Install the tool.
+1. Install Go 1.7+, and ensure your `GOPATH` is set. Using [gvm](https://github.com/moovweb/gvm) is recommended.
+1. Install [Dep](https://github.com/golang/dep).
+1. Get the code.
 
     ```sh
     go get github.com/opencontrol/compliance-masonry
+    ```
+
+1. Install the dependencies.
+
+    ```sh
+    cd $GOPATH/src/github.com/opencontrol/compliance-masonry
+    dep ensure
+    go install .
+    ```
+
+1. Run the tool.
+
+    ```sh
     compliance-masonry
     ```
 
-This should print out usage documentation. You can find the code in `$GOPATH/src/github.com/opencontrol/compliance-masonry/`.
+This should print out usage documentation.
 
 ## Running tests
 
@@ -20,16 +34,7 @@ This should print out usage documentation. You can find the code in `$GOPATH/src
 # Get test dependencies
 go get -t ./...
 # Run tests
-go test $(glide nv)
-```
-
-## Updating dependencies
-
-Masonry uses [glide](https://github.com/Masterminds/glide) to manage dependencies.
-
-```sh
-go get github.com/Masterminds/glide
-glide up --all-dependencies
+go test $(go list ./... | grep -v vendor)
 ```
 
 ## Creating binaries
