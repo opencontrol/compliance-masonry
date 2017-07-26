@@ -131,7 +131,7 @@ func (g *vcsAndLocalFSGetter) copyLocalResource(resourceSource string,
 	var err error
 	log.Printf("Attempting to copy local resource %s into %s\n", resourceSource, resourceDestination)
 	if recursively {
-		log.Printf("Copying local resource %s reursively into %s\n",
+		log.Printf("Copying local resource %s recursively into %s\n",
 			resourceSource, resourceDestination)
 		err = g.FSUtil.CopyAll(resourceSource, resourceDestination)
 	} else {
