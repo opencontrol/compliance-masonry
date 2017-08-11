@@ -36,4 +36,18 @@ func (_m *Control) GetName() string {
 	return r0
 }
 
+// GetDescription provides a mock function with given fields:
+func (_m *Control) GetDescription() string {
+	ret := _m.Called()
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	return r0
+}
+
 var _ common.Control = (*Control)(nil)

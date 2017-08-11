@@ -3,3 +3,5 @@
 *.swp
 *.out
 .DS_Store
+vendor
+
