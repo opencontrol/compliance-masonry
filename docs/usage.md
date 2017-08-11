@@ -52,6 +52,33 @@ NIST-800-53@MP-5
 NIST-800-53@PS-7
 ```
 
+## JSON/YAML Extract
+
+***Experimental.*** *[Work performed by other Team; no issue opened yet.]*
+
+You may use `compliance-masonry` to generate conglomerate output in JSON or YAML.
+
+This is two-step process:
+
+1. Use `compliance-masonry get` to gather schema information.
+1. Use the `extract` function to render the gathered schema as consolidated output.
+
+### JSON Extract
+
+In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]`, send output to STDOUT (`-d -`), use JSON format, and feed the output through `jq` for readability:
+
+```
+compliance-masonry extracto [path-to-opencontrols-dir] -d - -f json fedramp-moderate | jq '.'
+```
+
+### YAML Extract
+
+In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]`, send output to STDOUT (`-d -`), and use YAML format:
+
+```
+compliance-masonry extracto [path-to-opencontrols-dir] -d - -f yaml fedramp-moderate
+```
+
 ## Documentation format
 
 Compliance Masonry uses the [OpenControl schema](https://github.com/opencontrol/schemas).
