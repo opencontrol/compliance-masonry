@@ -30,7 +30,16 @@ DEBUGFLAGS ?= -gcflags="-N -l"
 endif
 
 # dependencies
-DEPEND=github.com/golang/lint/golint
+DEPEND=github.com/golang/lint/golint \
+			 github.com/Masterminds/vcs \
+			 github.com/blang/semver \
+			 github.com/codegangsta/cli \
+			 github.com/go-utils/ufs \
+			 github.com/tg/gosortmap \
+			 github.com/vektra/errors \
+			 gopkg.in/fatih/set.v0 \
+			 gopkg.in/yaml.v2 \
+			 vbom.ml/util/sortorder
 
 ########################################################################
 # standard targets
@@ -62,7 +71,7 @@ lint: env-setup
 	for pkg in $$(env GOPATH=$(l_GOPATH) $(GO) list ./... |grep -v /vendor/) ; do env GOPATH=$(l_GOPATH) $(GOLINT) $$pkg ; done
 
 depend:
-	@go get -v $(DEPEND)
+	@env GOPATH=$(l_GOPATH) $(GO) get -v $(DEPEND)
 
 
 env-setup:
