@@ -65,18 +65,18 @@ This is two-step process:
 
 ### JSON Extract
 
-In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]`, send output to STDOUT (`-d -`), use JSON format, and feed the output through `jq` for readability:
+In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]` (`-o` option), send output to STDOUT (`-d -`), use JSON format, and feed the output through `jq` for readability:
 
 ```
-compliance-masonry extract [path-to-opencontrols-dir] -d - -f json fedramp-moderate | jq '.'
+compliance-masonry extract -o [path-to-opencontrols-dir] -d - -f json fedramp-moderate | jq '.'
 ```
 
 ### YAML Extract
 
-In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]`, send output to STDOUT (`-d -`), and use YAML format:
+In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]` (`-o` option), send output to STDOUT (`-d -`), and use YAML format:
 
 ```
-compliance-masonry extract [path-to-opencontrols-dir] -d - -f yaml fedramp-moderate
+compliance-masonry extract -o [path-to-opencontrols-dir] -d - -f yaml fedramp-moderate
 ```
 
 ## Documentation format
