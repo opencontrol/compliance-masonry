@@ -11,6 +11,8 @@ const (
 	DefaultDestination = "opencontrols"
 	// DefaultConfigYaml is the file name for the file to find config details
 	DefaultConfigYaml = "opencontrol.yaml"
+	// DefaultJsonFile is the file to store combined JSON
+	DefaultJsonFile = DefaultDestination + "/opencontrol.json"
 )
 
 // ResourceType is a type to help tell when it should be of only types of resources.

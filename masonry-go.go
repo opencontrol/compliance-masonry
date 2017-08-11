@@ -128,6 +128,7 @@ func NewCLIApp() *cli.App {
 			},
 		},
 		diffCommand,
+		extractCommand,
 	}
 	return app
 }
