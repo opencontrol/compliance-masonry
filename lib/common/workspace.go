@@ -9,6 +9,7 @@ type Workspace interface {
 	GetCertification() Certification
 	GetAllComponents() []Component
 	GetComponent(componentKey string) (Component, bool)
+	GetAllStandards() []Standard
 	GetStandard(standardKey string) (Standard, bool)
 	GetAllVerificationsWith(standardKey string, controlKey string) Verifications
 }

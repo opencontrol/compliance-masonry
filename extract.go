@@ -20,9 +20,14 @@ var (
 			Usage: "Set opencontrols directory",
 		},
 		cli.StringFlag{
-			Name:  "json, j",
-			Value: constants.DefaultJsonFile,
-			Usage: "JSON file for output",
+			Name:  "destination, d",
+			Value: constants.DefaultJSONFile,
+			Usage: "Destination file for output",
+		},
+		cli.StringFlag{
+			Name:  "format, f",
+			Value: constants.DefaultOutputFormat,
+			Usage: "Output format for destination file",
 		},
 	}
 	extractCommand = cli.Command{
@@ -36,14 +41,22 @@ var (
 
 func extractCommandAction(c *cli.Context) error {
 	// read parms
-	opencontrolsDir := c.String("opencontrols")
-	jsonFile := c.String("json")
+	parmOpencontrols := c.String("opencontrols")
+	parmDestination := c.String("destination")
+	parmOutputFormat := c.String("format")
+
+	// convert to enum
+	outputFormat, err := extract.ToOutputFormat(parmOutputFormat)
+	if err != nil {
+		return cli.NewExitError(err.Error(), 1)
+	}
 
 	// construct args
 	config := extract.Config{
-		Certification:  c.Args().First(),
-		OpencontrolDir: opencontrolsDir,
-		JsonFile:       jsonFile,
+		Certification:   c.Args().First(),
+		OpencontrolDir:  parmOpencontrols,
+		DestinationFile: parmDestination,
+		OutputFormat:    outputFormat,
 	}
 
 	// invoke command

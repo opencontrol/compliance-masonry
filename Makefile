@@ -18,6 +18,7 @@ BIN     = ./bin
 GO      = go
 GODOC   = godoc
 GOFMT   = gofmt
+GOLINT  = golint
 GLIDE   = glide
 TIMEOUT = 15
 Q = $(if $(filter 1,$(VERBOSE)),,@)
@@ -28,9 +29,12 @@ ifdef DEBUG
 DEBUGFLAGS ?= -gcflags="-N -l"
 endif
 
+# dependencies
+DEPEND=github.com/golang/lint/golint
+
 ########################################################################
 # standard targets
-.PHONY: all build clean rebuild test env-setup
+.PHONY: all build clean rebuild test lint depend env-setup
 
 all: build
 
@@ -42,14 +46,24 @@ build: env-setup
 		-o $(BIN)/compliance-masonry \
 		./masonry-go.go ./diff.go ./extract.go
 
-clean:
+clean: env-setup
 	@rm -fR $(BIN)
 
 rebuild: clean build
 
-test:
+test: env-setup
 	@env GOPATH=$(l_GOPATH) $(GO) get -t ./...
 	@env GOPATH=$(l_GOPATH) $(GO) test $(shell glide nv)
+
+lint: env-setup
+	@if env GOPATH=$(l_GOPATH) $(GOFMT) -l . | grep -v '^vendor/' | grep -e '\.go'; then \
+		echo "^- Repo contains improperly formatted go files; run gofmt -w *.go" && exit 1; \
+	  else echo "All .go files formatted correctly"; fi
+	for pkg in $$(env GOPATH=$(l_GOPATH) $(GO) list ./... |grep -v /vendor/) ; do env GOPATH=$(l_GOPATH) $(GOLINT) $$pkg ; done
+
+depend:
+	@go get -v $(DEPEND)
+
 
 env-setup:
 	@mkdir -p "$(BIN)"

@@ -1,6 +1,8 @@
 package certifications
 
 import (
+	"encoding/json"
+	"errors"
 	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
 	"github.com/opencontrol/compliance-masonry/lib/common"
 	"gopkg.in/yaml.v2"
@@ -20,4 +22,23 @@ func Load(certificationFile string) (common.Certification, error) {
 		return nil, common.ErrCertificationSchema
 	}
 	return certification, nil
+}
+
+// MarshalJSON accounts for different versions
+func MarshalJSON(certification common.Certification) (b []byte, e error) {
+	// ABr: *punt* on getting marshal to work with interface
+	var (
+		bytesCertification []byte
+		err                error
+	)
+	vCertification1_0_0, ok := certification.(v1_0_0.Certification)
+	if ok {
+		bytesCertification, err = json.Marshal(&vCertification1_0_0)
+	} else {
+		return nil, errors.New("unsupported certification version")
+	}
+	if err != nil {
+		return nil, err
+	}
+	return bytesCertification, nil
 }
