@@ -274,13 +274,6 @@ func flattenNormalize(config *Config, flattened *map[string]interface{}) error {
 
 // flatten - generic function to flatten JSON or YAML
 func flatten(config *Config, input map[string]interface{}, lkey string, flattened *map[string]interface{}) error {
-	//	defer func() { //catch or finally
-	//		if err := recover(); err != nil { //catch
-	//			fmt.Fprintf(os.Stderr, "Exception: %v\n", err)
-	//			os.Exit(1)
-	//		}
-	//	}()
-
 	// start the ball rolling
 	processed, err := flattenDriver(config, input, lkey, flattened)
 	if err != nil {
