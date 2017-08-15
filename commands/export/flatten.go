@@ -2,7 +2,7 @@ package export
 
 import (
 	"fmt"
-	"os"
+	//	"os"
 	"regexp"
 	"strings"
 
@@ -262,7 +262,7 @@ func flattenNormalize(config *Config, flattened *map[string]interface{}) error {
 				suffixMatch := key2[len(prefixMatch):]
 
 				// add normalized entry "as-is"
-				newControlKey := fmt.Sprintf("%s:%s", normalizedKeyPrefix, suffixMatch)
+				newControlKey := fmt.Sprintf("%s%s%s", normalizedKeyPrefix, config.KeySeparator, suffixMatch)
 				(*flattened)[newControlKey] = value2
 			}
 		}
@@ -274,12 +274,12 @@ func flattenNormalize(config *Config, flattened *map[string]interface{}) error {
 
 // flatten - generic function to flatten JSON or YAML
 func flatten(config *Config, input map[string]interface{}, lkey string, flattened *map[string]interface{}) error {
-	defer func() { //catch or finally
-		if err := recover(); err != nil { //catch
-			fmt.Fprintf(os.Stderr, "Exception: %v\n", err)
-			os.Exit(1)
-		}
-	}()
+	//	defer func() { //catch or finally
+	//		if err := recover(); err != nil { //catch
+	//			fmt.Fprintf(os.Stderr, "Exception: %v\n", err)
+	//			os.Exit(1)
+	//		}
+	//	}()
 
 	// start the ball rolling
 	processed, err := flattenDriver(config, input, lkey, flattened)
