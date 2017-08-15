@@ -54,7 +54,7 @@ build: env-setup
 		-ldflags '-X $(PACKAGE)/cmd.Version=$(VERSION) -X $(PACKAGE)/cmd.BuildDate=$(DATE)' \
 		$(DEBUGFLAGS) \
 		-o $(BIN)/compliance-masonry \
-		./masonry-go.go ./diff.go ./extract.go
+		./masonry-go.go ./diff.go ./export.go
 
 # example usage:
 #   make debug DEBUG_OPTIONS='x -o ~/proj/git/src/lmgitlab.hlsdev.local/demos/ssa-mde-ato/poc/poc-apps/openshift-dev-int/compliance/opencontrols -d /tmp/foo.json -f json -n -k -x FedRAMP-moderate'
