@@ -13,6 +13,10 @@ import (
 
 // Config contains settings for this object
 type Config struct {
+	// Debug - taken from CLI settings (global flag)
+	Debug bool
+
+	// remainder are configuration settings local to Export
 	Certification   string
 	OpencontrolDir  string
 	DestinationFile string

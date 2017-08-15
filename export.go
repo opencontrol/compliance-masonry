@@ -58,6 +58,7 @@ var (
 
 func exportCommandAction(c *cli.Context) error {
 	// read parms
+	parmDebug := c.GlobalBool("debug")
 	parmOpencontrols := c.String("opencontrols")
 	parmDestination := c.String("destination")
 	parmOutputFormat := c.String("format")
@@ -87,6 +88,7 @@ func exportCommandAction(c *cli.Context) error {
 		InferKeys:       parmInferKeys,
 		Docxtemplater:   parmDocxtemplater,
 		KeySeparator:    parmKeySeparator,
+		Debug:           parmDebug,
 	}
 
 	// invoke command

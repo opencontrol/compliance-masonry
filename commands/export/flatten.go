@@ -2,11 +2,9 @@ package export
 
 import (
 	"fmt"
-	//	"os"
+	"log"
 	"regexp"
 	"strings"
-
-	my_logger "github.com/opencontrol/compliance-masonry/logger"
 )
 
 ////////////////////////////////////////////////////////////////////////
@@ -17,18 +15,26 @@ func flattenScalar(config *Config, value interface{}, key string, flattened *map
 	// first, check all supported simple types
 	result := true
 	if _, okStr := value.(string); okStr {
-		my_logger.Debugf("flatten:Scalar(string): %s=%s", key, value.(string))
+		if config.Debug {
+			log.Printf("flatten:Scalar(string): %s=%s\n", key, value.(string))
+		}
 		(*flattened)[key] = value.(string)
 	} else if _, okFloat64 := value.(float64); okFloat64 {
-		my_logger.Debugf("flatten:Scalar(float64): %s=%f", key, value.(float64))
+		if config.Debug {
+			log.Printf("flatten:Scalar(float64): %s=%f\n", key, value.(float64))
+		}
 		(*flattened)[key] = value.(float64)
 	} else if _, okBool := value.(bool); okBool {
-		my_logger.Debugf("flatten:Scalar(bool): %s=%t", key, value.(bool))
+		if config.Debug {
+			log.Printf("flatten:Scalar(bool): %s=%t\n", key, value.(bool))
+		}
 		(*flattened)[key] = value.(bool)
 	} else {
 		result = false
 	}
-	debugHook(config, flattened)
+	if config.Debug {
+		debugHook(config, flattened)
+	}
 	return result
 }
 
@@ -39,7 +45,9 @@ func flattenArray(config *Config, value interface{}, key string, flattened *map[
 	if !okArray {
 		return false, nil
 	}
-	my_logger.Debugf("flatten:Array:process %s", key)
+	if config.Debug {
+		log.Printf("flatten:Array:process %s\n", key)
+	}
 
 	// use a target array as the flattened value for this element
 	var theArrayValue interface{}
@@ -56,8 +64,8 @@ func flattenArray(config *Config, value interface{}, key string, flattened *map[
 				break
 			}
 		}
-		if embedArray {
-			my_logger.Debugf("flatten:Array:embedArray %s", key)
+		if embedArray && config.Debug {
+			log.Printf("flatten:Array:embedArray %s\n", key)
 		}
 	}
 
@@ -80,7 +88,9 @@ func flattenArray(config *Config, value interface{}, key string, flattened *map[
 			// handle the key name to use
 			lkey := key + config.KeySeparator
 			arrayKeyToUse = discoverKey(config, theArrayValue, lkey, i)
-			my_logger.Debugf("flatten:Array:discoverKey %s=%s", key, arrayKeyToUse)
+			if config.Debug {
+				log.Printf("flatten:Array:discoverKey %s=%s\n", key, arrayKeyToUse)
+			}
 			flattenedToUse = flattened
 		}
 
@@ -92,33 +102,45 @@ func flattenArray(config *Config, value interface{}, key string, flattened *map[
 		if !processed {
 			return false, fmt.Errorf("key '%s[%d]': flattenDriver returns not processed for '%v'", key, i, theArrayValue)
 		}
-		debugHook(config, flattenedToUse)
+		if config.Debug {
+			debugHook(config, flattenedToUse)
+		}
 
 		// docxtemplater: simple arrays are embedded (not flattened)
 		if embedArray {
 			// account for single elements with no key; use 'name' as the key to match docxtemplater
 			if len(*flattenedToUse) == 1 {
 				if val, mapHasEmptyKey := (*flattenedToUse)[""]; mapHasEmptyKey {
-					my_logger.Debugf("flatten:Array:embedArray:replaceEmptyKey %s", key)
+					if config.Debug {
+						log.Printf("flatten:Array:embedArray:replaceEmptyKey %s\n", key)
+					}
 					(*flattenedToUse)["name"] = val
 					delete((*flattenedToUse), "")
 				}
 			}
 			targetArray = append(targetArray, *flattenedToUse)
-			debugHook(config, flattenedToUse)
+			if config.Debug {
+				debugHook(config, flattenedToUse)
+			}
 		}
 	}
 
 	// if we are using docxtemplater format, append targetArray as single value for this key
 	if config.Docxtemplater && (targetArray != nil) {
-		debugHook(config, flattened)
-		my_logger.Debugf("flatten:Array:useTargetArray %s", key)
+		if config.Debug {
+			debugHook(config, flattened)
+			log.Printf("flatten:Array:useTargetArray %s\n", key)
+		}
 		(*flattened)[key] = targetArray
-		debugHook(config, flattened)
+		if config.Debug {
+			debugHook(config, flattened)
+		}
 	}
 
 	// all is well
-	debugHook(config, flattened)
+	if config.Debug {
+		debugHook(config, flattened)
+	}
 	return true, nil
 }
 
@@ -129,7 +151,9 @@ func flattenMap(config *Config, value interface{}, key string, flattened *map[st
 	if !okMapType {
 		return false, nil
 	}
-	my_logger.Debugf("flatten:Map:process %s", key)
+	if config.Debug {
+		log.Printf("flatten:Map:process %s\n", key)
+	}
 
 	// iterate over key-value pairs
 	var newKey string
@@ -138,7 +162,9 @@ func flattenMap(config *Config, value interface{}, key string, flattened *map[st
 		if key != "" {
 			newKey = key + config.KeySeparator + rkey
 		} else {
-			my_logger.Debugf("flatten:Map:isFirstTime %s", key)
+			if config.Debug {
+				log.Printf("flatten:Map:isFirstTime %s\n", key)
+			}
 			newKey = rkey
 		}
 
@@ -153,7 +179,9 @@ func flattenMap(config *Config, value interface{}, key string, flattened *map[st
 	}
 
 	// all is well
-	debugHook(config, flattened)
+	if config.Debug {
+		debugHook(config, flattened)
+	}
 	return true, nil
 }
 
@@ -161,7 +189,9 @@ func flattenMap(config *Config, value interface{}, key string, flattened *map[st
 func flattenDriver(config *Config, value interface{}, key string, flattened *map[string]interface{}) (bool, error) {
 	// account for unset value - just ignore (?)
 	if value == nil {
-		my_logger.Debugf("flatten: No value for %s", key)
+		if config.Debug {
+			log.Printf("flatten: No value for %s\n", key)
+		}
 		return true, nil
 	}
 
@@ -194,7 +224,9 @@ func flattenDriver(config *Config, value interface{}, key string, flattened *map
 	}
 
 	// we have a truly unknown type
-	debugHook(config, flattened)
+	if config.Debug {
+		debugHook(config, flattened)
+	}
 	return false, fmt.Errorf("key '%s': unknown value '%v'", key, value)
 }
 

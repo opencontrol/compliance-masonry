@@ -3,8 +3,6 @@ package export
 import (
 	"strconv"
 	"strings"
-
-	my_logger "github.com/opencontrol/compliance-masonry/logger"
 )
 
 ////////////////////////////////////////////////////////////////////////
@@ -38,10 +36,12 @@ func returnErrors(err error) []error {
 }
 
 // debugHook - adds onto dlv with specific condition
-func debugHook(config *Config, flattened *map[string]interface{}) {
-	if value, hasKey := (*flattened)["data:components"]; hasKey {
-		my_logger.Debugf("Hit debugHook: %v", value)
+func debugHook(config *Config, _ *map[string]interface{}) {
+	// could assume called only in debug mode; check anyway
+	if !config.Debug {
+		return
 	}
+	// insert whatever you need for a hook into stopping the program
 }
 
 // isScalar - is a given value a supported scalar?

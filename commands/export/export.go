@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io"
+	"log"
 	"os"
 	"strings"
 
 	"github.com/opencontrol/compliance-masonry/lib"
 	"github.com/opencontrol/compliance-masonry/lib/common"
-	my_logger "github.com/opencontrol/compliance-masonry/logger"
 	"github.com/opencontrol/compliance-masonry/tools/certifications"
 )
 
@@ -35,7 +35,9 @@ func exportJSON(config *Config, workspace common.Workspace, output *exportOutput
 
 	// flatten output?
 	if config.Flatten {
-		my_logger.Debugf("JSON: Flatten")
+		if config.Debug {
+			log.Println("JSON: Flatten")
+		}
 
 		// decode json first
 		mapped := map[string]interface{}{}
