@@ -83,9 +83,9 @@ compliance-masonry export -o [path-to-opencontrols-dir] -d - -f yaml fedramp-mod
 
 Use `compliance-masonry export --help` for more information; you have additional options that permit easy use of the consolidated JSON output with a system like `docxtemplater`. Here is an example usage; it assumes:
 
-    a. You already have your environment ready to run `compliance-masonry get`
-    a. You have a `docxtemplater/config.json` (see http://docxtemplater.readthedocs.io/en/latest/cli.html)
-    a. You have a working copy of `jq` for managing JSON files (see https://stedolan.github.io/jq/download/)
+    * You already have your environment ready to run `compliance-masonry get`
+    * You have a `docxtemplater/config.json` (see http://docxtemplater.readthedocs.io/en/latest/cli.html)
+    * You have a working copy of `jq` for managing JSON files (see https://stedolan.github.io/jq/download/)
 
 
 ```
