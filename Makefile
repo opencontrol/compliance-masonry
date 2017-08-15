@@ -44,7 +44,7 @@ DEPEND=github.com/golang/lint/golint \
 
 ########################################################################
 # standard targets
-.PHONY: all build debug clean rebuild test lint depend env-setup sync
+.PHONY: all build debug clean rebuild test
 
 all: build
 
@@ -57,7 +57,7 @@ build: env-setup
 		./masonry-go.go ./diff.go ./extract.go
 
 # example usage:
-#   make debug DEBUG_OPTIONS='x -o ~/proj/git/src/lmgitlab.hlsdev.local/demos/ssa-mde-ato/poc/poc-apps/openshift-dev-int/compliance/opencontrols -d /tmp/foo.json -f json -n fedramp-moderate'
+#   make debug DEBUG_OPTIONS='x -o ~/proj/git/src/lmgitlab.hlsdev.local/demos/ssa-mde-ato/poc/poc-apps/openshift-dev-int/compliance/opencontrols -d /tmp/foo.json -f json -n -k -x FedRAMP-moderate'
 debug: build
 	@$(GODEBUG) exec $(BIN)/compliance-masonry -- $(DEBUG_OPTIONS)
 
@@ -70,6 +70,9 @@ test: env-setup
 	@env GOPATH=$(l_GOPATH) $(GO) get -t ./...
 	@env GOPATH=$(l_GOPATH) $(GO) test $(shell glide nv)
 
+########################################################################
+# project-specific targets
+.PHONY: lint depend env-setup
 lint: env-setup
 	@if env GOPATH=$(l_GOPATH) $(GOFMT) -l . | grep -v '^vendor/' | grep -e '\.go'; then \
 		echo "^- Repo contains improperly formatted go files; run gofmt -w *.go" && exit 1; \
@@ -83,6 +86,9 @@ env-setup:
 	@mkdir -p "$(BIN)"
 	@if ! hash $(GLIDE) >/dev/null 2>&1 ; then curl https://glide.sh/get | sh ; fi
 
+########################################################################
+# git support
+.PHONY: sync commit push
 sync:
 	@git fetch upstream && git checkout master && git merge upstream/master
 
