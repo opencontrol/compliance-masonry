@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	my_logger "github.com/opencontrol/compliance-masonry/logger"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/codegangsta/cli"
 	"github.com/opencontrol/compliance-masonry/commands/docs"
@@ -28,6 +30,14 @@ func NewCLIApp() *cli.App {
 			Name:  "verbose",
 			Usage: "Indicates whether to run the command with verbosity.",
 		},
+		cli.BoolFlag{
+			Name:  "debug",
+			Usage: "Indicates whether to run the command with extreme verbosity.",
+		},
+		cli.StringFlag{
+			Name:  "debug-log",
+			Usage: "File destination for debug (empty for STDERR).",
+		},
 	}
 	app.Before = func(c *cli.Context) error {
 		// Resets the log to output to nothing
@@ -35,6 +45,15 @@ func NewCLIApp() *cli.App {
 		if c.Bool("verbose") {
 			log.SetOutput(os.Stderr)
 			log.Println("Running with verbosity")
+		}
+		if c.Bool("debug") {
+			os.Setenv("DEBUG", strconv.Itoa(int(my_logger.DEBUG)))
+			debugLog := c.String("debug-log")
+			if len(debugLog) == 0 {
+				os.Setenv("DEBUG_LOG", "-")
+			} else {
+				os.Setenv("DEBUG_LOG", debugLog)
+			}
 		}
 		return nil
 	}

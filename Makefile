@@ -19,6 +19,7 @@ GO      = go
 GODOC   = godoc
 GOFMT   = gofmt
 GOLINT  = golint
+GODEBUG = dlv
 GLIDE   = glide
 TIMEOUT = 15
 Q = $(if $(filter 1,$(VERBOSE)),,@)
@@ -43,7 +44,7 @@ DEPEND=github.com/golang/lint/golint \
 
 ########################################################################
 # standard targets
-.PHONY: all build clean rebuild test lint depend env-setup
+.PHONY: all build debug clean rebuild test lint depend env-setup sync
 
 all: build
 
@@ -54,6 +55,11 @@ build: env-setup
 		$(DEBUGFLAGS) \
 		-o $(BIN)/compliance-masonry \
 		./masonry-go.go ./diff.go ./extract.go
+
+# example usage:
+#   make debug DEBUG_OPTIONS='x -o ~/proj/git/src/lmgitlab.hlsdev.local/demos/ssa-mde-ato/poc/poc-apps/openshift-dev-int/compliance/opencontrols -d /tmp/foo.json -f json -n fedramp-moderate'
+debug: build
+	@$(GODEBUG) exec $(BIN)/compliance-masonry -- $(DEBUG_OPTIONS)
 
 clean: env-setup
 	@rm -fR $(BIN)
@@ -70,10 +76,19 @@ lint: env-setup
 	  else echo "All .go files formatted correctly"; fi
 	for pkg in $$(env GOPATH=$(l_GOPATH) $(GO) list ./... |grep -v /vendor/) ; do env GOPATH=$(l_GOPATH) $(GOLINT) $$pkg ; done
 
-depend:
+depend: env-setup
 	@env GOPATH=$(l_GOPATH) $(GO) get -v $(DEPEND)
-
 
 env-setup:
 	@mkdir -p "$(BIN)"
+	@if ! hash $(GLIDE) >/dev/null 2>&1 ; then curl https://glide.sh/get | sh ; fi
+
+sync:
+	@git fetch upstream && git checkout master && git merge upstream/master
+
+commit:
+	@git add --all && git commit -a
+
+push:
+	@git push origin master
 

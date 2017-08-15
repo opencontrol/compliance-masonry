@@ -36,14 +36,14 @@ func (p *Certification) MarshalJSON() (b []byte, e error) {
 }
 
 // GetKey returns the name of the certification.
-func (certification Certification) GetKey() string {
-	return certification.Key
+func (p Certification) GetKey() string {
+	return p.Key
 }
 
 // GetSortedStandards returns a list of sorted standard names
-func (certification Certification) GetSortedStandards() []string {
+func (p Certification) GetSortedStandards() []string {
 	var standardNames []string
-	for standardName := range certification.Standards {
+	for standardName := range p.Standards {
 		standardNames = append(standardNames, standardName)
 	}
 	sort.Sort(sortorder.Natural(standardNames))
@@ -51,9 +51,9 @@ func (certification Certification) GetSortedStandards() []string {
 }
 
 // GetControlKeysFor returns the control keys for the given standard key.
-func (certification Certification) GetControlKeysFor(standardKey string) []string {
+func (p Certification) GetControlKeysFor(standardKey string) []string {
 	var controlNames []string
-	for controlName := range certification.Standards[standardKey] {
+	for controlName := range p.Standards[standardKey] {
 		controlNames = append(controlNames, controlName)
 	}
 	sort.Sort(sortorder.Natural(controlNames))
