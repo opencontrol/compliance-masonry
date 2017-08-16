@@ -26,7 +26,7 @@ Q = $(if $(filter 1,$(VERBOSE)),,@)
 M = $(shell printf "\033[34;1m▶\033[0m")
 
 # debug flag
-ifdef DEBUG
+ifeq ($(DEBUG), 1)
 DEBUGFLAGS ?= -gcflags="-N -l"
 endif
 
@@ -81,6 +81,10 @@ lint: env-setup
 
 depend: env-setup
 	@env GOPATH=$(l_GOPATH) $(GO) get -v $(DEPEND)
+
+publish: test
+	@if ! hash ./.goxc.local.json ; then echo Missing .goxc.local.json ; false ; else true ; fi
+	env GOPATH=$(l_GOPATH) goxc $(PUBLISH_OPTIONS)
 
 env-setup:
 	@mkdir -p "$(BIN)"
