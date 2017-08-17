@@ -234,11 +234,20 @@ func flattenDriver(config *Config, value interface{}, key string, flattened *map
 func flattenNormalize(config *Config, flattened *map[string]interface{}) error {
 	// discover all controls
 	var allControls []string
-	regexControlKeyPattern := "^(?P<prefix_match>data" + config.KeySeparator +
-		"components" + config.KeySeparator + "(?P<comp_name>.*?)" + config.KeySeparator +
+
+	// create the regex expressions we will use
+	regexControlKeyPattern := "^(?P<prefix_match>(?P<initial_prefix_match>data" + config.KeySeparator +
+		"components" + config.KeySeparator + "(?P<comp_name>.*?))" + config.KeySeparator +
 		"satisfies" + config.KeySeparator + "(?P<control_key>.*?)" +
 		config.KeySeparator + ")control_key$"
 	regexControlKeyExp, _ := regexp.Compile(regexControlKeyPattern)
+
+	// component info we will want to extract for each normalized control
+	componentCheck := make(map[string]string)
+	componentCheck["key"] = "key"
+	componentCheck["responsible_role"] = "responsible_role"
+
+	// iterate over flattened map
 	for key, value := range *flattened {
 		// must be a string
 		valueStr, okStr := value.(string)
@@ -285,17 +294,28 @@ func flattenNormalize(config *Config, flattened *map[string]interface{}) error {
 			}
 			prefixMatch := regexControlKeyResult["prefix_match"]
 
+			// get some other info we want to include with normalized data
+			initialPrefixMatch := regexControlKeyResult["initial_prefix_match"]
+
 			// iterate over the flattened map...again
 			for key2, value2 := range *flattened {
 				// check for and export suffix
-				if !strings.HasPrefix(key2, prefixMatch) {
+				if strings.HasPrefix(key2, prefixMatch) {
+					// add normalized entry "as-is"
+					suffixMatch := key2[len(prefixMatch):]
+					newControlKey := fmt.Sprintf("%s%s%s", normalizedKeyPrefix, config.KeySeparator, suffixMatch)
+					(*flattened)[newControlKey] = value2
 					continue
 				}
-				suffixMatch := key2[len(prefixMatch):]
 
-				// add normalized entry "as-is"
-				newControlKey := fmt.Sprintf("%s%s%s", normalizedKeyPrefix, config.KeySeparator, suffixMatch)
-				(*flattened)[newControlKey] = value2
+				// iterate over the component info
+				for componentCheckKey, componentCheckValue := range componentCheck {
+					componentCheckFullKey := initialPrefixMatch + config.KeySeparator + componentCheckKey
+					if key2 == componentCheckFullKey {
+						newControlKey := fmt.Sprintf("%s%scomponent%s%s", normalizedKeyPrefix, config.KeySeparator, config.KeySeparator, componentCheckValue)
+						(*flattened)[newControlKey] = value2
+					}
+				}
 			}
 		}
 	}
