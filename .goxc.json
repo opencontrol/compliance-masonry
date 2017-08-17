@@ -10,7 +10,7 @@
 	"PackageVersion": "1.1.3",
 	"TaskSettings": {
 		"publish-github": {
-			"owner": "opencontrol",
+			"owner": "andybrucenet",
 			"repository": "compliance-masonry"
 		}
 	},

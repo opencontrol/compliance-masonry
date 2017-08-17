@@ -38,6 +38,7 @@ DEPEND=github.com/golang/lint/golint \
 			 github.com/go-utils/ufs \
 			 github.com/tg/gosortmap \
 			 github.com/vektra/errors \
+			 github.com/laher/goxc \
 			 gopkg.in/fatih/set.v0 \
 			 gopkg.in/yaml.v2 \
 			 vbom.ml/util/sortorder
