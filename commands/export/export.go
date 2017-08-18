@@ -1,6 +1,8 @@
 package export
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -113,6 +115,10 @@ func export(config *Config, workspace common.Workspace) []error {
 	if config.DestinationFile == "-" {
 		// send to stdout
 		writer = os.Stdout
+	} else if config.DestinationFile == "-str-" {
+		// send to null buffer
+		var b bytes.Buffer
+		writer = bufio.NewWriter(&b)
 	} else {
 		// send to file
 		file, err := os.Create(config.DestinationFile)
