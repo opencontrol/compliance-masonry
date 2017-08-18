@@ -82,6 +82,7 @@ lint: env-setup
 
 depend: env-setup
 	@env GOPATH=$(l_GOPATH) $(GO) get -v $(DEPEND)
+	@go get -u github.com/golang/lint/golint
 
 publish: test
 	@if ! hash ./.goxc.local.json ; then echo Missing .goxc.local.json ; false ; else true ; fi

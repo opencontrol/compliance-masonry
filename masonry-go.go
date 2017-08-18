@@ -36,9 +36,6 @@ func NewCLIApp() *cli.App {
 	app.Before = func(c *cli.Context) error {
 		// Resets the log to output to nothing
 		log.SetOutput(ioutil.Discard)
-		if c.Bool("debug") {
-			c.GlobalSet("verbose", "true")
-		}
 		if c.Bool("verbose") || c.Bool("debug") {
 			log.SetOutput(os.Stderr)
 			if c.Bool("debug") {
