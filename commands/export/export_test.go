@@ -41,7 +41,7 @@ var _ = Describe("Export", func() {
 					config := Config{
 						Certification:   "LATO",
 						OpencontrolDir:  filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures_complete"),
-						DestinationFile: "-",
+						DestinationFile: "/tmp/output.json",
 						OutputFormat:    jsonFormat,
 					}
 					err := Export(config)
@@ -53,7 +53,7 @@ var _ = Describe("Export", func() {
 					config := Config{
 						Certification:   "LATO",
 						OpencontrolDir:  filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures_complete"),
-						DestinationFile: "-",
+						DestinationFile: "/tmp/output.yaml",
 						OutputFormat:    yamlFormat,
 					}
 					err := Export(config)
@@ -65,7 +65,7 @@ var _ = Describe("Export", func() {
 					config := Config{
 						Certification:   "LATO",
 						OpencontrolDir:  filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures_complete"),
-						DestinationFile: "-",
+						DestinationFile: "/tmp/output.json",
 						OutputFormat:    jsonFormat,
 						Flatten:         true,
 						KeySeparator:    standardKeySeparator,
@@ -79,7 +79,7 @@ var _ = Describe("Export", func() {
 					config := Config{
 						Certification:   "LATO",
 						OpencontrolDir:  filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures_complete"),
-						DestinationFile: "-",
+						DestinationFile: "/tmp/output.json",
 						OutputFormat:    jsonFormat,
 						Flatten:         true,
 						InferKeys:       true,
@@ -94,7 +94,7 @@ var _ = Describe("Export", func() {
 					config := Config{
 						Certification:   "LATO",
 						OpencontrolDir:  filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures_complete"),
-						DestinationFile: "-",
+						DestinationFile: "/tmp/output.json",
 						OutputFormat:    jsonFormat,
 						Flatten:         true,
 						InferKeys:       true,
@@ -110,7 +110,7 @@ var _ = Describe("Export", func() {
 					config := Config{
 						Certification:   "LATO",
 						OpencontrolDir:  filepath.Join(workingDir, "..", "..", "fixtures", "opencontrol_fixtures_complete"),
-						DestinationFile: "-",
+						DestinationFile: "/tmp/output.json",
 						OutputFormat:    jsonFormat,
 						Flatten:         true,
 						InferKeys:       true,
