@@ -35,7 +35,7 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/go-utils/ufs"
+  name = "github.com/metaleap/go-util"
 
 [[constraint]]
   name = "github.com/onsi/ginkgo"
