@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-  metaleapfs "github.com/metaleap/go-util/fs"
+	metaleapfs "github.com/metaleap/go-util/fs"
 )
 
 // Util is an interface for helper file system utilities.
