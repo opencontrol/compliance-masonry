@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/go-utils/ufs"
+	metaleapfs "github.com/metaleap/go-util/fs"
 )
 
 // Util is an interface for helper file system utilities.
@@ -37,13 +37,13 @@ func (fs OSUtil) OpenAndReadFile(file string) ([]byte, error) {
 
 // CopyAll copies recursively from source to destination
 func (fs OSUtil) CopyAll(source string, destination string) error {
-	return ufs.CopyAll(source, destination, nil)
+	return metaleapfs.CopyAll(source, destination, nil, "")
 }
 
 // Copy copies one file from source to destination
 func (fs OSUtil) Copy(source string, destination string) error {
 	log.Printf("source %s dest %s\n", source, destination)
-	return ufs.CopyFile(source, destination)
+	return metaleapfs.CopyFile(source, destination)
 }
 
 // TempDir creates a temp directory that the user is responsible for cleaning up
@@ -53,7 +53,7 @@ func (fs OSUtil) TempDir(dir string, prefix string) (string, error) {
 
 // Mkdirs ensures that the directory is created.
 func (fs OSUtil) Mkdirs(dir string) error {
-	return ufs.EnsureDirExists(dir)
+	return metaleapfs.EnsureDirExists(dir)
 }
 
 // AppendOrCreate adds text to file if it exists otherwise it creates a new
