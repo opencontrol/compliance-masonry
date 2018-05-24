@@ -185,15 +185,15 @@ func (g *vcsAndLocalFSGetter) GetRemoteResources(destination string, subfolder s
 		// Clone repo
 		log.Printf("Attempting to clone %v into %s\n", entry, tempPath)
 
-		// If contextdir is defined, switch to that dir for content
-		if entry.GetContextDir() != "" {
-			tempPath = filepath.Join(tempPath, entry.GetContextDir())
-	        }
-
 		err := g.Downloader.DownloadRepo(entry, tempPath)
 		if err != nil {
 			return err
 		}
+
+		// If contextdir is defined, switch to that dir for content
+                if entry.GetContextDir() != "" {
+                        tempPath = filepath.Join(tempPath, entry.GetContextDir())
+                }
 
 		// Parse the opencontrol.yaml.
 		configBytes, err := g.FSUtil.OpenAndReadFile(filepath.Join(tempPath, entry.GetConfigFile()))
