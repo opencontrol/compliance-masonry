@@ -38,6 +38,7 @@ type Metadata struct {
 type VCSEntry struct {
 	URL      string `yaml:"url"`
 	Revision string `yaml:"revision"`
+	ContextDir string `yaml:"contextdir"`
 	Path     string `yaml:"path"`
 }
 
@@ -102,4 +103,9 @@ func (e VCSEntry) GetRevision() string {
 // GetURL returns the URL of the vcs resource.
 func (e VCSEntry) GetURL() string {
 	return e.URL
+}
+
+// GetContextDir returns the dir containing content in the vcs resource.
+func (e VCSEntry) GetContextDir() string {
+        return e.ContextDir
 }

@@ -27,11 +27,14 @@ type OpenControl interface {
 //
 // GetURL returns the URL of the resource.
 //
+// GetContextDir returns the specific directory containing the OpenControl content.
+//
 // GetRevision returns the specific revision of the resource.
 //
 // GetConfigFile returns the config file to look at once the resource is downloaded.
 type RemoteSource interface {
 	GetURL() string
+	GetContextDir() string
 	GetRevision() string
 	GetConfigFile() string
 }

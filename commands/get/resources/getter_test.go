@@ -144,6 +144,7 @@ func createMockRemoteSource() common.RemoteSource {
 	// Setup remoteSource mock
 	remoteSource := new(mocks.RemoteSource)
 	remoteSource.On("GetURL").Return("")
+	remoteSource.On("GetContextDir").Return("")
 	remoteSource.On("GetConfigFile").Return("")
 	return remoteSource
 }
