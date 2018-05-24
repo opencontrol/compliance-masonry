@@ -2,4 +2,7 @@
 /compliance-masonry
 *.swp
 *.out
+.DS_Store
 vendor
+bin
+

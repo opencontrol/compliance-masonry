@@ -11,6 +11,12 @@ const (
 	DefaultDestination = "opencontrols"
 	// DefaultConfigYaml is the file name for the file to find config details
 	DefaultConfigYaml = "opencontrol.yaml"
+	// DefaultJSONFile is the file to store combined JSON
+	DefaultJSONFile = DefaultDestination + "/opencontrol.json"
+	// DefaultOutputFormat is the default format for general output
+	DefaultOutputFormat = "json"
+	// DefaultKeySeparator is the default separator for keys when flattening structure
+	DefaultKeySeparator = ":"
 )
 
 // ResourceType is a type to help tell when it should be of only types of resources.

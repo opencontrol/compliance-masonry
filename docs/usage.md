@@ -52,6 +52,50 @@ NIST-800-53@MP-5
 NIST-800-53@PS-7
 ```
 
+## JSON/YAML Export
+
+***Experimental.*** *[Work performed by an external Team; no issue opened yet.]*
+
+You may use `compliance-masonry` to generate consolidated exported output in JSON or YAML.
+
+This is two-step process:
+
+1. Use `compliance-masonry get` to gather schema information.
+1. Use `compliance-masonry export` to render the gathered schema as consolidated output.
+
+### JSON Export
+
+In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]` (`-o` option), send output to STDOUT (`-d -`), use JSON format, and feed the output through `jq` for readability:
+
+```
+compliance-masonry export -o [path-to-opencontrols-dir] -d - -f json fedramp-moderate | jq '.'
+```
+
+### YAML Export
+
+In this example, transform the gathered input schema from the `[path-to-opencontrols-dir]` (`-o` option), send output to STDOUT (`-d -`), and use YAML format:
+
+```
+compliance-masonry export -o [path-to-opencontrols-dir] -d - -f yaml fedramp-moderate
+```
+
+### Using the Export
+
+Use `compliance-masonry export --help` for more information; you have additional options that permit easy use of the consolidated JSON output with a system like `docxtemplater`. Here is an example usage; it assumes:
+
+* You already have your environment ready to run `compliance-masonry get`
+* You have a `docxtemplater/config.json` (see http://docxtemplater.readthedocs.io/en/latest/cli.html)
+* You have a working copy of `jq` for managing JSON files (see https://stedolan.github.io/jq/download/)
+
+
+```
+mkdir -p ./.localdata/docxtemplater/
+compliance-masonry get
+compliance-masonry export -o $(realpath .)/opencontrols -d - -f json -n -x -k FedRAMP-moderate | jq '.' > ./.localdata/docxtemplater/opencontrols-export.json
+jq -s '.[0] * .[1]' ./docxtemplater/config.json ./.localdata/docxtemplater/opencontrols-export.json > ./.localdata/docxtemplater/config.json
+docxtemplater ./.localdata/docxtemplater/config.json
+```
+
 ## Documentation format
 
 Compliance Masonry uses the [OpenControl schema](https://github.com/opencontrol/schemas).

@@ -22,19 +22,27 @@ func NewCLIApp() *cli.App {
 	app := cli.NewApp()
 	app.Name = "Compliance Masonry"
 	app.Usage = "Open Control CLI Tool"
-	app.Version = "1.1.2"
+	app.Version = "1.1.3"
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "verbose",
 			Usage: "Indicates whether to run the command with verbosity.",
 		},
+		cli.BoolFlag{
+			Name:  "debug",
+			Usage: "Indicates whether to run the command with extreme verbosity.",
+		},
 	}
 	app.Before = func(c *cli.Context) error {
 		// Resets the log to output to nothing
 		log.SetOutput(ioutil.Discard)
-		if c.Bool("verbose") {
+		if c.Bool("verbose") || c.Bool("debug") {
 			log.SetOutput(os.Stderr)
-			log.Println("Running with verbosity")
+			if c.Bool("debug") {
+				log.Println("Running with debug")
+			} else {
+				log.Println("Running with verbosity")
+			}
 		}
 		return nil
 	}
@@ -128,6 +136,7 @@ func NewCLIApp() *cli.App {
 			},
 		},
 		diffCommand,
+		exportCommand,
 	}
 	return app
 }

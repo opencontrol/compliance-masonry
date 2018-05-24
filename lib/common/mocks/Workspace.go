@@ -40,6 +40,22 @@ func (_m *Workspace) GetAllVerificationsWith(standardKey string, controlKey stri
 	return r0
 }
 
+// GetAllStandards provides a mock function with given fields:
+func (_m *Workspace) GetAllStandards() []common.Standard {
+	ret := _m.Called()
+
+	var r0 []common.Standard
+	if rf, ok := ret.Get(0).(func() []common.Standard); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]common.Standard)
+		}
+	}
+
+	return r0
+}
+
 // GetCertification provides a mock function with given fields:
 func (_m *Workspace) GetCertification() common.Certification {
 	ret := _m.Called()
