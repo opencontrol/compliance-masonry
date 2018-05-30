@@ -12,14 +12,6 @@ Interested in contributing to Masonry? Awesome! Take a look at our [contribution
     go get github.com/opencontrol/compliance-masonry
     ```
 
-1. Install the dependencies.
-
-    ```sh
-    cd $GOPATH/src/github.com/opencontrol/compliance-masonry
-    dep ensure
-    go install .
-    ```
-
 1. Run the tool.
 
     ```sh
@@ -27,6 +19,22 @@ Interested in contributing to Masonry? Awesome! Take a look at our [contribution
     ```
 
 This should print out usage documentation.
+
+## Updating dependencies
+
+1. Get the `vndr` handling tool.
+
+    ```sh
+    go get github.com/LK4D4/vndr
+    ```
+
+1. Update dependencies by running the `vndr` tool in the project.
+
+   ```sh
+   vndr
+   ```
+
+1. If any dependencies do not exist in the `vendor/` folder, add them to `vendor.conf` and re-run the `vndr` tool.
 
 ## Running tests
 
