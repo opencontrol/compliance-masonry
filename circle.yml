@@ -3,18 +3,13 @@ jobs:
   build:
     working_directory: /go/src/github.com/opencontrol/compliance-masonry
     docker:
-      - image: golang:1.8-alpine
+      - image: golang:1.9-alpine
     steps:
       - run:
           name: Install Git
           command: apk add --no-cache bash gcc git musl-dev
       - checkout
 
-      - run:
-          name: Install dependencies
-          command: |
-            go get -u github.com/golang/dep/cmd/dep
-            dep ensure
       - run:
           name: Build the program
           command: go build
