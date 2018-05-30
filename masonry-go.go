@@ -13,6 +13,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/commands/get"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
+	"github.com/opencontrol/compliance-masonry/version"
 )
 
 var exportPath, markdownPath, opencontrolDir string
@@ -22,7 +23,7 @@ func NewCLIApp() *cli.App {
 	app := cli.NewApp()
 	app.Name = "Compliance Masonry"
 	app.Usage = "Open Control CLI Tool"
-	app.Version = "1.1.2"
+	app.Version = version.Version
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "verbose",
