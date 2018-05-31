@@ -13,19 +13,10 @@ jobs:
       - run:
           name: Build the program
           command: go build
-
-      - run:
-          name: Download test dependencies
-          command: |
-            go get -u \
-              github.com/golang/dep/cmd/dep \
-              github.com/axw/gocov/gocov \
-              github.com/kisielk/errcheck \
-              github.com/mattn/goveralls \
-              golang.org/x/tools/cmd/cover
       - run:
           name: Run tests
           command: ./.circleci/coverage.sh
       - run:
-          name: Check for unhandled errors
-          command: errcheck
+          name: Send results to Codecov
+          shell: /bin/bash
+          command: bash <(curl -s https://codecov.io/bash)
