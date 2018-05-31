@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x
 set -e
 
 cov_file=/tmp/coverage.txt
