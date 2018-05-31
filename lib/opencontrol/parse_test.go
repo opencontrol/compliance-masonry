@@ -119,7 +119,7 @@ dependencies:
 		It("should unsuccessfully parse", func() {
 			parser := YAMLParser{}
 			opencontrol, err := parser.Parse(data)
-			assert.Equal(GinkgoT(), "Unable to parse yaml data - yaml: line 1: found character that cannot start any token", err.Error())
+			assert.Equal(GinkgoT(), "Unable to parse yaml data - yaml: line 2: found character that cannot start any token", err.Error())
 			assert.Nil(GinkgoT(), opencontrol)
 		})
 	})
