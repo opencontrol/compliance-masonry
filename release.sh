@@ -4,5 +4,5 @@ set -x
 
 # run `go test` outside of goxc since there wasn't a clean way to ignore the vendor/ directory otherwise
 # https://github.com/laher/goxc/issues/99
-go test $(go list ./... | grep -v vendor)
+go test $(go list ./...)
 $GOPATH/bin/goxc "$@"
