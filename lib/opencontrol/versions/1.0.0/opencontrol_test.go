@@ -32,19 +32,19 @@ var _ = Describe("Opencontrol", func() {
 			},
 			Dependencies: Dependencies{
 				Certifications: []VCSEntry{
-					VCSEntry{
+					{
 						URL:      "github.com/18F/LATO",
 						Revision: "master",
 					},
 				},
 				Systems: []VCSEntry{
-					VCSEntry{
+					{
 						URL:      "github.com/18F/cg-complinace",
 						Revision: "master",
 					},
 				},
 				Standards: []VCSEntry{
-					VCSEntry{
+					{
 						URL:      "github.com/18F/NIST-800-53",
 						Revision: "master",
 					},

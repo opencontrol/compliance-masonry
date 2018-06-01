@@ -55,7 +55,7 @@ var _ = Describe("ResourceGetter", func() {
 			expectedError:        errors.New("Remote components error"),
 		}),
 		Entry("should return no error when able to get all components", getterErrors{
-		// everything is nil.
+			// everything is nil.
 		}),
 	)
 

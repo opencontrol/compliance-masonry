@@ -15,10 +15,10 @@ func TestComponentGetters(t *testing.T) {
 			ControlOrigins:         []string{"inherited"},
 			ImplementationStatus:   "partial",
 			ImplementationStatuses: []string{"partial"},
-			Parameters:             []Section{Section{Key: "key", Text: "text"}},
+			Parameters:             []Section{{Key: "key", Text: "text"}},
 			Narrative: []NarrativeSection{
-				NarrativeSection{Key: "key", Text: "text"},
-				NarrativeSection{Text: "text"},
+				{Key: "key", Text: "text"},
+				{Text: "text"},
 			},
 		}, {}}
 	component := Component{

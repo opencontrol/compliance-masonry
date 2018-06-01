@@ -9,7 +9,7 @@ import (
 )
 
 func TestComponentGetters(t *testing.T) {
-	testSatisfies := []Satisfies{{ControlOrigin: "control_origin", Parameters: []Section{Section{Key: "key", Text: "text"}}, Narrative: []NarrativeSection{NarrativeSection{Key: "key", Text: "text"}, NarrativeSection{Text: "text"}}}, {}, {}, {}}
+	testSatisfies := []Satisfies{{ControlOrigin: "control_origin", Parameters: []Section{{Key: "key", Text: "text"}}, Narrative: []NarrativeSection{{Key: "key", Text: "text"}, {Text: "text"}}}, {}, {}, {}}
 	component := Component{
 		Name:            "Amazon Elastic Compute Cloud",
 		Key:             "EC2",
