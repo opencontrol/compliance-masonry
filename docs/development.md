@@ -4,8 +4,7 @@ Interested in contributing to Masonry? Awesome! Take a look at our [contribution
 
 ## Project setup
 
-1. Install Go 1.7+, and ensure your `GOPATH` is set. Using [gvm](https://github.com/moovweb/gvm) is recommended.
-1. Install [Dep](https://github.com/golang/dep).
+1. Install Go 1.9+, and ensure your `GOPATH` is set. Using [gvm](https://github.com/moovweb/gvm) is recommended.
 1. Get the code.
 
     ```sh
@@ -20,7 +19,44 @@ Interested in contributing to Masonry? Awesome! Take a look at our [contribution
 
 This should print out usage documentation.
 
+1. Install `make`. See [GNU Make](https://www.gnu.org/software/make/) for details on what `make` is and can do.
+
+    `yum`-based systems (RHEL / CentOS / etc.):
+
+    ```sh
+    sudo yum install make
+    ```
+
+    `apt`-based systems (Ubuntu / etc.):
+
+    ```sh
+    sudo apt-get install build-essential
+    ```
+
+    MacOS systems: 
+    First, install [Homebrew](https://brew.sh). Then, install `make`:
+
+    ```sh
+    brew install make
+
+1. `Makefile` targets:
+
+    ```sh
+    make [target-name]
+    ```
+
+    The common targets include:
+    * `all` - Performs a `build`
+    * `build` - Builds the source code and places `compliance-masonry` binary into the `./build` folder.
+    * `clean` - Simply removes the `./build` folder
+    * `test` - Runs the tests.
+    * `lint` - Checks to see if the Go code is properly formatted. (If you want to contribute to the project, use this target; you will need to make sure your code follows accepted standards.)
+
 ## Updating dependencies
+
+As the dependencies now exist in the `git` tree under the `vendor/` folder,
+dependencies should only have to be updated when they are out-of-date, need
+to stick to a specific version, or need to add a new dependency.
 
 1. Get the `vndr` handling tool.
 
@@ -28,7 +64,7 @@ This should print out usage documentation.
     go get github.com/LK4D4/vndr
     ```
 
-1. Update dependencies by running the `vndr` tool in the project.
+1. When needed, update dependencies by running the `vndr` tool in the project.
 
    ```sh
    vndr
@@ -39,10 +75,7 @@ This should print out usage documentation.
 ## Running tests
 
 ```sh
-# Get test dependencies
-go get -t ./...
-# Run tests
-go test $(go list ./...)
+make test
 ```
 
 ## Creating binaries
