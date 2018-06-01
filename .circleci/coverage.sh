@@ -1,11 +1,12 @@
 #!/bin/bash
 
+set -x
 set -e
 
 cov_file=/tmp/coverage.txt
 
 # Get the list of packages.
-pkgs=`go list ./... | grep -v vendor`
+pkgs=`go list ./...`
 
 echo "mode: count" > $cov_file
 for pkg in $pkgs

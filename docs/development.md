@@ -42,7 +42,7 @@ This should print out usage documentation.
 # Get test dependencies
 go get -t ./...
 # Run tests
-go test $(go list ./... | grep -v vendor)
+go test $(go list ./...)
 ```
 
 ## Creating binaries

@@ -1,4 +1,5 @@
-engines:
+version: "2"
+plugins:
   fixme:
     enabled: true
   gofmt:
