@@ -38,8 +38,8 @@ type componentTestError struct {
 var v3_1Satisfies = []v31.Satisfies{
 	{
 		Narrative: []v31.NarrativeSection{
-			v31.NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
-			v31.NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
+			{Key: "a", Text: "Justification in narrative form A for CM-2"},
+			{Key: "b", Text: "Justification in narrative form B for CM-2"},
 		},
 		ControlOrigin:          "shared",
 		ControlOrigins:         []string{"shared", "inherited"},
@@ -48,12 +48,12 @@ var v3_1Satisfies = []v31.Satisfies{
 	},
 	{
 		Narrative: []v31.NarrativeSection{
-			v31.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1"},
-			v31.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
+			{Key: "a", Text: "Justification in narrative form A for 1.1"},
+			{Key: "b", Text: "Justification in narrative form B for 1.1"},
 		},
 		Parameters: []v31.Section{
-			v31.Section{Key: "a", Text: "Parameter A for 1.1"},
-			v31.Section{Key: "b", Text: "Parameter B for 1.1"},
+			{Key: "a", Text: "Parameter A for 1.1"},
+			{Key: "b", Text: "Parameter B for 1.1"},
 		},
 		ControlOrigin:          "inherited",
 		ControlOrigins:         []string{"inherited"},
@@ -62,12 +62,12 @@ var v3_1Satisfies = []v31.Satisfies{
 	},
 	{
 		Narrative: []v31.NarrativeSection{
-			v31.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
-			v31.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
+			{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
+			{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
 		},
 		Parameters: []v31.Section{
-			v31.Section{Key: "a", Text: "Parameter A for 1.1.1"},
-			v31.Section{Key: "b", Text: "Parameter B for 1.1.1"},
+			{Key: "a", Text: "Parameter A for 1.1.1"},
+			{Key: "b", Text: "Parameter B for 1.1.1"},
 		},
 		ControlOrigin:          "inherited",
 		ImplementationStatus:   "partial",
@@ -75,7 +75,7 @@ var v3_1Satisfies = []v31.Satisfies{
 	},
 	{
 		Narrative: []v31.NarrativeSection{
-			v31.NarrativeSection{Text: "Justification in narrative form for 2.1"},
+			{Text: "Justification in narrative form for 2.1"},
 		},
 		ControlOrigin:          "inherited",
 		ImplementationStatus:   "partial",
@@ -99,39 +99,39 @@ var componentV3_1Tests = []componentV3_1Test{
 var v3Satisfies = []v3.Satisfies{
 	{
 		Narrative: []v3.NarrativeSection{
-			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for CM-2"},
-			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for CM-2"},
+			{Key: "a", Text: "Justification in narrative form A for CM-2"},
+			{Key: "b", Text: "Justification in narrative form B for CM-2"},
 		},
 		ControlOrigin:        "shared",
 		ImplementationStatus: "partial",
 	},
 	{
 		Narrative: []v3.NarrativeSection{
-			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1"},
-			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1"},
+			{Key: "a", Text: "Justification in narrative form A for 1.1"},
+			{Key: "b", Text: "Justification in narrative form B for 1.1"},
 		},
 		Parameters: []v3.Section{
-			v3.Section{Key: "a", Text: "Parameter A for 1.1"},
-			v3.Section{Key: "b", Text: "Parameter B for 1.1"},
+			{Key: "a", Text: "Parameter A for 1.1"},
+			{Key: "b", Text: "Parameter B for 1.1"},
 		},
 		ControlOrigin:        "inherited",
 		ImplementationStatus: "partial",
 	},
 	{
 		Narrative: []v3.NarrativeSection{
-			v3.NarrativeSection{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
-			v3.NarrativeSection{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
+			{Key: "a", Text: "Justification in narrative form A for 1.1.1"},
+			{Key: "b", Text: "Justification in narrative form B for 1.1.1"},
 		},
 		ControlOrigin:        "inherited",
 		ImplementationStatus: "partial",
 		Parameters: []v3.Section{
-			v3.Section{Key: "a", Text: "Parameter A for 1.1.1"},
-			v3.Section{Key: "b", Text: "Parameter B for 1.1.1"},
+			{Key: "a", Text: "Parameter A for 1.1.1"},
+			{Key: "b", Text: "Parameter B for 1.1.1"},
 		},
 	},
 	{
 		Narrative: []v3.NarrativeSection{
-			v3.NarrativeSection{Text: "Justification in narrative form for 2.1"},
+			{Text: "Justification in narrative form for 2.1"},
 		},
 		ControlOrigin:        "inherited",
 		ImplementationStatus: "partial",
@@ -223,7 +223,7 @@ func testSet(example common.Component, actual common.Component, t *testing.T) {
 		t.Errorf("Expected %d, Actual: %d", len(example.GetAllSatisfies()), len(actual.GetAllSatisfies()))
 	}
 	// Check Narratives and Parameters.
-	for idx, _ := range actual.GetAllSatisfies() {
+	for idx := range actual.GetAllSatisfies() {
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetNarratives(), (actual.GetAllSatisfies())[idx].GetNarratives())
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetParameters(), (actual.GetAllSatisfies())[idx].GetParameters())
 		assert.Equal(t, (example.GetAllSatisfies())[idx].GetControlOrigin(), (actual.GetAllSatisfies())[idx].GetControlOrigin())

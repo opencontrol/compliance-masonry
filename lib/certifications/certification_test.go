@@ -26,8 +26,8 @@ var v1certificationTests = []v1certificationTest{
 		filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		v1_0_0.Certification{Key: "LATO"},
 		map[string][]string{
-			"NIST-800-53":      []string{"AC-2", "AC-6", "CM-2"},
-			"PCI-DSS-MAY-2015": []string{"1.1", "1.1.1", "2.1"},
+			"NIST-800-53":      {"AC-2", "AC-6", "CM-2"},
+			"PCI-DSS-MAY-2015": {"1.1", "1.1.1", "2.1"},
 		},
 	},
 }

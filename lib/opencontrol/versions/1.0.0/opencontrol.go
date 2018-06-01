@@ -36,10 +36,10 @@ type Metadata struct {
 
 // VCSEntry is a generic holder for handling the specific location and revision of a resource.
 type VCSEntry struct {
-	URL      string `yaml:"url"`
-	Revision string `yaml:"revision"`
+	URL        string `yaml:"url"`
+	Revision   string `yaml:"revision"`
 	ContextDir string `yaml:"contextdir"`
-	Path     string `yaml:"path"`
+	Path       string `yaml:"path"`
 }
 
 // GetCertifications retrieves the list of certifications
@@ -107,5 +107,5 @@ func (e VCSEntry) GetURL() string {
 
 // GetContextDir returns the dir containing content in the vcs resource.
 func (e VCSEntry) GetContextDir() string {
-        return e.ContextDir
+	return e.ContextDir
 }

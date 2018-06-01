@@ -52,16 +52,16 @@ func (_m *RemoteSource) GetURL() string {
 
 // GetContextDir provides a mock function with given fields:
 func (_m *RemoteSource) GetContextDir() string {
-        ret := _m.Called()
+	ret := _m.Called()
 
-        var r0 string
-        if rf, ok := ret.Get(0).(func() string); ok {
-                r0 = rf()
-        } else {
-                r0 = ret.Get(0).(string)
-        }
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
 
-        return r0
+	return r0
 }
 
 var _ common.RemoteSource = (*RemoteSource)(nil)
