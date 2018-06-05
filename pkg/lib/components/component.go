@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"path/filepath"

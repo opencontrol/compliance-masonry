@@ -1,7 +1,7 @@
 package opencontrol
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 )
 
 // Base is the common struct that all schemas must have.

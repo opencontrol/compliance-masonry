@@ -8,8 +8,8 @@ import (
 	"sync"
 
 	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/result"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/result"
 )
 
 // localWorkspace struct combines components, standards, and a certification data

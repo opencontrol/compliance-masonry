@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/standards/versions/1_0_0"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	v1_0_0 "github.com/opencontrol/compliance-masonry/pkg/lib/standards/versions/1_0_0"
 )
 
 type v1standardsTest struct {

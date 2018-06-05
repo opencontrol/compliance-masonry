@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	v2 "github.com/opencontrol/compliance-masonry/lib/components/versions/2_0_0"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	v2 "github.com/opencontrol/compliance-masonry/pkg/lib/components/versions/2_0_0"
 )
 
 type componentExportTest struct {

@@ -1,8 +1,8 @@
 package lib
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib/certifications"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/certifications"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 )
 
 // LoadCertification struct loads certifications into a Certification struct

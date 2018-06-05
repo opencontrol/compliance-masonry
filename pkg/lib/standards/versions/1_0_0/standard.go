@@ -3,7 +3,7 @@ package standard
 import (
 	"sort"
 
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"vbom.ml/util/sortorder"
 )
 

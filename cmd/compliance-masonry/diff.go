@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/codegangsta/cli"
-	"github.com/opencontrol/compliance-masonry/commands/diff"
+	"github.com/opencontrol/compliance-masonry/pkg/cli/diff"
 	"github.com/tg/gosortmap"
 )
 

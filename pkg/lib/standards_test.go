@@ -1,8 +1,8 @@
 package lib
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

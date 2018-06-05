@@ -8,8 +8,8 @@ This package (and the sub packages) are the only packages that should
 be imported by external projects. This lib package is very helpful for
 those writing plugins to extend the functionality of Masonry.
 
-Additionally, 1) the `lib/common` package contains all the interfaces for
-workspace information and 2) the `lib/common/mocks` contains all the
+Additionally, 1) the `pkg/lib/common` package contains all the interfaces for
+workspace information and 2) the `pkg/lib/common/mocks` contains all the
 mocks to help with tests.
 
 The idea is once you run the `get` command and all the resources
@@ -27,7 +27,7 @@ Workspace is the representation of your working space with all the
 resources gathered together.
 - How to obtain a workspace:
   ```go
-  import "github.com/opencontrol/compliance-masonry/lib"
+  import "github.com/opencontrol/compliance-masonry/pkg/lib"
   
   // some other code
   
@@ -66,13 +66,13 @@ rather a post-processed map of data to help quickly getting component
 data for a particular control name - standard name combination.
 
 ### Mock generation
-The `lib/common/mocks` is a package that is auto-generated via
+The `pkg/lib/common/mocks` is a package that is auto-generated via
  [`mockery`](https://github.com/vektra/mockery). Follow the
  instructions there to install `mockery`.
  
  Whenever a modification is made to an existing interface or a new 
  interface is created, you should use mockery to (re)generate the mock
- while inside the `lib/common` folder.
+ while inside the `pkg/lib/common` folder.
 
 ```sh
 mockery -name NameOfInterface

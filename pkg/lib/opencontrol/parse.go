@@ -3,8 +3,8 @@ package opencontrol
 import (
 	"errors"
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	v1_0_0 "github.com/opencontrol/compliance-masonry/pkg/lib/opencontrol/versions/1.0.0"
 	"gopkg.in/yaml.v2"
 )
 

@@ -7,8 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
-	. "github.com/opencontrol/compliance-masonry/commands/docs"
-	"github.com/opencontrol/compliance-masonry/commands/docs/gitbook"
+	. "github.com/opencontrol/compliance-masonry/pkg/cli/docs"
+	"github.com/opencontrol/compliance-masonry/pkg/cli/docs/gitbook"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

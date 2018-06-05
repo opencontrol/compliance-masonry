@@ -1,8 +1,8 @@
 package certifications
 
 import (
-	v1_0_0 "github.com/opencontrol/compliance-masonry/lib/certifications/versions/1_0_0"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	v1_0_0 "github.com/opencontrol/compliance-masonry/pkg/lib/certifications/versions/1_0_0"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 )

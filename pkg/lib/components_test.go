@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/opencontrol/compliance-masonry/lib/common/mocks"
-	"github.com/opencontrol/compliance-masonry/lib/result"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common/mocks"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/result"
 	"github.com/stretchr/testify/assert"
 )
 

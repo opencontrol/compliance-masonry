@@ -4,7 +4,7 @@ import (
 	"errors"
 	. "github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/extensions/table"
-	commonMocks "github.com/opencontrol/compliance-masonry/lib/common/mocks"
+	commonMocks "github.com/opencontrol/compliance-masonry/pkg/lib/common/mocks"
 	"github.com/opencontrol/compliance-masonry/tools/vcs/mocks"
 	"github.com/stretchr/testify/assert"
 )

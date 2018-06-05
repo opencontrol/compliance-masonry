@@ -2,7 +2,7 @@ package gitbook
 
 import (
 	"fmt"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"io/ioutil"
 	"path/filepath"
 	"strings"

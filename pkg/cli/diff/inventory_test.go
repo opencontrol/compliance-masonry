@@ -1,7 +1,7 @@
 package diff_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry/commands/diff"
+	. "github.com/opencontrol/compliance-masonry/pkg/cli/diff"
 
 	"errors"
 	. "github.com/onsi/ginkgo"

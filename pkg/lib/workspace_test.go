@@ -2,7 +2,7 @@ package lib
 
 import (
 	"errors"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"

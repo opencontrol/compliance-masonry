@@ -2,7 +2,7 @@ package component
 
 import (
 	"github.com/blang/semver"
-	"github.com/opencontrol/compliance-masonry/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 )
 
 // Component struct is an individual component requiring documentation

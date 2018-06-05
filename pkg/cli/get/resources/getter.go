@@ -1,8 +1,8 @@
 package resources
 
 import (
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/opencontrol"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/opencontrol/compliance-masonry/tools/fs"
 	"github.com/opencontrol/compliance-masonry/tools/mapset"

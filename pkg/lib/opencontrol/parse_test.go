@@ -1,12 +1,12 @@
 package opencontrol_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry/lib/opencontrol"
+	. "github.com/opencontrol/compliance-masonry/pkg/lib/opencontrol"
 
 	. "github.com/onsi/ginkgo"
-	"github.com/opencontrol/compliance-masonry/lib/common"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/mocks"
-	"github.com/opencontrol/compliance-masonry/lib/opencontrol/versions/1.0.0"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/opencontrol/mocks"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/opencontrol/versions/1.0.0"
 	"github.com/stretchr/testify/assert"
 )
 
