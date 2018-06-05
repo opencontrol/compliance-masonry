@@ -15,5 +15,5 @@ ratings:
   paths:
   - "**.go"
 exclude_paths:
-- fixtures/
+- test/
 - vendor/
