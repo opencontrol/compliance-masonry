@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+GOPATH := $(shell cat ~/.gorc /etc/gorc 2> /dev/null | grep ^GOPATH= | head -n1 | cut -d'=' -f2)
+
+GO := GOPATH=$(GOPATH) go
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DH_GOPKG := efsgithub.securewebportal.net/dc/golang-dc/dc-ldap
+
+%:
+	dh $@ --buildsystem=golang --with=golang
+
+override_dh_auto_build:
+	echo start
+	$(GO) get
+	$(GO) build
+	echo end
+
+override_dh_auto_test:
+	$(GO) test
+
+override_dh_auto_clean:
+#       List any files built by your project here, to be removed by the 'clean' process
+#	rm ...
+	dh_auto_clean

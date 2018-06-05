@@ -1,0 +1,13 @@
+Source: compliance-masonry
+Section: misc
+Priority: optional
+Standards-Version: 3.9.7
+Homepage: http://opencontrol.cfapps.io/
+Vcs-Browser: https://github.com/opencontrol/compliance-masonry
+Vcs-Git: git://github.com/opencontrol/compliance-masonry.git
+Build-Depends: dpkg-dev (>= 1.16.1.1)
+
+Package: compliance-masonry
+Architecture: any
+Description: Compliance Masonry is a command-line interface (CLI) that allows users to construct
+ certification documentation using the OpenControl Schema
