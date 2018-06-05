@@ -20,16 +20,14 @@
 # https://github.com/opencontrol/compliance-masonry
 %global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
 %global import_path     %{provider_prefix}
-%global commit          75f03f3337d4b3889aad9b17351c3901fa02efed
-%global shortcommit     %(c=%{commit}; echo ${c:0:7})
 
 Name:           %{repo}
 Version:        1.1.3
-Release:        1.git%{shortcommit}%{?dist}
+Release:        1%{?dist}
 Summary:        Security Documentation Builder
 License:        CC0 1.0 Universal Public Domain
 URL:            https://%{provider_prefix}
-Source0:        https://%{provider_prefix}/archive/%{commit}/%{repo}-%{shortcommit}.tar.gz
+Source0:        https://%{provider_prefix}/archive/%{repo}-%{version}.tar.gz
 
 # e.g. el6 has ppc64 arch without gcc-go, so EA tag is required
 ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 aarch64 %{arm}}
@@ -41,7 +39,7 @@ Compliance Masonry is a command-line interface (CLI) that allows users to constr
 certification documentation using the OpenControl Schema
 
 %prep
-%setup -q -n %{repo}-%{commit}
+%setup -q -n %{repo}-%{version}
 
 %build
 mkdir -p src/%{provider}.%{provider_tld}/%{project}
@@ -63,6 +61,6 @@ install -p -m 0755 bin/%{name} %{buildroot}%{_bindir}
 %{_bindir}/%{name}
 
 %changelog
-* Fri May 25 2018 Gabe <redhatrises@gmail.com> - 1.1.3-1.git75f03f3
+* Fri May 25 2018 Gabe <redhatrises@gmail.com> - 1.1.3-1
 - First Initial RPM package
 
