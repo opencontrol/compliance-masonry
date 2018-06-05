@@ -46,7 +46,7 @@ func TestCompareAndAddComponent(t *testing.T) {
 
 func TestLoadSameComponentTwice(t *testing.T) {
 	ws := localWorkspace{components: newComponents(), justifications: result.NewJustifications()}
-	componentPath := filepath.Join("..", "fixtures", "component_fixtures", "v3_1_0", "EC2")
+	componentPath := filepath.Join("..", "..", "test", "fixtures", "component_fixtures", "v3_1_0", "EC2")
 	err := ws.LoadComponent(componentPath)
 	// Should load the component without a problem.
 	assert.Nil(t, err)

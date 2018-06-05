@@ -85,7 +85,7 @@ var v3_1Satisfies = []v31.Satisfies{
 
 var componentV3_1Tests = []componentV3_1Test{
 	// Check that a component with a key loads correctly
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "v3_1_0", "EC2"), v31.Component{
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "v3_1_0", "EC2"), v31.Component{
 		Name:            "Amazon Elastic Compute Cloud",
 		Key:             "EC2",
 		References:      common.GeneralReferences{{}},
@@ -140,7 +140,7 @@ var v3Satisfies = []v3.Satisfies{
 
 var componentV3Tests = []componentV3Test{
 	// Check that a component with a key loads correctly
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2"), v3.Component{
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "v3_0_0", "EC2"), v3.Component{
 		Name:            "Amazon Elastic Compute Cloud",
 		Key:             "EC2",
 		References:      common.GeneralReferences{{}},
@@ -150,7 +150,7 @@ var componentV3Tests = []componentV3Test{
 		ResponsibleRole: "AWS Staff",
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "v3_0_0", "EC2WithKey"), v3.Component{
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "v3_0_0", "EC2WithKey"), v3.Component{
 		Name:            "Amazon Elastic Compute Cloud",
 		Key:             "EC2",
 		References:      common.GeneralReferences{{}},
@@ -182,7 +182,7 @@ var v2Satisfies = []v2.Satisfies{
 
 var componentV2Tests = []componentV2Test{
 	// Check that a component with a key loads correctly
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2"), v2.Component{
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "v2_0_0", "EC2"), v2.Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
@@ -191,7 +191,7 @@ var componentV2Tests = []componentV2Test{
 		SchemaVersion: semver.MustParse("2.0.0"),
 	}},
 	// Check that a component with no key, uses the key of its directory and loads correctly
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "v2_0_0", "EC2WithKey"), v2.Component{
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "v2_0_0", "EC2WithKey"), v2.Component{
 		Name:          "Amazon Elastic Compute Cloud",
 		Key:           "EC2",
 		References:    common.GeneralReferences{{}},
@@ -270,23 +270,23 @@ var componentTestErrors = []componentTestError{
 		errors.New(constants.ErrComponentFileDNE)},
 
 	// Check loading a component with a broken schema
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl"),
-		errors.New("Unable to parse component " + filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2BrokenControl", "component.yaml") + ". Error: yaml: line 16: did not find expected key")},
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "common", "EC2BrokenControl"),
+		errors.New("Unable to parse component " + filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "common", "EC2BrokenControl", "component.yaml") + ". Error: yaml: line 16: did not find expected key")},
 
 	// Check for version that is unsupported
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"),
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "common", "EC2UnsupportedVersion"),
 		common.ErrUnknownSchemaVersion},
 
 	// Check for the case when someone says they are using a certain version (2.0) but it actually is not
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"),
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0"),
 		errors.New("Unable to parse component. Please check component.yaml schema for version 2.0.0" +
 			"\n\tFile: " +
-			filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0", "component.yaml") +
+			filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "common", "EC2_InvalidFieldTypeForVersion2_0", "component.yaml") +
 			"\n\tParse error: yaml: unmarshal errors:" +
 			"\n  line 9: cannot unmarshal !!str `wrong` into common.CoveredByList")},
 
 	// Check for the case when non-2.0 version is not in semver format.
-	{filepath.Join("..", "..", "fixtures", "component_fixtures", "common", "EC2VersionNotSemver"),
+	{filepath.Join("..", "..", "..", "test", "fixtures", "component_fixtures", "common", "EC2VersionNotSemver"),
 		components.NewComponentParseError("Version 1 is not in semver format")},
 }
 

@@ -64,8 +64,8 @@ func TestGetKey(t *testing.T) {
 var loadDataTests = []loadDataTest{
 	// Load a fixtures that has 2 component, 2 standards, and a certification called LATO
 	{
-		filepath.Join("..", "fixtures", "opencontrol_fixtures"),
-		filepath.Join("..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures"),
+		filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		[]string{"NIST-800-53", "PCI-DSS-MAY-2015"}, 2, 1, "LATO"},
 }
 
@@ -91,7 +91,7 @@ func TestLoadData(t *testing.T) {
 
 var loadComponentsTests = []loadComponentsTest{
 	// Check loading set components that only has one component
-	{filepath.Join("..", "fixtures", "opencontrol_fixtures", "components"), 1},
+	{filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "components"), 1},
 }
 
 func TestLoadComponents(t *testing.T) {
@@ -108,8 +108,8 @@ func TestLoadComponents(t *testing.T) {
 
 var loadComponentsTestErrors = []loadComponentsTestError{
 	{
-		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
-		errors.New("Error: Unable to read the directory " + filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+		filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "missing"),
+		errors.New("Error: Unable to read the directory " + filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "missing")),
 	},
 }
 
@@ -127,7 +127,7 @@ func TestLoadComponentErrors(t *testing.T) {
 var loadStandardsTests = []loadStandardsTest{
 	// Load a series of standards file that have 2 standards
 	{
-		filepath.Join("..", "fixtures", "opencontrol_fixtures", "standards"),
+		filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "standards"),
 		[]string{"NIST-800-53", "PCI-DSS-MAY-2015"},
 	},
 }
@@ -146,8 +146,8 @@ func TestLoadStandards(t *testing.T) {
 
 var loadStandardsTestErrors = []loadStandardsTestError{
 	{
-		filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing"),
-		errors.New("Error: Unable to read the directory " + filepath.Join("..", "fixtures", "opencontrol_fixtures", "missing")),
+		filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "missing"),
+		errors.New("Error: Unable to read the directory " + filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "missing")),
 	},
 }
 

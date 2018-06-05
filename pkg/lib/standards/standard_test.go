@@ -16,9 +16,9 @@ type v1standardsTest struct {
 
 var standardsTests = []v1standardsTest{
 	// Check loading a standard that has 328 controls
-	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "standards", "NIST-800-53.yaml"), v1_0_0.Standard{Name: "NIST-800-53"}, 328},
+	{filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "standards", "NIST-800-53.yaml"), v1_0_0.Standard{Name: "NIST-800-53"}, 328},
 	// Check loading a standard that has 258 controls
-	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "standards", "PCI-DSS-MAY-2015.yaml"), v1_0_0.Standard{Name: "PCI-DSS-MAY-2015"}, 258},
+	{filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "standards", "PCI-DSS-MAY-2015.yaml"), v1_0_0.Standard{Name: "PCI-DSS-MAY-2015"}, 258},
 }
 
 func TestLoadStandard(t *testing.T) {
@@ -48,7 +48,7 @@ var standardTestErrors = []standardTestError{
 	// Check the error loading a file that doesn't exist
 	{"", common.ErrReadFile},
 	// Check the error loading a file that has a broken schema
-	{filepath.Join("..", "..", "fixtures", "standards_fixtures", "BrokenStandard", "NIST-800-53.yaml"), common.ErrStandardSchema},
+	{filepath.Join("..", "..", "..", "test", "fixtures", "standards_fixtures", "BrokenStandard", "NIST-800-53.yaml"), common.ErrStandardSchema},
 }
 
 func TestLoadStandardsErrors(t *testing.T) {

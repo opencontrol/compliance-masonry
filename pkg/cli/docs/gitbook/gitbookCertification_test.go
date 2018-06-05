@@ -24,8 +24,8 @@ type exportControlTest struct {
 var exportControlTests = []exportControlTest{
 	// Check that a control is exported correctly
 	{
-		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"),
-		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "opencontrol_fixtures"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		"NIST-800-53",
 		"CM-2",
 		"NIST-800-53-CM-2.md",

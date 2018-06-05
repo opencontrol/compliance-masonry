@@ -34,7 +34,7 @@ var _ = Describe("Diff", func() {
 			}
 		})
 		It("should return return the number a missing controls when given a certification", func() {
-			err := app.Run([]string{app.Name, "diff", "LATO", "-o", filepath.Join("fixtures", "opencontrol_fixtures")})
+			err := app.Run([]string{app.Name, "diff", "LATO", "-o", filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures")})
 			assert.Nil(GinkgoT(), err)
 			assert.Contains(GinkgoT(), buffer.String(), "Number of missing controls:")
 		})

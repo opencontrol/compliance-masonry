@@ -29,10 +29,10 @@ type buildStandardsSummariesTest struct {
 var buildComponentsSummariesTests = []buildComponentsSummariesTest{
 	// Check that the component summary is correctly exported
 	{
-		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"),
-		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "opencontrol_fixtures"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		"",
-		filepath.Join("..", "..", "..", "fixtures", "exports_fixtures", "gitbook_exports", "components_readme.md"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "exports_fixtures", "gitbook_exports", "components_readme.md"),
 	},
 }
 
@@ -61,11 +61,11 @@ func TestBuildComponentsSummaries(t *testing.T) {
 var buildStandardsSummariesTests = []buildStandardsSummariesTest{
 	// Check that a standards summary is correctly exported
 	{
-		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures"),
-		filepath.Join("..", "..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "opencontrol_fixtures"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		"",
-		filepath.Join("..", "..", "..", "fixtures", "exports_fixtures", "gitbook_exports", "standards_readme.md"),
-		filepath.Join("..", "..", "..", "fixtures", "exports_fixtures", "gitbook_exports", "standards"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "exports_fixtures", "gitbook_exports", "standards_readme.md"),
+		filepath.Join("..", "..", "..", "..", "test", "fixtures", "exports_fixtures", "gitbook_exports", "standards"),
 	},
 }
 

@@ -48,8 +48,8 @@ var _ = Describe("Exampleplugin", func() {
 	Describe("run", func() {
 		Context("When running it on data in a workspace", func() {
 			It("should find the data and print it out to standard out", func() {
-				wsPath := filepath.Join("..", "fixtures", "opencontrol_fixtures")
-				certPath := filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml")
+				wsPath := filepath.Join("..", "test", "fixtures", "opencontrol_fixtures")
+				certPath := filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml")
 				buffer := NewBuffer()
 				run(wsPath, certPath, buffer)
 				Expect(buffer).To(Say("partial"))
@@ -84,12 +84,12 @@ func cleanupOpencontrolWorkspace() {
 }
 
 func Masonry(args ...string) *Session {
-	path, err := Build("github.com/opencontrol/compliance-masonry")
+	path, err := Build("github.com/opencontrol/compliance-masonry/cmd/compliance-masonry")
 	Expect(err).NotTo(HaveOccurred())
 	return createCommand(path, args...)
 }
 func Plugin(args ...string) *Session {
-	path, err := Build("github.com/opencontrol/compliance-masonry/exampleplugin")
+	path, err := Build("github.com/opencontrol/compliance-masonry/examples")
 	Expect(err).NotTo(HaveOccurred())
 	return createCommand(path, args...)
 }

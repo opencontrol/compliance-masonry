@@ -27,7 +27,7 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check that the gitbook is correctly exported given the fixtures",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("..", "..", "fixtures", "opencontrol_fixtures"),
+				OpencontrolDir: filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures"),
 				Certification:  "LATO",
 				MarkdownPath:   "",
 			},
@@ -49,9 +49,9 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check that gitbook is created with markdowns",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("..", "..", "fixtures", "opencontrol_fixtures_with_markdown"),
+				OpencontrolDir: filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown"),
 				Certification:  "LATO",
-				MarkdownPath:   filepath.Join("..", "..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
+				MarkdownPath:   filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
 			},
 			"",
 			nil,
@@ -60,20 +60,20 @@ var _ = Describe("Doc Tests", func() {
 		Entry(
 			"Check that thre is an error returned when the certification does not exist",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("..", "..", "fixtures", "opencontrol_fixtures_with_markdown"),
+				OpencontrolDir: filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown"),
 				Certification:  "LAT",
-				MarkdownPath:   filepath.Join("..", "..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
+				MarkdownPath:   filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns"),
 			},
 			"",
-			[]error{fmt.Errorf("Error: `%s` does not exist\nUse one of the following:\nLATO", filepath.Join("..", "..", "fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LAT.yaml"))},
+			[]error{fmt.Errorf("Error: `%s` does not exist\nUse one of the following:\nLATO", filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown", "certifications", "LAT.yaml"))},
 		),
 
 		Entry(
 			"Check that error is returned when certification argument is not present",
 			gitbook.Config{
-				OpencontrolDir: filepath.Join("..", "..", "fixtures", "opencontrol_fixtures_with_markdown"),
+				OpencontrolDir: filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown"),
 				Certification:  "",
-				MarkdownPath:   filepath.Join("..", "..", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns/"),
+				MarkdownPath:   filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns/"),
 			},
 			"",
 			[]error{errors.New("Error: Missing Certification Argument")},

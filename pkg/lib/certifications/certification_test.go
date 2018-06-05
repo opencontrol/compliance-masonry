@@ -23,7 +23,7 @@ type certificationTestError struct {
 var v1certificationTests = []v1certificationTest{
 	// Test loading a certification file that has the LATO key, 2 standards, and 6 controls.
 	{
-		filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
+		filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "certifications", "LATO.yaml"),
 		v1_0_0.Certification{Key: "LATO"},
 		map[string][]string{
 			"NIST-800-53":      {"AC-2", "AC-6", "CM-2"},
@@ -50,9 +50,9 @@ func TestLoadCertification(t *testing.T) {
 
 var certificationTestErrors = []certificationTestError{
 	// Test a file that can't be read
-	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "certifications"), common.ErrReadFile},
+	{filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "certifications"), common.ErrReadFile},
 	// Test a file that has a broken schema
-	{filepath.Join("..", "..", "fixtures", "opencontrol_fixtures", "components", "EC2", "artifact-ec2-1.png"), common.ErrCertificationSchema},
+	{filepath.Join("..", "..", "..", "test", "fixtures", "opencontrol_fixtures", "components", "EC2", "artifact-ec2-1.png"), common.ErrCertificationSchema},
 }
 
 func TestLoadCertificationErrors(t *testing.T) {

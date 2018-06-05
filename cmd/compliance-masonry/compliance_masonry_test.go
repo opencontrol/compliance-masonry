@@ -60,7 +60,7 @@ var _ = Describe("Masonry CLI", func() {
 				output := Masonry(
 					"docs", "gitbook", "LATO",
 					"-e", exportTempDir,
-					"-o", filepath.Join("fixtures", "opencontrol_fixtures"),
+					"-o", filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures"),
 					"-m", "sdfds").Wait(1 * time.Second)
 				Eventually(output.Out.Contents).Should(ContainSubstring("Warning: markdown directory does not exist\n"))
 				Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created\n"))
@@ -73,8 +73,8 @@ var _ = Describe("Masonry CLI", func() {
 				output := Masonry(
 					"docs", "gitbook", "LATO",
 					"-e", exportTempDir,
-					"-o", filepath.Join("fixtures", "opencontrol_fixtures_with_markdown"),
-					"-m", filepath.Join("fixtures", "opencontrol_fixtures_with_markdown", "markdowns")).Wait(1 * time.Second)
+					"-o", filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown"),
+					"-m", filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures_with_markdown", "markdowns")).Wait(1 * time.Second)
 				Eventually(output.Out.Contents).ShouldNot(ContainSubstring("Warning: markdown directory does not exist\n"))
 				Eventually(output.Out.Contents).Should(ContainSubstring("New Gitbook Documentation Created\n"))
 			})
@@ -101,7 +101,7 @@ var _ = Describe("Masonry CLI", func() {
 			It("should print the number of missing controls", func() {
 				output := Masonry(
 					"diff", "LATO",
-					"-o", filepath.Join("fixtures", "opencontrol_fixtures")).Wait(1 * time.Second)
+					"-o", filepath.Join("..", "..", "test", "fixtures", "opencontrol_fixtures")).Wait(1 * time.Second)
 				Eventually(output.Out.Contents).Should(ContainSubstring("Number of missing controls:"))
 			})
 		})
@@ -109,7 +109,7 @@ var _ = Describe("Masonry CLI", func() {
 })
 
 func Masonry(args ...string) *Session {
-	path, err := Build("github.com/opencontrol/compliance-masonry")
+	path, err := Build("github.com/opencontrol/compliance-masonry/cmd/compliance-masonry")
 	Expect(err).NotTo(HaveOccurred())
 	cmd := exec.Command(path, args...)
 	stdin, err := cmd.StdinPipe()
