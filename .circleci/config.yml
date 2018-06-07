@@ -12,7 +12,7 @@ jobs:
 
       - run:
           name: Build the program
-          command: go build cmd/compliance-masonry/compliance-masonry.go cmd/compliance-masonry/diff.go
+          command: go build cmd/compliance-masonry/compliance-masonry.go
       - run:
           name: Run tests
           command: ./.circleci/coverage.sh

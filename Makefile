@@ -39,7 +39,7 @@ build:
 	$(GO) build \
 		$(DEBUGFLAGS) \
 		-o $(BUILD_DIR)/$(PROGNAME) \
-		./masonry-go.go ./diff.go
+		cmd/compliance-masonry/compliance-masonry.go
 
 all: build
 
@@ -50,7 +50,7 @@ platforms:
 		output_name="$(BUILD_DIR)/$$GOOS-$$GOARCH/$(PROGNAME)"; \
 		[ $$GOOS = "windows" ] && output_name="$$output_name.exe"; \
 		echo "Building $(PROGNAME) version $(VERSION) for $$GOOS on $$GOARCH"; \
-		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -o $$output_name ./masonry-go.go ./diff.go; \
+		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -o $$output_name cmd/compliance-masonry/compliance-masonry.go; \
 		[ -d $(BUILD_DIR)/$$GOOS-$$GOARCH/ ] && cp {LICENSE.md,README.md} $(BUILD_DIR)/$$GOOS-$$GOARCH/; \
 	done
 
