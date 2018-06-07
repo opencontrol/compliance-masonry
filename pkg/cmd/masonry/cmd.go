@@ -17,6 +17,7 @@ import (
 
 // Verbose boolean for turning on/off verbosity
 var Verbose bool
+
 // Version for cli variable holding program version
 var Version bool
 

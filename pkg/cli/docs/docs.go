@@ -22,7 +22,7 @@ func NewCmdDocs(out io.Writer) *cobra.Command {
 	return cmd
 }
 
-// NewCmDocsGitBook creates the compliance documentation in Gitbook format.
+// NewCmdDocsGitBook creates the compliance documentation in Gitbook format.
 func NewCmdDocsGitBook(out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "gitbook",

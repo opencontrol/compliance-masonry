@@ -1,13 +1,9 @@
 package main_test
 
 import (
-	"bufio"
-	"os/exec"
-	"strings"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/onsi/gomega/gexec"
+	"github.com/opencontrol/compliance-masonry/pkg/tests"
 )
 
 var usage = `
@@ -30,22 +26,8 @@ Flags:
 var _ = Describe("Masonry CLI", func() {
 	Describe("When the CLI is run with no commands", func() {
 		It("should list the available commands", func() {
-			output := Masonry()
+			output := masonry_test.Masonry()
 			Eventually(output.Out.Contents).Should(ContainSubstring(usage))
 		})
 	})
 })
-
-func Masonry(args ...string) *Session {
-	path, err := Build("github.com/opencontrol/compliance-masonry/cmd/compliance-masonry")
-	Expect(err).NotTo(HaveOccurred())
-	cmd := exec.Command(path, args...)
-	stdin, err := cmd.StdinPipe()
-	Expect(err).ToNot(HaveOccurred())
-	buffer := bufio.NewWriter(stdin)
-	_, _ = buffer.WriteString(strings.Join(args, " "))
-	_ = buffer.Flush()
-	session, err := Start(cmd, GinkgoWriter, GinkgoWriter)
-	Expect(err).NotTo(HaveOccurred())
-	return session
-}
