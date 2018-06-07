@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/codegangsta/cli"
+	"github.com/opencontrol/compliance-masonry/pkg/cli/clierrors"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/result"
 )
@@ -114,7 +114,7 @@ func (ws *localWorkspace) LoadStandards(standardsDir string) []error {
 }
 
 func convertErrChannelToErrorSlice(errs <-chan error) []error {
-	errMessages := cli.NewMultiError()
+	errMessages := clierrors.NewMultiError()
 	for err := range errs {
 		if err != nil && len(err.Error()) > 0 {
 			errMessages.Errors = append(errMessages.Errors, err)
