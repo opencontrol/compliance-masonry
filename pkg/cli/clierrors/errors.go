@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Sinlge check failure
+// CheckError is for a Single check failure
 func CheckError(err error) {
 	if err != nil {
 		if err != context.Canceled {
@@ -18,6 +18,7 @@ func CheckError(err error) {
 }
 
 // The following code was taken from https://github.com/urfave/cli/blob/master/errors.go
+
 // MultiError is an error that wraps multiple errors.
 type MultiError struct {
 	Errors []error

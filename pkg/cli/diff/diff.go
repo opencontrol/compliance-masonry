@@ -24,7 +24,7 @@ func NewCmdDiff(out io.Writer) *cobra.Command {
 	return cmd
 }
 
-// Runs diff when specified in cli
+// RunDiff runs diff when specified in cli
 func RunDiff(out io.Writer, cmd *cobra.Command, args []string) error {
 	if len(args) == 0 {
 		return fmt.Errorf("certification type not specified")

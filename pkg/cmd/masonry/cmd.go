@@ -15,9 +15,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var Verbose, Version bool
+// Verbose boolean for turning on/off verbosity
+var Verbose bool
+// Version for cli variable holding program version
+var Version bool
 
-// Main Masonry command cli
+// NewMasonryCommand Main Masonry command cli
 // Add new commands/subcommands for new verbs in this function
 func NewMasonryCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 	cmds := &cobra.Command{
@@ -49,19 +52,19 @@ the OpenControl Schema`,
 	return cmds
 }
 
-// Runs global options when specified in cli
+// RunGlobalFlags runs global options when specified in cli
 func RunGlobalFlags(out io.Writer, cmd *cobra.Command) error {
 
-	var flag_version = cmd.Flag("version").Value.String()
-	var flag_verbose = cmd.Flag("verbose").Value.String()
+	var flagVersion = cmd.Flag("version").Value.String()
+	var flagVerbose = cmd.Flag("verbose").Value.String()
 
 	log.SetOutput(ioutil.Discard)
-	if flag_verbose == "true" {
+	if flagVerbose == "true" {
 		log.SetOutput(os.Stderr)
 		log.Println("Running with verbosity")
 	}
 
-	if flag_version == "true" {
+	if flagVersion == "true" {
 		fmt.Printf("compliance-masonry: version %s\n", version.Version)
 	}
 

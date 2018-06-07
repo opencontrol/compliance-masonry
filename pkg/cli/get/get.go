@@ -30,7 +30,7 @@ func NewCmdGet(out io.Writer) *cobra.Command {
 	return cmd
 }
 
-// Runs get when specified in cli
+// RunGet runs get when specified in cli
 func RunGet(out io.Writer, cmd *cobra.Command) error {
 	f := fs.OSUtil{}
 	config := cmd.Flag("config").Value.String()

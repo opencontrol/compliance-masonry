@@ -15,7 +15,7 @@ const (
 	DefaultOpenControlsFolder = "opencontrols"
 	// DefaultExportsFolder is the folder for docs exports
 	DefaultExportsFolder = "exports"
-	// DefaultMarkdown is the folder containing markdown content
+	// DefaultMarkdownFolder is the folder containing markdown content
 	DefaultMarkdownFolder = "markdowns"
 )
 

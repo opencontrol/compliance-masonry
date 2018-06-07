@@ -22,7 +22,7 @@ func NewCmdDocs(out io.Writer) *cobra.Command {
 	return cmd
 }
 
-// NewCmdocsGitBook creates the compliance documentation in Gitbook format.
+// NewCmDocsGitBook creates the compliance documentation in Gitbook format.
 func NewCmdDocsGitBook(out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "gitbook",
@@ -38,7 +38,7 @@ func NewCmdDocsGitBook(out io.Writer) *cobra.Command {
 	return cmd
 }
 
-// Generates GitBook style documentation when specified in cli
+// RunGitBook generates GitBook style documentation when specified in cli
 func RunGitBook(out io.Writer, cmd *cobra.Command, args []string) error {
 	if len(args) == 0 {
 		return fmt.Errorf("certification type not specified")
