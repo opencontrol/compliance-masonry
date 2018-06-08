@@ -11,6 +11,12 @@ const (
 	DefaultDestination = "opencontrols"
 	// DefaultConfigYaml is the file name for the file to find config details
 	DefaultConfigYaml = "opencontrol.yaml"
+	// DefaultOpenControlsFolder is the folder containing opencontrol content
+	DefaultOpenControlsFolder = "opencontrols"
+	// DefaultExportsFolder is the folder for docs exports
+	DefaultExportsFolder = "exports"
+	// DefaultMarkdownFolder is the folder containing markdown content
+	DefaultMarkdownFolder = "markdowns"
 )
 
 // ResourceType is a type to help tell when it should be of only types of resources.
