@@ -8,8 +8,8 @@ import (
 
 var usage = `
 Usage:
-  compliance-masonry [flags]
-  compliance-masonry [command]
+  masonry [flags]
+  masonry [command]
 
 Available Commands:
   diff        Compliance Diff Gap Analysis
@@ -18,7 +18,7 @@ Available Commands:
   help        Help about any command
 
 Flags:
-  -h, --help      help for compliance-masonry
+  -h, --help      help for masonry
       --verbose   Run with verbosity
   -v, --version   Print the version
 `

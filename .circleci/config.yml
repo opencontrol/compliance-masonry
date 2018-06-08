@@ -11,8 +11,11 @@ jobs:
       - checkout
 
       - run:
-          name: Build the program
+          name: Build the compliance-masonry program
           command: go build cmd/compliance-masonry/compliance-masonry.go
+      - run:
+          name: Build the masonry program
+          command: go build cmd/masonry/masonry.go
       - run:
           name: Run tests
           command: ./.circleci/coverage.sh

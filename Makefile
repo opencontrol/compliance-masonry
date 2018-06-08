@@ -5,12 +5,12 @@ GOFMT ?= gofmt
 GOLINT ?= golint
 EPOCH_TEST_COMMIT ?= 1cc5a27
 PROJECT := github.com/opencontrol/compliance-masonry
-PROGNAME ?= compliance-masonry
+PROGNAME ?= masonry
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
 GIT_BRANCH_CLEAN := $(shell echo $(GIT_BRANCH) | sed -e "s/[^[:alnum:]]/-/g")
 PREFIX ?= ${DESTDIR}/usr/local
 BINDIR ?= ${PREFIX}/bin
-DATAROOTDIR ?= ${PREFIX}/share/compliance-masonry
+DATAROOTDIR ?= ${PREFIX}/share/masonry
 
 BASHINSTALLDIR=${PREFIX}/share/bash-completion/completions
 
@@ -36,10 +36,12 @@ DEBUGFLAGS ?= -gcflags="-N -l"
 endif
 
 build:
-	$(GO) build \
-		$(DEBUGFLAGS) \
+	$(GO) build $(DEBUGFLAGS) \
 		-o $(BUILD_DIR)/$(PROGNAME) \
-		cmd/compliance-masonry/compliance-masonry.go
+		cmd/masonry/masonry.go
+	$(GO) build $(DEBUGFLAGS) \
+                -o $(BUILD_DIR)/compliance-masonry \
+                cmd/compliance-masonry/compliance-masonry.go
 
 all: build
 
@@ -48,9 +50,12 @@ platforms:
 		GOOS="`echo $$platform | cut -d"/" -f1`"; \
 		GOARCH="`echo $$platform | cut -d"/" -f2`"; \
 		output_name="$(BUILD_DIR)/$$GOOS-$$GOARCH/$(PROGNAME)"; \
+		legacy_name="$(BUILD_DIR)/$$GOOS-$$GOARCH/compliance-masonry"; \
 		[ $$GOOS = "windows" ] && output_name="$$output_name.exe"; \
+		[ $$GOOS = "windows" ] && legacy_name="$$legacy_name.exe"; \
 		echo "Building $(PROGNAME) version $(VERSION) for $$GOOS on $$GOARCH"; \
-		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -o $$output_name cmd/compliance-masonry/compliance-masonry.go; \
+		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -o $$output_name cmd/masonry/masonry.go; \
+		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -o $$legacy_name cmd/compliance-masonry/compliance-masonry.go; \
 		[ -d $(BUILD_DIR)/$$GOOS-$$GOARCH/ ] && cp {LICENSE.md,README.md} $(BUILD_DIR)/$$GOOS-$$GOARCH/; \
 	done
 

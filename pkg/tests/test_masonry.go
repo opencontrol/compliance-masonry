@@ -13,7 +13,7 @@ import (
 // Masonry is used to launch tests on the CLI
 func Masonry(args ...string) *gexec.Session {
 	RegisterFailHandler(Fail)
-	path, err := gexec.Build("github.com/opencontrol/compliance-masonry/cmd/compliance-masonry")
+	path, err := gexec.Build("github.com/opencontrol/compliance-masonry/cmd/masonry")
 	Expect(err).NotTo(HaveOccurred())
 	cmd := exec.Command(path, args...)
 	stdin, err := cmd.StdinPipe()

@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestComplianceMasonryGo(t *testing.T) {
+func TestMasonryGo(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "ComplianceMasonryGo Suite")
 }

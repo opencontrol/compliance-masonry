@@ -25,7 +25,7 @@ var Version bool
 // Add new commands/subcommands for new verbs in this function
 func NewMasonryCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 	cmds := &cobra.Command{
-		Use:   "compliance-masonry",
+		Use:   "masonry",
 		Short: "OpenControl CLI Tool",
 		Long: `Compliance Masonry is a command-line interface (CLI) that
 allows users to construct certification documentation using
