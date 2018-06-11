@@ -10,6 +10,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/pkg/cli/clierrors"
 	"github.com/opencontrol/compliance-masonry/pkg/cli/diff"
 	"github.com/opencontrol/compliance-masonry/pkg/cli/docs"
+	"github.com/opencontrol/compliance-masonry/pkg/cli/export"
 	"github.com/opencontrol/compliance-masonry/pkg/cli/get"
 	"github.com/opencontrol/compliance-masonry/version"
 	"github.com/spf13/cobra"
@@ -44,6 +45,7 @@ the OpenControl Schema`,
 
 	cmds.AddCommand(diff.NewCmdDiff(out))
 	cmds.AddCommand(docs.NewCmdDocs(out))
+	cmds.AddCommand(export.NewCmdExport(out))
 	cmds.AddCommand(get.NewCmdGet(out))
 
 	// Global Options

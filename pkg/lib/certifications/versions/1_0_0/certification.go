@@ -1,6 +1,9 @@
 package certification
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"sort"
 	"vbom.ml/util/sortorder"
 )
@@ -10,6 +13,24 @@ import (
 type Certification struct {
 	Key       string                            `yaml:"name" json:"name"`
 	Standards map[string]map[string]interface{} `yaml:"standards" json:"standards"`
+}
+
+// MarshalJSON provides JSON support
+func (certification *Certification) MarshalJSON() (b []byte, e error) {
+	// start the marshaling
+	buffer := bytes.NewBufferString("{")
+
+	// write data
+	buffer.WriteString(fmt.Sprintf("\"key\":\"%s\",\"standards\":", certification.Key))
+	bytes, err := json.Marshal(certification.GetSortedStandards())
+	if err != nil {
+		return nil, err
+	}
+	buffer.WriteString(string(bytes))
+
+	// done with marshaling
+	buffer.WriteString("}")
+	return buffer.Bytes(), nil
 }
 
 // GetKey returns the name of the certification.
