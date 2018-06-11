@@ -17,6 +17,12 @@ const (
 	DefaultExportsFolder = "exports"
 	// DefaultMarkdownFolder is the folder containing markdown content
 	DefaultMarkdownFolder = "markdowns"
+	// DefaultJSONFile is the file to store combined JSON
+	DefaultJSONFile = DefaultDestination + "/opencontrol.json"
+	// DefaultOutputFormat is the default format for general output
+	DefaultOutputFormat = "json"
+	// DefaultKeySeparator is the default separator for keys when flattening structure
+	DefaultKeySeparator = ":"
 )
 
 // ResourceType is a type to help tell when it should be of only types of resources.

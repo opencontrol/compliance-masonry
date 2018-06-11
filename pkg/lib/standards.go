@@ -57,6 +57,12 @@ func (ws *localWorkspace) LoadStandard(standardFile string) error {
 	return nil
 }
 
+// GetAllStandards retrieves all standards
+func (ws *localWorkspace) GetAllStandards() []common.Standard {
+	return ws.standards.getAll()
+}
+
+// GetStandard retrieves a specific standard
 func (ws *localWorkspace) GetStandard(standardKey string) (common.Standard, bool) {
 	return ws.standards.get(standardKey)
 }

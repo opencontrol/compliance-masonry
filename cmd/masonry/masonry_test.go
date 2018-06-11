@@ -14,6 +14,7 @@ Usage:
 Available Commands:
   diff        Compliance Diff Gap Analysis
   docs        Create compliance documentation
+  export      Export to consolidated output
   get         Install compliance dependencies
   help        Help about any command
 
