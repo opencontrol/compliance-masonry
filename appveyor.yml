@@ -18,5 +18,6 @@ install:
     set PATH=%PATH%;%GOPATH%\bin
 build_script:
 - cmd: go build cmd/compliance-masonry/compliance-masonry.go
+- cmd: go build cmd/masonry/masonry.go
 test_script:
 - cmd: FOR /F %%A IN ('glide novendor') DO go test -v %%A || exit /b 1

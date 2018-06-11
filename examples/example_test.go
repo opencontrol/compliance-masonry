@@ -84,7 +84,7 @@ func cleanupOpencontrolWorkspace() {
 }
 
 func Masonry(args ...string) *Session {
-	path, err := Build("github.com/opencontrol/compliance-masonry/cmd/compliance-masonry")
+	path, err := Build("github.com/opencontrol/compliance-masonry/cmd/masonry")
 	Expect(err).NotTo(HaveOccurred())
 	return createCommand(path, args...)
 }
