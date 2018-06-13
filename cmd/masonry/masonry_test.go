@@ -8,7 +8,6 @@ import (
 
 var usage = `
 Usage:
-  masonry [flags]
   masonry [command]
 
 Available Commands:
