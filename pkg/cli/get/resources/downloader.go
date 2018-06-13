@@ -5,6 +5,8 @@ import (
 	"github.com/opencontrol/compliance-masonry/tools/vcs"
 )
 
+//go:generate mockery -name Downloader
+
 // Downloader is a generic interface for how to download entries.
 type Downloader interface {
 	DownloadRepo(common.RemoteSource, string) error

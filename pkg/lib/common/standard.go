@@ -1,5 +1,7 @@
 package common
 
+//go:generate mockery -name Standard -testonly
+
 // Standard is the container of all the information for a particular Standard.
 // Schema info: https://github.com/opencontrol/schemas#standards-documentation
 //

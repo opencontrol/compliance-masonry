@@ -4,6 +4,8 @@ import (
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 )
 
+//go:generate mockery -name SchemaParser -testonly
+
 // Base is the common struct that all schemas must have.
 type Base struct {
 	// SchemaVersion contains the schema version.
