@@ -1,3 +1,7 @@
+/*
+ Copyright (C) 2018 OpenControl Contributors. See LICENSE.md for license.
+*/
+
 package common
 
 //go:generate mockery -name Control
