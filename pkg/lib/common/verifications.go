@@ -1,3 +1,7 @@
+/*
+ Copyright (C) 2018 OpenControl Contributors. See LICENSE.md for license.
+*/
+
 package common
 
 // Verification struct holds data for a specific component and verification

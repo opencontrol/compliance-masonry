@@ -1,3 +1,7 @@
+/*
+ Copyright (C) 2018 OpenControl Contributors. See LICENSE.md for license.
+*/
+
 package common
 
 // GeneralReference struct contains data for the name and path of a
