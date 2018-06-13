@@ -2,6 +2,10 @@ package common
 
 import "github.com/blang/semver"
 
+//go:generate mockery -name Component
+//go:generate mockery -name Satisfies
+//go:generate mockery -name Section
+
 // Component is the basic building block for all systems.
 // Schema info: https://github.com/opencontrol/schemas#component-yaml
 //

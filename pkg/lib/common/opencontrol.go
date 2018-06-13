@@ -1,5 +1,8 @@
 package common
 
+//go:generate mockery -name OpenControl
+//go:generate mockery -name RemoteSource
+
 // OpenControl is an interface that every OpenControl yaml version should implement.
 // Schema info: https://github.com/opencontrol/schemas#opencontrolyaml
 //

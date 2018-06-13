@@ -9,6 +9,8 @@ import (
 	metaleapfs "github.com/metaleap/go-util/fs"
 )
 
+//go:generate mockery -name Util
+
 // Util is an interface for helper file system utilities.
 type Util interface {
 	OpenAndReadFile(file string) ([]byte, error)

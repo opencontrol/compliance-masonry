@@ -1,5 +1,7 @@
 package common
 
+//go:generate mockery -name Control
+
 // Control is the interface for getting all the attributes for a given control.
 // Schema info: https://github.com/opencontrol/schemas#standards-documentation
 //

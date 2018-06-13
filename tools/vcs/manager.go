@@ -7,6 +7,8 @@ import (
 	"github.com/Masterminds/vcs"
 )
 
+//go:generate mockery -name RepoManager
+
 // RepoManager is the interface for how to do jobs with VCS
 type RepoManager interface {
 	Clone(url string, revision string, dir string) error

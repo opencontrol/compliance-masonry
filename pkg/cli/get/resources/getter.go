@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 )
 
+//go:generate mockery -name Getter
+
 // getAllLocalResources will get try to get the resources that are in the current "source" directory and place them
 // in the final "destination" workspace directory.
 func getAllLocalResources(source string, destination string, opencontrol common.OpenControl, getter Getter) error {

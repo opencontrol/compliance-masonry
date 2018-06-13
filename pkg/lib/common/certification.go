@@ -1,5 +1,7 @@
 package common
 
+//go:generate mockery -name Certification
+
 // Certification is the interface for getting all the attributes for a given certification.
 // Schema info: https://github.com/opencontrol/schemas#certifications
 //
