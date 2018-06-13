@@ -1,5 +1,6 @@
 # Compliance Masonry
 
+[![Release](https://img.shields.io/github/release/opencontrol/compliance-masonry.svg)](https://github.com/opencontrol/compliance-masonry/releases/latest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/opencontrol/compliance-masonry)](https://goreportcard.com/report/github.com/opencontrol/compliance-masonry)
 [![Code Climate](https://codeclimate.com/github/opencontrol/compliance-masonry/badges/gpa.svg)](https://codeclimate.com/github/opencontrol/compliance-masonry)
 [![codecov.io](https://codecov.io/github/opencontrol/compliance-masonry/coverage.svg?branch=master)](https://codecov.io/github/opencontrol/compliance-masonry?branch=master)
