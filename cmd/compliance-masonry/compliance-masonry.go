@@ -23,7 +23,8 @@ func main() {
 		binary = "masonry"
 	}
 
-	prog, err := filepath.Abs(filepath.Join(binary))
+	basepath := filepath.Dir(os.Args[0])
+	prog, err := filepath.Abs(filepath.Join(basepath, binary))
 	if err != nil {
 		log.Fatal(err)
 	}
