@@ -49,12 +49,12 @@ func RunExport(out io.Writer, cmd *cobra.Command, args []string) error {
 	}
 
 	// read parms
-	parmOpencontrols := cmd.Flag("opencontrols").Value.String()
-	parmDestination := cmd.Flag("destination").Value.String()
+	parmOpencontrols := cmd.Flag("opencontrol").Value.String()
+	parmDestination := cmd.Flag("dest").Value.String()
 	parmOutputFormat := cmd.Flag("format").Value.String()
-	parmFlatten := false
-	parmInferKeys := false
-	parmDocxtemplater := false
+	parmFlatten := flattenFlag
+	parmInferKeys := keysFlag
+	parmDocxtemplater := docxtemplater
 	parmKeySeparator := cmd.Flag("separator").Value.String()
 
 	// convert to enum
