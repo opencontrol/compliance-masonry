@@ -17,10 +17,11 @@ BASHINSTALLDIR=${PREFIX}/share/bash-completion/completions
 SELINUXOPT ?= $(shell selinuxenabled 2>/dev/null && echo -Z)
 
 BUILD_DIR ?= ./build
-BUILD_INFO := $(shell date +%s)
+BUILD_INFO := $(shell date --iso-8601=s --utc)
 BUILD_PLATFORMS = "windows/amd64" "windows/386" "darwin/amd64" "darwin/386" "linux/386" "linux/amd64" "linux/arm" "linux/arm64"
 
-VERSION := $(shell grep -o "[0-9]*\.[0-9]*\.[0-9]*" version/version.go)
+VERSION := $(shell git for-each-ref --format="%(refname:short)" --sort=-authordate --count=1 refs/tags | cut -d"v" -f2)
+SHORTCOMMIT := $(shell git rev-parse --short HEAD)
 
 # If GOPATH not specified, use one in the local directory
 ifeq ($(GOPATH),)
@@ -35,11 +36,15 @@ ifeq ($(DEBUG), 1)
 DEBUGFLAGS ?= -gcflags="-N -l"
 endif
 
+LDFLAGS ?= -ldflags="-s -w -X github.com/opencontrol/compliance-masonry/version.Version=$(VERSION) \
+	   -X github.com/opencontrol/compliance-masonry/version.Commit=$(SHORTCOMMIT) \
+	   -X github.com/opencontrol/compliance-masonry/version.Date=$(BUILD_INFO)"
+
 build:
-	$(GO) build $(DEBUGFLAGS) \
+	$(GO) build $(DEBUGFLAGS) $(LDFLAGS)\
 		-o $(BUILD_DIR)/$(PROGNAME) \
 		cmd/masonry/masonry.go
-	$(GO) build $(DEBUGFLAGS) \
+	$(GO) build $(DEBUGFLAGS) $(LDFLAGS)\
                 -o $(BUILD_DIR)/compliance-masonry \
                 cmd/compliance-masonry/compliance-masonry.go
 
@@ -54,8 +59,8 @@ platforms:
 		[ $$GOOS = "windows" ] && output_name="$$output_name.exe"; \
 		[ $$GOOS = "windows" ] && legacy_name="$$legacy_name.exe"; \
 		echo "Building $(PROGNAME) version $(VERSION) for $$GOOS on $$GOARCH"; \
-		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -o $$output_name cmd/masonry/masonry.go; \
-		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -o $$legacy_name cmd/compliance-masonry/compliance-masonry.go; \
+		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build $(LDFLAGS) -o $$output_name cmd/masonry/masonry.go; \
+		GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build $(LDFLAGS) -o $$legacy_name cmd/compliance-masonry/compliance-masonry.go; \
 		[ -d $(BUILD_DIR)/$$GOOS-$$GOARCH/ ] && cp {LICENSE.md,README.md} $(BUILD_DIR)/$$GOOS-$$GOARCH/; \
 	done
 

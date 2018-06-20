@@ -1,7 +1,7 @@
 builds:
-  - binary: compliance-masonry
-    main: ./masonry-go.go ./diff.go
-    ldflags: -s -w -X github.com/opencontrol/compliance-masonry/version.Version={{.Version}}
+  - binary: masonry
+    main: ./cmd/masonry/masonry.go
+    ldflags: -s -w -X github.com/opencontrol/compliance-masonry/version.Version={{.Version}} -X github.com/opencontrol/compliance-masonry/version.Commit={{.Commit}} -X github.com/opencontrol/compliance-masonry/version.Date={{.Date}}
     env:
       - CGO_ENABLED=0
     goos:
@@ -9,9 +9,20 @@ builds:
       - darwin
       - linux
     goarch:
-      - 386
       - amd64
-      - arm
+      - arm64
+
+  - binary: compliance-masonry
+    main: ./cmd/compliance-masonry/compliance-masonry.go
+    ldflags: -s -w -X github.com/opencontrol/compliance-masonry/version.Version={{.Version}} -X github.com/opencontrol/compliance-masonry/version.Commit={{.Commit}} -X github.com/opencontrol/compliance-masonry/version.Date={{.Date}}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
       - arm64
 
 nfpm:
@@ -22,10 +33,10 @@ nfpm:
     - rpm
 
 brew:
-  name: oscalkit
+  name: compliance-masonry
   github:
     owner: opencontrol
-    name: homebrew-oscalkit
+    name: homebrew-compliance-masonry
   commit_author:
     name: OpenControl
     email: dev@open-control.org

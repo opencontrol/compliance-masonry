@@ -27,5 +27,6 @@ func Masonry(args ...string) *gexec.Session {
 	_ = buffer.Flush()
 	session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 	Expect(err).NotTo(HaveOccurred())
+	gexec.CleanupBuildArtifacts()
 	return session
 }

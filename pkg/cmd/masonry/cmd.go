@@ -5,7 +5,6 @@
 package masonry
 
 import (
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -16,6 +15,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/pkg/cli/docs"
 	"github.com/opencontrol/compliance-masonry/pkg/cli/export"
 	"github.com/opencontrol/compliance-masonry/pkg/cli/get"
+	cliversion "github.com/opencontrol/compliance-masonry/pkg/cli/version"
 	"github.com/opencontrol/compliance-masonry/version"
 	"github.com/spf13/cobra"
 )
@@ -43,8 +43,13 @@ the OpenControl Schema`,
 			err := RunGlobalFlags(out, cmd)
 			clierrors.CheckError(err)
 		},
+		PersistentPostRun: func(cmd *cobra.Command, args []string) {},
+		Run: func(cmd *cobra.Command, args []string) {
+			cmd.Help()
+		},
 	}
 
+	cmds.SetUsageTemplate(usageTemplate)
 	cmds.ResetFlags()
 	// Global Options
 	cmds.PersistentFlags().BoolVarP(&Verbose, "verbose", "", false, "Run with verbosity")
@@ -55,6 +60,9 @@ the OpenControl Schema`,
 	cmds.AddCommand(docs.NewCmdDocs(out))
 	cmds.AddCommand(export.NewCmdExport(out))
 	cmds.AddCommand(get.NewCmdGet(out))
+	cmds.AddCommand(cliversion.NewCmdVersion(out))
+
+	disableFlagsInUseLine(cmds)
 
 	return cmds
 }
@@ -70,10 +78,26 @@ func RunGlobalFlags(out io.Writer, cmd *cobra.Command) error {
 	}
 
 	if flagVersion {
-		fmt.Printf("compliance-masonry: version %s\n", version.Version)
-		os.Exit(0)
+		version.PrintVersion()
 	}
 
 	return nil
 
+}
+
+// disableFlagsInUseLine do not add a `[flags]` to the end of the usage line.
+func disableFlagsInUseLine(cmd *cobra.Command) {
+	visitAll(cmd, func(cmds *cobra.Command) {
+		cmds.DisableFlagsInUseLine = true
+	})
+}
+
+// visitAll will traverse all commands from the root.
+// This is different from the VisitAll of cobra.Command where only parents
+// are checked.
+func visitAll(cmds *cobra.Command, fn func(*cobra.Command)) {
+	for _, cmd := range cmds.Commands() {
+		visitAll(cmd, fn)
+	}
+	fn(cmds)
 }
