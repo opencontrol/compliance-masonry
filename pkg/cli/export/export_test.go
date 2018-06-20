@@ -10,6 +10,8 @@ import (
 	"errors"
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/assert"
+	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -29,6 +31,7 @@ var _ = Describe("Export", func() {
 			yamlFormat, _ = ToOutputFormat("yaml")
 			standardKeySeparator = ":"
 			customKeySeparator = ".."
+			log.SetOutput(ioutil.Discard)
 		})
 		Describe("bad inputs", func() {
 			Context("When no arguments are specified", func() {
