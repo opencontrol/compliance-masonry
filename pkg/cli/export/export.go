@@ -48,36 +48,36 @@ func RunExport(out io.Writer, cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("certification type not specified")
 	}
 
-	// read parms
-	parmOpencontrols := cmd.Flag("opencontrols").Value.String()
-	parmDestination := cmd.Flag("destination").Value.String()
-	parmOutputFormat := cmd.Flag("format").Value.String()
-	parmFlatten := false
-	parmInferKeys := false
-	parmDocxtemplater := false
-	parmKeySeparator := cmd.Flag("separator").Value.String()
+	// read args
+	opencontrol := cmd.Flag("opencontrol").Value.String()
+	dest := cmd.Flag("dest").Value.String()
+	format := cmd.Flag("format").Value.String()
+	flatten := flattenFlag
+	inferKeys := keysFlag
+	docxtemplater := docxtemplater
+	keySeparator := cmd.Flag("separator").Value.String()
 
 	// convert to enum
-	outputFormat, err := ToOutputFormat(parmOutputFormat)
+	outputFormat, err := ToOutputFormat(format)
 	if err != nil {
 		return clierrors.NewExitError(err.Error(), 1)
 	}
 
 	// --docxtemplater always forces --flatten
-	if parmDocxtemplater {
-		parmFlatten = true
+	if docxtemplater {
+		flatten = true
 	}
 
 	// construct args
 	config := Config{
 		Certification:   args[0],
-		OpencontrolDir:  parmOpencontrols,
-		DestinationFile: parmDestination,
+		OpencontrolDir:  opencontrol,
+		DestinationFile: dest,
 		OutputFormat:    outputFormat,
-		Flatten:         parmFlatten,
-		InferKeys:       parmInferKeys,
-		Docxtemplater:   parmDocxtemplater,
-		KeySeparator:    parmKeySeparator,
+		Flatten:         flatten,
+		InferKeys:       inferKeys,
+		Docxtemplater:   docxtemplater,
+		KeySeparator:    keySeparator,
 	}
 
 	// invoke command
