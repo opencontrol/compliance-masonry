@@ -5,6 +5,7 @@
 package resources
 
 import (
+	"fmt"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/opencontrol"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
@@ -166,6 +167,11 @@ func (g *vcsAndLocalFSGetter) GetLocalResources(source string, resources []strin
 			subfolder, destination, resource)
 		if err != nil {
 			return err
+		}
+
+		if resourceDestination == "" {
+			fmt.Printf("ERROR: Duplicate key '%s' in opencontrol.yaml\n", resource)
+			os.Exit(1)
 		}
 
 		// Find the final path of where the resource is originally located.
