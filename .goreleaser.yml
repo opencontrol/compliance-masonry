@@ -25,6 +25,14 @@ builds:
       - amd64
       - arm64
 
+archive:
+  files:
+    - LICENSE.md
+    - README.md
+  format_overrides:
+    - goos: windows
+      format: zip
+
 nfpm:
   homepage: https://github.com/opencontrol/compliance-masonry
   license: CC0 1.0
