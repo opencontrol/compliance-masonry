@@ -15,7 +15,7 @@ cp compliance-masonry_1.1.2_darwin_amd64/compliance-masonry /usr/local/bin
 
 ## Windows
 
-1. Go to [the Github Release](https://github.com/opencontrol/compliance-masonry/releases/tag/v1.1.2).
+1. Go to [the Github Release](https://github.com/opencontrol/compliance-masonry/releases/latest).
 1. Download the package that corresponds to your machine and operating system.
     - For 32 Bit Windows, you'll want the file ending `_windows_386.zip`
     - For 64 Bit Windows, you'll want the file ending `_windows_amd64.zip`

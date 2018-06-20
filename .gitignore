@@ -1,5 +1,7 @@
 /compliance-masonry
 /masonry
+/coverage.txt
+/dist
 *.swp
 *.out
 /build

@@ -78,32 +78,27 @@ to stick to a specific version, or need to add a new dependency.
 make test
 ```
 
-## Creating binaries
+## Tagging a New Release
 
-This will only be relevant for maintainers.
-
-### One-time setup for uploading binaries
-
-1. Install [goxc](https://github.com/laher/goxc)
+1. Checkout the master branch
+NOTE: Make sure that the master branch is clean and has the latest commits from GitHub.
 
     ```sh
-    go get github.com/laher/goxc
+    git checkout master
     ```
 
-1. [Get a GitHub API token](https://github.com/settings/tokens/new). The token should have write access to repos.
-1. Add a .goxc.local.json file with a github api key
+1. Using `v.1.1.1` as an example, tag the new release using the convention in the example below:
 
     ```sh
-    goxc -wlc default publish-github -apikey=123456789012
+    git tag -m "Bump to v1.1.1" v1.1.1
     ```
 
-### Compiling and uploading binaries
-
-1. Set version number in:
-    * [`.goxc.json`](.goxc.json)
-    * As `app.Version` in [`masonry-go.go`](masonry-go.go)
-1. Run the release script
+1. Using `v1.1.1` as an example, push the tag back to GitHub
 
     ```sh
-    ./release.sh
+    git push origin v1.1.1
     ```
+
+1. CircleCI will then run through the tests. Since there is a new tag, CircleCI will also install and run
+[GoReleaser](https://github.com/goreleaser/goreleaser) which will build and upload the binaries for release.
+

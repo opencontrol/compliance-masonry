@@ -7,7 +7,7 @@ jobs:
     steps:
       - run:
           name: Install Git
-          command: apk add --no-cache bash gcc git musl-dev curl
+          command: apk add --no-cache bash gcc git openssh-client musl-dev curl rpm
       - checkout
 
       - run:
@@ -23,3 +23,14 @@ jobs:
           name: Send results to Codecov
           shell: /bin/bash
           command: bash <(curl -s https://codecov.io/bash)
+      - deploy:
+          name: goreleaser
+          command: |
+            if [[ ! -z ${CIRCLE_TAG} ]]; then
+              echo "TAG: ${CIRCLE_TAG}"
+              curl -sL https://git.io/goreleaser | bash
+            fi
+
+deployment:
+  trigger_tag:
+    tag: /.*/
