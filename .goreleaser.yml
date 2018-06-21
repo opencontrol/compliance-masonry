@@ -48,4 +48,6 @@ brew:
   commit_author:
     name: OpenControl
     email: dev@open-control.org
+  description: Compliance Masonry is a command-line interface (CLI) that allows users to construct certification documentation using the OpenControl Schema.
   homepage: https://github.com/opencontrol/compliance-masonry
+  install: bin.install "compliance-masonry", "masonry"
