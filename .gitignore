@@ -4,4 +4,4 @@
 /dist
 *.swp
 *.out
-/build
+/_output
