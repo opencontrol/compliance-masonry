@@ -16,7 +16,7 @@ BASHINSTALLDIR=${PREFIX}/share/bash-completion/completions
 
 SELINUXOPT ?= $(shell selinuxenabled 2>/dev/null && echo -Z)
 
-BUILD_DIR ?= ./build
+BUILD_DIR ?= _output
 BUILD_INFO := $(shell date -u +"%Y-%m-%dT%T%z")
 BUILD_PLATFORMS = "windows/amd64" "windows/386" "darwin/amd64" "darwin/386" "linux/386" "linux/amd64" "linux/arm" "linux/arm64"
 
