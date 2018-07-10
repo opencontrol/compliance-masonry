@@ -1,5 +1,5 @@
-#PCI-DSS-MAY-2015-1.1
-##Establish and implement firewall and router configuration standards.
+# PCI-DSS-MAY-2015-1.1
+## Establish and implement firewall and router configuration standards.
 
 #### Amazon Elastic Compute Cloud
 
