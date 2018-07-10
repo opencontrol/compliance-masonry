@@ -93,7 +93,7 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
 	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
-	text := fmt.Sprintf("#%s\n##%s\n", key, control.GetName())
+	text := fmt.Sprintf("# %s\n## %s\n", key, control.GetName())
 	if len(control.GetDescription()) > 0 {
 		text += "#### Description\n"
 		text += control.GetDescription()
