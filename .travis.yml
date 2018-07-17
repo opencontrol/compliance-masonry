@@ -1,8 +1,21 @@
 language: go
 
+env:
+ - VERSION_TAG=$(echo $TRAVIS_TAG | cut -d"v" -f2)
+
 matrix:
   include:
     - os: osx
       osx_image: xcode8.3
       script:
         - make build
+        - cd _output && mkdir -p compliance-masonry.app/Contents/MacOS/
+        - cp -p masonry compliance-masonry.app/Contents/MacOS/
+        - ../build/dmg/osx-create-dmg.sh
+      deploy:
+        provider: releases
+        api_key: $GITHUB_TOKEN
+        file: compliance-masonry-$VERSION_TAG.dmg
+        skip_cleanup: true
+        on:
+          tags: true
