@@ -20,7 +20,7 @@ BUILD_DIR ?= _output
 BUILD_INFO := $(shell date -u +"%Y-%m-%dT%T%z")
 BUILD_PLATFORMS = "windows/amd64" "windows/386" "darwin/amd64" "darwin/386" "linux/386" "linux/amd64" "linux/arm" "linux/arm64"
 
-VERSION := $(shell git for-each-ref --format="%(refname:short)" --sort=-authordate --count=1 refs/tags | cut -d"v" -f2)
+VERSION := $(shell git describe --abbrev=0 --tags | cut -d"v" -f2)
 SHORTCOMMIT := $(shell git rev-parse --short HEAD)
 
 # If GOPATH not specified, use one in the local directory
