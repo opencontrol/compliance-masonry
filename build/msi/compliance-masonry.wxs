@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?define VERSION="BUILD_TAG_VERSION.0" ?>
+    <Product Id="FA288837-AD79-40CC-9A49-C08E36216B46" Name="Compliance Masonry" Language="1033" Version="$(var.VERSION)" Manufacturer="OpenControl" UpgradeCode="A53A584E-4A8F-45AB-95D6-0B76FA326CBB">
+        <Package Description="Compliance Masonry" Comments="Compliance Masonry" InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" />
+        <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="PFiles">
+                <Directory Id="COMPLIANCE_MASONRY" Name="compliance-masonry">
+
+                    <Component Id="MASONRY.EXE" DiskId="1" Guid="BAC035C9-8CC3-4D21-A644-73DA77DE9C4A">
+                        <File Id="MASONRY.EXE" Name="masonry.exe" Source="masonry.exe" Vital="yes" KeyPath="yes" />
+                    </Component>
+
+                    <Component Id="COMPLIANCE_MASONRY.EXE" DiskId="1" Guid="E26DA70A-738B-4263-AFDD-BD85C25C53DA">
+                        <File Id="COMPLIANCE_MASONRY.EXE" Name="compliance-masonry.exe" Source="compliance-masonry.exe" />
+                    </Component>
+
+                </Directory>
+            </Directory>
+            <Directory Id="DesktopFolder" />
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ProgramMenuDir" Name="OpenControl">
+                    <Directory Id="OpenControlDir" Name="compliance-masonry">
+                        <Component Id="StartMenuShortcuts" Guid="1175B1B2-E425-432C-8D28-E31CC947F368">
+                            <RemoveFolder Id="RemoveProgramMenuDir" Directory="ProgramMenuDir" On="uninstall" />
+                            <RemoveFolder Id="RemoveOpenControlDir" Directory="OpenControlDir" On="uninstall" />
+                            <RegistryValue Root="HKMU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" />
+                            <RegistryValue Root="HKMU" Key="Software\[Manufacturer]\[ProductName]" Name="version" Type="string" Value="$(var.VERSION)" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+        <Feature Id="DefaultFeature" Title="Compliance Masonry" Level="1">
+            <ComponentRef Id="MASONRY.EXE" />
+            <ComponentRef Id="COMPLIANCE_MASONRY.EXE" />
+
+            <ComponentRef Id="StartMenuShortcuts" />
+        </Feature>
+        <UI />
+        <UIRef Id="WixUI_Minimal" />
+        <Icon Id="AppIcon.ico" SourceFile="AppIcon.ico" />
+        <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+        <WixVariable Id="WixUILicenseRtf" Value="win32-LICENSE.rtf" />
+        <WixVariable Id="WixUIBannerBmp" Value="ocbanner.png" />
+        <WixVariable Id="WixUIDialogBmp" Value="ocdialog.png" />
+    </Product>
+</Wix>
