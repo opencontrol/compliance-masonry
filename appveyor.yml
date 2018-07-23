@@ -1,11 +1,15 @@
 version: 1.0.{build}
+
 branches:
   only:
   - master
 clone_folder: c:\gopath\src\github.com\opencontrol\compliance-masonry
+
 environment:
   GOPATH: c:\gopath
+
 install:
+- choco install gnuwin32-sed.install
 - cmd: >-
     echo %GOPATH%
 
@@ -16,8 +20,42 @@ install:
     go get github.com/Masterminds/glide
 
     set PATH=%PATH%;%GOPATH%\bin
+
+- ps: >-
+    $env:GITVERSION = git describe --abbrev=0 --tags
+
+    $env:VERSION = $env:GITVERSION -replace 'v', ''
+
+    $env:SHORTCOMMIT = git rev-parse --short HEAD
+
+    $env:BUILD_INFO = date -u +"%Y-%m-%dT%T%z"
+
 build_script:
-- cmd: go build cmd/compliance-masonry/compliance-masonry.go
-- cmd: go build cmd/masonry/masonry.go
+- cmd: go build -ldflags="-s -w -X github.com/opencontrol/compliance-masonry/version.Version=%VERSION% -X github.com/opencontrol/compliance-masonry/version.Commit=%SHORTCOMMIT% -X github.com/opencontrol/compliance-masonry/version.Date=%BUILD_INFO%" cmd/compliance-masonry/compliance-masonry.go
+
+- cmd: go build -ldflags="-s -w -X github.com/opencontrol/compliance-masonry/version.Version=%VERSION% -X github.com/opencontrol/compliance-masonry/version.Commit=%SHORTCOMMIT% -X github.com/opencontrol/compliance-masonry/version.Date=%BUILD_INFO%" cmd/masonry/masonry.go
+
+- cmd: copy build\msi\*.* %cd%
+- cmd: >-
+    sed.exe -i "s/BUILD_TAG_VERSION/%VERSION%/g" compliance-masonry.wxs
+
+    "%WIX%\bin\candle.exe" compliance-masonry.wxs
+
+    "%WIX%\bin\light.exe" compliance-masonry.wixobj -ext WixUIExtension -out compliance-masonry-%VERSION%.msi
+
+artifacts:
+- path: compliance-masonry-%VERSION%.msi
+
 test_script:
 - cmd: FOR /F %%A IN ('glide novendor') DO go test -v %%A || exit /b 1
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: Bh508YJt4bqzyu1oSqCFzzvGVNw379clxakvtGErRWoTG+4HkyvrVJyH80LAhMf2
+  artifact: compliance-masonry-%VERSION%.msi
+  draft: false
+  prerelease: false
+  on:
+    branch: master
+    appveyor_repo_tag: true
