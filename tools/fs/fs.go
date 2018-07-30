@@ -11,6 +11,7 @@ import (
 	"os"
 
 	metaleapfs "github.com/metaleap/go-util/fs"
+	"github.com/opencontrol/compliance-masonry/internal/constants"
 )
 
 //go:generate mockery -name Util
@@ -69,14 +70,14 @@ func (fs OSUtil) AppendOrCreate(filePath string, text string) error {
 	if _, err = os.Stat(filePath); err == nil {
 		err = AppendToFile(filePath, text)
 	} else {
-		err = ioutil.WriteFile(filePath, []byte(text), 0700)
+		err = ioutil.WriteFile(filePath, []byte(text), constants.FileReadWrite)
 	}
 	return err
 }
 
 // AppendToFile adds text to a file
 func AppendToFile(filePath string, text string) error {
-	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY, 0700)
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY, constants.FileReadWrite)
 	if err != nil {
 		return err
 	}

@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/opencontrol/compliance-masonry/internal/utils"
 )
 
 type exportLinkTest struct {
@@ -56,7 +58,7 @@ var replaceParenthesesTests = []replaceParenthesesTest{
 
 func TestReplaceParentheses(t *testing.T) {
 	for _, example := range replaceParenthesesTests {
-		actual := replaceParentheses(example.text)
+		actual := masonryutil.FileNameHandler(example.text)
 		if actual != example.expected {
 			t.Errorf("Expected: `%s`, Actual: `%s`", example.expected, actual)
 		}
