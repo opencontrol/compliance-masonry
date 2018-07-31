@@ -7,7 +7,6 @@ package gitbook
 import (
 	"fmt"
 	"path/filepath"
-	"strings"
 
 	"github.com/opencontrol/compliance-masonry/pkg/lib"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
@@ -49,10 +48,6 @@ type ControlGitbook struct {
 
 func exportLink(text string, location string) string {
 	return fmt.Sprintf("* [%s](%s)\n", text, location)
-}
-
-func replaceParentheses(text string) string {
-	return strings.Replace(strings.Replace(text, "(", "", -1), ")", "", -1)
 }
 
 // BuildGitbook entry point for creating gitbook

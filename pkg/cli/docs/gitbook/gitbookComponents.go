@@ -6,9 +6,11 @@ package gitbook
 
 import (
 	"fmt"
-	"io/ioutil"
 	"path/filepath"
 	"sort"
+
+	"github.com/opencontrol/compliance-masonry/internal/constants"
+	"github.com/opencontrol/compliance-masonry/internal/utils"
 )
 
 func (component *ComponentGitbook) exportComponent() (string, string) {
@@ -43,6 +45,6 @@ func (openControl *OpenControlGitBook) exportComponents() {
 	for _, component := range openControl.GetAllComponents() {
 		componentsGitBook := ComponentGitbook{component, componentsExportPath}
 		componentPath, componentText := componentsGitBook.exportComponent()
-		ioutil.WriteFile(componentPath, []byte(componentText), 0700)
+		masonryutil.FileWriter(componentPath, []byte(componentText), constants.FileReadWrite)
 	}
 }

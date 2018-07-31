@@ -6,9 +6,11 @@ package gitbook
 
 import (
 	"fmt"
-	"io/ioutil"
+
 	"path/filepath"
 
+	"github.com/opencontrol/compliance-masonry/internal/constants"
+	"github.com/opencontrol/compliance-masonry/internal/utils"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 )
 
@@ -92,7 +94,7 @@ func (openControl *OpenControlGitBook) getControlOrigin(text string, controlOrig
 }
 
 func (openControl *OpenControlGitBook) exportControl(control *ControlGitbook) (string, string) {
-	key := replaceParentheses(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
+	key := masonryutil.FileNameHandler(fmt.Sprintf("%s-%s", control.standardKey, control.controlKey))
 	text := fmt.Sprintf("# %s\n## %s\n", key, control.GetName())
 	if len(control.GetDescription()) > 0 {
 		text += "#### Description\n"
@@ -136,7 +138,7 @@ func (openControl *OpenControlGitBook) exportStandards() {
 		for _, controlKey := range controlKeys {
 			control := standard.GetControl(controlKey)
 			controlPath, controlText := openControl.exportControl(&ControlGitbook{control, standardsExportPath, standardKey, controlKey})
-			ioutil.WriteFile(controlPath, []byte(controlText), 0700)
+			masonryutil.FileWriter(controlPath, []byte(controlText), constants.FileReadWrite)
 		}
 	}
 }
