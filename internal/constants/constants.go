@@ -10,4 +10,7 @@ const (
 
 	// FileReadWriteExec handle Read/Write/Write Execute Permissions
 	FileReadWriteExec = 0700
+
+	// DirReadWriteExec handle directory 755 permissions
+	DirReadWriteExec = 0755
 )
