@@ -6,11 +6,13 @@ package fs
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
+	"strings"
 
-	metaleapfs "github.com/metaleap/go-util/fs"
 	"github.com/opencontrol/compliance-masonry/internal/constants"
 )
 
@@ -44,23 +46,23 @@ func (fs OSUtil) OpenAndReadFile(file string) ([]byte, error) {
 
 // CopyAll copies recursively from source to destination
 func (fs OSUtil) CopyAll(source string, destination string) error {
-	return metaleapfs.CopyAll(source, destination, nil, "")
+	return CopyAll(source, destination, "")
 }
 
 // Copy copies one file from source to destination
 func (fs OSUtil) Copy(source string, destination string) error {
 	log.Printf("source %s dest %s\n", source, destination)
-	return metaleapfs.CopyFile(source, destination)
+	return CopyFile(source, destination)
 }
 
 // TempDir creates a temp directory that the user is responsible for cleaning up
 func (fs OSUtil) TempDir(dir string, prefix string) (string, error) {
-	return ioutil.TempDir(dir, prefix)
+	return TempDir(dir, prefix)
 }
 
 // Mkdirs ensures that the directory is created.
 func (fs OSUtil) Mkdirs(dir string) error {
-	return metaleapfs.EnsureDirExists(dir)
+	return EnsureDirExists(dir)
 }
 
 // AppendOrCreate adds text to file if it exists otherwise it creates a new
@@ -86,4 +88,61 @@ func AppendToFile(filePath string, text string) error {
 		return err
 	}
 	return nil
+}
+
+// CopyFile copys a file from source to destination
+func CopyFile(source string, destination string) error {
+	src, err := os.Open(source)
+	if err != nil {
+		return err
+	}
+	defer src.Close()
+
+	dest, err := os.Create(destination)
+	if err != nil {
+		return err
+	}
+	defer dest.Close()
+	_, err = io.Copy(dest, src)
+	return err
+}
+
+// EnsureDirExists makes sure that the directory exists
+func EnsureDirExists(dirpath string) (err error) {
+	_, err = os.Stat(dirpath)
+
+	if os.IsNotExist(err) && err != nil {
+		if err = EnsureDirExists(filepath.Dir(dirpath)); err == nil {
+			err = os.Mkdir(dirpath, constants.DirReadWriteExec)
+		}
+	}
+
+	return err
+}
+
+// TempDir creates a temporary directory
+func TempDir(dir string, prefix string) (string, error) {
+	return ioutil.TempDir(dir, prefix)
+}
+
+// CopyAll copies all files and directories inside `srcDirPath` to `dstDirPath`.
+// Based on the CopyAll function from metaleap/go-utils
+func CopyAll(srcDirPath, dstDirPath string, skipFileSuffix string) (err error) {
+	var (
+		srcPath, destPath string
+		fileInfo          []os.FileInfo
+	)
+	if fileInfo, err = ioutil.ReadDir(srcDirPath); err == nil {
+		EnsureDirExists(dstDirPath)
+		for _, fi := range fileInfo {
+			if srcPath, destPath = filepath.Join(srcDirPath, fi.Name()), filepath.Join(dstDirPath, fi.Name()); fi.IsDir() {
+				if skipFileSuffix == "" || !strings.HasSuffix(srcPath, skipFileSuffix) {
+					CopyAll(srcPath, destPath, skipFileSuffix)
+				}
+			} else {
+				CopyFile(srcPath, destPath)
+			}
+		}
+	}
+	return err
 }
