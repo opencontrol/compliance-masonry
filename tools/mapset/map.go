@@ -5,7 +5,7 @@
 package mapset
 
 import (
-	"github.com/vektra/errors"
+	"errors"
 	"gopkg.in/fatih/set.v0"
 )
 
