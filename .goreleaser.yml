@@ -36,8 +36,10 @@ archive:
       format: zip
 
 nfpm:
+  vendor: OpenControl
   homepage: https://github.com/opencontrol/compliance-masonry
   license: CC0 1.0
+  maintainer: OpenControl Developers <dev@open-control.org>
   formats:
     - deb
     - rpm
