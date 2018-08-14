@@ -6,7 +6,7 @@ package mapset
 
 import (
 	"errors"
-	"gopkg.in/fatih/set.v0"
+	"github.com/fatih/set"
 )
 
 // MapSet is the map with each value being a set.
@@ -39,7 +39,7 @@ func (m *MapSet) Reserve(key string, value string) (result Result) {
 	}
 	var innerSet *set.Set
 	if _, ok := m.mapOfSet[key]; !ok {
-		innerSet = set.New()
+		innerSet = set.New(set.ThreadSafe).(*set.Set)
 		m.mapOfSet[key] = innerSet
 	}
 	if m.mapOfSet[key].Has(value) {

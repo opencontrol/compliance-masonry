@@ -5,7 +5,7 @@ This project is not maintained anymore and is archived.. Please create your own
 Thanks all for their work on this project. 
 
 
-# Set [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/gopkg.in/fatih/set.v0) [![Build Status](http://img.shields.io/travis/fatih/set.svg?style=flat-square)](https://travis-ci.org/fatih/set)
+# Set [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/github.com/fatih/set) [![Build Status](http://img.shields.io/travis/fatih/set.svg?style=flat-square)](https://travis-ci.org/fatih/set)
 
 Set is a basic and simple, hash-based, **Set** data structure implementation
 in Go (Golang).
@@ -24,13 +24,13 @@ For usage see examples below or click on the godoc badge.
 Install the package with:
 
 ```bash
-go get gopkg.in/fatih/set.v0
+go get github.com/fatih/set
 ```
 
 Import it with:
 
 ```go
-import "gopkg.in/fatih/set.v0"
+import "githug.com/fatih/set"
 ```
 
 and use `set` as the package name inside the code.
@@ -40,15 +40,9 @@ and use `set` as the package name inside the code.
 #### Initialization of a new Set
 
 ```go
-
 // create a set with zero items
-s := set.New()
-s := set.NewNonTS() // non thread-safe version
-
-// ... or with some initial values
-s := set.New("istanbul", "frankfurt", 30.123, "san francisco", 1234)
-s := set.NewNonTS("kenya", "ethiopia", "sumatra")
-
+s := set.New(set.ThreadSafe) // thread safe version
+s := set.New(set.NonThreadSafe) // non thread-safe version
 ```
 
 #### Basic Operations
@@ -63,7 +57,7 @@ s.Add("ankara", "san francisco", 3.14)
 
 // remove item
 s.Remove("frankfurt")
-s.Remove("frankfurt") // nothing happes if you remove a nonexisting item
+s.Remove("frankfurt") // nothing happens if you remove a nonexisting item
 
 // remove multiple items
 s.Remove("barcelona", 3.14, "ankara")
@@ -85,7 +79,6 @@ items := s.List()
 
 // string representation of set
 fmt.Printf("set is %s", s.String())
-
 ```
 
 #### Check Operations
@@ -104,7 +97,6 @@ s.Has("istanbul", "san francisco", 3.14)
 s := s.New("1", "2", "3", "4", "5")
 t := s.New("1", "2", "3")
 
-
 // check if they are the same
 if !s.IsEqual(t) {
     fmt.Println("s is not equal to t")
@@ -119,17 +111,16 @@ if s.IsSubset(t) {
 if t.IsSuperset(s) {
 	fmt.Println("s is a superset of t")
 }
-
-
 ```
 
 #### Set Operations
 
-
 ```go
 // let us initialize two sets with some values
-a := set.New("ankara", "berlin", "san francisco")
-b := set.New("frankfurt", "berlin")
+a := set.New(set.ThreadSafe)
+a := set.Add("ankara", "berlin", "san francisco")
+b := set.New(set.NonThreadSafe)
+b := set.Add("frankfurt", "berlin")
 
 // creates a new set with the items in a and b combined.
 // [frankfurt, berlin, ankara, san francisco]
@@ -146,7 +137,6 @@ c := set.Difference(a, b)
 // contains items which are in one of either, but not in both.
 // [frankfurt, ankara, san francisco]
 c := set.SymmetricDifference(a, b)
-
 ```
 
 ```go
@@ -155,15 +145,17 @@ a.Merge(b)
 
 // removes the set items which are in b from a and saves the result back into a.
 a.Separate(b)
-
 ```
 
 #### Multiple Set Operations
 
 ```go
-a := set.New("1", "3", "4", "5")
-b := set.New("2", "3", "4", "5")
-c := set.New("4", "5", "6", "7")
+a := set.New(set.ThreadSafe)
+a := set.Add("1", "3", "4", "5")
+b := set.New(set.ThreadSafe)
+b := set.Add("2", "3", "4", "5")
+c := set.New(set.ThreadSafe)
+c := set.Add("4", "5", "6", "7")
 
 // creates a new set with items in a, b and c
 // [1 2 3 4 5 6 7]
@@ -183,21 +175,18 @@ u := set.Intersection(a, b, c)
 The Slice functions below are a convenient way to extract or convert your Set data
 into basic data types.
 
-
 ```go
 // create a set of mixed types
-s := set.New("ankara", "5", "8", "san francisco", 13, 21)
-
+s := set.New(set.ThreadSafe)
+s := set.Add("ankara", "5", "8", "san francisco", 13, 21)
 
 // convert s into a slice of strings (type is []string)
 // [ankara 5 8 san francisco]
 t := set.StringSlice(s)
 
-
 // u contains a slice of ints (type is []int)
 // [13, 21]
 u := set.IntSlice(s)
-
 ```
 
 #### Concurrent safe usage
@@ -211,25 +200,28 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/set"
 	"strconv"
 	"sync"
+
+	"github.com/fatih/set"
 )
 
 func main() {
 	var wg sync.WaitGroup // this is just for waiting until all goroutines finish
 
 	// Initialize our thread safe Set
-	s := set.New()
+	s := set.New(set.ThreadSafe)
 
 	// Add items concurrently (item1, item2, and so on)
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
+
 		go func(i int) {
+			defer wg.Done()
+
 			item := "item" + strconv.Itoa(i)
 			fmt.Println("adding", item)
 			s.Add(item)
-			wg.Done()
 		}(i)
 	}
 
@@ -241,12 +233,11 @@ func main() {
 
 ## Credits
 
- * [Fatih Arslan](https://github.com/fatih)
- * [Arne Hormann](https://github.com/arnehormann)
- * [Sam Boyer](https://github.com/sdboyer)
- * [Ralph Loizzo](https://github.com/friartech)
+* [Fatih Arslan](https://github.com/fatih)
+* [Arne Hormann](https://github.com/arnehormann)
+* [Sam Boyer](https://github.com/sdboyer)
+* [Ralph Loizzo](https://github.com/friartech)
 
 ## License
 
 The MIT License (MIT) - see LICENSE.md for more details
-

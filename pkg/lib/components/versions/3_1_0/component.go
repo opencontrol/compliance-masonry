@@ -8,8 +8,8 @@ import (
 	"sort"
 
 	"github.com/blang/semver"
+	"github.com/fatih/set"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
-	"gopkg.in/fatih/set.v0"
 )
 
 // Component struct is an individual component requiring documentation
@@ -132,7 +132,7 @@ func (s Satisfies) GetControlOrigin() string {
 
 // GetControlOrigins returns all the control origins
 func (s Satisfies) GetControlOrigins() []string {
-	controlOrigins := set.New()
+	controlOrigins := set.New(set.ThreadSafe)
 	for i := range s.ControlOrigins {
 		controlOrigins.Add(s.ControlOrigins[i])
 	}
@@ -151,7 +151,7 @@ func (s Satisfies) GetImplementationStatus() string {
 
 // GetImplementationStatuses returns all implementation statuses
 func (s Satisfies) GetImplementationStatuses() []string {
-	implementationStatuses := set.New()
+	implementationStatuses := set.New(set.ThreadSafe)
 	for i := range s.ImplementationStatuses {
 		implementationStatuses.Add(s.ImplementationStatuses[i])
 	}
