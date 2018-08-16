@@ -52,7 +52,7 @@ test_script:
 deploy:
   provider: GitHub
   auth_token:
-    secure: Bh508YJt4bqzyu1oSqCFzzvGVNw379clxakvtGErRWoTG+4HkyvrVJyH80LAhMf2
+    secure: WDgb/MbcgGZwxu++bm5gaFsYBXcYGdWy0rJT7aE1pjd4COgDT+xY3MFWUXSk3yEM
   artifact: compliance-masonry-%VERSION%.msi
   draft: false
   prerelease: false
