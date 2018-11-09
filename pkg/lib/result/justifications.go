@@ -5,6 +5,7 @@
 package result
 
 import (
+	"sort"
 	"sync"
 
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
@@ -59,5 +60,6 @@ func (justifications *Justifications) Get(standardKey string, controlKey string)
 	if !controlKeyExists {
 		return nil
 	}
+	sort.Sort(common.Verifications(controlJustifications))
 	return controlJustifications
 }

@@ -16,9 +16,9 @@ import (
 
 var _ = Describe("Parse", func() {
 	var (
-		parser      SchemaParser
-		err         error
-		openControl common.OpenControl
+		parser SchemaParser
+		err    error
+		_      common.OpenControl
 	)
 
 	BeforeEach(func() {
@@ -30,27 +30,27 @@ var _ = Describe("Parse", func() {
 			parser = YAMLParser{}
 		})
 		It("should detect there's no data to parse when given nil data", func() {
-			openControl, err = parser.Parse(nil)
+			_, err = parser.Parse(nil)
 			assert.Equal(GinkgoT(), common.ErrNoDataToParse, err)
 		})
 		It("should detect there's no data to parse when given empty data", func() {
-			openControl, err = parser.Parse([]byte(""))
+			_, err = parser.Parse([]byte(""))
 			assert.Equal(GinkgoT(), common.ErrNoDataToParse, err)
 		})
 		It("should detect when it's unable to unmarshal into the base type", func() {
-			openControl, err = parser.Parse([]byte("schema_version: @"))
+			_, err = parser.Parse([]byte("schema_version: @"))
 			assert.Contains(GinkgoT(), err.Error(), ErrMalformedBaseYamlPrefix)
 		})
 		It("should detect when it's unable to determine the semver version because it is not in the format", func() {
-			openControl, err = parser.Parse([]byte("schema_version: versionone"))
+			_, err = parser.Parse([]byte("schema_version: versionone"))
 			assert.Equal(GinkgoT(), err, common.ErrCantParseSemver)
 		})
 		It("should detect when it's unable to determine the semver version because the version is not in string quotes", func() {
-			openControl, err = parser.Parse([]byte(`schema_version: 1.0`))
+			_, err = parser.Parse([]byte(`schema_version: 1.0`))
 			assert.Equal(GinkgoT(), err, common.ErrCantParseSemver)
 		})
 		It("should detect when the version is unknown", func() {
-			openControl, err = parser.Parse([]byte(`schema_version: "0.0.0"`))
+			_, err = parser.Parse([]byte(`schema_version: "0.0.0"`))
 			assert.Equal(GinkgoT(), err, common.ErrUnknownSchemaVersion)
 		})
 	})

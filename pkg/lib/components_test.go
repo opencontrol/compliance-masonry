@@ -48,6 +48,25 @@ func TestCompareAndAddComponent(t *testing.T) {
 	assert.False(t, added)
 }
 
+func TestGetAllComponent(t *testing.T) {
+	m := newComponents()
+	// Create mock components
+	newComponent1 := new(mocks.Component)
+	newComponent1.On("GetKey").Return("11")
+	m.add(newComponent1)
+
+	newComponent2 := new(mocks.Component)
+	newComponent2.On("GetKey").Return("2")
+	m.add(newComponent2)
+
+	// Try to use getAll to retrieve everything
+	components := m.getAll()
+	assert.Equal(t, len(components), 2)
+
+	// Check the first return to ensure that we follow natural sort
+	assert.Equal(t, components[0].GetKey(), "2")
+}
+
 func TestLoadSameComponentTwice(t *testing.T) {
 	ws := localWorkspace{components: newComponents(), justifications: result.NewJustifications()}
 	componentPath := filepath.Join("..", "..", "test", "fixtures", "component_fixtures", "v3_1_0", "EC2")

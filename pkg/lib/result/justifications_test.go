@@ -17,6 +17,11 @@ type justificationsTest struct {
 	expectedCount int
 }
 
+type justificationsOrderTest struct {
+	mappings    []singleMapping
+	expectedKey string
+}
+
 var justificationsAddTests = []justificationsTest{
 	// Check that justifications can be stored
 	{[]singleMapping{{"s1", "c", "1"}, {"s2", "c", "2"}, {"s3", "c", "3"}}, 3},
@@ -56,6 +61,28 @@ func TestJustificationGet(t *testing.T) {
 		// Check that the number of controls stored is the expected number
 		if example.expectedCount != numberofABs {
 			t.Errorf("Expected %d, Actual: %d", example.expectedCount, numberofABs)
+		}
+	}
+}
+
+var justificationsGetOrderTests = []justificationsOrderTest{
+	// Check that the first control returned is 1
+	{[]singleMapping{{"a", "b", "1"}, {"a", "b", "2"}}, "1"},
+	// Check that the first control returned is 2
+	{[]singleMapping{{"a", "b", "11"}, {"a", "b", "2"}}, "2"},
+}
+
+func TestJustificationGetOrder(t *testing.T) {
+	for _, example := range justificationsGetOrderTests {
+		just := NewJustifications()
+		for _, mapping := range example.mappings {
+			just.Add(mapping.standardKey, mapping.controlKey, mapping.componentKey, nil)
+		}
+		justs := just.Get("a", "b")
+
+		// Check that the first item is the expected item
+		if justs[0].ComponentKey != example.expectedKey {
+			t.Errorf("Expected %s, Actual: %s", example.expectedKey, justs[0].ComponentKey)
 		}
 	}
 }

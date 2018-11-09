@@ -8,6 +8,8 @@ import (
 	"sync"
 
 	"fmt"
+	"sort"
+	"vbom.ml/util/sortorder"
 
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/components"
@@ -17,6 +19,18 @@ import (
 type componentsMap struct {
 	mapping map[string]common.Component
 	sync.RWMutex
+}
+
+type byKey []common.Component
+
+func (k byKey) Len() int {
+	return len(k)
+}
+func (k byKey) Swap(i, j int) {
+	k[i], k[j] = k[j], k[i]
+}
+func (k byKey) Less(i, j int) bool {
+	return sortorder.NaturalLess(k[i].GetKey(), k[j].GetKey())
 }
 
 // newComponents creates an instance of Components struct
@@ -63,6 +77,7 @@ func (components *componentsMap) getAll() []common.Component {
 		result[idx] = value
 		idx++
 	}
+	sort.Sort(byKey(result))
 	return result
 }
 
