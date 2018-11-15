@@ -9,7 +9,7 @@ environment:
   GOPATH: c:\gopath
 
 install:
-- choco install gnuwin32-sed.install
+- choco install sed
 - cmd: >-
     echo %GOPATH%
 
