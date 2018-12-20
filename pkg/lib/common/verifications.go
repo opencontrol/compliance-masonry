@@ -4,6 +4,10 @@
 
 package common
 
+import (
+	"vbom.ml/util/sortorder"
+)
+
 // Verification struct holds data for a specific component and verification
 // This is an internal data structure that helps map standards and controls to components
 type Verification struct {
@@ -21,7 +25,7 @@ func (slice Verifications) Len() int {
 
 // Less returns true if a GeneralReference is less than another reference
 func (slice Verifications) Less(i, j int) bool {
-	return slice[i].ComponentKey < slice[j].ComponentKey
+	return sortorder.NaturalLess(slice[i].ComponentKey, slice[j].ComponentKey)
 }
 
 // Swap swaps the two GeneralReferences

@@ -48,6 +48,8 @@ var verificationsLessTests = []verificationsLessTest{
 	// Check that the left verification is not less by comparing two numbers
 	{common.Verifications{common.Verification{ComponentKey: "2", SatisfiesData: nil}, common.Verification{ComponentKey: "1", SatisfiesData: nil}}, false},
 	// Check that the left verification is not less by comparing two numbers
+	{common.Verifications{common.Verification{ComponentKey: "2", SatisfiesData: nil}, common.Verification{ComponentKey: "11", SatisfiesData: nil}}, true},
+	// Check that the left verification is not less by comparing atwo numbers
 }
 
 func TestVerificationsLess(t *testing.T) {
@@ -55,7 +57,7 @@ func TestVerificationsLess(t *testing.T) {
 		actualLeftIsLess := example.verifications.Less(0, 1)
 		// Check that the verification on the left is less as expected
 		if example.leftIsLess != actualLeftIsLess {
-			t.Errorf("Expected %t, Actual: %t", actualLeftIsLess, actualLeftIsLess)
+			t.Errorf("Expected %t, Actual: %t", example.leftIsLess, actualLeftIsLess)
 		}
 	}
 }
