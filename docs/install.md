@@ -8,9 +8,9 @@ In your terminal, run the following:
 
 ```sh
 cd ~/Downloads
-curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_darwin_amd64.zip -o compliance-masonry.zip
+curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.5/compliance-masonry_1.1.5_darwin_amd64.zip -o compliance-masonry.zip
 unzip compliance-masonry.zip
-cp compliance-masonry_1.1.2_darwin_amd64/compliance-masonry /usr/local/bin
+cp compliance-masonry_1.1.5_darwin_amd64/compliance-masonry /usr/local/bin
 ```
 
 ## Windows
@@ -33,9 +33,9 @@ The instructions below are for 64-bit architectures. See the [releases](https://
 In your terminal, run the following:
 
 ```sh
-curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.2/compliance-masonry_1.1.2_linux_amd64.tar.gz -o compliance-masonry.tar.gz
+curl -L https://github.com/opencontrol/compliance-masonry/releases/download/v1.1.5/compliance-masonry_1.1.5_linux_amd64.tar.gz -o compliance-masonry.tar.gz
 tar -xf compliance-masonry.tar.gz
-sudo cp compliance-masonry_1.1.2_linux_amd64/compliance-masonry /usr/local/bin
+sudo cp compliance-masonry_1.1.5_linux_amd64/compliance-masonry /usr/local/bin
 ```
 
 ---
