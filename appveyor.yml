@@ -50,12 +50,14 @@ test_script:
 - cmd: FOR /F %%A IN ('glide novendor') DO go test -v %%A || exit /b 1
 
 deploy:
+  tag: $(APPVEYOR_REPO_TAG_NAME)
   provider: GitHub
   auth_token:
     secure: WDgb/MbcgGZwxu++bm5gaFsYBXcYGdWy0rJT7aE1pjd4COgDT+xY3MFWUXSk3yEM
   artifact: compliance-masonry-%VERSION%.msi
   draft: false
   prerelease: false
+  force_update: true
   on:
     branch: master
     appveyor_repo_tag: true
