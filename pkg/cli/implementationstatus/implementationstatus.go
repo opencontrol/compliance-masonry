@@ -9,6 +9,9 @@ import (
 	"io"
 
 	"github.com/opencontrol/compliance-masonry/pkg/cli/clierrors"
+	"github.com/opencontrol/compliance-masonry/pkg/lib"
+	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
+	"github.com/opencontrol/compliance-masonry/tools/certifications"
 	"github.com/opencontrol/compliance-masonry/tools/constants"
 	"github.com/spf13/cobra"
 	"github.com/tg/gosortmap"
@@ -25,7 +28,7 @@ func NewCmdImplementationStatus(out io.Writer) *cobra.Command {
 		},
 	}
 	cmd.Flags().StringP("opencontrol", "o", constants.DefaultOpenControlsFolder, "Set opencontrol directory")
-	cmd.Flags().StringP("implementation_status", "i", nil, "implementation_status to search for")
+	cmd.Flags().StringP("implementation_status", "i", constants.DefaultImplementationStatus, "implementation_status to search for")
 	return cmd
 }
 
@@ -46,11 +49,17 @@ func RunImplementationStatus(out io.Writer, cmd *cobra.Command, args []string) e
 	if errs != nil && len(errs) > 0 {
 		return clierrors.NewExitError(clierrors.NewMultiError(errs...).Error(), 1)
 	}
-	fmt.Fprintf(out, "Components with implementation_status: %s\n", statustype)
+	fmt.Fprintf(out, "# Components with implementation_status: %s\n", cmd.Flag("implementation_status").Value.String())
 	for _, control := range sortmap.ByKey(inventory.satisfiesList) {
 		fmt.Fprintf(out, "%s\n", control.Key)
 	}
 	return nil
+}
+
+// Config contains the settings
+type Config struct {
+	Certification  string
+	OpencontrolDir string
 }
 
 type ComponentsInventory struct {
@@ -66,13 +75,13 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 	}
 	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := ComponentsInventory{
-		Workspace:      workspace,
-		satisfiesList:  make(map[string]common.Satisfies),
+		Workspace:     workspace,
+		satisfiesList: make(map[string]common.Satisfies),
 	}
 
 	components := i.GetAllComponents()
 	if i.GetCertification() == nil || components == nil {
-		return Inventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
+		return ComponentsInventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
 	}
 	for _, component := range components {
 		for _, satisfiedControl := range component.GetAllSatisfies() {
@@ -80,6 +89,7 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 				key := component.GetName() + "@" + satisfiedControl.GetControlKey()
 				if _, exists := i.satisfiesList[key]; !exists {
 					i.satisfiesList[key] = satisfiedControl
+				}
 			}
 		}
 	}
