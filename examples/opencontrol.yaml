@@ -4,10 +4,10 @@ metadata:
   description: "This opencontrol YAML is just used for showing various levels of testing. For more details refer to example_test.go"
 dependencies:
   standards:
-    - url: https://github.com/opencontrol/NIST-800-53-Standards
+    - url: https://github.com/opencontrol/standards
       revision: master
   certifications:
-    - url: https://github.com/opencontrol/FedRAMP-Certifications
+    - url: https://github.com/opencontrol/certifications
       revision: master
   systems:
     - url: https://github.com/opencontrol/aws-compliance
