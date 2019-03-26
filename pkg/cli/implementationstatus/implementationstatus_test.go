@@ -40,6 +40,17 @@ var _ = Describe("Implementationstatus", func() {
 				})
 			})
 		})
+		Context("When we search for an implementation_status", func() {
+			It("should find at least one component in our test data", func() {
+				config := Config{
+					OpencontrolDir: filepath.Join(workingDir, "..", "..", "..", "test", "fixtures", "opencontrol_fixtures"),
+					Certification:  "LATO",
+				}
+				i, err := FindImplementationStatus(config, "partial")
+				assert.Nil(GinkgoT(), err)
+				assert.NotEqual(GinkgoT(), 0, len(i.ComponentList))
+			})
+		})
 		Context("When we search for the 'partial' implementation_status", func() {
 			It("should find more than one in our test data", func() {
 				config := Config{
