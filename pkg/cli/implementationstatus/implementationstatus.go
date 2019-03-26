@@ -50,7 +50,7 @@ func RunImplementationStatus(out io.Writer, cmd *cobra.Command, args []string) e
 		return clierrors.NewExitError(clierrors.NewMultiError(errs...).Error(), 1)
 	}
 	fmt.Fprintf(out, "# Components with implementation_status: %s\n", cmd.Flag("implementation_status").Value.String())
-	for _, control := range sortmap.ByKey(inventory.satisfiesList) {
+	for _, control := range sortmap.ByKey(inventory.SatisfiesList) {
 		fmt.Fprintf(out, "%s\n", control.Key)
 	}
 	return nil
@@ -64,7 +64,7 @@ type Config struct {
 
 type ComponentsInventory struct {
 	common.Workspace
-	satisfiesList map[string]common.Satisfies
+	SatisfiesList map[string]common.Satisfies
 }
 
 func FindImplementationStatus(config Config, statustype string) (ComponentsInventory, []error) {
@@ -76,7 +76,7 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := ComponentsInventory{
 		Workspace:     workspace,
-		satisfiesList: make(map[string]common.Satisfies),
+		SatisfiesList: make(map[string]common.Satisfies),
 	}
 
 	components := i.GetAllComponents()
@@ -85,10 +85,12 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 	}
 	for _, component := range components {
 		for _, satisfiedControl := range component.GetAllSatisfies() {
-			if satisfiedControl.GetImplementationStatus() == statustype {
-				key := component.GetName() + "@" + satisfiedControl.GetControlKey()
-				if _, exists := i.satisfiesList[key]; !exists {
-					i.satisfiesList[key] = satisfiedControl
+			for _, status := range satisfiedControl.GetImplementationStatuses() {
+				if status == statustype {
+					key := component.GetName() + "@" + satisfiedControl.GetControlKey()
+					if _, exists := i.SatisfiesList[key]; !exists {
+						i.SatisfiesList[key] = satisfiedControl
+					}
 				}
 			}
 		}
