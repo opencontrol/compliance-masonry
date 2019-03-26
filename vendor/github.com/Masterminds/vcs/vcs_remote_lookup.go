@@ -109,14 +109,6 @@ func detectVcsFromRemote(vcsURL string) (Type, string, error) {
 		return NoVCS, "", ErrCannotDetectVCS
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		if resp.StatusCode == 404 {
-			return NoVCS, "", NewRemoteError(fmt.Sprintf("%s Not Found", vcsURL), nil, "")
-		} else if resp.StatusCode == 401 || resp.StatusCode == 403 {
-			return NoVCS, "", NewRemoteError(fmt.Sprintf("%s Access Denied", vcsURL), nil, "")
-		}
-		return NoVCS, "", ErrCannotDetectVCS
-	}
 
 	t, nu, err := parseImportFromBody(u, resp.Body)
 	if err != nil {
