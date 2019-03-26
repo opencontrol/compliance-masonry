@@ -14,8 +14,8 @@ import (
 	"path/filepath"
 )
 
-var _ = Describe("Implementationstatus", func() {
-	Describe("Finding implementation_status", func() {
+var _ = Describe("Implementation Status", func() {
+	Describe("Searching", func() {
 		var (
 			workingDir string
 		)
@@ -28,7 +28,7 @@ var _ = Describe("Implementationstatus", func() {
 					config := Config{}
 					i, err := FindImplementationStatus(config, "partial")
 					assert.Equal(GinkgoT(), []error{errors.New("Error: Missing Certification Argument")}, err)
-					assert.Equal(GinkgoT(), 0, len(i.SatisfiesList))
+					assert.Equal(GinkgoT(), 0, len(i.SatisfiesMap))
 				})
 			})
 			Context("When bad / no folder location is given", func() {
@@ -36,7 +36,7 @@ var _ = Describe("Implementationstatus", func() {
 					config := Config{Certification: "LATO"}
 					i, err := FindImplementationStatus(config, "partial")
 					assert.Equal(GinkgoT(), []error{errors.New("Error: `certifications` directory does exist")}, err)
-					assert.Equal(GinkgoT(), 0, len(i.SatisfiesList))
+					assert.Equal(GinkgoT(), 0, len(i.SatisfiesMap))
 				})
 			})
 		})
@@ -59,9 +59,8 @@ var _ = Describe("Implementationstatus", func() {
 				}
 				i, err := FindImplementationStatus(config, "partial")
 				assert.Nil(GinkgoT(), err)
-				// I have no idea why assert.Greater is not working, but this will work.
-				assert.NotEqual(GinkgoT(), 1, len(i.SatisfiesList))
-				assert.NotEqual(GinkgoT(), 0, len(i.SatisfiesList))
+				assert.NotEqual(GinkgoT(), 0, len(i.SatisfiesMap))
+				assert.NotEqual(GinkgoT(), 1, len(i.SatisfiesMap))
 			})
 		})
 		Context("When we search for the 'planned' implementation_status", func() {
@@ -72,7 +71,7 @@ var _ = Describe("Implementationstatus", func() {
 				}
 				i, err := FindImplementationStatus(config, "planned")
 				assert.Nil(GinkgoT(), err)
-				assert.Equal(GinkgoT(), 1, len(i.SatisfiesList))
+				assert.Equal(GinkgoT(), 1, len(i.SatisfiesMap))
 			})
 		})
 	})

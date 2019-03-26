@@ -50,7 +50,7 @@ func RunImplementationStatus(out io.Writer, cmd *cobra.Command, args []string) e
 		return clierrors.NewExitError(clierrors.NewMultiError(errs...).Error(), 1)
 	}
 	fmt.Fprintf(out, "# Components with implementation_status: %s\n", cmd.Flag("implementation_status").Value.String())
-	for _, control := range sortmap.ByKey(inventory.SatisfiesList) {
+	for _, control := range sortmap.ByKey(inventory.SatisfiesMap) {
 		fmt.Fprintf(out, "%s\n", control.Key)
 	}
 	return nil
@@ -64,7 +64,8 @@ type Config struct {
 
 type ComponentsInventory struct {
 	common.Workspace
-	SatisfiesList map[string]common.Satisfies
+	ComponentList []common.Component
+	SatisfiesMap  map[string]common.Satisfies
 }
 
 func FindImplementationStatus(config Config, statustype string) (ComponentsInventory, []error) {
@@ -75,21 +76,21 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 	}
 	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
 	i := ComponentsInventory{
-		Workspace:     workspace,
-		SatisfiesList: make(map[string]common.Satisfies),
+		Workspace:    workspace,
+		SatisfiesMap: make(map[string]common.Satisfies),
 	}
 
-	components := i.GetAllComponents()
-	if i.GetCertification() == nil || components == nil {
+	i.ComponentList = i.GetAllComponents()
+	if i.GetCertification() == nil || i.ComponentList == nil {
 		return ComponentsInventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
 	}
-	for _, component := range components {
+	for _, component := range i.ComponentList {
 		for _, satisfiedControl := range component.GetAllSatisfies() {
 			for _, status := range satisfiedControl.GetImplementationStatuses() {
 				if status == statustype {
 					key := component.GetName() + "@" + satisfiedControl.GetControlKey()
-					if _, exists := i.SatisfiesList[key]; !exists {
-						i.SatisfiesList[key] = satisfiedControl
+					if _, exists := i.SatisfiesMap[key]; !exists {
+						i.SatisfiesMap[key] = satisfiedControl
 					}
 				}
 			}
