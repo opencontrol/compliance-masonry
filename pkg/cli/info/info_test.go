@@ -2,10 +2,10 @@
  Copyright (C) 2018 OpenControl Contributors. See LICENSE.md for license.
 */
 
-package implementationstatus_test
+package info_test
 
 import (
-	. "github.com/opencontrol/compliance-masonry/pkg/cli/implementationstatus"
+	. "github.com/opencontrol/compliance-masonry/pkg/cli/info"
 
 	"errors"
 	. "github.com/onsi/ginkgo"
@@ -14,8 +14,8 @@ import (
 	"path/filepath"
 )
 
-var _ = Describe("Implementation Status", func() {
-	Describe("Searching", func() {
+var _ = Describe("Info", func() {
+	Describe("Searching Implementation Status", func() {
 		var (
 			workingDir string
 		)

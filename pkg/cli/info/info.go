@@ -2,7 +2,7 @@
  Copyright (C) 2018 OpenControl Contributors. See LICENSE.md for license.
 */
 
-package implementationstatus
+package info
 
 import (
 	"fmt"
@@ -17,23 +17,24 @@ import (
 	"github.com/tg/gosortmap"
 )
 
-// NewCmdImplementationStatus allows you to query for implementation_status.
-func NewCmdImplementationStatus(out io.Writer) *cobra.Command {
+// NewCmdInfo allows you to query for implementation_status.
+func NewCmdInfo(out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "implementationstatus",
-		Short: "Compliance implementation status search",
+		Use:   "info",
+		Short: "Compliance search",
 		Run: func(cmd *cobra.Command, args []string) {
-			err := RunImplementationStatus(out, cmd, args)
+			err := RunInfo(out, cmd, args)
 			clierrors.CheckError(err)
 		},
 	}
 	cmd.Flags().StringP("opencontrol", "o", constants.DefaultOpenControlsFolder, "Set opencontrol directory")
-	cmd.Flags().StringP("implementation_status", "i", constants.DefaultImplementationStatus, "implementation_status to search for")
+	cmd.Flags().StringP("implementation_status", "i", "", "implementation_status to search for")
+	// cmd.Flags().StringP("query", "q", "", "arbitrary query")
 	return cmd
 }
 
-// RunImplementationStatus allows you to query for implementation_status when specified in cli
-func RunImplementationStatus(out io.Writer, cmd *cobra.Command, args []string) error {
+// RunInfo allows you to query for stuff
+func RunInfo(out io.Writer, cmd *cobra.Command, args []string) error {
 	if len(args) == 0 {
 		return fmt.Errorf("certification type not specified")
 	}
@@ -45,14 +46,30 @@ func RunImplementationStatus(out io.Writer, cmd *cobra.Command, args []string) e
 		Certification:  args[0],
 		OpencontrolDir: cmd.Flag("opencontrol").Value.String(),
 	}
-	inventory, errs := FindImplementationStatus(config, cmd.Flag("implementation_status").Value.String())
-	if errs != nil && len(errs) > 0 {
-		return clierrors.NewExitError(clierrors.NewMultiError(errs...).Error(), 1)
+
+	// different types of searches can be done here.
+	// Currently, only implementation_status queries are implemented.
+	if cmd.Flag("implementation_status").Value.String() != "" {
+		inventory, errs := FindImplementationStatus(config, cmd.Flag("implementation_status").Value.String())
+		if errs != nil && len(errs) > 0 {
+			return clierrors.NewExitError(clierrors.NewMultiError(errs...).Error(), 1)
+		}
+		fmt.Fprintf(out, "# Components with implementation_status: %s\n", cmd.Flag("implementation_status").Value.String())
+		for _, control := range sortmap.ByKey(inventory.SatisfiesMap) {
+			fmt.Fprintf(out, "%s\n", control.Key)
+		}
 	}
-	fmt.Fprintf(out, "# Components with implementation_status: %s\n", cmd.Flag("implementation_status").Value.String())
-	for _, control := range sortmap.ByKey(inventory.SatisfiesMap) {
-		fmt.Fprintf(out, "%s\n", control.Key)
-	}
+	// // This is how we might do an arbitrary query
+	// if cmd.Flag("query").Value.String() != "" {
+	// 	inventory, errs := InfoQuery(config, cmd.Flag("query").Value.String())
+	// 	if errs != nil && len(errs) > 0 {
+	// 		return clierrors.NewExitError(clierrors.NewMultiError(errs...).Error(), 1)
+	// 	}
+	// 	fmt.Fprintf(out, "# Query result for: %s\n", cmd.Flag("query").Value.String())
+	// 	for _, control := range sortmap.ByKey(inventory.SatisfiesMap) {
+	// 		fmt.Fprintf(out, "%s\n", control.Key)
+	// 	}
+	// }
 	return nil
 }
 
@@ -105,3 +122,8 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 	}
 	return i, nil
 }
+
+// // This is where we would implement the query parsing and searching
+// func InfoQuery(config Config, query string) (ComponentsInventory, []error) {
+// 	XXX
+// }

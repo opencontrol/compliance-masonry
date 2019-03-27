@@ -27,8 +27,6 @@ const (
 	DefaultOutputFormat = "json"
 	// DefaultKeySeparator is the default separator for keys when flattening structure
 	DefaultKeySeparator = ":"
-	// DefaultImplementationStatus is the default implementation status to search for
-	DefaultImplementationStatus = "partial"
 )
 
 // ResourceType is a type to help tell when it should be of only types of resources.

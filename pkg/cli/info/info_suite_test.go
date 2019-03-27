@@ -2,7 +2,7 @@
  Copyright (C) 2018 OpenControl Contributors. See LICENSE.md for license.
 */
 
-package implementationstatus_test
+package info_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestImplementationstatus(t *testing.T) {
+func TestInfo(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Implementation Status Suite")
+	RunSpecs(t, "Info Suite")
 }
