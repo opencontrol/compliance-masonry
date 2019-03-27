@@ -54,12 +54,12 @@ var _ = Describe("Implementation Status", func() {
 		Context("When we search for the 'partial' implementation_status", func() {
 			It("should find more than one in our test data", func() {
 				config := Config{
-					OpencontrolDir: filepath.Join(workingDir, "..", "..", "..", "test", "fixtures", "opencontrol_fixtures"),
 					Certification:  "LATO",
+					OpencontrolDir: filepath.Join(workingDir, "..", "..", "..", "test", "fixtures", "opencontrol_fixtures"),
 				}
-				i, err := FindImplementationStatus(config, "partial")
+				l, err := FindImplementationStatus(config, "partial")
 				assert.Nil(GinkgoT(), err)
-				assert.Greater(GinkgoT(), len(i.SatisfiesMap), 1)
+				assert.Greater(GinkgoT(), len(l.SatisfiesMap), 1)
 			})
 		})
 		Context("When we search for the 'planned' implementation_status", func() {
