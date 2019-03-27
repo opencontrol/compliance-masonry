@@ -125,5 +125,5 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 
 // // This is where we would implement the query parsing and searching
 // func InfoQuery(config Config, query string) (ComponentsInventory, []error) {
-// 	XXX
+// 	magic query dust here
 // }
