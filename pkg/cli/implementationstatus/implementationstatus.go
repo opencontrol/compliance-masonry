@@ -21,7 +21,7 @@ import (
 func NewCmdImplementationStatus(out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "implementationstatus",
-		Short: "Compliance implementation status",
+		Short: "Compliance implementation status search",
 		Run: func(cmd *cobra.Command, args []string) {
 			err := RunImplementationStatus(out, cmd, args)
 			clierrors.CheckError(err)
@@ -71,10 +71,13 @@ type ComponentsInventory struct {
 func FindImplementationStatus(config Config, statustype string) (ComponentsInventory, []error) {
 	// Initialize inventory with certification
 	certificationPath, errs := certifications.GetCertification(config.OpencontrolDir, config.Certification)
-	if certificationPath == "" {
+	if certificationPath == "" || errs != nil {
 		return ComponentsInventory{}, errs
 	}
-	workspace, _ := lib.LoadData(config.OpencontrolDir, certificationPath)
+	workspace, errs := lib.LoadData(config.OpencontrolDir, certificationPath)
+	if errs != nil {
+		return ComponentsInventory{}, errs
+	}
 	i := ComponentsInventory{
 		Workspace:    workspace,
 		SatisfiesMap: make(map[string]common.Satisfies),
@@ -84,6 +87,7 @@ func FindImplementationStatus(config Config, statustype string) (ComponentsInven
 	if i.GetCertification() == nil || i.ComponentList == nil {
 		return ComponentsInventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
 	}
+
 	for _, component := range i.ComponentList {
 		for _, satisfiedControl := range component.GetAllSatisfies() {
 			for _, status := range satisfiedControl.GetImplementationStatuses() {

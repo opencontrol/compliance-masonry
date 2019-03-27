@@ -48,7 +48,7 @@ var _ = Describe("Implementation Status", func() {
 				}
 				i, err := FindImplementationStatus(config, "partial")
 				assert.Nil(GinkgoT(), err)
-				assert.Greater(GinkgoT(), 0, len(i.ComponentList))
+				assert.Greater(GinkgoT(), len(i.ComponentList), 0)
 			})
 		})
 		Context("When we search for the 'partial' implementation_status", func() {
@@ -59,7 +59,7 @@ var _ = Describe("Implementation Status", func() {
 				}
 				i, err := FindImplementationStatus(config, "partial")
 				assert.Nil(GinkgoT(), err)
-				assert.Greater(GinkgoT(), 1, len(i.SatisfiesMap))
+				assert.Greater(GinkgoT(), len(i.SatisfiesMap), 1)
 			})
 		})
 		Context("When we search for the 'planned' implementation_status", func() {
