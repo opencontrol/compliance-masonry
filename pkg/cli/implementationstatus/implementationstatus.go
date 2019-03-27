@@ -62,8 +62,8 @@ type Config struct {
 	OpencontrolDir string
 }
 
-// componentsInventory is where we store the data that we are returning.
-type componentsInventory struct {
+// ComponentsInventory is where we store the data that we are returning.
+type ComponentsInventory struct {
 	common.Workspace
 	ComponentList []common.Component
 	SatisfiesMap  map[string]common.Satisfies
@@ -71,24 +71,24 @@ type componentsInventory struct {
 
 // FindImplementationStatus is a function that finds satisfied controls which have an
 // implementation_status of statustype.
-func FindImplementationStatus(config Config, statustype string) (componentsInventory, []error) {
+func FindImplementationStatus(config Config, statustype string) (ComponentsInventory, []error) {
 	// Initialize inventory with certification
 	certificationPath, errs := certifications.GetCertification(config.OpencontrolDir, config.Certification)
 	if certificationPath == "" || errs != nil {
-		return componentsInventory{}, errs
+		return ComponentsInventory{}, errs
 	}
 	workspace, errs := lib.LoadData(config.OpencontrolDir, certificationPath)
 	if errs != nil {
-		return componentsInventory{}, errs
+		return ComponentsInventory{}, errs
 	}
-	i := componentsInventory{
+	i := ComponentsInventory{
 		Workspace:    workspace,
 		SatisfiesMap: make(map[string]common.Satisfies),
 	}
 
 	i.ComponentList = i.GetAllComponents()
 	if i.GetCertification() == nil || i.ComponentList == nil {
-		return componentsInventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
+		return ComponentsInventory{}, []error{fmt.Errorf("Unable to load data in %s for certification %s", config.OpencontrolDir, config.Certification)}
 	}
 
 	for _, component := range i.ComponentList {
