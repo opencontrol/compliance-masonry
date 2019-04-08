@@ -21,14 +21,14 @@ import (
 func NewCmdInfo(out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "info",
-		Short: "Compliance search",
+		Short: "Get Compliance information from documentation",
 		Run: func(cmd *cobra.Command, args []string) {
 			err := RunInfo(out, cmd, args)
 			clierrors.CheckError(err)
 		},
 	}
 	cmd.Flags().StringP("opencontrol", "o", constants.DefaultOpenControlsFolder, "Set opencontrol directory")
-	cmd.Flags().StringP("implementation_status", "i", "", "implementation_status to search for")
+	cmd.Flags().StringP("implementation-status", "i", "", "implementation_status to search for")
 	// cmd.Flags().StringP("query", "q", "", "arbitrary query")
 	return cmd
 }
@@ -49,12 +49,12 @@ func RunInfo(out io.Writer, cmd *cobra.Command, args []string) error {
 
 	// different types of searches can be done here.
 	// Currently, only implementation_status queries are implemented.
-	if cmd.Flag("implementation_status").Value.String() != "" {
-		inventory, errs := FindImplementationStatus(config, cmd.Flag("implementation_status").Value.String())
+	if cmd.Flag("implementation-status").Value.String() != "" {
+		inventory, errs := FindImplementationStatus(config, cmd.Flag("implementation-status").Value.String())
 		if errs != nil && len(errs) > 0 {
 			return clierrors.NewExitError(clierrors.NewMultiError(errs...).Error(), 1)
 		}
-		fmt.Fprintf(out, "# Components with implementation_status: %s\n", cmd.Flag("implementation_status").Value.String())
+		fmt.Fprintf(out, "# Components with implementation_status: %s\n", cmd.Flag("implementation-status").Value.String())
 		for _, control := range sortmap.ByKey(inventory.SatisfiesMap) {
 			fmt.Fprintf(out, "%s\n", control.Key)
 		}
