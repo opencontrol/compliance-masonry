@@ -239,7 +239,7 @@ func testSet(example common.Component, actual common.Component, t *testing.T) {
 	assert.Equal(t, example.GetResponsibleRole(), actual.GetResponsibleRole())
 	// Check that the verifications were loaded
 	if example.GetVerifications().Len() != actual.GetVerifications().Len() {
-		t.Errorf("Expected %d, Actual: %d", example.GetVerifications().Len(), actual.GetVerifications())
+		t.Errorf("Expected %d, Actual: %#v", example.GetVerifications().Len(), actual.GetVerifications())
 	}
 }
 

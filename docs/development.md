@@ -58,19 +58,27 @@ As the dependencies now exist in the `git` tree under the `vendor/` folder,
 dependencies should only have to be updated when they are out-of-date, need
 to stick to a specific version, or need to add a new dependency.
 
-1. Get the `vndr` handling tool.
+1. Get the [`dep`](https://golang.github.io/dep/) tool.
 
-    ```sh
-    go get github.com/LK4D4/vndr
-    ```
+    https://golang.github.io/dep/docs/installation.html
 
-1. When needed, update dependencies by running the `vndr` tool in the project.
+1. When needed, update dependencies by running the `dep` tool in the project.
 
    ```sh
-   vndr
+   dep ensure -update github.com/foo/bar
    ```
 
-1. If any dependencies do not exist in the `vendor/` folder, add them to `vendor.conf` and re-run the `vndr` tool.
+1. You can add dependencies using `dep`.
+
+   ```sh
+   dep ensure -add github.com/foo/bar
+   ```
+
+1. If dependencies are not in the `vendor/` folder, you can use the `dep` tool to make everything proper.
+
+   ```sh
+   dep ensure
+   ```
 
 ## Running tests
 
