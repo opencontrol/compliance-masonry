@@ -75,6 +75,7 @@ compliance-masonry get && compliance-masonry docs gitbook <certification>
 
     ```bash
     cd exports
+    gitbook pdf ./ book.pdf
     ```
 
-1. Follow [these instructions](http://toolchain.gitbook.com/ebook.html)
+1. There should be a `exports/book.pdf` file that you can open with a PDF viewer.
