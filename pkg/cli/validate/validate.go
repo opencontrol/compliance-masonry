@@ -11,7 +11,7 @@ import (
 func NewCmdValidate(out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "validate",
-		Short: "Validate input file",
+		Short: "Validates the current opencontrol masonry repository. Use get command to create opencontrol masonry repository.",
 		Run: func(cmd *cobra.Command, args []string) {
 			validate.Validate()
 		},
