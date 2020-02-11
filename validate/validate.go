@@ -47,7 +47,7 @@ func validateComponent(workspace common.Workspace, component common.Component) [
 
 		_, found := uniq[standardKey][satisfy.GetControlKey()]
 		if found {
-			problems = append(problems, fmt.Sprintf("Found duplicate item: %s", satisfy.GetControlKey()))
+			problems = append(problems, fmt.Sprintf("Component %s: Duplicate items found: %s", component.GetKey(), satisfy.GetControlKey()))
 		}
 		uniq[standardKey][satisfy.GetControlKey()] = satisfy
 
@@ -58,13 +58,13 @@ func validateComponent(workspace common.Workspace, component common.Component) [
 			problems = append(problems, fmt.Sprintf("Found non-standard implementation_status: %s.", satisfy.GetImplementationStatus()))
 			break
 		}
-		problems = append(problems, validateNarratives(satisfy)...)
+		problems = append(problems, validateNarratives(component, satisfy)...)
 
 	}
 	return problems
 }
 
-func validateNarratives(satisfy common.Satisfies) []string {
+func validateNarratives(component common.Component, satisfy common.Satisfies) []string {
 	problems := make([]string, 0)
 
 	requireKey := len(satisfy.GetNarratives()) > 1
@@ -72,18 +72,18 @@ func validateNarratives(satisfy common.Satisfies) []string {
 	for _, narrative := range satisfy.GetNarratives() {
 		key := narrative.GetKey()
 		if requireKey && key == "" {
-			problems = append(problems, fmt.Sprintf("Satisfy '%s': Narrative key is required when multiple narratives are present.", satisfy.GetControlKey()))
+			problems = append(problems, fmt.Sprintf("Component %s: Satisfy '%s': Narrative key is required when multiple narratives are present.", component.GetKey(), satisfy.GetControlKey()))
 		}
 
 		if len(key) > 6 {
-			problems = append(problems, fmt.Sprintf("Satisfy '%s': Long narrative key probably malformed: '%s'", satisfy.GetControlKey(), key))
+			problems = append(problems, fmt.Sprintf("Component %s: Satisfy '%s': Long narrative key probably malformed: '%s'", component.GetKey(), satisfy.GetControlKey(), key))
 
 		}
 
 		if key != "" {
 			_, found := uniqNarratives[key]
 			if found {
-				problems = append(problems, fmt.Sprintf("Satisfy '%s': Duplicate narratives sequence: %s", satisfy.GetControlKey(), key))
+				problems = append(problems, fmt.Sprintf("Component %s:, Satisfy '%s': Duplicate narratives sequence found: %s", component.GetKey(), satisfy.GetControlKey(), key))
 
 			}
 		}
