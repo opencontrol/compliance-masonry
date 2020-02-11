@@ -58,29 +58,36 @@ func validateComponent(workspace common.Workspace, component common.Component) [
 			problems = append(problems, fmt.Sprintf("Found non-standard implementation_status: %s.", satisfy.GetImplementationStatus()))
 			break
 		}
+		problems = append(problems, validateNarratives(satisfy)...)
 
-		requireKey := len(satisfy.GetNarratives()) > 1
-		uniqNarratives := make(map[string]bool)
-		for _, narrative := range satisfy.GetNarratives() {
-			key := narrative.GetKey()
-			if requireKey && key == "" {
-				problems = append(problems, fmt.Sprintf("Satisfy '%s': Narrative key is required when multiple narratives are present.", satisfy.GetControlKey()))
-			}
+	}
+	return problems
+}
 
-			if len(key) > 6 {
-				problems = append(problems, fmt.Sprintf("Satisfy '%s': Long narrative key probably malformed: '%s'", satisfy.GetControlKey(), key))
+func validateNarratives(satisfy common.Satisfies) []string {
+	problems := make([]string, 0)
 
-			}
-
-			if key != "" {
-				_, found := uniqNarratives[key]
-				if found {
-					problems = append(problems, fmt.Sprintf("Satisfy '%s': Duplicate narratives sequence: %s", satisfy.GetControlKey(), key))
-
-				}
-			}
-			uniqNarratives[key] = true
+	requireKey := len(satisfy.GetNarratives()) > 1
+	uniqNarratives := make(map[string]bool)
+	for _, narrative := range satisfy.GetNarratives() {
+		key := narrative.GetKey()
+		if requireKey && key == "" {
+			problems = append(problems, fmt.Sprintf("Satisfy '%s': Narrative key is required when multiple narratives are present.", satisfy.GetControlKey()))
 		}
+
+		if len(key) > 6 {
+			problems = append(problems, fmt.Sprintf("Satisfy '%s': Long narrative key probably malformed: '%s'", satisfy.GetControlKey(), key))
+
+		}
+
+		if key != "" {
+			_, found := uniqNarratives[key]
+			if found {
+				problems = append(problems, fmt.Sprintf("Satisfy '%s': Duplicate narratives sequence: %s", satisfy.GetControlKey(), key))
+
+			}
+		}
+		uniqNarratives[key] = true
 	}
 	return problems
 }
