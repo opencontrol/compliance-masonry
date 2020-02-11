@@ -16,6 +16,7 @@ import (
 	"github.com/opencontrol/compliance-masonry/pkg/cli/export"
 	"github.com/opencontrol/compliance-masonry/pkg/cli/get"
 	"github.com/opencontrol/compliance-masonry/pkg/cli/info"
+	"github.com/opencontrol/compliance-masonry/pkg/cli/validate"
 	cliversion "github.com/opencontrol/compliance-masonry/pkg/cli/version"
 	"github.com/opencontrol/compliance-masonry/version"
 	"github.com/spf13/cobra"
@@ -63,6 +64,7 @@ the OpenControl Schema`,
 	cmds.AddCommand(export.NewCmdExport(out))
 	cmds.AddCommand(get.NewCmdGet(out))
 	cmds.AddCommand(cliversion.NewCmdVersion(out))
+	cmds.AddCommand(validate.NewCmdValidate(out))
 
 	disableFlagsInUseLine(cmds)
 
