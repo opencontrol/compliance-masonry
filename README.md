@@ -43,6 +43,11 @@ You can install compliance-masonry on MacOS using the following methods:
 1. Double-click on the MSI package.
 1. Simply drag the compliance-masonry icon to your Applications folder.
 
+#### Homebrew Installation
+```sh
+brew install opencontrol/compliance-masonry/compliance-masonry
+```
+
 #### Installing from Archive
 1. Go to [the Github Release](https://github.com/opencontrol/compliance-masonry/releases/latest).
 1. Download the archive package that corresponds to your machine and operating system.
