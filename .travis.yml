@@ -6,7 +6,10 @@ env:
 matrix:
   include:
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.4
+      language: go
+      go:
+        - 1.15
       script:
         - make build
         - cd _output && mkdir -p compliance-masonry.app/Contents/MacOS/
