@@ -1,3 +1,4 @@
+---
 builds:
   - binary: masonry
     main: ./cmd/masonry/masonry.go
@@ -27,31 +28,31 @@ builds:
       - arm
       - 386
 
-archive:
-  files:
-    - LICENSE.md
-    - README.md
-  format_overrides:
-    - goos: windows
-      format: zip
+archives:
+  - files:
+      - LICENSE.md
+      - README.md
+    format_overrides:
+      - goos: windows
+        format: zip
 
-nfpm:
-  vendor: OpenControl
-  homepage: https://github.com/opencontrol/compliance-masonry
-  license: CC0 1.0
-  maintainer: OpenControl Developers <dev@open-control.org>
-  formats:
-    - deb
-    - rpm
+nfpms:
+  - vendor: OpenControl
+    homepage: https://github.com/opencontrol/compliance-masonry
+    license: CC0 1.0
+    maintainer: OpenControl Developers <dev@open-control.org>
+    formats:
+      - deb
+      - rpm
 
-brew:
-  name: compliance-masonry
-  github:
-    owner: opencontrol
-    name: homebrew-compliance-masonry
-  commit_author:
-    name: OpenControl
-    email: dev@open-control.org
-  description: Compliance Masonry is a command-line interface (CLI) that allows users to construct certification documentation using the OpenControl Schema.
-  homepage: https://github.com/opencontrol/compliance-masonry
-  install: bin.install "compliance-masonry", "masonry"
+brews:
+  - name: compliance-masonry
+    tap:
+      owner: opencontrol
+      name: homebrew-compliance-masonry
+    commit_author:
+      name: OpenControl
+      email: dev@open-control.org
+    description: Compliance Masonry is a command-line interface (CLI) that allows users to construct certification documentation using the OpenControl Schema.
+    homepage: https://github.com/opencontrol/compliance-masonry
+    install: bin.install "compliance-masonry", "masonry"
