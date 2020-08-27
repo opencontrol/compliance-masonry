@@ -1,23 +1,31 @@
-semver for golang [![Build Status](https://travis-ci.org/blang/semver.svg?branch=master)](https://travis-ci.org/blang/semver) [![GoDoc](https://godoc.org/github.com/blang/semver?status.svg)](https://godoc.org/github.com/blang/semver) [![Coverage Status](https://img.shields.io/coveralls/blang/semver.svg)](https://coveralls.io/r/blang/semver?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/blang/semver)](https://goreportcard.com/report/github.com/blang/semver)
+semver for golang [![Build Status](https://travis-ci.org/blang/semver.svg?branch=master)](https://travis-ci.org/blang/semver) [![GoDoc](https://godoc.org/github.com/blang/semver/v4?status.svg)](https://godoc.org/github.com/blang/semver/v4) [![Coverage Status](https://img.shields.io/coveralls/blang/semver.svg)](https://coveralls.io/r/blang/semver?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/blang/semver)](https://goreportcard.com/report/github.com/blang/semver)
 ======
 
 semver is a [Semantic Versioning](http://semver.org/) library written in golang. It fully covers spec version `2.0.0`.
 
+Versioning
+----------
+Old v1-v3 versions exist in the root of the repository for compatiblity reasons and will only receive bug fixes.
+
+The current stable version is [*v4*](v4/) and is fully go-mod compatible.
+
 Usage
 -----
 ```bash
-$ go get github.com/blang/semver
+$ go get github.com/blang/semver/v4
+# Or use fixed versions
+$ go get github.com/blang/semver/v4@v4.0.0
 ```
 Note: Always vendor your dependencies or fix on a specific version tag.
 
 ```go
-import github.com/blang/semver
+import github.com/blang/semver/v4
 v1, err := semver.Make("1.0.0-beta")
 v2, err := semver.Make("2.0.0-beta")
 v1.Compare(v2)
 ```
 
-Also check the [GoDocs](http://godoc.org/github.com/blang/semver).
+Also check the [GoDocs](http://godoc.org/github.com/blang/semver/v4).
 
 Why should I use this lib?
 -----
@@ -83,8 +91,8 @@ Range usage:
 
 ```
 v, err := semver.Parse("1.2.3")
-range, err := semver.ParseRange(">1.0.0 <2.0.0 || >=3.0.0")
-if range(v) {
+expectedRange, err := semver.ParseRange(">1.0.0 <2.0.0 || >=3.0.0")
+if expectedRange(v) {
     //valid
 }
 
@@ -93,10 +101,10 @@ if range(v) {
 Example
 -----
 
-Have a look at full examples in [examples/main.go](examples/main.go)
+Have a look at full examples in [v4/examples/main.go](v4/examples/main.go)
 
 ```go
-import github.com/blang/semver
+import github.com/blang/semver/v4
 
 v, err := semver.Make("0.0.1-alpha.preview+123.github")
 fmt.Printf("Major: %d\n", v.Major)

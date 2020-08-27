@@ -1,53 +1,53 @@
+---
 version: 1.0.{build}
 
 branches:
   only:
-  - master
+    - master
 clone_folder: c:\gopath\src\github.com\opencontrol\compliance-masonry
 
 environment:
   GOPATH: c:\gopath
+  GO111MODULE: on
 
 install:
-- choco install sed
-- cmd: >-
-    echo %GOPATH%
+  - choco install sed
+  - cmd: >-
+      echo %GOPATH%
 
-    go version
+      go version
 
-    go env
+      go env
 
-    go get github.com/Masterminds/glide
+      set PATH=%PATH%;%GOPATH%\bin
 
-    set PATH=%PATH%;%GOPATH%\bin
+  - ps: >-
+      $env:GITVERSION = git describe --abbrev=0 --tags
 
-- ps: >-
-    $env:GITVERSION = git describe --abbrev=0 --tags
+      $env:VERSION = $env:GITVERSION -replace 'v', ''
 
-    $env:VERSION = $env:GITVERSION -replace 'v', ''
+      $env:SHORTCOMMIT = git rev-parse --short HEAD
 
-    $env:SHORTCOMMIT = git rev-parse --short HEAD
-
-    $env:BUILD_INFO = date -u +"%Y-%m-%dT%T%z"
+      $env:BUILD_INFO = date -u +"%Y-%m-%dT%T%z"
 
 build_script:
-- cmd: go build -ldflags="-s -w -X github.com/opencontrol/compliance-masonry/version.Version=%VERSION% -X github.com/opencontrol/compliance-masonry/version.Commit=%SHORTCOMMIT% -X github.com/opencontrol/compliance-masonry/version.Date=%BUILD_INFO%" cmd/compliance-masonry/compliance-masonry.go
+  - cmd: go build -mod=vendor -ldflags="-s -w -X github.com/opencontrol/compliance-masonry/version.Version=%VERSION% -X github.com/opencontrol/compliance-masonry/version.Commit=%SHORTCOMMIT% -X github.com/opencontrol/compliance-masonry/version.Date=%BUILD_INFO%" cmd/compliance-masonry/compliance-masonry.go
 
-- cmd: go build -ldflags="-s -w -X github.com/opencontrol/compliance-masonry/version.Version=%VERSION% -X github.com/opencontrol/compliance-masonry/version.Commit=%SHORTCOMMIT% -X github.com/opencontrol/compliance-masonry/version.Date=%BUILD_INFO%" cmd/masonry/masonry.go
+  - cmd: go build -mod=vendor -ldflags="-s -w -X github.com/opencontrol/compliance-masonry/version.Version=%VERSION% -X github.com/opencontrol/compliance-masonry/version.Commit=%SHORTCOMMIT% -X github.com/opencontrol/compliance-masonry/version.Date=%BUILD_INFO%" cmd/masonry/masonry.go
 
-- cmd: copy build\msi\*.* %cd%
-- cmd: >-
-    sed.exe -i "s/BUILD_TAG_VERSION/%VERSION%/g" compliance-masonry.wxs
+  - cmd: copy build\msi\*.* %cd%
+  - cmd: >-
+      sed.exe -i "s/BUILD_TAG_VERSION/%VERSION%/g" compliance-masonry.wxs
 
-    "%WIX%\bin\candle.exe" compliance-masonry.wxs
+      "%WIX%\bin\candle.exe" compliance-masonry.wxs
 
-    "%WIX%\bin\light.exe" compliance-masonry.wixobj -ext WixUIExtension -out compliance-masonry-%VERSION%.msi
+      "%WIX%\bin\light.exe" compliance-masonry.wixobj -ext WixUIExtension -out compliance-masonry-%VERSION%.msi
 
 artifacts:
-- path: compliance-masonry-%VERSION%.msi
+  - path: compliance-masonry-%VERSION%.msi
 
 test_script:
-- cmd: FOR /F %%A IN ('glide novendor') DO go test -v %%A || exit /b 1
+  - cmd: go test -mod=vendor ./... || exit /b 1
 
 deploy:
   provider: GitHub

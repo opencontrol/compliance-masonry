@@ -89,7 +89,7 @@ func UnmarshalStrict(in []byte, out interface{}) (err error) {
 	return unmarshal(in, out, true)
 }
 
-// A Decorder reads and decodes YAML values from an input stream.
+// A Decoder reads and decodes YAML values from an input stream.
 type Decoder struct {
 	strict bool
 	parser *parser
@@ -175,7 +175,7 @@ func unmarshal(in []byte, out interface{}, strict bool) (err error) {
 //                  Zero valued structs will be omitted if all their public
 //                  fields are zero, unless they implement an IsZero
 //                  method (see the IsZeroer interface type), in which
-//                  case the field will be included if that method returns true.
+//                  case the field will be excluded if IsZero returns true.
 //
 //     flow         Marshal using a flow style (useful for structs,
 //                  sequences and maps).

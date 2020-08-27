@@ -20,16 +20,14 @@ fmt.Println(sortmap.ByValueDesc(m).Top(2))
 ## Benchmark
 This package favors convenience over the speed, so if the latter is preferable,
 you should go with an intermediate structure implementing `sort.Interface` and use
-`sort.Sort` directly. As there is an extra call on every comparison in this package
-and functions are operating on `interface{}`, the execution (for `map[string]int`)
-is about 4x slower than providing a direct, manual solution:
-```
-BenchmarkManualSorted   2000	   1004797 ns/op
-BenchmarkSortSorted	     200	   6591329 ns/op
+`sort.Sort` directly. Here are the results for sorting `map[int]int` with 1000 values,
+indicating manual sorting can be up to 2x faster:
 
-BenchmarkManualFunc	     300	   4313895 ns/op
-BenchmarkSortFunc	     100	  17715101 ns/op
-
-BenchmarkManualKey	     300	   4707508 ns/op
-BenchmarkSortKey	     100	  18170250 ns/op
 ```
+BenchmarkByKey-8           	     300	   4094204 ns/op
+BenchmarkByKey_manual-8    	     500	   2367496 ns/op
+
+BenchmarkByFunc-8          	     500	   3623426 ns/op
+BenchmarkByFunc_manual-8   	    1000	   2122365 ns/op
+```
+(go 1.11.2, i7-6820HQ)
