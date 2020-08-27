@@ -47,7 +47,7 @@ artifacts:
   - path: compliance-masonry-%VERSION%.msi
 
 test_script:
-  - cmd: go test ./... || exit /b 1
+  - cmd: go test -mod=vendor ./... || exit /b 1
 
 deploy:
   provider: GitHub
