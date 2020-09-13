@@ -8,8 +8,8 @@ import (
 	"sync"
 
 	"fmt"
+	"github.com/fvbommel/sortorder"
 	"sort"
-	"vbom.ml/util/sortorder"
 
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/components"

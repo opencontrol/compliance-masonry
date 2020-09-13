@@ -5,7 +5,7 @@
 package common
 
 import (
-	"vbom.ml/util/sortorder"
+	"github.com/fvbommel/sortorder"
 )
 
 // Verification struct holds data for a specific component and verification

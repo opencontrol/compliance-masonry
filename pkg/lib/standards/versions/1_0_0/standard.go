@@ -7,8 +7,8 @@ package standard
 import (
 	"sort"
 
+	"github.com/fvbommel/sortorder"
 	"github.com/opencontrol/compliance-masonry/pkg/lib/common"
-	"vbom.ml/util/sortorder"
 )
 
 // Control struct stores data on a specific security requirement

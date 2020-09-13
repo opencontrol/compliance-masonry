@@ -8,8 +8,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/fvbommel/sortorder"
 	"sort"
-	"vbom.ml/util/sortorder"
 )
 
 // Certification struct is a collection of specific standards and controls
