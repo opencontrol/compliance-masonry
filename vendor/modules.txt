@@ -12,6 +12,9 @@ github.com/davecgh/go-spew/spew
 github.com/fatih/set
 # github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
+# github.com/fvbommel/sortorder v1.0.1
+## explicit
+github.com/fvbommel/sortorder
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
 # github.com/nxadm/tail v1.4.4
@@ -76,8 +79,6 @@ github.com/stretchr/testify/mock
 # github.com/tg/gosortmap v0.0.0-20190425101757-4b9ddc7c3a61
 ## explicit
 github.com/tg/gosortmap
-# github.com/xlab/handysort v0.0.0-20150421192137-fb3537ed64a1
-## explicit
 # golang.org/x/net v0.0.0-20200822124328-c89045814202
 ## explicit
 golang.org/x/net/html
@@ -114,6 +115,3 @@ gopkg.in/tomb.v1
 # gopkg.in/yaml.v2 v2.3.1-0.20200602174213-b893565b90ca
 ## explicit
 gopkg.in/yaml.v2
-# vbom.ml/util v0.0.0-20180919145318-efcd4e0f9787
-## explicit
-vbom.ml/util/sortorder
