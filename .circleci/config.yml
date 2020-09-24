@@ -16,10 +16,6 @@ jobs:
       - run:
           name: Run tests
           command: ./.circleci/coverage.sh
-      - run:
-          name: Send results to Codecov
-          shell: /bin/bash
-          command: bash <(curl -s https://codecov.io/bash)
       - deploy:
           name: goreleaser
           command: |
