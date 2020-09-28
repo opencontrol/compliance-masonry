@@ -1,24 +1,19 @@
-name: Go
+---
+name: build
 on: [push]
 jobs:
-  run:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
-    env:
-      OS: ${{ matrix.os }}
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
         id: go
 
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v1
-
-      - name: Get dependencies
-        run: |
-          go get -v -t -d ./...
+        uses: actions/checkout@v2
 
       - name: Build compliance-masonry
         run: go build cmd/compliance-masonry/compliance-masonry.go
@@ -28,7 +23,7 @@ jobs:
 
       - name: Run tests
         run: |
-          go test $(go list ./...) -covermode=count -coverprofile=coverage.txt
+          go test -covermode=count -coverprofile=coverage.txt ./...
           go tool cover -func coverage.txt
 
       - name: Upload coverage to Codecov
