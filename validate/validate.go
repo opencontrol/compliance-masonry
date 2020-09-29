@@ -35,6 +35,7 @@ func validateComponent(workspace common.Workspace, component common.Component) [
 			_, found := workspace.GetStandard(standardKey)
 			if !found {
 				problems = append(problems, fmt.Sprintf("Component %s references standard %s, however that cannot be found in the workspace.", component.GetName(), standardKey))
+				continue
 			}
 			uniq[standardKey] = make(map[string]common.Satisfies)
 		}
