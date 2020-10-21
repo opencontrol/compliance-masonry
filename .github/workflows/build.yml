@@ -21,7 +21,7 @@ jobs:
 
       - name: Run tests
         run: |
-          go test -covermode=count -coverprofile=coverage.txt ./...
+          go test -covermode=count -coverprofile="coverage.txt" ./...
           go tool cover -func coverage.txt
 
       - name: Upload coverage to Codecov
