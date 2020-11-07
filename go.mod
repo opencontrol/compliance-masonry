@@ -7,7 +7,7 @@ require (
 	github.com/blang/semver v1.1.1-0.20200524153540-4487282d7812
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/set v0.2.1
-	github.com/fvbommel/sortorder v1.0.1
+	github.com/fvbommel/sortorder v1.0.2
 	github.com/onsi/ginkgo v1.14.1-0.20200812193004-f49cf5da3a2f
 	github.com/onsi/gomega v1.10.2-0.20200811195334-990941a380b2
 	github.com/spf13/cobra v1.0.1-0.20200823174541-9ed1d713d619
