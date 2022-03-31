@@ -3,7 +3,7 @@ module github.com/opencontrol/compliance-masonry
 go 1.15
 
 require (
-	github.com/Masterminds/vcs v1.13.1
+	github.com/Masterminds/vcs v1.13.3
 	github.com/blang/semver v1.1.1-0.20200524153540-4487282d7812
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/set v0.2.1

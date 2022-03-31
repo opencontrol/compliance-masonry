@@ -1,5 +1,5 @@
-github.com/Masterminds/vcs v1.13.1 h1:NL3G1X7/7xduQtA2sJLpVpfHTNBALVNSjob6KEjPXNQ=
-github.com/Masterminds/vcs v1.13.1/go.mod h1:N09YCmOQr6RLxC6UNHzuVwAdodYbbnycGHSmwVJjcKA=
+github.com/Masterminds/vcs v1.13.3 h1:IIA2aBdXvfbIM+yl/eTnL4hb1XwdpvuQLglAix1gweE=
+github.com/Masterminds/vcs v1.13.3/go.mod h1:TiE7xuEjl1N4j016moRd6vezp6e6Lz23gypeXfzXeW8=
 github.com/blang/semver v1.1.1-0.20200524153540-4487282d7812 h1:jzZsi1BktKy646RZj+YB+tteqtyOsyqYOZ6M7YjdwbM=
 github.com/blang/semver v1.1.1-0.20200524153540-4487282d7812/go.mod h1:u4Z/LRonWXLVIJgtpeY3+xwWiIhiJ9ilXrKVGnfHe/c=
 github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
