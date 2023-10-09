@@ -27,7 +27,7 @@ In the case that you want to change how much access you want to give externally,
 ### Editing The Interface
 
 1. Change the interface(s) inside of [interfaces](versions/base/component.go).
-1. Change the implementations for all the component versions (located in `versions`) to accomodate the interface changes.
+1. Change the implementations for all the component versions (located in `versions`) to accommodate the interface changes.
 
 For details on the component scheams, consult [the schemas repository](https://github.com/opencontrol/schemas)
 

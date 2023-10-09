@@ -71,7 +71,7 @@ var _ = Describe("VCSEntry", func() {
 			assert.Equal(GinkgoT(), e.GetConfigFile(), expectedPath)
 		},
 			Entry("Empty / new base struct to return default", VCSEntry{}, constants.DefaultConfigYaml),
-			Entry("overriden config file path", VCSEntry{Path: "samplepath"}, "samplepath"),
+			Entry("overridden config file path", VCSEntry{Path: "samplepath"}, "samplepath"),
 		)
 	})
 	Describe("GetRevision", func() {
