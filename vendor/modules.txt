@@ -1,4 +1,4 @@
-# github.com/Masterminds/vcs v1.13.1
+# github.com/Masterminds/vcs v1.13.3
 ## explicit
 github.com/Masterminds/vcs
 # github.com/blang/semver v1.1.1-0.20200524153540-4487282d7812
