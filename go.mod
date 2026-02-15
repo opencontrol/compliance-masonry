@@ -15,8 +15,6 @@ require (
 	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.3.1-0.20190311161405-34c6fa2dc709
 	github.com/tg/gosortmap v0.0.0-20190425101757-4b9ddc7c3a61
-	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
-	golang.org/x/sys v0.0.0-20200824131525-c12d262b63d8 // indirect
-	golang.org/x/text v0.3.4-0.20200821135104-79eda68eebff // indirect
+	golang.org/x/text v0.3.8 // indirect
 	gopkg.in/yaml.v2 v2.3.1-0.20200602174213-b893565b90ca
 )
