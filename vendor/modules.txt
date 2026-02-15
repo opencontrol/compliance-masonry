@@ -79,16 +79,14 @@ github.com/stretchr/testify/mock
 # github.com/tg/gosortmap v0.0.0-20190425101757-4b9ddc7c3a61
 ## explicit
 github.com/tg/gosortmap
-# golang.org/x/net v0.0.0-20200822124328-c89045814202
-## explicit
+# golang.org/x/net v0.0.0-20220722155237-a158d28d115b
 golang.org/x/net/html
 golang.org/x/net/html/atom
 golang.org/x/net/html/charset
-# golang.org/x/sys v0.0.0-20200824131525-c12d262b63d8
-## explicit
+# golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.4-0.20200821135104-79eda68eebff
+# golang.org/x/text v0.3.8
 ## explicit
 golang.org/x/text/encoding
 golang.org/x/text/encoding/charmap
