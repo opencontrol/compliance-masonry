@@ -17,9 +17,9 @@ import (
 var HZGB2312 encoding.Encoding = &hzGB2312
 
 var hzGB2312 = internal.Encoding{
-	internal.FuncEncoding{hzGB2312NewDecoder, hzGB2312NewEncoder},
-	"HZ-GB2312",
-	identifier.HZGB2312,
+	Encoding: internal.FuncEncoding{Decoder: hzGB2312NewDecoder, Encoder: hzGB2312NewEncoder},
+	Name:     "HZ-GB2312",
+	MIB:      identifier.HZGB2312,
 }
 
 func hzGB2312NewDecoder() transform.Transformer {
@@ -57,7 +57,7 @@ loop:
 					err = transform.ErrShortSrc
 					break loop
 				}
-				r = utf8.RuneError
+				r, size = utf8.RuneError, 1
 				goto write
 			}
 			size = 2

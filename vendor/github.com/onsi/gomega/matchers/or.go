@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/onsi/gomega/format"
-	"github.com/onsi/gomega/internal/oraclematcher"
 	"github.com/onsi/gomega/types"
 )
 
@@ -15,7 +14,7 @@ type OrMatcher struct {
 	firstSuccessfulMatcher types.GomegaMatcher
 }
 
-func (m *OrMatcher) Match(actual interface{}) (success bool, err error) {
+func (m *OrMatcher) Match(actual any) (success bool, err error) {
 	m.firstSuccessfulMatcher = nil
 	for _, matcher := range m.Matchers {
 		success, err := matcher.Match(actual)
@@ -30,16 +29,16 @@ func (m *OrMatcher) Match(actual interface{}) (success bool, err error) {
 	return false, nil
 }
 
-func (m *OrMatcher) FailureMessage(actual interface{}) (message string) {
+func (m *OrMatcher) FailureMessage(actual any) (message string) {
 	// not the most beautiful list of matchers, but not bad either...
 	return format.Message(actual, fmt.Sprintf("To satisfy at least one of these matchers: %s", m.Matchers))
 }
 
-func (m *OrMatcher) NegatedFailureMessage(actual interface{}) (message string) {
+func (m *OrMatcher) NegatedFailureMessage(actual any) (message string) {
 	return m.firstSuccessfulMatcher.NegatedFailureMessage(actual)
 }
 
-func (m *OrMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
+func (m *OrMatcher) MatchMayChangeInTheFuture(actual any) bool {
 	/*
 		Example with 3 matchers: A, B, C
 
@@ -54,11 +53,11 @@ func (m *OrMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
 
 	if m.firstSuccessfulMatcher != nil {
 		// one of the matchers succeeded.. it must be able to change in order to affect the result
-		return oraclematcher.MatchMayChangeInTheFuture(m.firstSuccessfulMatcher, actual)
+		return types.MatchMayChangeInTheFuture(m.firstSuccessfulMatcher, actual)
 	} else {
 		// so all matchers failed.. Any one of them changing would change the result.
 		for _, matcher := range m.Matchers {
-			if oraclematcher.MatchMayChangeInTheFuture(matcher, actual) {
+			if types.MatchMayChangeInTheFuture(matcher, actual) {
 				return true
 			}
 		}
