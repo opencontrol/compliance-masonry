@@ -5,7 +5,6 @@ github.com/Masterminds/vcs
 ## explicit
 github.com/blang/semver
 # github.com/davecgh/go-spew v1.1.1
-## explicit
 github.com/davecgh/go-spew/spew
 # github.com/fatih/set v0.2.1
 ## explicit
@@ -69,12 +68,12 @@ github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.6-0.20200504143853-81378bbcd8a1
 ## explicit
 github.com/spf13/pflag
-# github.com/stretchr/objx v0.1.1
-## explicit
+# github.com/stretchr/objx v0.5.2
 github.com/stretchr/objx
-# github.com/stretchr/testify v1.3.1-0.20190311161405-34c6fa2dc709
+# github.com/stretchr/testify v1.11.1
 ## explicit
 github.com/stretchr/testify/assert
+github.com/stretchr/testify/assert/yaml
 github.com/stretchr/testify/mock
 # github.com/tg/gosortmap v0.0.0-20190425101757-4b9ddc7c3a61
 ## explicit
@@ -115,3 +114,5 @@ gopkg.in/tomb.v1
 # gopkg.in/yaml.v2 v2.3.1-0.20200602174213-b893565b90ca
 ## explicit
 gopkg.in/yaml.v2
+# gopkg.in/yaml.v3 v3.0.1
+gopkg.in/yaml.v3
